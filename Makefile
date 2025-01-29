@@ -58,21 +58,21 @@ SSRCH			:=	str_len.c					str_compare.c					str_null_check.c		\
  					str_len_comparing.c
 
 #		Map prefixes to their directories
-SRCS			:=	$(addprefix $(SRC_DIR)alloc_functions/, $(ALLOC)) 								\
-					$(addprefix $(SRC_DIR)arrays_nested/, $(ARRAY)) 								\
-					$(addprefix $(SRC_DIR)conversions/, $(CNVRT))									\
-					$(addprefix $(SRC_DIR)dynamic_array/, $(DYNAR)) 								\
-					$(addprefix $(SRC_DIR)get_next_line/, $(G_N_L)) 								\
-					$(addprefix $(SRC_DIR)linked_list/, $(LLIST))									\
-					$(addprefix $(SRC_DIR)terminal_markup/, $(MRKUP))								\
-					$(addprefix $(SRC_DIR)math/, $(MATH_))							 				\
-					$(addprefix $(SRC_DIR)memory_edit/, $(MEDIT)) 									\
-					$(addprefix $(SRC_DIR)memory_search/, $(MSRCH))									\
-					$(addprefix $(SRC_DIR)wrap_functions/, $(FWRAP))								\
-					$(addprefix $(SRC_DIR)printf/, $(PRNTF)) 										\
-					$(addprefix $(SRC_DIR)put_chars/, $(PTCHR))										\
-					$(addprefix $(SRC_DIR)string_create/, $(SCRTE))									\
-					$(addprefix $(SRC_DIR)string_edit/, $(SEDIT)) 									\
+SRCS			:=	$(addprefix $(SRC_DIR)alloc_functions/, $(ALLOC)) 									\
+					$(addprefix $(SRC_DIR)arrays_nested/, $(ARRAY)) 									\
+					$(addprefix $(SRC_DIR)conversions/, $(CNVRT))										\
+					$(addprefix $(SRC_DIR)dynamic_array/, $(DYNAR)) 									\
+					$(addprefix $(SRC_DIR)get_next_line/, $(G_N_L)) 									\
+					$(addprefix $(SRC_DIR)linked_list/, $(LLIST))										\
+					$(addprefix $(SRC_DIR)terminal_markup/, $(MRKUP))									\
+					$(addprefix $(SRC_DIR)math/, $(MATH_))							 					\
+					$(addprefix $(SRC_DIR)memory_edit/, $(MEDIT)) 										\
+					$(addprefix $(SRC_DIR)memory_search/, $(MSRCH))										\
+					$(addprefix $(SRC_DIR)wrap_functions/, $(FWRAP))									\
+					$(addprefix $(SRC_DIR)printf/, $(PRNTF)) 											\
+					$(addprefix $(SRC_DIR)put_chars/, $(PTCHR))											\
+					$(addprefix $(SRC_DIR)string_create/, $(SCRTE))										\
+					$(addprefix $(SRC_DIR)string_edit/, $(SEDIT)) 										\
 					$(addprefix $(SRC_DIR)string_search/, $(SSRCH))
 
 #		Generate object file names
