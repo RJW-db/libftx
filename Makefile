@@ -1,4 +1,4 @@
-NAME			:=	libft.a
+NAME			:=	lib.a
 # COMPILER		:=	cc
 COMPILER		:=	gcc
 RM				:=	rm -rf
