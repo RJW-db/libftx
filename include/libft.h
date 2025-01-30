@@ -6,7 +6,7 @@
 /*   By: jdobos <jdobos@student.42.fr>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/01/15 16:27:18 by rde-brui      #+#    #+#                 */
-/*   Updated: 2025/01/28 21:05:13 by rjw           ########   odam.nl         */
+/*   Updated: 2025/01/30 19:01:51 by rjw           ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -162,7 +162,7 @@ size_t		ft_strlcpy(char *dst, t_cchr *src, size_t size);
 char		*charmove(char *dest, const char *src, size_t n);
 char		*ft_strmapi(char const *s, char (*f)(uint32_t, char));
 void		swap_ptr(void **s1, void **s2);
-void		itoa_buff(char *dst, int n);
+uint8_t		itoa_buff(char *dst, int64_t n);
 
 //	String Manipulation Functions
 char		*ft_strchr(t_cchr *s, int c);

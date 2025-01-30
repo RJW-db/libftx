@@ -6,15 +6,14 @@
 /*   By: rjw <rjw@student.codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/09/11 20:31:43 by rjw           #+#    #+#                 */
-/*   Updated: 2025/01/08 17:44:16 by rde-brui      ########   odam.nl         */
+/*   Updated: 2025/01/30 18:52:19 by rjw           ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <libft.h>
 
 //	Static Functions
-static char	*integer_to_str(int sign, int i, int n);
-static void	integer_to_buff(char *dst, int sign, int i, int n);
+static char	*nbr_to_str(char *dst, bool sign, uint8_t i, int64_t n);
 
 /*
 	Used functions:
@@ -23,81 +22,69 @@ static void	integer_to_buff(char *dst, int sign, int i, int n);
 */
 char	*ft_itoa(int n)
 {
-	int		sign;
+	bool	sign;
 	int		i;
-	int		nn;
+	int		remaining;
+	char	*ptr;
 
 	if (n == -2147483648)
 		return (ft_strdup("-2147483648"));
-	sign = 0;
+	sign = false;
 	if (n < 0)
 	{
-		sign = 1;
+		sign = true;
 		n *= -1;
 	}
 	i = 1;
-	nn = n;
-	while (nn >= 10 || (n == 0 && i == 0))
+	remaining = n;
+	while (remaining >= 10)
 	{
-		nn /= 10;
+		remaining /= 10;
 		++i;
 	}
-	return (integer_to_str(sign, i, n));
-}
-
-void	itoa_buff(char *dst, int n)
-{
-	int		sign;
-	int		i;
-	int		nn;
-
-	if (n == -2147483648)
-	{
-		cpy_str(dst, "-2147483648");
-		return ;
-	}
-	sign = 0;
-	if (n < 0)
-	{
-		sign = 1;
-		n *= -1;
-	}
-	i = 1;
-	nn = n;
-	while (nn >= 10 || (n == 0 && i == 0))
-	{
-		nn /= 10;
-		++i;
-	}
-	return (integer_to_buff(dst, sign, i, n));
-}
-
-static char	*integer_to_str(int sign, int i, int n)
-{
-	char	*ptr;
-
 	ptr = malloc((i + 1 + sign) * sizeof(char));
 	if (ptr == NULL)
 		return (NULL);
-	ptr[i + sign] = '\0';
-	while (i-- > 0)
-	{
-		ptr[i + sign] = n % 10 + '0';
-		n /= 10;
-	}
-	if (sign)
-		ptr[0] = '-';
-	return (ptr);
+	return (nbr_to_str(ptr, sign, i, n));
 }
 
-static void	integer_to_buff(char *dst, int sign, int i, int n)
+uint8_t	itoa_buff(char *dst, int64_t n)
+{
+	int64_t	remaining;
+	uint8_t	i;
+	bool	sign;
+
+	if (n == -9223372036854775807LL-1)
+	{
+		return (cpy_str(dst, "-9223372036854775808"));
+	}
+	sign = 0;
+	if (n < 0)
+	{
+		sign = 1;
+		n *= -1;
+	}
+	i = 1;
+	remaining = n;
+	while (remaining >= 10)
+	{
+		remaining /= 10;
+		++i;
+	}
+	nbr_to_str(dst, sign, i , n);
+	return (i + sign);
+}
+
+static char	*nbr_to_str(char *dst, bool sign, uint8_t i, int64_t n)
 {
 	dst[i + sign] = '\0';
-	while (i-- > 0)
+	while (i > 0)
 	{
+		--i;
 		dst[i + sign] = n % 10 + '0';
 		n /= 10;
 	}
-	if (sign)
+	if (sign == true)
 		dst[0] = '-';
+	return (dst);
 }
