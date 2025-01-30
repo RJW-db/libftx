@@ -6,7 +6,7 @@
 /*   By: rjw <rjw@student.codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/09/11 20:31:43 by rjw           #+#    #+#                 */
-/*   Updated: 2025/01/30 21:15:11 by rjw           ########   odam.nl         */
+/*   Updated: 2025/01/30 21:31:42 by rjw           ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ char	*ft_itoa(int n)
 	}
 	i = 1;
 	remaining = n;
-	while (remaining >= 10 || (n == 0 && i == 1))
+	while (remaining >= 10)
 	{
 		remaining /= 10;
 		++i;
@@ -72,7 +72,7 @@ char	*nbr_to_str(int64_t n)
 	}
 	i = 1;
 	remaining = n;
-	while (remaining >= 10 || (n == 0 && i == 1))
+	while (remaining >= 10)
 	{
 		remaining /= 10;
 		++i;
@@ -105,7 +105,7 @@ uint8_t	nbr_to_buff(char *dst, int64_t n)
 	}
 	i = 1;
 	remaining = n;
-	while (remaining >= 10 || (n == 0 && i == 1))
+	while (remaining >= 10)
 	{
 		remaining /= 10;
 		++i;
