@@ -6,7 +6,7 @@
 /*   By: jdobos <jdobos@student.42.fr>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/01/15 16:27:18 by rde-brui      #+#    #+#                 */
-/*   Updated: 2025/01/30 19:01:51 by rjw           ########   odam.nl         */
+/*   Updated: 2025/01/30 20:57:54 by rjw           ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,6 +131,7 @@ void		ft_putstr_fd(t_cchr *s, int fd);
 
 //	String Create Functions
 char		*ft_itoa(int n);
+char		*nbr_to_str(int64_t n);
 char		*ft_strdup(t_cchr *s);
 char		*strdup_safe(t_cchr *s);
 char		*strdup_len(t_cchr *s, size_t size);
@@ -162,7 +163,7 @@ size_t		ft_strlcpy(char *dst, t_cchr *src, size_t size);
 char		*charmove(char *dest, const char *src, size_t n);
 char		*ft_strmapi(char const *s, char (*f)(uint32_t, char));
 void		swap_ptr(void **s1, void **s2);
-uint8_t		itoa_buff(char *dst, int64_t n);
+uint8_t		nbr_to_buff(char *dst, int64_t n);
 
 //	String Manipulation Functions
 char		*ft_strchr(t_cchr *s, int c);

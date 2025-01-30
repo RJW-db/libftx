@@ -6,12 +6,12 @@
 /*   By: rjw <rjw@student.codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/01/25 02:01:03 by rjw           #+#    #+#                 */
-/*   Updated: 2025/01/28 16:58:07 by rjw           ########   odam.nl         */
+/*   Updated: 2025/01/30 21:20:26 by rjw           ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MALLOC_WRAPPER_H
-# define MALLOC_WRAPPER_H
+#ifndef WRAP_FUNCTIONS_H
+# define WRAP_FUNCTIONS_H
 # define _GNU_SOURCE
 
 # include <stdbool.h>

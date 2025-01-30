@@ -6,12 +6,12 @@
 /*   By: rde-brui <rde-brui@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/01/13 18:20:01 by rde-brui      #+#    #+#                 */
-/*   Updated: 2025/01/15 16:53:45 by rde-brui      ########   odam.nl         */
+/*   Updated: 2025/01/30 21:16:12 by rjw           ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef TERMINAL_MARKUP
-# define TERMINAL_MARKUP
+#ifndef TERMINAL_MARKUP_H
+# define TERMINAL_MARKUP_H
 
 # define MARKUP "\033[1;32m"
 # define MARKDOWN "\033[0m\n"

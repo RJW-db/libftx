@@ -6,7 +6,7 @@
 /*   By: rjw <rjw@student.codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/09/11 20:32:47 by rjw           #+#    #+#                 */
-/*   Updated: 2025/01/19 03:41:31 by rjw           ########   odam.nl         */
+/*   Updated: 2025/01/30 21:16:02 by rjw           ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	*ft_memcpy(void *dest, const void *src, size_t n)
 {
 	t_uchr	*tmp_dest;
 	t_cuchr	*tmp_src;
-	
+
 	if (!dest && !src)
 		return (NULL);
 	tmp_dest = (t_uchr *)dest;

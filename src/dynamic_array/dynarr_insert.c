@@ -6,7 +6,7 @@
 /*   By: jdobos <jdobos@student.42.fr>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/01/09 20:19:40 by rde-brui      #+#    #+#                 */
-/*   Updated: 2025/01/19 04:05:04 by rjw           ########   odam.nl         */
+/*   Updated: 2025/01/30 20:58:48 by rjw           ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@
 static size_t	get_growth_factor(size_t length, size_t capacity);
 static bool		dynarr_grow(t_dynarr *a);
 
-#include <stdio.h>
 bool	dynarr_insert(t_dynarr *a, t_cvoid *element)
 {
 	if (a == NULL)
