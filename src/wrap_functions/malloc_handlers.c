@@ -6,7 +6,7 @@
 /*   By: rjw <rjw@student.codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/01/25 02:13:59 by rjw           #+#    #+#                 */
-/*   Updated: 2025/01/28 22:15:10 by rjw           ########   odam.nl         */
+/*   Updated: 2025/01/31 18:06:08 by rde-brui      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,6 @@ bool	malloc_toggle(bool check)
 {
 	static bool	switch_malloc = true;
 	// static bool	switch_malloc = false;
-
 	if (check == RETRIEVE_MALLOC)
 	{
 		return (switch_malloc);
@@ -59,6 +58,16 @@ bool	malloc_toggle(bool check)
 	}
 	return (switch_malloc);
 }
+
+void	reset_static_pointers_and_errno(size_t	*malloc_attempts)
+{
+	*malloc_attempts = 0;
+	if (malloc(0) == NULL)
+	{
+		errno = 0;
+	}
+}
+
 
 // bool	set_malloc_amount(size_t size, void *ptr)
 // {

@@ -6,7 +6,7 @@
 /*   By: rjw <rjw@student.codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/01/25 02:01:03 by rjw           #+#    #+#                 */
-/*   Updated: 2025/01/30 21:20:26 by rjw           ########   odam.nl         */
+/*   Updated: 2025/01/31 18:10:40 by rde-brui      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ void	*wrap_your_func(const char *function_name);
 void	dlopen_handler(void **handle);
 void	*dlsym_handler(void *handle, const char *function_name);
 int		handle_close(void **handle);
+void	reset_static_pointers_and_errno(size_t	*malloc_attempts);
 
 /**
  * For `Linux`, the same description applies as for the malloc function below.
@@ -68,7 +69,8 @@ void	*malloc(size_t size);
 
 /**
  * @brief malloc_handler - A wrapper function for custom malloc behavior.
- * @attention If the custom function decides to fail, set errno = ENOMEM.
+ * @attention Ensure to call `reset_static_pointers_and_errno()` at the end of the scope
+ * to reset static pointers and errno to their default states.
  * @attention don't use optimization flags like -Ofast or -03
  * 
  * @param[in] size The size of the memory allocation.

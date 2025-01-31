@@ -6,7 +6,7 @@
 /*   By: rjw <rjw@student.codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/01/26 02:10:48 by rjw           #+#    #+#                 */
-/*   Updated: 2025/01/28 22:46:50 by rjw           ########   odam.nl         */
+/*   Updated: 2025/01/31 17:51:14 by rde-brui      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,6 @@ void	*malloc(size_t size)
 		real_malloc = NULL;
 		return (NULL);
 	}
-	// ft_putendl_fd("end", 1);
 	
 	// if () check if handle isnot NULL; errno -1?
 	// ft_putendl_fd("passed ptr function, now mallocing", 1);
