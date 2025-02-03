@@ -6,7 +6,7 @@
 /*   By: rjw <rjw@student.codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/01/25 02:01:03 by rjw           #+#    #+#                 */
-/*   Updated: 2025/01/31 18:10:40 by rde-brui      ########   odam.nl         */
+/*   Updated: 2025/02/03 15:06:03 by rde-brui      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,10 @@
 # include <stddef.h>
 # include <dlfcn.h>
 # include <sys/mman.h>	//	MAP_FAILED	NON NULL value
+# include <stdarg.h>
+# include <fcntl.h>
+
+# include <libft.h>
 # define OG_MALLOC_ENABLED true
 # define OG_MALLOC_DISABLED false
 # define RETRIEVE_MALLOC true
@@ -27,6 +31,10 @@
  * Using dlsym with RTLD_NEXT will not malloc, because
  * core system functions are already loaded.
  */
+
+int		open(const char *path, int oflag, ...);
+bool	general_handler(void *ptr, bool (*custom)(void *));
+bool	general_toggle(bool check);
 
 void	**get_handle(void);
 

@@ -43,7 +43,7 @@ MATH_			:=	sign.c						digit_counter.c
 MEDIT			:=	mem_edit.c
 MSRCH			:=	mem_search.c
 FWRAP			:=	dynamic_symbols.c			linux_malloc_wrapper.c			mac_malloc_wrapper.c	\
-					malloc_handlers.c
+					malloc_handlers.c			open_wrapper.c
 PRNTF			:=	printf.c					printf_process_format.c			printf_char.c			\
 					printf_count.c				printf_flags.c					printf_int.c			\
 					printf_sort_spec.c			printf_str_count.c				printf_str.c			\
