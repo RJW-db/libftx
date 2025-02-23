@@ -111,11 +111,9 @@ malloc_wrap:	all
 tester:
 	@if [ ! -d "$(TESTER_DIR)" ]; then \
 		git clone git@github.com:RJW-db/lib_tester.git tester; \
-	else \
-		echo "'$(TESTER_DIR)' already exists"; \
 	fi
 
-run_test:
+test:	tester
 	@$(MAKE) $(PRINT_NO_DIR) -C $(TESTER_DIR) run
 
 clean:
@@ -144,7 +142,7 @@ print-%:
 #		Include dependencies
 -include $(DEPS)
 
-.PHONY: all malloc_wrap tester clean no_print_clean fclean no_print_fclean clean_tester re print-%
+.PHONY: all malloc_wrap tester test clean no_print_clean fclean no_print_fclean clean_tester re print-%
 
 # ----------------------------------- colors --------------------------------- #
 BOLD			=	\033[1m
