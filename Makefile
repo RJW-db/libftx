@@ -36,7 +36,7 @@ ARRAY			:=	2d_array.c					2d_array_utils.c				2d_shrink_array.c		\
 					splitted.c					split.c							split_set.c
 CNVRT			:=	str_to_number.c
 DYNAR			:=	dynarr.c					dynarr_insert.c
-G_N_L			:=	get_next_line.c
+G_N_L			:=	get_next_line.c				get_input_buff.c
 LLIST			:=	linked_list.c				list_info.c						move_or_remove_nodes.c
 MRKUP			:=	markup.c
 MATH_			:=	sign.c						digit_counter.c

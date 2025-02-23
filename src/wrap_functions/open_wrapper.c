@@ -6,7 +6,7 @@
 /*   By: rde-brui <rde-brui@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/02/03 15:41:56 by rde-brui      #+#    #+#                 */
-/*   Updated: 2025/02/03 15:52:59 by rde-brui      ########   odam.nl         */
+/*   Updated: 2025/02/23 16:46:31 by rjw           ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ int open(const char *path, int oflag, ...)
 	static int	(*real_open)(const char *, int, ...) = NULL;
 	va_list		args;
 	mode_t		mode;
-
 
 	if (real_open == NULL)
 	{
@@ -33,7 +32,7 @@ int open(const char *path, int oflag, ...)
 		mode = 0;
 		if (oflag & O_CREAT) {
 			va_start(args, oflag);
-			mode = va_arg(args, mode_t);
+			mode = (mode_t)va_arg(args, int);
 			va_end(args);	
 		}
 

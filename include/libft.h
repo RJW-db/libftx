@@ -6,7 +6,7 @@
 /*   By: jdobos <jdobos@student.42.fr>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/01/15 16:27:18 by rde-brui      #+#    #+#                 */
-/*   Updated: 2025/01/30 20:57:54 by rjw           ########   odam.nl         */
+/*   Updated: 2025/02/23 16:33:16 by rjw           ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,16 @@
 #  define KILOBYTE 1024
 # endif
 
-# define MAX_FDS 1024
+# if defined(__APPLE__) || defined(__MACH__)
+#  include <limits.h>
+#  define MAX_FD OPEN_MAX
+# elif defined(__linux__) || defined(__FreeBSD__)
+#  define MAX_FD 1024
+# elif defined(_WIN32)
+#  define MAX_FD 512
+# else
+#  define MAX_FD 256
+# endif
 
 //	error handling
 # define CALLOC_ERR "ENOMEM, Cannot allocate memory ft_calloc()"
@@ -95,6 +104,7 @@ uint64_t	atui64(t_cchr *nptr);
 //	Get_Next_line
 char		*gnl(int fd);
 char		*gnl_fds(int fd);
+ssize_t		get_user_input(char *buff, size_t buff_size, char *prompt);
 
 //	Linked List Functions
 void		ft_lstadd_back(t_lst **lst, t_lst *new);

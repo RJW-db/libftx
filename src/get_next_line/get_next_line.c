@@ -6,11 +6,13 @@
 /*   By: rjw <rjw@student.codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/09/11 20:34:29 by rjw           #+#    #+#                 */
-/*   Updated: 2025/01/08 17:44:16 by rde-brui      ########   odam.nl         */
+/*   Updated: 2025/02/23 16:33:54 by rjw           ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <libft.h>
+#include <limits.h>
+#include <stdint.h>
 
 //	Static Functions
 static char		*str_merge(t_cchr *nl, char *buf, bool *nl_check, int32_t rd);
@@ -34,7 +36,7 @@ char	*gnl(int fd)
 	int32_t		rd;
 	bool		nl_check;
 
-	if (fd < 0 || fd > 1024 || BUFFER_SIZE <= 0)
+	if (fd < 0 || fd > MAX_FD || BUFFER_SIZE <= 0)
 		return (NULL);
 	new_line = NULL;
 	rd = BUFFER_SIZE;
@@ -64,7 +66,7 @@ char	*gnl(int fd)
 */
 char	*gnl_fds(int fd)
 {
-	static char	buff[MAX_FDS][BUFFER_SIZE + 1];
+	static char	buff[MAX_FD][BUFFER_SIZE + 1];
 	char		*new_line;
 	int32_t		rd;
 	bool		nl_check;
