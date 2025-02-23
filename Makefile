@@ -106,6 +106,7 @@ $(BUILD_DIR)%.o: %.c $(HEADERS)
 	@mkdir -p $(@D)
 	$(COMPILER) $(CFLAGS) -I $(INC_DIR) -c $< -o $@
 
+#	For linux, -Wl,--wrap=malloc, add this where you create your program
 malloc_wrap:	all
 
 tester:
@@ -115,6 +116,9 @@ tester:
 
 test:	tester
 	@$(MAKE) $(PRINT_NO_DIR) -C $(TESTER_DIR) run
+
+test_valgrind:	tester
+	@$(MAKE) $(PRINT_NO_DIR) -C $(TESTER_DIR) valgrind
 
 clean:
 	@$(RM) $(BUILD_DIR) $(DELETE)
