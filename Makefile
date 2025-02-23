@@ -131,12 +131,14 @@ fclean: clean
 	@$(RM) $(NAME)
 	@printf "$(REMOVED)" $(NAME) $(CUR_DIR)
 
+clean_tester:
+	@$(RM) $(TESTER_DIR)
+
+allclean: fclean clean_tester
+
 no_print_fclean:	no_print_clean
 	@$(RM) $(NAME)
 	@printf "$(REMOVED)" $(NAME) $(CUR_DIR)
-
-clean_tester:
-	@$(RM) $(TESTER_DIR)
 
 re: fclean all
 
@@ -146,7 +148,7 @@ print-%:
 #		Include dependencies
 -include $(DEPS)
 
-.PHONY: all malloc_wrap tester test clean no_print_clean fclean no_print_fclean clean_tester re print-%
+.PHONY: all malloc_wrap tester test clean no_print_clean fclean no_print_fclean clean_tester allclean re print-%
 
 # ----------------------------------- colors --------------------------------- #
 BOLD			=	\033[1m

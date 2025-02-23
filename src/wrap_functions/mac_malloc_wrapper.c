@@ -6,7 +6,7 @@
 /*   By: rjw <rjw@student.codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/01/26 02:10:48 by rjw           #+#    #+#                 */
-/*   Updated: 2025/02/03 15:42:25 by rde-brui      ########   odam.nl         */
+/*   Updated: 2025/02/23 19:41:35 by rde-brui      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,10 @@
 // #include <stdio.h>
 // #include <stdlib.h>
 #include <libft.h>
-// #if defined(__APPLE__)
-// # if defined(__MACH__)
-// #  ifdef MALLOC_WRAP
-// #   if MALLOC_WRAP == true
+#if defined(__APPLE__)
+# if defined(__MACH__)
+#  ifdef MALLOC_WRAP
+#   if MALLOC_WRAP == true
 
 void	**get_handle(void)
 {
@@ -102,7 +102,7 @@ void	*malloc(size_t size)
 }
 
 
-// #   endif
-// #  endif
-// # endif
-// #endif
+#   endif
+#  endif
+# endif
+#endif
