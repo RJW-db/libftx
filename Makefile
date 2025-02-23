@@ -2,6 +2,7 @@ NAME			:=	lib.a
 # COMPILER		:=	cc
 COMPILER		:=	gcc
 RM				:=	rm -rf
+PRINT_NO_DIR	:=	--no-print-directory
 
 #		Compiler flags
 CFLAGS			+=	-MMD -MP
@@ -113,6 +114,9 @@ tester:
 	else \
 		echo "'$(TESTER_DIR)' already exists"; \
 	fi
+
+run_test:
+	@$(MAKE) $(PRINT_NO_DIR) -C $(TESTER_DIR) run
 
 clean:
 	@$(RM) $(BUILD_DIR) $(DELETE)
