@@ -26,6 +26,8 @@ endif
 #		Build directory for objects and dependencies
 BUILD_DIR		:=	.build/
 INC_DIR			:=	include/
+TESTER_DIR		:=	tester/
+
 
 #		Source Directory
 SRC_DIR			:=	src/
@@ -105,6 +107,13 @@ $(BUILD_DIR)%.o: %.c $(HEADERS)
 
 malloc_wrap:	all
 
+tester:
+	@if [ ! -d "$(TESTER_DIR)" ]; then \
+		git clone git@github.com:RJW-db/lib_tester.git tester; \
+	else \
+		echo "'$(TESTER_DIR)' already exists"; \
+	fi
+
 clean:
 	@$(RM) $(BUILD_DIR) $(DELETE)
 	@printf "$(REMOVED)" $(BUILD_DIR) $(CUR_DIR)$(BUILD_DIR)
@@ -120,6 +129,9 @@ no_print_fclean:	no_print_clean
 	@$(RM) $(NAME)
 	@printf "$(REMOVED)" $(NAME) $(CUR_DIR)
 
+clean_tester:
+	@$(RM) $(TESTER_DIR)
+
 re: fclean all
 
 print-%:
@@ -128,7 +140,7 @@ print-%:
 #		Include dependencies
 -include $(DEPS)
 
-.PHONY: all clean no_print_clean fclean no_print_fclean re print-%
+.PHONY: all malloc_wrap tester clean no_print_clean fclean no_print_fclean clean_tester re print-%
 
 # ----------------------------------- colors --------------------------------- #
 BOLD			=	\033[1m
