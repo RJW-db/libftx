@@ -6,17 +6,17 @@
 /*   By: rjw <rjw@student.codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/01/25 02:13:59 by rjw           #+#    #+#                 */
-/*   Updated: 2025/01/31 18:06:08 by rde-brui      ########   odam.nl         */
+/*   Updated: 2025/02/24 18:02:59 by rde-brui      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <wrap_functions.h>
+// #include <libft.h>
+#include <errno.h>
 
 /**
  * 	An int main() example at the bottom.
 */
-#include <libft.h>
-#include <errno.h>
 bool	malloc_handler(size_t size, void *ptr, bool (*custom)(size_t, void *))
 {
 	static bool	(*func)(size_t, void *) = NULL;
@@ -25,17 +25,14 @@ bool	malloc_handler(size_t size, void *ptr, bool (*custom)(size_t, void *))
 	{
 		if (func(size, NULL) == true)
 		{
-			// ft_putendl_fd("using ptr function, true",1);
 			return (true);
 		}
 		errno = ENOMEM;
-		// ft_putendl_fd("failed using ptr function, false",1);
 		func = NULL;
 		return (false);
 	}
 	else if (func == NULL && custom != NULL && ptr != NULL)
 	{
-		// ft_putendl_fd("only once?",1 );
 		func = custom;
 		func(size, ptr);
 		return (true);
@@ -47,7 +44,7 @@ bool	malloc_handler(size_t size, void *ptr, bool (*custom)(size_t, void *))
 bool	malloc_toggle(bool check)
 {
 	static bool	switch_malloc = true;
-	// static bool	switch_malloc = false;
+
 	if (check == RETRIEVE_MALLOC)
 	{
 		return (switch_malloc);
@@ -59,7 +56,7 @@ bool	malloc_toggle(bool check)
 	return (switch_malloc);
 }
 
-void	reset_static_pointers_and_errno(size_t	*malloc_attempts)
+void	reset_static_pointers_and_errno(size_t *malloc_attempts)
 {
 	*malloc_attempts = 0;
 	if (malloc(0) == NULL)
@@ -67,7 +64,6 @@ void	reset_static_pointers_and_errno(size_t	*malloc_attempts)
 		errno = 0;
 	}
 }
-
 
 // bool	set_malloc_amount(size_t size, void *ptr)
 // {
@@ -90,6 +86,7 @@ void	reset_static_pointers_and_errno(size_t	*malloc_attempts)
 // 	}
 // 	return (true);
 // }
+
 // int main(void)
 // {
 // 	int nbr = 0;

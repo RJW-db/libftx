@@ -6,7 +6,7 @@
 /*   By: rjw <rjw@student.codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/01/27 03:03:08 by rjw           #+#    #+#                 */
-/*   Updated: 2025/01/28 22:23:30 by rjw           ########   odam.nl         */
+/*   Updated: 2025/02/24 17:46:19 by rde-brui      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,61 +15,6 @@
 #include <errno.h>
 #include <libft.h>
 
-void **pass_handles(void **handle)
-{
-	static void **hold_and_release = NULL;
-
-	ft_putendl_fd("twice", 1); // Debug statement to indicate function entry
-	if (handle != NULL && *handle == MAP_FAILED)
-	{
-		ft_putendl_fd("MAP_FAILED", 1); // Debug statement to indicate handle retrieval
-
-		hold_and_release = handle; // Store the handle
-		// return &hold_and_release; // Return the address of the stored handle
-	}
-	else if (handle == NULL)
-	{
-		ft_putendl_fd("once", 1); // Debug statement to indicate handle retrieval
-		return hold_and_release; // Return the address of the handle
-	}
-	return NULL; // Return NULL if no handle is stored or retrieved
-}
-
-// void **pass_handles(void **handle)
-// {
-//     static void *hold_and_release = NULL;
-
-//     ft_putendl_fd("twice", 1); // Debug statement to indicate function entry
-
-//     if (hold_and_release == NULL)
-//     {
-//         hold_and_release = *handle; // Store the handle
-//         return &hold_and_release; // Return the address of the stored handle
-//     }
-//     else if (hold_and_release == MAP_FAILED)
-//     {
-//         ft_putendl_fd("once", 1); // Debug statement to indicate handle retrieval
-//         *handle = hold_and_release; // Retrieve the stored handle
-//         hold_and_release = NULL; // Reset the stored handle
-//         return handle; // Return the address of the handle
-//     }
-//     return NULL; // Return NULL if no handle is stored or retrieved
-// }
-
-// void	**pass_handles(void **handle)
-// {
-// 	static void	*hold_and_release = NULL;
-// 	ft_putendl_fd("twice", 1);
-// 	if (hold_and_release == NULL)
-// 	{
-// 		hold_and_release = *handle;
-// 		return (&hold_and_release);
-// 	}
-// 	ft_putendl_fd("once", 1);
-// 	*handle = hold_and_release;
-// 	hold_and_release = NULL;
-// 	return (handle);
-// }
 
 // void	*wrap_your_func(void **handle, const char *function_name)
 void	*wrap_your_func(const char *function_name)

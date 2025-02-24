@@ -1,5 +1,7 @@
 {
 	"files.associations": {
-		"tester.h": "c"
+		"tester.h": "c",
+		"wrap_functions.h": "c",
+		"limits.h": "c"
 	}
 }

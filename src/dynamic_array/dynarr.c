@@ -6,7 +6,7 @@
 /*   By: rde-brui <rde-brui@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/01/09 20:31:53 by rde-brui      #+#    #+#                 */
-/*   Updated: 2025/01/19 02:28:45 by rjw           ########   odam.nl         */
+/*   Updated: 2025/02/24 18:05:31 by rde-brui      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,8 @@ bool	dynarr_shrink_to_fit(t_dynarr *a)
 
 	if (a == NULL || a->arr == NULL)
 		return (false);
-	ar = ft_realloc(&a->arr, a->length * a->elem_size, a->capacity * a->elem_size);
+	ar = ft_realloc(&a->arr,
+			(a->length * a->elem_size), (a->capacity * a->elem_size));
 	if (ar == NULL)
 		return (false);
 	a->arr = ar;
