@@ -22,13 +22,22 @@ void	subnormal_to_max_tests(void);
 void	negative_power_of_ten_tests(void);
 
 
+void	itoa_base_test(void)
+{
+	// char *str = ft_itoa_base(0, "0123456789");
+	char *str = ft_itoa_base(0, "54321");
+	printf("%s\n", str);
+	free(str);
+}
+
 int	main(void)
 {
-	// float_tests();
-	// double_tests();
-	// edgecase_tests();
-	// random_tests();
-	linear_range_tests();
+	// itoa_base_test();
+	float_tests();
+	double_tests();
+	edgecase_tests();
+	random_tests();
+	// linear_range_tests();
 	// power_of_ten_tests();
 	// subnormal_to_max_tests();
 	// negative_power_of_ten_tests();
@@ -61,7 +70,7 @@ void	format_double(char *buffer, size_t size, double input)
 
 bool	single_test(size_t index, double input)
 {
-	char buffer[1076 + 1];  // longest number + terminator
+	char buffer[MAX_DBL_STR_LEN];  // longest number + terminator
 
 	char *output = ft_dbltoa(input);
 	// printf("%s\n", output);

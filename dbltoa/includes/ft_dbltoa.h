@@ -6,7 +6,7 @@
 /*   By: jmetzger <jmetzger@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/02/12 17:26:37 by jmetzger      #+#    #+#                 */
-/*   Updated: 2025/02/26 17:28:14 by rde-brui      ########   odam.nl         */
+/*   Updated: 2025/02/26 19:01:38 by rde-brui      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@
 
 # define MAX_DIGIT	1030
 # define BIG_INT	1024 // DBL_MIN is the larges number -> has 1024 digits
-# define MAX_DBL_STR_LEN 1077
+# define MAX_DBL_STR_LEN 1077	//	longest subnormal number + terminator
 
 typedef struct s_number
 {

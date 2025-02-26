@@ -6,7 +6,7 @@
 /*   By: jmetzger <jmetzger@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/02/12 17:26:37 by jmetzger      #+#    #+#                 */
-/*   Updated: 2025/02/21 19:34:12 by jmetzger      ########   odam.nl         */
+/*   Updated: 2025/02/26 18:59:24 by rde-brui      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,8 @@ static char	*initialize_result_string(char *digit, char *zero, int *digitexp, in
 {
 	char *result;
 
-	if (!(result = malloc(sizeof(*result) * (MAX_DIGIT + 1))))
+	result = malloc(sizeof(*result) * (MAX_DIGIT + 1));
+	if (result == NULL)
 		return (NULL);
 	result[MAX_DIGIT] = '\0';
 	

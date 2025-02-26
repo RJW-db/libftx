@@ -6,7 +6,7 @@
 /*   By: jmetzger <jmetzger@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/02/12 17:26:37 by jmetzger      #+#    #+#                 */
-/*   Updated: 2025/02/26 17:25:46 by rde-brui      ########   odam.nl         */
+/*   Updated: 2025/02/26 19:11:55 by rde-brui      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void init_bigChar(char *str)
 {
 	ft_memset(str, 48, BIG_INT);
 	str[BIG_INT] = '\0';
-	str[0] = '+';
+	str[0] = '+';				// TODO check if this can be entirely removed
 }
 
 /* error_inf()
@@ -104,12 +104,12 @@ char	*str_bits(void *type, size_t size)
 	unsigned char	*ptr;		// Pointer to read memory byte by byte
 
 	strBits = NULL;
-	ptr = (unsigned char *)type;
+	ptr = (unsigned char *)type;		// TODO can we skip the void cast of type?
 
 	while (size > 0)
 	{
-		tmp = NULL;
-		if (!(tmp = ft_itoa_base(*ptr, "01")))
+		tmp = ft_itoa_base(*ptr, "01");
+		if (tmp == NULL)
 			return (NULL);
 		if (!(tmp = fill_str(tmp)))
 			return (NULL);
@@ -163,14 +163,14 @@ char *ft_add_sign(char *dblStr, bool n_flag)
 	// Step 2:
 	result = (char*)malloc(len + n_flag + 1);
 	if (!result)
-		return NULL;
+		return (NULL);
 	
 	// Step 3:
 	if (n_flag == true)
 		result[0] = '-';
 
 	// Step 4:
-	strncpy(result + n_flag, dblStr + 1, len);
+	strncpy(result + n_flag, dblStr + 1, len);	// TODO: use libft ft_strncpy
 	result[len + n_flag] = '\0';
 
 	free(dblStr);

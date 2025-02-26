@@ -6,7 +6,7 @@
 /*   By: jmetzger <jmetzger@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/02/12 17:26:37 by jmetzger      #+#    #+#                 */
-/*   Updated: 2025/02/26 17:19:25 by rde-brui      ########   odam.nl         */
+/*   Updated: 2025/02/26 19:02:27 by rde-brui      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,8 @@ char	*ft_dbltoa(double ogNum)
 	int			digitexpo;			// stores the exponent
 	char			numerator[BIG_INT + 1]; 	// storing the numerator
 	char			denominator[BIG_INT + 1]; 	// storing the denominator
-	// char			numerator[1077 + 1]; 	// storing the numerator
-	// char			denominator[1077 + 1]; 	// storing the denominator
+	// char			numerator[MAX_DBL_STR_LEN]; 	// storing the numerator
+	// char			denominator[MAX_DBL_STR_LEN]; 	// storing the denominator
 	char			*dblStr;			// final string representation of the double
 	bool 			n_flag;
 

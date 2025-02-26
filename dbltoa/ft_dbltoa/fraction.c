@@ -6,7 +6,7 @@
 /*   By: jmetzger <jmetzger@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/02/12 17:26:37 by jmetzger      #+#    #+#                 */
-/*   Updated: 2025/02/26 17:19:12 by rde-brui      ########   odam.nl         */
+/*   Updated: 2025/02/26 19:13:17 by rde-brui      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -320,6 +320,8 @@ char	*convert_to_fraction(double ogNum, char *nume, char *denom, bool *n_flag)
 
 	// Converts the raw memory of ogNum into a string of bits (holds the 64-bit IEEE-754 representation)
 	strbits = str_bits(&ogNum, sizeof(ogNum));
+	if (strbits == NULL)
+		return (NULL);
 	if (strbits[0] == '0')
 		*n_flag = false;
 

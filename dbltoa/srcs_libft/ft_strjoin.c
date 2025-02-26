@@ -24,6 +24,6 @@ char	*ft_strjoin(const char *s1, const char *s2)
 	i--;
 	while ((temp + ++i) < len && s2 != NULL && s2[i])
 		str[temp + i] = s2[i];
-	str[temp + i] = 0;
+	str[temp + i] = '\0';
 	return (str);
 }
