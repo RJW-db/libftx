@@ -1,0 +1,76 @@
+# Compiler and flags
+NAME		= floattest
+CC 			= cc
+CFLAGS 		= -Wall -Wextra -Werror
+
+# Header files path
+SRC_HEADER	= ./includes
+
+# Source directories
+SRC_DIRS	= srcs_libft ft_dbltoa
+OBJ_PATH	= obj
+
+# Sources
+SRCS		= main.c \
+			  srcs_libft/ft_memset.c \
+			  srcs_libft/ft_atoi.c \
+			  srcs_libft/ft_strlen.c \
+			  srcs_libft/ft_strchr.c \
+			  srcs_libft/ft_strlcpy.c \
+			  srcs_libft/ft_strjoin.c \
+			  srcs_libft/ft_putstr_fd.c \
+			  srcs_libft/ft_substr.c \
+			  srcs_libft/ft_itoa.c \
+			  srcs_libft/ft_itoa_base.c \
+			  srcs_libft/ft_memmove.c \
+			  ft_dbltoa/convert_to_sci_notation.c \
+			  ft_dbltoa/convert_binary_to_decimal.c \
+			  ft_dbltoa/convert_binary_to_decimal2.c \
+			  ft_dbltoa/ft_add.c \
+			  ft_dbltoa/ft_subs.c \
+			  ft_dbltoa/ft_multi.c \
+			  ft_dbltoa/ft_divi.c \
+			  ft_dbltoa/fraction.c \
+			  ft_dbltoa/ft_utils2.c \
+			  ft_dbltoa/ft_utils.c \
+			  ft_dbltoa/ft_dbltoa.c \
+			  ft_dbltoa/convert_to_str.c
+
+# Create list of object files (replace .c with .o and store in OBJ_PATH)
+OBJ			= $(SRCS:%.c=$(OBJ_PATH)/%.o)
+
+# Colors
+PINK 		= \033[35m
+BLUE		= \033[34;1m
+GREEN		= \033[32;1m
+CORAL		= \033[38;2;255;127;80m
+BOLD		= \033[1m
+ITALIC		= \033[3m
+UNDER 		= \033[4m
+RESET		= \033[0m
+
+# Targets
+all:		$(NAME)
+
+# Build the executable
+$(NAME):	$(OBJ)
+		ar rcs $(NAME) $(OBJ)
+
+# Rule for compiling .c into .o in obj/ folder
+$(OBJ_PATH)/%.o: %.c
+		@mkdir -p $(OBJ_PATH)/srcs_libft
+		@mkdir -p $(OBJ_PATH)/ft_dbltoa
+		$(CC) $(CFLAGS) -c -I $(SRC_HEADER) -o $@ $<
+
+# Clean
+clean:
+		@rm -rf $(OBJ_PATH)
+		@echo "$(GREEN) $(ITALIC) ✅ Cleaned object files ✅$(RESET)"
+
+fclean: clean
+		@rm -f $(NAME)
+		@echo "$(GREEN) $(ITALIC)   ✅ Cleaned executable ✅$(RESET)"
+
+re: fclean all
+
+.PHONY:	all clean fclean re

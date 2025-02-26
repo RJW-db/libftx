@@ -2,6 +2,9 @@
 	"files.associations": {
 		"tester.h": "c",
 		"wrap_functions.h": "c",
-		"limits.h": "c"
+		"limits.h": "c",
+		"dlfcn.h": "c",
+		"libft.h": "c",
+		"ft_dbltoa.h": "c"
 	}
 }
