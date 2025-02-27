@@ -6,7 +6,7 @@
 /*   By: jdobos <jdobos@student.42.fr>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/01/15 16:27:18 by rde-brui      #+#    #+#                 */
-/*   Updated: 2025/02/24 18:19:57 by rde-brui      ########   odam.nl         */
+/*   Updated: 2025/02/27 17:19:56 by rde-brui      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,9 @@
 # else
 #  define MAX_FD 256
 # endif
+
+//	'\0'
+#define TERM 1
 
 //	error handling
 # define CALLOC_ERR "ENOMEM, Cannot allocate memory ft_calloc()"
@@ -120,7 +123,7 @@ int			ft_lstsize(t_lst *lst);
 //	Math Functions
 int8_t		sign(int n);
 int8_t		sign_d(double n);
-uint8_t		digit_counter(int64_t n);
+uint8_t		digit_counter(int64_t n, uint8_t base_len);
 
 //	Memory Edits Functions
 void		ft_bzero(void *s, size_t n);
@@ -142,6 +145,7 @@ void		ft_putstr_fd(t_cchr *s, int fd);
 //	String Create Functions
 char		*ft_itoa(int n);
 char		*nbr_to_str(int64_t n);
+char		*itoa_base(int64_t n, const char *base);
 char		*ft_strdup(t_cchr *s);
 char		*strdup_safe(t_cchr *s);
 char		*strdup_len(t_cchr *s, size_t size);
