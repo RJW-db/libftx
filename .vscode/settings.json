@@ -5,6 +5,12 @@
 		"limits.h": "c",
 		"dlfcn.h": "c",
 		"libft.h": "c",
-		"ft_dbltoa.h": "c"
+		"ft_dbltoa.h": "c",
+		"limits": "c",
+		"ratio": "c",
+		"algorithm": "c",
+		"__config": "c",
+		"locale": "c",
+		"type_traits": "c"
 	}
 }

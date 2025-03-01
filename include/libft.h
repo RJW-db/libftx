@@ -6,7 +6,7 @@
 /*   By: jdobos <jdobos@student.42.fr>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/01/15 16:27:18 by rde-brui      #+#    #+#                 */
-/*   Updated: 2025/02/27 17:19:56 by rde-brui      ########   odam.nl         */
+/*   Updated: 2025/03/01 02:39:08 by rjw           ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@
 # endif
 
 //	'\0'
-#define TERM 1
+# define TERM 1
 
 //	error handling
 # define CALLOC_ERR "ENOMEM, Cannot allocate memory ft_calloc()"
@@ -123,7 +123,9 @@ int			ft_lstsize(t_lst *lst);
 //	Math Functions
 int8_t		sign(int n);
 int8_t		sign_d(double n);
+uint64_t	int64_to_abs(int64_t n);
 uint8_t		digit_counter(int64_t n, uint8_t base_len);
+uint8_t		digit_ucounter(uint64_t n, uint8_t base_len);
 
 //	Memory Edits Functions
 void		ft_bzero(void *s, size_t n);
@@ -146,6 +148,8 @@ void		ft_putstr_fd(t_cchr *s, int fd);
 char		*ft_itoa(int n);
 char		*nbr_to_str(int64_t n);
 char		*itoa_base(int64_t n, const char *base);
+char		*int_to_str(char *dst, uint8_t len, int64_t n, const char *base);
+
 char		*ft_strdup(t_cchr *s);
 char		*strdup_safe(t_cchr *s);
 char		*strdup_len(t_cchr *s, size_t size);
@@ -178,6 +182,7 @@ char		*charmove(char *dest, const char *src, size_t n);
 char		*ft_strmapi(char const *s, char (*f)(uint32_t, char));
 void		swap_ptr(void **s1, void **s2);
 uint8_t		nbr_to_buff(char *dst, int64_t n);
+size_t		int64_base(int64_t n, const char *base, char *buff, size_t buf_len);
 
 //	String Manipulation Functions
 char		*ft_strchr(t_cchr *s, int c);

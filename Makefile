@@ -42,7 +42,7 @@ DYNAR			:=	dynarr.c					dynarr_insert.c
 G_N_L			:=	get_next_line.c				get_input_buff.c
 LLIST			:=	linked_list.c				list_info.c						move_or_remove_nodes.c
 MRKUP			:=	markup.c
-MATH_			:=	sign.c						digit_counter.c
+MATH_			:=	math_utils.c				digit_counter.c
 MEDIT			:=	mem_edit.c
 MSRCH			:=	mem_search.c
 FWRAP			:=	dynamic_symbols.c			linux_malloc_wrapper.c			mac_malloc_wrapper.c	\
@@ -52,8 +52,9 @@ PRNTF			:=	printf.c					printf_process_format.c			printf_char.c			\
 					printf_sort_spec.c			printf_str_count.c				printf_str.c			\
 					printf_unsigned.c			printf_utils.c
 PTCHR			:=	put_chars_fd.c
-SCRTE			:=	itoa.c						str_dup.c						string_create.c			\
-					strjoin.c					strjoin_set_null.c				strtrim.c
+SCRTE			:=	itoa.c						itoa_base.c						str_dup.c				\
+					string_create.c				strjoin.c						strjoin_set_null.c		\
+					strtrim.c
 SEDIT			:=	cpy_safe.c					cpy.c str_edit.c				swap_values.c
 SSRCH			:=	str_len.c					str_compare.c					str_null_check.c		\
 					str_search.c				str_search_2.c					find_char.c				\
