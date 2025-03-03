@@ -11,6 +11,7 @@
 		"algorithm": "c",
 		"__config": "c",
 		"locale": "c",
-		"type_traits": "c"
+		"type_traits": "c",
+		"sstream": "c"
 	}
 }

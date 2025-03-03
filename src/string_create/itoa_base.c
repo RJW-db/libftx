@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   itoa_buff.c                                        :+:    :+:            */
+/*   itoa_base.c                                        :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: rjw <rjw@student.codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/03/01 02:29:51 by rjw           #+#    #+#                 */
-/*   Updated: 2025/03/01 02:39:44 by rjw           ########   odam.nl         */
+/*   Updated: 2025/03/03 14:27:41 by rjw           ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,10 @@ char	*itoa_base(int64_t n, const char *base)
 		dst[0] = '-';
 	return (int_to_str(dst + sign, len - sign, n, base));
 }
-
+#include <stdio.h>
+/**
+ * index == buf_len - 1, is only for the case n = 0.
+ */
 size_t	int64_base(int64_t n, const char *base, char *buff, size_t buf_len)
 {
 	const bool	is_negative = (n < 0);
@@ -41,22 +44,22 @@ size_t	int64_base(int64_t n, const char *base, char *buff, size_t buf_len)
 	uint8_t		num_digits;
 
 	abs_value = int64_to_abs(n);
-	base_len = ft_strlen(base);
+	base_len = strlen_safe(base);
+	if (base_len < 2 || buf_len < 2)
+		return ((buf_len != 0 && ft_strlcpy(buff, "\0", 1)), 0);
 	num_digits = digit_counter(n, base_len);
 	while (num_digits-- >= buf_len)
 		abs_value /= base_len;
 	index = buf_len - 1;
 	buff[index] = '\0';
-	while (abs_value > 0 && index > 0)
+	while (abs_value > 0 && index > 0 || index == buf_len - 1)
 	{
 		buff[--index] = base[abs_value % base_len];
 		abs_value /= base_len;
 	}
-	if (abs_value == 0 && index == buf_len - 1)
-		buff[--index] = base[0];
 	if (is_negative && index > 0)
 		buff[--index] = '-';
 	if (index > 0)
-		ft_strlcpy(buff, buff + index, buf_len - index - 1);
+		ft_strlcpy(buff, buff + index, buf_len - index);
 	return (buf_len - index - 1);
 }
