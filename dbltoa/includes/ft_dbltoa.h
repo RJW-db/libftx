@@ -6,7 +6,7 @@
 /*   By: jmetzger <jmetzger@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/02/12 17:26:37 by jmetzger      #+#    #+#                 */
-/*   Updated: 2025/03/04 20:11:06 by rde-brui      ########   odam.nl         */
+/*   Updated: 2025/03/04 20:16:40 by rde-brui      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,10 +89,7 @@ size_t				ft_strlen(const char *s);
 size_t				strlen_safe(const char *str);
 char				*ft_strchr(const char *s, int c);
 size_t				ft_strlcpy(char *dst, const char *src, size_t dstsize);
-// long				ft_atoi(const char *str);
-long				ft_atoi(const char *str);
-// int32_t				ft_atoi(const char *nptr);
-// char				*ft_substr(const char *s, unsigned int start, size_t len);
+long				atoi64(const char *str);
 char				*ft_substr(char const *s, uint32_t start, size_t len);
 void				substr_buff(const char *s, uint32_t start, size_t len, char *buff);
 char				*strjoin_safe(char const *s1, char const *s2);

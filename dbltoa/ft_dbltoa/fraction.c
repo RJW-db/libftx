@@ -6,7 +6,7 @@
 /*   By: jmetzger <jmetzger@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/02/12 17:26:37 by jmetzger      #+#    #+#                 */
-/*   Updated: 2025/03/04 20:10:32 by rde-brui      ########   odam.nl         */
+/*   Updated: 2025/03/04 20:15:38 by rde-brui      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@
  *		------------------------------------------------
  *
  * Adjusts the mantissa bias?
- * 	if (ft_atoi(expoTmp) && (ft_atoi(expoStr) - 1075) != 972)
+ * 	if (atoi64(expoTmp) && (atoi64(expoStr) - 1075) != 972)
  *     			*mantissa += (1UL << 52); 	// Adds 2^52 to restore the implicit 1
  * 	If exponent is NOT 972, add 2^52 to the mantissa. (Bit-shift 52 to left)
  * 	This accounts for the implicit leading 1 in normalized numbers.
@@ -133,8 +133,8 @@ static void get_exponent_mantissa(int *exponent, unsigned long *mantissa, char *
         return;
     }
 	
-	*exponent = ft_atoi(expoStr);
-	*mantissa = ft_atoi(mantStr);
+	*exponent = atoi64(expoStr);
+	*mantissa = atoi64(mantStr);
 	
 	// Adjusts the exponent bias
 	if (*exponent == 0) 
@@ -142,7 +142,7 @@ static void get_exponent_mantissa(int *exponent, unsigned long *mantissa, char *
 	else
 		*exponent -= 1075;
 
-	if (ft_atoi(expoTmp) && (ft_atoi(expoStr) - 1075) != 972)
+	if (atoi64(expoTmp) && (atoi64(expoStr) - 1075) != 972)
 		*mantissa += (1UL << 52);
 	free(expoStr);
 	free(mantStr);

@@ -6,7 +6,7 @@
 /*   By: jmetzger <jmetzger@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/02/12 17:26:37 by jmetzger      #+#    #+#                 */
-/*   Updated: 2025/03/04 20:10:32 by rde-brui      ########   odam.nl         */
+/*   Updated: 2025/03/04 20:15:38 by rde-brui      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,9 +66,9 @@ static void	ft_divi2(char *s1, char *s2, char *result, t_number *num)
 		ft_strlcpy(numer + 1, s1 + num->digit_s1, nb);
 	else
 		ft_strlcpy(numer, s1 + num->digit_s1, nb + 1);
-	if ((ft_atoi(numer) / ft_atoi(denom)) ==
-			(ft_atoi(numer) / ((ft_atoi(denom) + 1))))
-		nb = ft_atoi(numer) / ft_atoi(denom);
+	if ((atoi64(numer) / atoi64(denom)) ==
+			(atoi64(numer) / ((atoi64(denom) + 1))))
+		nb = atoi64(numer) / atoi64(denom);
 	else
 		ft_divi4(s1, s2, tmp, &nb);
 	result[BIG_INT - 1] = nb + 48;
