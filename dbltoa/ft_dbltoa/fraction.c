@@ -6,7 +6,7 @@
 /*   By: jmetzger <jmetzger@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/02/12 17:26:37 by jmetzger      #+#    #+#                 */
-/*   Updated: 2025/03/04 19:35:11 by rde-brui      ########   odam.nl         */
+/*   Updated: 2025/03/04 20:10:32 by rde-brui      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,24 +114,21 @@
  */
 static void get_exponent_mantissa(int *exponent, unsigned long *mantissa, char *strbits)
 {
-	char	*expoTmp;
+	char	expoTmp[DBL_EXP_BITS + 1];
 	char	*expoStr;
-	char	*mantTmp;
+	char	mantTmp[DBL_MANT_BITS + 1];
 	char	*mantStr;
 
-	if (!(expoTmp = ft_substr(strbits, 1, 11)) || !(mantTmp = ft_substr(strbits, 12, 52)))
-		return ;
-	
-	if (!(expoStr = convert_binary_to_decimal(expoTmp, "01", "0123456789")))
+	substr_buff(strbits, 1, 11, expoTmp);
+	substr_buff(strbits, 12, 52, mantTmp);
+	expoStr = convert_binary_to_decimal(expoTmp, "01", "0123456789");
+	if (expoStr == NULL)
 	{
-        free(expoTmp);
-        free(mantTmp);
         return;
     }
-	if (!(mantStr = convert_binary_to_decimal(mantTmp, "01", "0123456789")))
+	mantStr = convert_binary_to_decimal(mantTmp, "01", "0123456789");
+	if (mantStr == NULL)
 	{
-        free(expoTmp);
-        free(mantTmp);
         free(expoStr);
         return;
     }
@@ -145,14 +142,10 @@ static void get_exponent_mantissa(int *exponent, unsigned long *mantissa, char *
 	else
 		*exponent -= 1075;
 
-	// Normlize number (if not zerro)
 	if (ft_atoi(expoTmp) && (ft_atoi(expoStr) - 1075) != 972)
 		*mantissa += (1UL << 52);
-
 	free(expoStr);
 	free(mantStr);
-	free(expoTmp);
-	free(mantTmp);
 }
 
 /*

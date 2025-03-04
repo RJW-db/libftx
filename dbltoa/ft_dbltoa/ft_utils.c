@@ -6,7 +6,7 @@
 /*   By: jmetzger <jmetzger@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/02/12 17:26:37 by jmetzger      #+#    #+#                 */
-/*   Updated: 2025/03/04 19:34:49 by rde-brui      ########   odam.nl         */
+/*   Updated: 2025/03/04 19:36:08 by rde-brui      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,79 +76,6 @@ void	*free_str(char **str)
  * 
  * And then it will joins the new tmp to the existing strBits
  */
-
-
-/* fill_str()
- * The function pads a binary string with leading zeros to ensure it represents exactly 8 bits (1 byte).
- *
- * The function counts characters in str, because if already 8 Bits, it will return string.
- * Else it will continue with allocating memory for the missing leading zeros and
- * fill those missing 0 with zeros (ft_memset(zero, 48, 8 - i);).
- * At the end we just join the strings again.
- */
-// static char	*fill_str(char *str)
-// {
-// 	int		i;
-// 	char	*zero;
-// 	char	*tmp;
-
-// 	i = 0;
-// 	while (str[i] != '\0')
-// 		++i;
-// 	if (i == 8)
-// 		return (str);
-// 	zero = malloc(8 - i + 1);
-// 	if (zero == NULL)
-// 		return (free(str), NULL);
-// 	zero[8 - i] = '\0';
-// 	ft_memset(zero, 48, 8 - i);
-// 	tmp = zero;
-// 	zero = strjoin_safe(zero, str);
-// 	free(tmp);
-// 	free(str);
-// 	if (zero == NULL)
-// 		return (NULL);
-// 	return (zero);
-// }
-
-
-// char *double_to_bitstring(double num, uint16_t total_bytes)
-// {
-// 	t_bitcast bitcast = { .d = num };
-// 	char *bit_string = NULL;
-// 	char *tmp;
-// 	char *prev_bit_string;
-// 	uint16_t byte_idx;
-
-// 	for (byte_idx = 0; byte_idx < total_bytes; ++byte_idx)
-// 	{
-// 		// Matches your original implementation's byte extraction
-// 		tmp = itoa_base(((bitcast.i >> (byte_idx * BYTE)) & BYTE_MASK), "01");
-// 		// *tmp = 1;
-// 		printf(">%s\n", tmp);
-// 		if (tmp == NULL)
-// 			return (NULL);
-
-// 		tmp = fill_str(tmp);
-// 		if (tmp == NULL)
-// 			return (NULL);
-// 		// printf(">%s\n", tmp);
-// 		prev_bit_string = bit_string;
-// 		bit_string = strjoin_safe(tmp, prev_bit_string);
-// 		// printf(">%s\n", bit_string);
-
-// 		free(tmp);
-// 		free(prev_bit_string);
-// 		if (bit_string == NULL)
-// 			return (NULL);
-// 	}
-// 	exit(0);
-// 	// printf("%zu\n", ft_strlen(bit_string));
-// 	// printf(">%d\n", total_bytes * 8 + 1);
-// 	// printf("%s\n", bit_string);
-// 	return (bit_string);
-// }
-
 uint64_t	int64_to_abs(int64_t n)
 {
 	if (n >= 0)

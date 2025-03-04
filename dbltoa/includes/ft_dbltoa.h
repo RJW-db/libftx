@@ -6,7 +6,7 @@
 /*   By: jmetzger <jmetzger@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/02/12 17:26:37 by jmetzger      #+#    #+#                 */
-/*   Updated: 2025/03/04 19:29:36 by rde-brui      ########   odam.nl         */
+/*   Updated: 2025/03/04 20:11:06 by rde-brui      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,10 @@
 # define DBL_BYTES 8
 # define BYTE 8
 # define DBL_BIT_COUNT 64
+
+#define DBL_EXP_BITS 11    // maybe just define in fraction.c
+#define DBL_MANT_BITS 52   // maybe just define in fraction.c
+
 
 # define MAX_DIGIT	1030
 # define BIG_INT	1024 // DBL_MIN is the larges number -> has 1024 digits
@@ -85,8 +89,12 @@ size_t				ft_strlen(const char *s);
 size_t				strlen_safe(const char *str);
 char				*ft_strchr(const char *s, int c);
 size_t				ft_strlcpy(char *dst, const char *src, size_t dstsize);
+// long				ft_atoi(const char *str);
 long				ft_atoi(const char *str);
-char				*ft_substr(const char *s, unsigned int start, size_t len);
+// int32_t				ft_atoi(const char *nptr);
+// char				*ft_substr(const char *s, unsigned int start, size_t len);
+char				*ft_substr(char const *s, uint32_t start, size_t len);
+void				substr_buff(const char *s, uint32_t start, size_t len, char *buff);
 char				*strjoin_safe(char const *s1, char const *s2);
 char				*ft_itoa(long n);
 char				*itoa_base(int64_t n, const char *base);

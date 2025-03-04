@@ -6,7 +6,7 @@
 /*   By: jmetzger <jmetzger@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/02/12 17:26:37 by jmetzger      #+#    #+#                 */
-/*   Updated: 2025/02/26 19:02:27 by rde-brui      ########   odam.nl         */
+/*   Updated: 2025/03/04 19:46:51 by rde-brui      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ char	*ft_dbltoa(double ogNum)
 	char			denominator[BIG_INT + 1]; 	// storing the denominator
 	// char			numerator[MAX_DBL_STR_LEN]; 	// storing the numerator
 	// char			denominator[MAX_DBL_STR_LEN]; 	// storing the denominator
-	char			*dblStr;			// final string representation of the double
+	char			*str;			// final string representation of the double
 	bool 			n_flag;
 
 	n_flag = true;
@@ -45,19 +45,20 @@ char	*ft_dbltoa(double ogNum)
 	init_bigChar(denominator);
 
 	// Convert dbl into a fraction
-	dblStr = convert_to_fraction(ogNum, numerator, denominator, &n_flag);
-	if (dblStr != NULL)
-		return (dblStr);
+	str = convert_to_fraction(ogNum, numerator, denominator, &n_flag);
+	if (str != NULL)
+		return (str);
 	
 	// One digit infront of the '.'
 	convert_to_sci_notation(numerator, denominator, &digitexpo, ogNum);
 
 	// Converts the processed numerator and denominator into a string
-	dblStr = convert_to_str(dblStr, numerator, denominator, digitexpo);
+	str = convert_to_str(str, numerator, denominator, digitexpo);
 
 	// Add Sign and remove extra zeros
-	dblStr = ft_add_sign(dblStr, n_flag);
+	str = ft_add_sign(str, n_flag);
+	// str = ft_add_sign(str, (bit_string[0] == '0'));
 	
-	return (dblStr);
+	return (str);
 }
 
