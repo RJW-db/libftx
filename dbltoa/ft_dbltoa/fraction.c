@@ -6,7 +6,7 @@
 /*   By: jmetzger <jmetzger@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/02/12 17:26:37 by jmetzger      #+#    #+#                 */
-/*   Updated: 2025/03/04 21:17:37 by rde-brui      ########   odam.nl         */
+/*   Updated: 2025/03/04 22:06:54 by rde-brui      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,7 +131,7 @@
 #include <stdint.h>
 #include <string.h>
 
-static void get_exponent_mantissa(int *exponent, unsigned long *mantissa, char *strbits)
+static void get_exponent_mantissa(int *exponent, uint64_t *mantissa, char *strbits)
 {
 	char	expoTmp[DBL_EXP_BITS + 1];
 	char	expoStr[DBL_EXP_DECIMAL_DIGITS + 1];
@@ -140,24 +140,14 @@ static void get_exponent_mantissa(int *exponent, unsigned long *mantissa, char *
 
 	substr_buff(strbits, 1, 11, expoTmp);
 	substr_buff(strbits, 12, 52, mantTmp);
-	if (binary_to_decimal(expoTmp, expoStr, sizeof(expoStr)) == false)
-	{
-		return /* (false) */;
-	}
-	// mantStr = convert_binary_to_decimal(mantTmp, "01", "0123456789");
-	if (binary_to_decimal(mantTmp, mantStr, sizeof(mantStr)) == false)
-	{
-		return /* (false) */;
-	}
-	
+	binary_to_decimal(expoTmp, expoStr, sizeof(expoStr));
+	binary_to_decimal(mantTmp, mantStr, sizeof(mantStr));
 	*exponent = atoi64(expoStr);
 	*mantissa = atoi64(mantStr);
-	
 	if (*exponent == 0) 
 		*exponent -= DBL_EXP_SUBNORMAL_BIAS;
 	else
 		*exponent -= DBL_EXP_NORMAL_BIAS;
-
 	if (atoi64(expoTmp) > 0 && (atoi64(expoStr) - DBL_EXP_NORMAL_BIAS) != DBL_EXP_MAX)
 		*mantissa += (1UL << DBL_MANT_BITS);
 }
@@ -166,7 +156,8 @@ static void get_exponent_mantissa(int *exponent, unsigned long *mantissa, char *
  * This function is designed to calculate powers of 2 using a big integer representation stored in a string (bigint). 
  * It does so by repeatedly adding the current value to itself, essentially doubling it, to simulate exponentiation.
  */
-static char	*pow_table2(char *bigint, unsigned long exponent)
+// static char	*pow_table2(char *bigint, uint64_t exponent)
+static char	*pow_table2(char *bigint, int64_t exponent)
 {
 	char	pow2[BIG_INT + 1];
 
@@ -217,30 +208,28 @@ static char	*pow_table2(char *bigint, unsigned long exponent)
  * 			(Exponent is Zero or Negative) -> Simply copies the mantissa string into the numerator*.
  * 		4):
  */
-static char	*fill_numerator(char *numerator, unsigned long mantValue, long expoValue)
+static char	*fill_numerator(char *numerator, uint64_t mantValue, int64_t expoValue)
 {
-	char	*mantissa;
+	char	mantTmp[DBL_MANT_BITS + 1];
 	char	exponent[BIG_INT + 1];
+	size_t	mant_len;
 
-	if (!(mantissa = ft_itoa(mantValue)))
-		return (NULL);
-	
-	if (ft_strlen(mantissa) >= BIG_INT)
+	mant_len = int64_base(mantValue, DECIMAL_BASE, mantTmp, sizeof(mantTmp));
+	if (mant_len >= BIG_INT)
 		return (NULL);
 	if (expoValue > 0)
 	{	
-		ft_strlcpy(numerator + BIG_INT - ft_strlen(mantissa), mantissa, ft_strlen(mantissa) + 1);
+		ft_strlcpy(numerator + BIG_INT - mant_len, mantTmp, mant_len + 1);
 		init_bigChar(exponent);
-
 		exponent[BIG_INT - 1] = '2';
 		if (!pow_table2(exponent, expoValue))
 			return (NULL);
 		ft_multi(numerator, exponent);
 	}
 	else
-		ft_strlcpy(numerator + BIG_INT - ft_strlen(mantissa), mantissa, ft_strlen(mantissa) + 1);
+		ft_strlcpy(numerator + BIG_INT - mant_len, mantTmp, mant_len + 1);
 
-	free(mantissa);
+	// free(mantTmp);
 	return (numerator);
 }
 
@@ -321,17 +310,17 @@ static char			*fill_denominator(char *denominator, long exponent, double ogNum)
  */
 char	*convert_to_fraction(double ogNum, char *nume, char *denom, bool *n_flag)
 {
-	char			bit_string[DBL_BIT_COUNT + 1];
-	int				exponent;
-	unsigned long	mantissa;
-	t_bitcast		cast;
+	char		bit_string[DBL_BIT_COUNT + 1];
+	int			exponent;
+	uint64_t	mantissa;
+	t_bitcast	cast;
 
 	cast.d = ogNum;
 	double_to_bitstring(cast, bit_string);
 	if (bit_string[0] == '0')
 		*n_flag = false;
 	get_exponent_mantissa(&exponent, &mantissa, bit_string);
-	if (exponent == 972)
+	if (exponent == DBL_EXP_MAX)
 	{
 		return (error_inf(ogNum, mantissa));
 	}

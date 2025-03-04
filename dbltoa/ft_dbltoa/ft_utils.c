@@ -6,7 +6,7 @@
 /*   By: jmetzger <jmetzger@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/02/12 17:26:37 by jmetzger      #+#    #+#                 */
-/*   Updated: 2025/03/04 19:36:08 by rde-brui      ########   odam.nl         */
+/*   Updated: 2025/03/04 22:02:13 by rde-brui      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
  */
 void init_bigChar(char *str)
 {
-	ft_memset(str, 48, BIG_INT);
+	ft_memset(str, '0', BIG_INT);
 	str[BIG_INT] = '\0';
 	str[0] = '+';				// TODO check if this can be entirely removed
 }
@@ -33,9 +33,9 @@ void init_bigChar(char *str)
  *		ogNum = -1.0 and mantissa = 0, return "-inf".
  *		ogNum = 0.0 and mantissa = 0, return "nan".
  */
-char	*error_inf(double ogNum, unsigned long mantissa)
+char	*error_inf(double ogNum, uint64_t mantissa)
 {
-	char			*dblStr;
+	char	*dblStr;
 
 	if (!mantissa && ogNum > 0)
 		dblStr = ft_strdup("inf");
@@ -43,24 +43,9 @@ char	*error_inf(double ogNum, unsigned long mantissa)
 		dblStr = ft_strdup("-inf");
 	else
 		dblStr = ft_strdup("nan");
-
 	return (dblStr);
 }
 
-bool	dpstr_ok(char **s1)
-{
-	return (!(s1 == NULL || *s1 == NULL));
-}
-
-void	*free_str(char **str)
-{
-	if (dpstr_ok(str) == true)
-	{
-		free(*str);
-		*str = NULL;
-	}
-	return (NULL);
-}
 
 /* double_to_bitstring()
  * Converts the void* (in this case double) into a string of bits.
@@ -76,42 +61,6 @@ void	*free_str(char **str)
  * 
  * And then it will joins the new tmp to the existing strBits
  */
-uint64_t	int64_to_abs(int64_t n)
-{
-	if (n >= 0)
-		return ((uint64_t)n);
-	return (uint64_t)((-(n + 1)) + 1);
-}
-
-size_t	int64_base(int64_t n, const char *base, char *buff, size_t buf_len)
-{
-	const bool	is_negative = (n < 0);
-	size_t		base_len;
-	uint64_t	abs_value;
-	size_t		index;
-	uint8_t		num_digits;
-
-	abs_value = int64_to_abs(n);
-	base_len = strlen_safe(base);
-	if (base_len < 2 || buf_len < 2)
-		return ((buf_len != 0 && ft_strlcpy(buff, "\0", 1)), 0);
-	num_digits = digit_counter(n, base_len);
-	while (num_digits-- >= buf_len)
-		abs_value /= base_len;
-	index = buf_len - 1;
-	buff[index] = '\0';
-	while ((abs_value > 0 && index > 0) || index == buf_len - 1)
-	{
-		buff[--index] = base[abs_value % base_len];
-		abs_value /= base_len;
-	}
-	if (is_negative && index > 0)
-		buff[--index] = '-';
-	if (index > 0)
-		ft_strlcpy(buff, buff + index, buf_len - index);
-	return (buf_len - index - 1);
-}
-
 char	*double_to_bitstring(t_bitcast cast, char *bit_string)
 {
 	char		buff[BYTE + 1];

@@ -12,25 +12,6 @@
 
 #include "../includes/ft_dbltoa.h"
 
-char	*int_to_str(char *dst, uint8_t len, int64_t n, const char *base)
-{
-	const size_t	base_len = ft_strlen(base);
-	const bool		sign = (n < 0);
-	uint64_t		abs_value;
-
-	dst[len] = '\0';
-	abs_value = (uint64_t)n;
-	if (n < 0)
-		abs_value = (uint64_t)(-(n + 1)) + 1;
-	while (len > 0)
-	{
-		--len;
-		dst[len] = base[(abs_value % base_len)];
-		abs_value /= base_len;
-	}
-	return (dst - sign);
-}
-
 uint8_t	digit_counter(int64_t n, uint8_t base_len)
 {
 	uint8_t	count;
@@ -44,22 +25,38 @@ uint8_t	digit_counter(int64_t n, uint8_t base_len)
 	return (count);
 }
 
-char	*itoa_base(int64_t n, const char *base)
+uint64_t	int64_to_abs(int64_t n)
 {
-	size_t	base_len;
-	uint8_t	len;
-	bool	sign;
-	char	*dst;
+	if (n >= 0)
+		return ((uint64_t)n);
+	return (uint64_t)((-(n + 1)) + 1);
+}
 
+size_t	int64_base(int64_t n, const char *base, char *buff, size_t buf_len)
+{
+	const bool	is_negative = (n < 0);
+	size_t		base_len;
+	uint64_t	abs_value;
+	size_t		index;
+	uint8_t		num_digits;
+
+	abs_value = int64_to_abs(n);
 	base_len = strlen_safe(base);
-	if (base_len < 2)
-		return (NULL);
-	sign = (n < 0);
-	len = digit_counter(n, base_len);
-	dst = malloc((len + 1) * sizeof(char));
-	if (dst == NULL)
-		return (NULL);
-	if (sign == true)
-		dst[0] = '-';
-	return (int_to_str(dst + sign, len - sign, n, base));
+	if (base_len < 2 || buf_len < 2)
+		return ((buf_len != 0 && ft_strlcpy(buff, "\0", 1)), 0);
+	num_digits = digit_counter(n, base_len);
+	while (num_digits-- >= buf_len)
+		abs_value /= base_len;
+	index = buf_len - 1;
+	buff[index] = '\0';
+	while ((abs_value > 0 && index > 0) || index == buf_len - 1)
+	{
+		buff[--index] = base[abs_value % base_len];
+		abs_value /= base_len;
+	}
+	if (is_negative && index > 0)
+		buff[--index] = '-';
+	if (index > 0)
+		ft_strlcpy(buff, buff + index, buf_len - index);
+	return (buf_len - index - 1);
 }

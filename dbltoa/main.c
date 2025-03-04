@@ -50,7 +50,6 @@ int	main(void)
 	// } else {
 	// 	printf("Failed to convert to bit string\n");
 	// }
-
 	float_tests();
 	double_tests();
 	edgecase_tests();
