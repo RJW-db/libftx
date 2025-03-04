@@ -6,11 +6,14 @@
 /*   By: jmetzger <jmetzger@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/02/12 17:26:37 by jmetzger      #+#    #+#                 */
-/*   Updated: 2025/03/03 21:00:09 by rjw           ########   odam.nl         */
+/*   Updated: 2025/03/04 17:44:03 by rde-brui      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/ft_dbltoa.h"
+#define BYTE_MASK 0xFF
+#define BYTE 8
+size_t biggest = 0;
 
 /* init_bigChar()
  * The function takes str and fills it zeros (48 -> ASCII code for '0').
@@ -47,39 +50,6 @@ char	*error_inf(double ogNum, unsigned long mantissa)
 	return (dblStr);
 }
 
-/* fill_str()
- * The function pads a binary string with leading zeros to ensure it represents exactly 8 bits (1 byte).
- *
- * The function counts characters in str, because if already 8 Bits, it will return string.
- * Else it will continue with allocating memory for the missing leading zeros and
- * fill those missing 0 with zeros (ft_memset(zero, 48, 8 - i);).
- * At the end we just join the strings again.
- */
-static char	*fill_str(char *str)
-{
-	int		i;
-	char	*zero;
-	char	*tmp;
-
-	i = 0;
-	while (str[i] != '\0')
-		++i;
-	if (i == 8)
-		return (str);
-	zero = malloc(8 - i + 1);
-	if (zero == NULL)
-		return (free(str), NULL);
-	zero[8 - i] = '\0';
-	ft_memset(zero, 48, 8 - i);
-	tmp = zero;
-	zero = strjoin_safe(zero, str);
-	free(tmp);
-	free(str);
-	if (zero == NULL)
-		return (NULL);
-	return (zero);
-}
-
 bool	dpstr_ok(char **s1)
 {
 	return (!(s1 == NULL || *s1 == NULL));
@@ -95,7 +65,7 @@ void	*free_str(char **str)
 	return (NULL);
 }
 
-/* str_bits()
+/* double_to_bitstring()
  * Converts the void* (in this case double) into a string of bits.
  * So, 3.14 will turn into 01000000 00001001 00001100 11001100 11001100 11001100 11001100 11001100
  * 
@@ -110,38 +80,163 @@ void	*free_str(char **str)
  * And then it will joins the new tmp to the existing strBits
  */
 
-union DoubleInt64 {
-    double d;
-    int64_t i;
-};
 
-char	*str_bits(unsigned char *type, size_t size)
+/* fill_str()
+ * The function pads a binary string with leading zeros to ensure it represents exactly 8 bits (1 byte).
+ *
+ * The function counts characters in str, because if already 8 Bits, it will return string.
+ * Else it will continue with allocating memory for the missing leading zeros and
+ * fill those missing 0 with zeros (ft_memset(zero, 48, 8 - i);).
+ * At the end we just join the strings again.
+ */
+// static char	*fill_str(char *str)
+// {
+// 	int		i;
+// 	char	*zero;
+// 	char	*tmp;
+
+// 	i = 0;
+// 	while (str[i] != '\0')
+// 		++i;
+// 	if (i == 8)
+// 		return (str);
+// 	zero = malloc(8 - i + 1);
+// 	if (zero == NULL)
+// 		return (free(str), NULL);
+// 	zero[8 - i] = '\0';
+// 	ft_memset(zero, 48, 8 - i);
+// 	tmp = zero;
+// 	zero = strjoin_safe(zero, str);
+// 	free(tmp);
+// 	free(str);
+// 	if (zero == NULL)
+// 		return (NULL);
+// 	return (zero);
+// }
+
+typedef union	u_double_bitcast
 {
-	char			*strBits; 	// Hold the final binary string
-	char			*tmp;		// Temporary string to hold each byte's binary form
-	char			*tmp2;		// Used for concatenation
+	double d;
+	int64_t i;
+}	t_double_bitcast;
 
-	strBits = NULL;
-	while (size > 0)
+// char *double_to_bitstring(double num, uint16_t total_bytes)
+// {
+// 	t_double_bitcast bitcast = { .d = num };
+// 	char *bit_string = NULL;
+// 	char *tmp;
+// 	char *prev_bit_string;
+// 	uint16_t byte_idx;
+
+// 	for (byte_idx = 0; byte_idx < total_bytes; ++byte_idx)
+// 	{
+// 		// Matches your original implementation's byte extraction
+// 		tmp = itoa_base(((bitcast.i >> (byte_idx * BYTE)) & BYTE_MASK), "01");
+// 		// *tmp = 1;
+// 		printf(">%s\n", tmp);
+// 		if (tmp == NULL)
+// 			return (NULL);
+
+// 		tmp = fill_str(tmp);
+// 		if (tmp == NULL)
+// 			return (NULL);
+// 		printf(">%s\n", tmp);
+// 		prev_bit_string = bit_string;
+// 		bit_string = strjoin_safe(tmp, prev_bit_string);
+// 		printf(">%s\n", bit_string);
+
+// 		free(tmp);
+// 		free(prev_bit_string);
+// 		if (bit_string == NULL)
+// 			return (NULL);
+// 	}
+// 	// printf("%zu\n", ft_strlen(bit_string));
+// 	printf(">%d\n", total_bytes * 8 + 1);
+// 	printf("%s\n", bit_string);
+// 	return (bit_string);
+// }
+
+uint64_t	int64_to_abs(int64_t n)
+{
+	if (n >= 0)
+		return ((uint64_t)n);
+	return (uint64_t)((-(n + 1)) + 1);
+}
+
+size_t	int64_base(int64_t n, const char *base, char *buff, size_t buf_len)
+{
+	const bool	is_negative = (n < 0);
+	size_t		base_len;
+	uint64_t	abs_value;
+	size_t		index;
+	uint8_t		num_digits;
+
+	abs_value = int64_to_abs(n);
+	base_len = strlen_safe(base);
+	if (base_len < 2 || buf_len < 2)
+		return ((buf_len != 0 && ft_strlcpy(buff, "\0", 1)), 0);
+	num_digits = digit_counter(n, base_len);
+	while (num_digits-- >= buf_len)
+		abs_value /= base_len;
+	index = buf_len - 1;
+	buff[index] = '\0';
+	while ((abs_value > 0 && index > 0) || index == buf_len - 1)
 	{
-		// printf(">%lld<\n\n", (int64_t)(*type));
-		tmp = itoa_base((int64_t)(*type), "01");
-		if (tmp == NULL)
-			return (NULL);
-		tmp = fill_str(tmp);
-		if (tmp == NULL)	//	if NULL everything will be freed inside fill_str
-			return (NULL);
-		tmp2 = strBits;
-		strBits = strjoin_safe(tmp, tmp2);
-		free(tmp);
-		free(tmp2);
-		if (strBits == NULL)
-			return (NULL);
-		++type;
-		--size;
+		buff[--index] = base[abs_value % base_len];
+		abs_value /= base_len;
 	}
-	// exit(0);
-	return (strBits);
+	if (is_negative && index > 0)
+		buff[--index] = '-';
+	if (index > 0)
+		ft_strlcpy(buff, buff + index, buf_len - index);
+	return (buf_len - index - 1);
+}
+
+size_t	cpy_str_only(char *dst, const char *src)
+{
+	size_t	i;
+	char	c;
+
+	i = 0;
+	c = src[i];
+	while (c != '\0')
+	{
+		dst[i] = c;
+		++i;
+		c = src[i];
+	}
+	return (i);
+}
+char *double_to_bitstring(double num, uint16_t total_bytes)
+{
+	t_double_bitcast bitcast = { .d = num };
+	uint16_t byte_idx;
+	size_t index = (total_bytes * 8 + 1) - 9;
+	size_t len = 0;
+	char buff[BYTE + 1];
+	char *bit_string = malloc(total_bytes * 8 + 1);
+	bit_string[total_bytes * 8] = '\0';
+	ft_memset(bit_string, '5', total_bytes * 8);
+	for (byte_idx = 0; byte_idx < total_bytes; ++byte_idx)
+	{
+		size_t check = int64_base(((bitcast.i >> (byte_idx * BYTE)) & BYTE_MASK), "01", buff, BYTE + 1);
+		if(check > biggest)
+			biggest = check;
+		len = ft_strlen(buff);
+
+		ft_memset(bit_string + index, 48, 8 - len);
+		cpy_str_only(bit_string + index + (8 - len), buff);
+		if (index > 0)	// remove this if out if i don't need it anymore for printing
+			index -= 8;
+	}
+	// printf("%zu\n", ft_strlen(bit_string));
+	// printf(">%d<\n", total_bytes * 8 + 1);
+	// printf(">%d<\n", (total_bytes * 8 + 1) - 9);
+	// printf("%s\n", bit_string + index);
+	// printf("%zu\n", index);
+	// printf("%s\n", bit_string);
+
+	return (bit_string);
 }
 
 /* ft_add_sign()

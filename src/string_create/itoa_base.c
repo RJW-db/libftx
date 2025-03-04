@@ -6,7 +6,7 @@
 /*   By: rjw <rjw@student.codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/03/01 02:29:51 by rjw           #+#    #+#                 */
-/*   Updated: 2025/03/03 14:27:41 by rjw           ########   odam.nl         */
+/*   Updated: 2025/03/04 17:44:37 by rde-brui      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ size_t	int64_base(int64_t n, const char *base, char *buff, size_t buf_len)
 		abs_value /= base_len;
 	index = buf_len - 1;
 	buff[index] = '\0';
-	while (abs_value > 0 && index > 0 || index == buf_len - 1)
+	while ((abs_value > 0 && index > 0) || index == buf_len - 1)
 	{
 		buff[--index] = base[abs_value % base_len];
 		abs_value /= base_len;

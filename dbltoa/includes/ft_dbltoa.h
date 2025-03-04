@@ -6,14 +6,13 @@
 /*   By: jmetzger <jmetzger@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/02/12 17:26:37 by jmetzger      #+#    #+#                 */
-/*   Updated: 2025/03/03 20:59:52 by rjw           ########   odam.nl         */
+/*   Updated: 2025/03/04 17:40:40 by rde-brui      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 
 #ifndef FT_DBLTOA_H
 # define FT_DBLTOA_H
-
 
 # include <stdio.h>
 # include <stdarg.h>
@@ -24,7 +23,9 @@
 # include <string.h>
 # include <strings.h>
 # include <ctype.h>
-#include <stdbool.h>
+# include <stdbool.h>
+# include <stdint.h>
+extern size_t biggest;
 
 # define MAX_DIGIT	1030
 # define BIG_INT	1024 // DBL_MIN is the larges number -> has 1024 digits
@@ -58,7 +59,8 @@ void	init_struct(char *s1, char *s2, t_number *num);
 char	*error_inf(double dbl, unsigned long mantissa);
 char	*ft_add_sign(char *dblStr, bool n_flag);
 int		compare_str(char *s1, char *s2);
-char	*str_bits(unsigned char *type, size_t size);
+// char	*double_to_bitstring(unsigned char *type, size_t size);
+char	*double_to_bitstring(double num, uint16_t total_bytes);
 long	ft_basecheck(char *base_from);
 long	ft_atoi_b(char *nbr, char *base_from, long basevalue, long *sig);
 long	ft_init_malloc(char *nbrconv, long len);
@@ -70,7 +72,6 @@ void				*ft_memset(void *b, int c, size_t len);
 void				*ft_memmove(void *dst, const void *src, size_t len);
 size_t				ft_strlen(const char *s);
 size_t				strlen_safe(const char *str);
-double				ft_pow(double nb, double power);
 char				*ft_strchr(const char *s, int c);
 size_t				ft_strlcpy(char *dst, const char *src, size_t dstsize);
 long				ft_atoi(const char *str);
@@ -80,5 +81,6 @@ char				*ft_itoa(long n);
 char				*itoa_base(int64_t n, const char *base);
 void				ft_putstr_fd(char *s, int fd);
 
-
+size_t	cpy_str(char *dst, const char *src);
+uint8_t	digit_counter(int64_t n, uint8_t base_len);
 #endif

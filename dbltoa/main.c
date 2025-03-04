@@ -21,26 +21,46 @@ void	power_of_ten_tests(void);
 void	subnormal_to_max_tests(void);
 void	negative_power_of_ten_tests(void);
 
+// typedef union	u_double_bicast
+// {
+// 	double d;
+// 	int64_t i;
+// }	t_double_bicast;
 
-void	itoa_base_test(void)
-{
-	// char *str = itoa_base(0, "0123456789");
-	char *str = itoa_base(0, "54321");
-	printf("%s\n", str);
-	free(str);
-}
+// void print_double_bits(double num) {
+// 	t_double_bicast bitcast = { .d = num };
+// 	printf("Double value: %f\n", num);
+// 	printf("Int64 representation: %lld\n", (long long)bitcast.i);
+	
+// 	// Print each byte
+// 	for (uint16_t i = 0; i < sizeof(double); i++) {
+// 		uint8_t byte = (bitcast.i >> (i * 8)) & 0xFF;
+// 		printf("Byte %d: %02X\n", i, byte);
+// 	}
+// }
 
 int	main(void)
 {
-	itoa_base_test();
+	// double test_num = 3.14;
+	// print_double_bits(test_num);
+	// char *bit_string = double_to_bitstring(test_num, sizeof(double));
+	// if (bit_string) {
+	// 	printf("Bit string: %s\n", bit_string);
+	// 	free(bit_string);
+	// } else {
+	// 	printf("Failed to convert to bit string\n");
+	// }
+
 	float_tests();
 	double_tests();
 	edgecase_tests();
-	// random_tests();
+	random_tests();
 	// linear_range_tests();
 	// power_of_ten_tests();
 	// subnormal_to_max_tests();
 	// negative_power_of_ten_tests();
+
+	printf("biggest %zu\n", biggest);
 	return (0);
 }
 
@@ -83,6 +103,7 @@ bool	single_test(size_t index, double input)
 	return (0);
 }
 
+// 1000000000000000000000000000000000000000000000000000000000000000
 void	float_tests(void)
 {
 	printf("float_tests\n");

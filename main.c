@@ -5,45 +5,7 @@
 #include <float.h>
 #include <stdint.h>
 #include <string.h>
-// double	ft_floor(double value)
-// {
-//     double int_part;
 
-// 	int_part = (double)(uint64_t)value;
-// 	if (value < int_part)
-// 		return (int_part - 1);
-// 	return (int_part);
-// }
-
-// double floor_float(double val)
-// {
-// 	printf("%Lf\n", val);
-
-//     double round = ft_floor(val);
-//     double decimal = val - round;
-// 	// printf("%Lf\n", round + decimal);
-// 	printf("%Lf\n", round);
-//     return (round + decimal);
-// }
-
-// float ft_powf(float base, int exp)
-// {
-// 	int		positive_exp;
-// 	float	result;
-
-// 	positive_exp = exp;
-// 	if (exp < 0)
-// 		positive_exp = -exp;
-// 	result = 1.0f;
-// 	while (positive_exp > 0)
-// 	{
-// 		result *= base;
-// 		--positive_exp;
-// 	}
-// 	if (exp < 0)
-// 		result = 1.0f / result;
-// 	return (result);
-// }
 
 uint32_t	remove_trailing_zeros(uint32_t round)
 {
