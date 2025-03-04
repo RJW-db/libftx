@@ -24,19 +24,19 @@ void	negative_power_of_ten_tests(void);
 
 void	itoa_base_test(void)
 {
-	// char *str = ft_itoa_base(0, "0123456789");
-	char *str = ft_itoa_base(0, "54321");
+	// char *str = itoa_base(0, "0123456789");
+	char *str = itoa_base(0, "54321");
 	printf("%s\n", str);
 	free(str);
 }
 
 int	main(void)
 {
-	// itoa_base_test();
+	itoa_base_test();
 	float_tests();
 	double_tests();
 	edgecase_tests();
-	random_tests();
+	// random_tests();
 	// linear_range_tests();
 	// power_of_ten_tests();
 	// subnormal_to_max_tests();

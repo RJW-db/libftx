@@ -6,7 +6,7 @@
 /*   By: jmetzger <jmetzger@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/02/12 17:26:37 by jmetzger      #+#    #+#                 */
-/*   Updated: 2025/02/26 19:11:55 by rde-brui      ########   odam.nl         */
+/*   Updated: 2025/03/03 21:00:09 by rjw           ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,24 +62,37 @@ static char	*fill_str(char *str)
 	char	*tmp;
 
 	i = 0;
-	while (str[i])
-		i++;
+	while (str[i] != '\0')
+		++i;
 	if (i == 8)
 		return (str);
-	
-	if (!(zero = malloc(8 - i + 1)))
-		return (NULL);
+	zero = malloc(8 - i + 1);
+	if (zero == NULL)
+		return (free(str), NULL);
 	zero[8 - i] = '\0';
-
 	ft_memset(zero, 48, 8 - i);
-
 	tmp = zero;
-	if (!(zero = ft_strjoin(zero, str)))
-		return (NULL);
-
+	zero = strjoin_safe(zero, str);
 	free(tmp);
 	free(str);
+	if (zero == NULL)
+		return (NULL);
 	return (zero);
+}
+
+bool	dpstr_ok(char **s1)
+{
+	return (!(s1 == NULL || *s1 == NULL));
+}
+
+void	*free_str(char **str)
+{
+	if (dpstr_ok(str) == true)
+	{
+		free(*str);
+		*str = NULL;
+	}
+	return (NULL);
 }
 
 /* str_bits()
@@ -89,41 +102,45 @@ static char	*fill_str(char *str)
  * It iterate over each byte of type and
  * Converts the current byte (*ptr) into an 8-bit binary string.
  * 		Example: (*ptr = 5, tmp = "00000101").
- * 		ft_itoa_base() the base is "01" which will convert the string into binary.
+ * 		itoa_base() the base is "01" which will convert the string into binary.
  * 
- * If ft_itoa_base doesn't return exactly 8 bits, fill_str() pads it with leading zeros. 
+ * If itoa_base doesn't return exactly 8 bits, fill_str() pads it with leading zeros. 
  * 		Example: (tmp = "101", it becomes "00000101")
  * 
  * And then it will joins the new tmp to the existing strBits
  */
-char	*str_bits(void *type, size_t size)
+
+union DoubleInt64 {
+    double d;
+    int64_t i;
+};
+
+char	*str_bits(unsigned char *type, size_t size)
 {
 	char			*strBits; 	// Hold the final binary string
 	char			*tmp;		// Temporary string to hold each byte's binary form
 	char			*tmp2;		// Used for concatenation
-	unsigned char	*ptr;		// Pointer to read memory byte by byte
 
 	strBits = NULL;
-	ptr = (unsigned char *)type;		// TODO can we skip the void cast of type?
-
 	while (size > 0)
 	{
-		tmp = ft_itoa_base(*ptr, "01");
+		// printf(">%lld<\n\n", (int64_t)(*type));
+		tmp = itoa_base((int64_t)(*type), "01");
 		if (tmp == NULL)
 			return (NULL);
-		if (!(tmp = fill_str(tmp)))
+		tmp = fill_str(tmp);
+		if (tmp == NULL)	//	if NULL everything will be freed inside fill_str
 			return (NULL);
-		
-		ptr++;
-		size--;
-
 		tmp2 = strBits;
-		if (!(strBits = ft_strjoin(tmp, tmp2)))
-			return (NULL);
-		
+		strBits = strjoin_safe(tmp, tmp2);
 		free(tmp);
 		free(tmp2);
+		if (strBits == NULL)
+			return (NULL);
+		++type;
+		--size;
 	}
+	// exit(0);
 	return (strBits);
 }
 

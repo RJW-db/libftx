@@ -1,107 +1,65 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   ft_itoa_base.c                                     :+:    :+:            */
+/*   itoa_base.c                                     :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: jmetzger <jmetzger@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/02/12 17:26:37 by jmetzger      #+#    #+#                 */
-/*   Updated: 2025/02/26 19:42:55 by rde-brui      ########   odam.nl         */
+/*   Updated: 2025/03/03 17:05:02 by rjw           ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/ft_dbltoa.h"
 
-// This function reverses the characters in a given string str.
-static void	str_reverse(char *str)
+char	*int_to_str(char *dst, uint8_t len, int64_t n, const char *base)
 {
-	int		i;
-	int		j;
-	char	temp;
+	const size_t	base_len = ft_strlen(base);
+	const bool		sign = (n < 0);
+	uint64_t		abs_value;
 
-	i = 0;
-	j = ft_strlen(str) - 1;
-	while (i < j)
+	dst[len] = '\0';
+	abs_value = (uint64_t)n;
+	if (n < 0)
+		abs_value = (uint64_t)(-(n + 1)) + 1;
+	while (len > 0)
 	{
-		temp = str[i];
-		str[i] = str[j];
-		str[j] = temp;
-		i++;
-		j--;
+		--len;
+		dst[len] = base[(abs_value % base_len)];
+		abs_value /= base_len;
 	}
+	return (dst - sign);
 }
 
-/* ft_itoa_base()
- * This function converts a given number (nbr) into a string 
- * representing that number in a specified base.
- * 
- * If the number is negative, it stores its absolute value in num 
- * and will add a - sign at the end if necessary.
- * 
- * It checks if the base is valid (i.e., has at least two characters). 
- * Because a number system with a base less than 2 isn't valid.
- * 
- * The remainder of num when divided by the base gives the correct 
- * character (digit) for the current place value.
- * These characters are placed into the buffer array.
- * 
- * The characters were added to the buffer in reverse order, 
- * so str_reverse() reverse the buffer.
- */
-char	*ft_itoa_base(long nbr, const char *base)
+uint8_t	digit_counter(int64_t n, uint8_t base_len)
 {
-	char			buffer[65];
-	int				i;
-	unsigned long	num;
-	size_t			base_len;
+	uint8_t	count;
 
-	base_len = ft_strlen(base);
+	count = (n <= 0);
+	while (n != 0)
+	{
+		n /= base_len;
+		++count;
+	}
+	return (count);
+}
+
+char	*itoa_base(int64_t n, const char *base)
+{
+	size_t	base_len;
+	uint8_t	len;
+	bool	sign;
+	char	*dst;
+
+	base_len = strlen_safe(base);
 	if (base_len < 2)
 		return (NULL);
-	if (nbr == 0)
-		return (ft_strdup((char [2]){base[0], '\0'}));
-	if (nbr < 0)
-		num = -nbr;
-	else
-		num = nbr;
-	i = 0;
-	while (num)						//	digit_counter();
-	{
-		buffer[i++] = base[num % base_len];
-		num /= base_len;
-	}
-	if (nbr < 0)
-		buffer[i++] = '-';
-	buffer[i] = '\0';
-	str_reverse(buffer);
-	return (ft_strdup(buffer));
+	sign = (n < 0);
+	len = digit_counter(n, base_len);
+	dst = malloc((len + 1) * sizeof(char));
+	if (dst == NULL)
+		return (NULL);
+	if (sign == true)
+		dst[0] = '-';
+	return (int_to_str(dst + sign, len - sign, n, base));
 }
-
-// char	*ft_itoa_base(long nbr, const char *base)
-// {
-// 	char			buffer[65];
-// 	int				i;
-// 	unsigned long	num;
-// 	size_t			base_len;
-
-// 	base_len = ft_strlen(base);
-// 	if (base_len < 2)
-// 		return (NULL);
-// 	i = 0;
-// 	if (nbr < 0)
-// 		num = -nbr;
-// 	else
-// 		num = nbr;
-// 	if (nbr == 0)
-// 		return (ft_strdup("0"));
-// 	while (num)
-// 	{
-// 		buffer[i++] = base[num % base_len];
-// 		num /= base_len;
-// 	}
-// 	if (nbr < 0)
-// 		buffer[i++] = '-';
-// 	buffer[i] = '\0';
-// 	str_reverse(buffer);
-// 	return (ft_strdup(buffer));
-// }
