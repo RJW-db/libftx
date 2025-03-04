@@ -6,7 +6,7 @@
 /*   By: jmetzger <jmetzger@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/02/12 17:26:37 by jmetzger      #+#    #+#                 */
-/*   Updated: 2025/02/26 15:09:10 by rde-brui      ########   odam.nl         */
+/*   Updated: 2025/03/04 21:18:58 by rde-brui      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,30 +60,24 @@ static unsigned long	ft_convunsigned(long nb, long *len)
 	return (nbu);
 }
 
-char			*convert_binary_to_decimal(char *nbr, char *base_from, char *base_to)
+bool	binary_to_decimal(char *nbr, char *buff, size_t buff_size)
 {
-	unsigned long	nbu;
-	long			basevalue;
-	long			len;
-	char			*nbrconv;
-	long			sig;
+	uint64_t	nbu;
+	int64_t		len;
+	int64_t		sig;
 
-	basevalue = 0;
 	len = 0;
-	if (!ft_basecheck(base_from) || !ft_basecheck(base_to))
-		return (NULL);
-	while (base_from[basevalue])
-		basevalue++;
-	nbu = ft_convunsigned(ft_atoi_b(nbr, base_from, basevalue, &sig), &len);
-	basevalue = 0;
-	while (base_to[basevalue])
-		basevalue++;
-	ft_itoabase_len(nbu, base_to, (unsigned long)basevalue, &len);
-	if (!(nbrconv = malloc(sizeof(char) * (len + 1))))
-		return (NULL);
-	ft_init_malloc(nbrconv, len);
+	nbu = ft_convunsigned(ft_atoi_b(nbr, BINARY_BASE, BINARY_NBR, &sig), &len);
+
+	ft_itoabase_len(nbu, DECIMAL_BASE, DECIMAL_NBR, &len);
+
+	if (buff_size < (size_t)(len + 1))
+		return (false);
+
+	ft_init_malloc(buff, len);
 	if (sig < 0 && nbu != 0)
-		nbrconv[0] = '-';
-	ft_itoabase_val(nbu, base_to, (unsigned long)basevalue, nbrconv);
-	return (nbrconv);
+		buff[0] = '-';
+
+	ft_itoabase_val(nbu, DECIMAL_BASE, DECIMAL_NBR, buff);
+	return (true);
 }

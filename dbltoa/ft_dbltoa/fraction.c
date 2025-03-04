@@ -6,12 +6,26 @@
 /*   By: jmetzger <jmetzger@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/02/12 17:26:37 by jmetzger      #+#    #+#                 */
-/*   Updated: 2025/03/04 20:15:38 by rde-brui      ########   odam.nl         */
+/*   Updated: 2025/03/04 21:17:37 by rde-brui      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/ft_dbltoa.h"
 
+#define DBL_EXP_BITS 11
+#define DBL_EXP_DECIMAL_DIGITS 5
+#define DBL_MANT_BITS 52
+#define DBL_MANT_DECIMAL_DIGITS 16  // Maximum digits needed for mantissa
+// 1023 (IEEE 754 exponent bias) + 52 (mantissa bit count)
+#define DBL_EXP_NORMAL_BIAS 1075
+// 1023 (IEEE 754 exponent bias) + 52 - 1 (subnormal adjustment)
+#define DBL_EXP_SUBNORMAL_BIAS 1074
+// 2047 (max exponent value in IEEE 754) - 1075 (DBL_EXP_NORMAL_BIAS)
+#define DBL_EXP_MAX 972
+
+
+
+	
 /*
  * IEEE-754 Double Precision Format:
  * SEEEEEEE EEEEMMMM MMMMMMMM MMMMMMMM MMMMMMMM MMMMMMMM MMMMMMMM MMMMMMMM
@@ -112,40 +126,40 @@
  * 			Normlize number (if not zerro)
  * 
  */
+
+#include <stddef.h>
+#include <stdint.h>
+#include <string.h>
+
 static void get_exponent_mantissa(int *exponent, unsigned long *mantissa, char *strbits)
 {
 	char	expoTmp[DBL_EXP_BITS + 1];
-	char	*expoStr;
+	char	expoStr[DBL_EXP_DECIMAL_DIGITS + 1];
 	char	mantTmp[DBL_MANT_BITS + 1];
-	char	*mantStr;
+	char	mantStr[DBL_MANT_DECIMAL_DIGITS + 1];
 
 	substr_buff(strbits, 1, 11, expoTmp);
 	substr_buff(strbits, 12, 52, mantTmp);
-	expoStr = convert_binary_to_decimal(expoTmp, "01", "0123456789");
-	if (expoStr == NULL)
+	if (binary_to_decimal(expoTmp, expoStr, sizeof(expoStr)) == false)
 	{
-        return;
-    }
-	mantStr = convert_binary_to_decimal(mantTmp, "01", "0123456789");
-	if (mantStr == NULL)
+		return /* (false) */;
+	}
+	// mantStr = convert_binary_to_decimal(mantTmp, "01", "0123456789");
+	if (binary_to_decimal(mantTmp, mantStr, sizeof(mantStr)) == false)
 	{
-        free(expoStr);
-        return;
-    }
+		return /* (false) */;
+	}
 	
 	*exponent = atoi64(expoStr);
 	*mantissa = atoi64(mantStr);
 	
-	// Adjusts the exponent bias
 	if (*exponent == 0) 
-		*exponent -= 1074;
+		*exponent -= DBL_EXP_SUBNORMAL_BIAS;
 	else
-		*exponent -= 1075;
+		*exponent -= DBL_EXP_NORMAL_BIAS;
 
-	if (atoi64(expoTmp) && (atoi64(expoStr) - 1075) != 972)
-		*mantissa += (1UL << 52);
-	free(expoStr);
-	free(mantStr);
+	if (atoi64(expoTmp) > 0 && (atoi64(expoStr) - DBL_EXP_NORMAL_BIAS) != DBL_EXP_MAX)
+		*mantissa += (1UL << DBL_MANT_BITS);
 }
 
 /*

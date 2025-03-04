@@ -3,6 +3,10 @@
 		"ft_dbltoa.h": "c",
 		"cstddef": "c",
 		"stdarg.h": "c",
-		"random": "c"
+		"random": "c",
+		"math.h": "c",
+		"stddef.h": "c",
+		"string.h": "c",
+		"stdint.h": "c"
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: jmetzger <jmetzger@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/02/12 17:26:37 by jmetzger      #+#    #+#                 */
-/*   Updated: 2025/03/04 20:16:40 by rde-brui      ########   odam.nl         */
+/*   Updated: 2025/03/04 21:17:37 by rde-brui      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,11 @@
 # define BYTE 8
 # define DBL_BIT_COUNT 64
 
-#define DBL_EXP_BITS 11    // maybe just define in fraction.c
-#define DBL_MANT_BITS 52   // maybe just define in fraction.c
-
+#define DECIMAL_NBR 10
+#define DECIMAL_BASE "0123456789"
+#define BINARY_NBR 2
+#define BINARY_BASE "01"
+#define HEXADECIMAL_BASE "0123456789ABCDEF"
 
 # define MAX_DIGIT	1030
 # define BIG_INT	1024 // DBL_MIN is the larges number -> has 1024 digits
@@ -58,8 +60,7 @@ char	*ft_dbltoa(double dbl);
 char	*convert_to_fraction(double ogNum, char *nume, char *denom, bool *n_flag);
 void	convert_to_sci_notation(char *num, char *deno, int *digitexpo, double ogNum);
 char	*convert_to_str(char *dbl, char *num, char *deno, int digitexp);
-char	*convert_binary_to_decimal(char *nbr, char *base_from, char *base_to);
-
+bool 	binary_to_decimal(char *nbr, char *buff, size_t buff_size);
 
 // MATH
 char	*ft_add(char *s1, char *s2);
