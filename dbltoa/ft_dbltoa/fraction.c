@@ -6,7 +6,7 @@
 /*   By: jmetzger <jmetzger@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/02/12 17:26:37 by jmetzger      #+#    #+#                 */
-/*   Updated: 2025/03/04 15:46:29 by rde-brui      ########   odam.nl         */
+/*   Updated: 2025/03/04 19:35:11 by rde-brui      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -314,31 +314,21 @@ static char			*fill_denominator(char *denominator, long exponent, double ogNum)
  */
 char	*convert_to_fraction(double ogNum, char *nume, char *denom, bool *n_flag)
 {
-	int				exponent;	// exponent
-	unsigned long	mantissa; 	// mantissa
-	char			*strbits; 	// store the bitstring representation of ogNum
+	char			bit_string[DBL_BIT_COUNT + 1];
+	int				exponent;
+	unsigned long	mantissa;
+	t_bitcast		cast;
 
-	// Converts the raw memory of ogNum into a string of bits (holds the 64-bit IEEE-754 representation)
-	// strbits = double_to_bitstring((unsigned char *)(&ogNum), sizeof(ogNum));
-	strbits = double_to_bitstring(ogNum, sizeof(int64_t));
-	if (strbits == NULL)
-		return (NULL);
-	if (strbits[0] == '0')
+	cast.d = ogNum;
+	double_to_bitstring(cast, bit_string);
+	if (bit_string[0] == '0')
 		*n_flag = false;
-
-	// Extract the Exponent and Mantissa
-	get_exponent_mantissa(&exponent, &mantissa, strbits);
+	get_exponent_mantissa(&exponent, &mantissa, bit_string);
 	if (exponent == 972)
 	{
-		// If exponent is +-Infinity and NaN return error
-		free(strbits);
 		return (error_inf(ogNum, mantissa));
 	}
-
-	// Converts into a char numerator/denominator
 	fill_numerator(nume, mantissa, exponent);
 	fill_denominator(denom, exponent, ogNum);
-
-	free(strbits);
 	return (NULL);
 }

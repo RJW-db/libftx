@@ -60,7 +60,6 @@ int	main(void)
 	// subnormal_to_max_tests();
 	// negative_power_of_ten_tests();
 
-	printf("biggest %zu\n", biggest);
 	return (0);
 }
 

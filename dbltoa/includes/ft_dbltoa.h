@@ -6,7 +6,7 @@
 /*   By: jmetzger <jmetzger@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/02/12 17:26:37 by jmetzger      #+#    #+#                 */
-/*   Updated: 2025/03/04 17:40:40 by rde-brui      ########   odam.nl         */
+/*   Updated: 2025/03/04 19:29:36 by rde-brui      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,11 @@
 # include <ctype.h>
 # include <stdbool.h>
 # include <stdint.h>
-extern size_t biggest;
+
+# define BYTE_MASK 0xFF
+# define DBL_BYTES 8
+# define BYTE 8
+# define DBL_BIT_COUNT 64
 
 # define MAX_DIGIT	1030
 # define BIG_INT	1024 // DBL_MIN is the larges number -> has 1024 digits
@@ -38,6 +42,12 @@ typedef struct s_number
 	int digit_s1;  	// Index of the first significant digit in s1
 	int digit_s2;  	// Index of the first significant digit in s2
 } t_number;
+
+typedef union	u_double_bitcast
+{
+	double d;
+	int64_t i;
+}	t_bitcast;
 
 // CONVERTSION
 char	*ft_dbltoa(double dbl);
@@ -60,7 +70,8 @@ char	*error_inf(double dbl, unsigned long mantissa);
 char	*ft_add_sign(char *dblStr, bool n_flag);
 int		compare_str(char *s1, char *s2);
 // char	*double_to_bitstring(unsigned char *type, size_t size);
-char	*double_to_bitstring(double num, uint16_t total_bytes);
+// char	*double_to_bitstring(double num, uint16_t total_bytes);
+char	*double_to_bitstring(t_bitcast cast, char *bit_string);
 long	ft_basecheck(char *base_from);
 long	ft_atoi_b(char *nbr, char *base_from, long basevalue, long *sig);
 long	ft_init_malloc(char *nbrconv, long len);

@@ -6,14 +6,11 @@
 /*   By: jmetzger <jmetzger@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/02/12 17:26:37 by jmetzger      #+#    #+#                 */
-/*   Updated: 2025/03/04 17:44:03 by rde-brui      ########   odam.nl         */
+/*   Updated: 2025/03/04 19:34:49 by rde-brui      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/ft_dbltoa.h"
-#define BYTE_MASK 0xFF
-#define BYTE 8
-size_t biggest = 0;
 
 /* init_bigChar()
  * The function takes str and fills it zeros (48 -> ASCII code for '0').
@@ -114,15 +111,10 @@ void	*free_str(char **str)
 // 	return (zero);
 // }
 
-typedef union	u_double_bitcast
-{
-	double d;
-	int64_t i;
-}	t_double_bitcast;
 
 // char *double_to_bitstring(double num, uint16_t total_bytes)
 // {
-// 	t_double_bitcast bitcast = { .d = num };
+// 	t_bitcast bitcast = { .d = num };
 // 	char *bit_string = NULL;
 // 	char *tmp;
 // 	char *prev_bit_string;
@@ -140,19 +132,20 @@ typedef union	u_double_bitcast
 // 		tmp = fill_str(tmp);
 // 		if (tmp == NULL)
 // 			return (NULL);
-// 		printf(">%s\n", tmp);
+// 		// printf(">%s\n", tmp);
 // 		prev_bit_string = bit_string;
 // 		bit_string = strjoin_safe(tmp, prev_bit_string);
-// 		printf(">%s\n", bit_string);
+// 		// printf(">%s\n", bit_string);
 
 // 		free(tmp);
 // 		free(prev_bit_string);
 // 		if (bit_string == NULL)
 // 			return (NULL);
 // 	}
+// 	exit(0);
 // 	// printf("%zu\n", ft_strlen(bit_string));
-// 	printf(">%d\n", total_bytes * 8 + 1);
-// 	printf("%s\n", bit_string);
+// 	// printf(">%d\n", total_bytes * 8 + 1);
+// 	// printf("%s\n", bit_string);
 // 	return (bit_string);
 // }
 
@@ -192,52 +185,30 @@ size_t	int64_base(int64_t n, const char *base, char *buff, size_t buf_len)
 	return (buf_len - index - 1);
 }
 
-size_t	cpy_str_only(char *dst, const char *src)
+char	*double_to_bitstring(t_bitcast cast, char *bit_string)
 {
-	size_t	i;
-	char	c;
+	char		buff[BYTE + 1];
+	int16_t		byte_idx;
+	size_t		index;
+	size_t		nbr;
+	uint8_t		byte_val;
 
-	i = 0;
-	c = src[i];
-	while (c != '\0')
+	bit_string[DBL_BIT_COUNT] = '\0';
+	index = 0;
+	byte_idx = DBL_BYTES - 1;
+	while (byte_idx >= 0)
 	{
-		dst[i] = c;
-		++i;
-		c = src[i];
+		byte_val = cast.i >> (byte_idx * BYTE) & BYTE_MASK;
+		int64_base(byte_val, "01", buff, BYTE + 1);
+		nbr = BYTE - ft_strlen(buff);
+		ft_memset(bit_string + index, '0', nbr);
+		cpy_str(bit_string + index + nbr, buff);
+		index += BYTE;
+		--byte_idx;
 	}
-	return (i);
-}
-char *double_to_bitstring(double num, uint16_t total_bytes)
-{
-	t_double_bitcast bitcast = { .d = num };
-	uint16_t byte_idx;
-	size_t index = (total_bytes * 8 + 1) - 9;
-	size_t len = 0;
-	char buff[BYTE + 1];
-	char *bit_string = malloc(total_bytes * 8 + 1);
-	bit_string[total_bytes * 8] = '\0';
-	ft_memset(bit_string, '5', total_bytes * 8);
-	for (byte_idx = 0; byte_idx < total_bytes; ++byte_idx)
-	{
-		size_t check = int64_base(((bitcast.i >> (byte_idx * BYTE)) & BYTE_MASK), "01", buff, BYTE + 1);
-		if(check > biggest)
-			biggest = check;
-		len = ft_strlen(buff);
-
-		ft_memset(bit_string + index, 48, 8 - len);
-		cpy_str_only(bit_string + index + (8 - len), buff);
-		if (index > 0)	// remove this if out if i don't need it anymore for printing
-			index -= 8;
-	}
-	// printf("%zu\n", ft_strlen(bit_string));
-	// printf(">%d<\n", total_bytes * 8 + 1);
-	// printf(">%d<\n", (total_bytes * 8 + 1) - 9);
-	// printf("%s\n", bit_string + index);
-	// printf("%zu\n", index);
-	// printf("%s\n", bit_string);
-
 	return (bit_string);
 }
+
 
 /* ft_add_sign()
  * This function formats a numeric string by performing the following operations:
