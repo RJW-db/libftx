@@ -6,7 +6,7 @@
 /*   By: jmetzger <jmetzger@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/02/12 17:26:37 by jmetzger      #+#    #+#                 */
-/*   Updated: 2025/03/04 21:17:37 by rde-brui      ########   odam.nl         */
+/*   Updated: 2025/03/04 21:34:32 by rde-brui      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,10 +77,8 @@ int		compare_str(char *s1, char *s2);
 // char	*double_to_bitstring(unsigned char *type, size_t size);
 // char	*double_to_bitstring(double num, uint16_t total_bytes);
 char	*double_to_bitstring(t_bitcast cast, char *bit_string);
-long	ft_basecheck(char *base_from);
-long	ft_atoi_b(char *nbr, char *base_from, long basevalue, long *sig);
-long	ft_init_malloc(char *nbrconv, long len);
-
+int64_t	ft_basecheck(char *base_from);
+int64_t	ft_atoi_b(char *nbr, char *base_from, int64_t basevalue, int64_t *sig);
 
 void ft_bzero(void *str, size_t size_n);
 char *ft_strdup(const char *str);

@@ -6,16 +6,16 @@
 /*   By: jmetzger <jmetzger@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/02/12 17:26:37 by jmetzger      #+#    #+#                 */
-/*   Updated: 2025/02/21 19:48:42 by jmetzger      ########   odam.nl         */
+/*   Updated: 2025/03/04 21:34:40 by rde-brui      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/ft_dbltoa.h"
 
-long			ft_basecheck(char *base_from)
+int64_t			ft_basecheck(char *base_from)
 {
-	long i;
-	long j;
+	int64_t i;
+	int64_t j;
 
 	i = 0;
 	if (base_from[0] == '\0' || base_from[1] == '\0')
@@ -34,23 +34,22 @@ long			ft_basecheck(char *base_from)
 	return (1);
 }
 
-long			ft_isnumber(char c, char *base_from)
+static int64_t			ft_isnumber(char c, char *base_from)
 {
-	long i;
+	int64_t i;
 
 	i = 0;
 	while (base_from[i] && base_from[i] != c)
 		i++;
 	if (base_from[i] == '\0' || c == '\0')
 		return (-1);
-	else
-		return (i);
+	return (i);
 }
 
-long			ft_atoi_b(char *nbr, char *base_from, long basevalue, long *sig)
+int64_t			ft_atoi_b(char *nbr, char *base_from, int64_t basevalue, int64_t *sig)
 {
-	long nb;
-	long i;
+	int64_t nb;
+	int64_t i;
 
 	nb = 0;
 	i = 0;
@@ -60,27 +59,14 @@ long			ft_atoi_b(char *nbr, char *base_from, long basevalue, long *sig)
 	while (nbr[i] == '-' || nbr[i] == '+')
 	{
 		if (nbr[i] == '-')
-			*sig = *sig * -1;
+			*sig *= -1;
 		i++;
 	}
-	while (ft_isnumber(nbr[i], base_from) + 1)
+	while (ft_isnumber(nbr[i], base_from) + 1 > 0)
 	{
 		nb *= basevalue;
 		nb += ft_isnumber(nbr[i], base_from);
 		i++;
 	}
 	return (nb * (*sig));
-}
-
-long			ft_init_malloc(char *nbrconv, long len)
-{
-	long i;
-
-	i = 0;
-	while (i < (len + 1))
-	{
-		nbrconv[i] = '\0';
-		i++;
-	}
-	return (i);
 }
