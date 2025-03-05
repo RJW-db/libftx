@@ -6,7 +6,7 @@
 /*   By: jmetzger <jmetzger@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/02/12 17:26:37 by jmetzger      #+#    #+#                 */
-/*   Updated: 2025/02/21 19:34:12 by jmetzger      ########   odam.nl         */
+/*   Updated: 2025/03/05 20:40:56 by rjw           ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,8 @@ static void	ft_subs5(char *s1, char *s2)
 	tmp[BIG_INT] = '\0';
 	ft_strlcpy(tmp, s2, BIG_INT + 1);
 	tmp[0] = '-';
-	ft_add(s1, tmp);
+	// ft_add(s1, tmp);
+	big_int_add(s1, tmp);
 }
 
 static void	ft_subs4(char *s1, char *s2)
@@ -34,7 +35,8 @@ static void	ft_subs4(char *s1, char *s2)
 	tmp[BIG_INT] = '\0';
 	ft_strlcpy(tmp, s2, BIG_INT + 1);
 	tmp[0] = '+';
-	ft_add(s1, tmp);
+	// ft_add(s1, tmp);
+	big_int_add(s1, tmp);
 }
 
 static char	*ft_subs3(char *s1)

@@ -26,7 +26,6 @@ SRCS		= main.c \
 			  ft_dbltoa/convert_to_sci_notation.c \
 			  ft_dbltoa/convert_binary_to_decimal.c \
 			  ft_dbltoa/convert_binary_to_decimal2.c \
-			  ft_dbltoa/ft_add.c \
 			  ft_dbltoa/ft_subs.c \
 			  ft_dbltoa/ft_multi.c \
 			  ft_dbltoa/ft_divi.c \

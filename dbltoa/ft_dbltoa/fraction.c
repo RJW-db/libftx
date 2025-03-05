@@ -6,7 +6,7 @@
 /*   By: jmetzger <jmetzger@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/02/12 17:26:37 by jmetzger      #+#    #+#                 */
-/*   Updated: 2025/03/05 04:41:39 by rjw           ########   odam.nl         */
+/*   Updated: 2025/03/05 21:08:28 by rjw           ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,44 +155,32 @@ static void get_exponent_mantissa(int *exponent, uint64_t *mantissa, char *strbi
 		*mantissa += (1UL << DBL_MANT_BITS);
 }
 
-char	*big_int_add(char* s1, char* s2)
+char	*big_int_add(char *s1, char *s2)
 {
-	// Skip leading '+' sign if present
-	if (s1[0] == '+') ++s1;
-	if (s2[0] == '+') ++s2;
-	// if (s1[0] == '+' || s1[0] == '-') ++s1;
-	// if (s2[0] == '+' || s2[0] == '-') ++s2;
-
-	// Validate inputs
-	if (!s1 || !s2) return NULL;
-
-	int len = strlen(s1);
-	int carry = 0;
+	int32_t	len;
+	int32_t	carry;
+	int32_t	i;
+	int32_t	sum;
 	
-	// Work from right to left
-	for (int i = len - 1; i >= 0; i--) {
-		// Convert char digits to integers
-		int digit1 = s1[i] - '0';
-		int digit2 = s2[i] - '0';
-		
-		// Add digits and carry
-		int sum = digit1 + digit2 + carry;
-		
-		// Update carry and current digit
+	s1 += (*s1 == '+');
+	s2 += (*s2 == '+');
+	carry = 0;
+	len = ft_strlen(s1);
+	i = len - 1;
+	while (i >= 0)
+	{
+		sum = (s1[i] - '0') + (s2[i] - '0') + carry;
 		carry = sum / 10;
 		s1[i] = (sum % 10) + '0';
+		--i;
 	}
-	
-	// Handle final carry if needed
-	if (carry > 0) {
-		// Shift all digits right and add carry at the beginning
-		memmove(s1 + 1, s1, len);
+	if (carry > 0)
+	{
+		ft_memmove(s1 + 1, s1, len);
 		s1[0] = carry + '0';
 	}
-	
 	return s1;
 }
-
 
 /*
  * This function is designed to calculate powers of 2 using a big integer representation stored in a string (bigint). 
@@ -312,7 +300,7 @@ char *big_int_multiply(char *s1, char *s2) {
 				tmp2[shift_pos - 1] = (product / 10) + '0';
 
 			// Add to running total
-			char *add_result = ft_add(tmp, tmp2);
+			char *add_result = big_int_add(tmp, tmp2);
 			if (!add_result)
 				return NULL;
 

@@ -6,7 +6,7 @@
 /*   By: jmetzger <jmetzger@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/02/12 17:26:37 by jmetzger      #+#    #+#                 */
-/*   Updated: 2025/03/05 01:59:50 by rjw           ########   odam.nl         */
+/*   Updated: 2025/03/05 20:43:11 by rjw           ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ char	*convert_to_str(char *dbl, char *num, char *deno, int digitexp);
 bool 	binary_to_decimal(char *nbr, char *buff, size_t buff_size);
 
 // MATH
-char	*ft_add(char *s1, char *s2);
+char	*big_int_add(char* s1, char* s2);
 char	*ft_subs(char *s1, char *s2);
 char	*ft_multi(char *s1, char *s2);
 char	*ft_divi(char *s1, char *s2);

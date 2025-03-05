@@ -6,7 +6,7 @@
 /*   By: jmetzger <jmetzger@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/02/12 17:26:37 by jmetzger      #+#    #+#                 */
-/*   Updated: 2025/03/04 20:15:38 by rde-brui      ########   odam.nl         */
+/*   Updated: 2025/03/05 20:42:16 by rjw           ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static void	ft_divi4(char *s1, char *s2, char *tmp, long *nb)
 {
 	*nb = 0;
 	init_bigChar(tmp);
-	while (compare_str(ft_add(tmp, s2), s1) <= 0)
+	while (compare_str(big_int_add(tmp, s2), s1) <= 0)
 		(*nb)++;
 }
 

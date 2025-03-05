@@ -6,7 +6,7 @@
 /*   By: jmetzger <jmetzger@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/02/12 17:26:37 by jmetzger      #+#    #+#                 */
-/*   Updated: 2025/02/21 16:11:03 by jmetzger      ########   odam.nl         */
+/*   Updated: 2025/03/05 20:38:56 by rjw           ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ static char	*ft_multi2(char *s1, char *s2, t_number *num)
 			nbr *= (s2[num->j_s2] - 48);
 			tmp2[num->i_s1 - (BIG_INT - 1 - num->j_s2)] = nbr % 10 + 48;
 			tmp2[num->i_s1 - (BIG_INT - 1 - num->j_s2) - 1] = nbr / 10 + 48;
-			if (!ft_add(tmp, tmp2))
+			if (big_int_add(tmp, tmp2) == NULL)
 				return (NULL);
 			(num->i_s1)--;
 		}
