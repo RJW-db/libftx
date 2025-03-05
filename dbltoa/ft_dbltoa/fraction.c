@@ -6,12 +6,11 @@
 /*   By: jmetzger <jmetzger@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/02/12 17:26:37 by jmetzger      #+#    #+#                 */
-/*   Updated: 2025/03/05 02:50:39 by rjw           ########   odam.nl         */
+/*   Updated: 2025/03/05 04:41:39 by rjw           ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/ft_dbltoa.h"
-#include <math.h>
 
 // IEEE 754 representation of -NAN
 #define NEGATIVE_NAN_BITS 0xFFF8000000000000
@@ -156,6 +155,45 @@ static void get_exponent_mantissa(int *exponent, uint64_t *mantissa, char *strbi
 		*mantissa += (1UL << DBL_MANT_BITS);
 }
 
+char	*big_int_add(char* s1, char* s2)
+{
+	// Skip leading '+' sign if present
+	if (s1[0] == '+') ++s1;
+	if (s2[0] == '+') ++s2;
+	// if (s1[0] == '+' || s1[0] == '-') ++s1;
+	// if (s2[0] == '+' || s2[0] == '-') ++s2;
+
+	// Validate inputs
+	if (!s1 || !s2) return NULL;
+
+	int len = strlen(s1);
+	int carry = 0;
+	
+	// Work from right to left
+	for (int i = len - 1; i >= 0; i--) {
+		// Convert char digits to integers
+		int digit1 = s1[i] - '0';
+		int digit2 = s2[i] - '0';
+		
+		// Add digits and carry
+		int sum = digit1 + digit2 + carry;
+		
+		// Update carry and current digit
+		carry = sum / 10;
+		s1[i] = (sum % 10) + '0';
+	}
+	
+	// Handle final carry if needed
+	if (carry > 0) {
+		// Shift all digits right and add carry at the beginning
+		memmove(s1 + 1, s1, len);
+		s1[0] = carry + '0';
+	}
+	
+	return s1;
+}
+
+
 /*
  * This function is designed to calculate powers of 2 using a big integer representation stored in a string (bigint). 
  * It does so by repeatedly adding the current value to itself, essentially doubling it, to simulate exponentiation.
@@ -169,9 +207,17 @@ static char	*pow_table2(char *bigint, int64_t exponent)
 	{
 		while (exponent > 1)
 		{
+			// puts("not here");
 			ft_strlcpy(pow2, bigint, BIG_INT + 1);
-			if (!ft_add(bigint, pow2))
+			if (big_int_add(bigint, pow2) == NULL)
 				return (NULL);
+			// if (ft_add(bigint, pow2) == NULL)
+			// 	return (NULL);
+			// if (exponent == 2) {
+			// 	printf(">%s<\n", bigint);
+			// 	printf("%lld\n", exponent);
+			// 	exit(0);
+			// }
 			--exponent;
 		}
 	}
@@ -181,6 +227,111 @@ static char	*pow_table2(char *bigint, int64_t exponent)
 		bigint[BIG_INT - 1] = '1';
 	}
 	return (bigint);
+}
+
+// char* big_int_multiply(char* s1, char* s2)
+// {
+// 	int len1 = strlen(s1);
+// 	int len2 = strlen(s2);
+	
+// 	// Allocate result with enough space
+// 	char* result = calloc(len1 + len2 + 1, sizeof(char));
+	
+// 	// Multiply each digit
+// 	for (int i = len1 - 1; i >= 0; i--) {
+// 		for (int j = len2 - 1; j >= 0; j--) {
+// 			int product = (s1[i] - '0') * (s2[j] - '0');
+// 			int pos = i + j + 1;
+			
+// 			product += result[pos];
+// 			result[pos] = product % 10;
+// 			result[pos - 1] += product / 10;
+// 		}
+// 	}
+	
+// 	// Convert back to string
+// 	for (int i = 0; i < len1 + len2; i++) {
+// 		result[i] += '0';
+// 	}
+	
+// 	return result;
+// }
+
+// static void shift_and_zero(char *s1, t_number *num) {
+// 	// Shift digits left
+// 	memmove(s1 + num->digit_s1 - 1, s1 + num->digit_s1, 
+// 			strlen(s1 + num->digit_s1) + 1);
+	
+// 	// Set last digit to zero
+// 	s1[strlen(s1) - 1] = '0';
+// }
+
+// Multiply two big integers
+char *big_int_multiply(char *s1, char *s2) {
+	t_number num;
+	char sign = '+';
+	char tmp[BIG_INT + 1] = {0};
+	char tmp2[BIG_INT + 1] = {0};
+
+	// Initialize structure
+	init_struct(s1, s2, &num);
+
+	// Special case: if either number is zero
+	if (num.i_s1 < num.digit_s1 || num.j_s2 < num.digit_s2) {
+		memset(s1, '0', BIG_INT);
+		s1[0] = '+';
+		return s1;
+	}
+
+	// Determine sign
+	if (s1[0] != s2[0])
+		sign = '-';
+
+	// Reset tmp arrays
+	memset(tmp, '0', BIG_INT);
+	memset(tmp2, '0', BIG_INT);
+
+	// Multiply digit by digit
+	int current_s1 = num.i_s1;
+	while (num.j_s2 >= num.digit_s2) {
+		int current_s2 = num.j_s2;
+		int shift_pos = current_s1 - (BIG_INT - 1 - num.j_s2);
+
+		while (current_s1 >= num.digit_s1) {
+			// Multiply current digits
+			int digit1 = s1[current_s1] - '0';
+			int digit2 = s2[current_s2] - '0';
+			int product = digit1 * digit2;
+
+			// Reset tmp2
+			memset(tmp2, '0', BIG_INT);
+
+			// Place product in correct position
+			tmp2[shift_pos] = (product % 10) + '0';
+			if (product >= 10)
+				tmp2[shift_pos - 1] = (product / 10) + '0';
+
+			// Add to running total
+			char *add_result = ft_add(tmp, tmp2);
+			if (!add_result)
+				return NULL;
+
+			current_s1--;
+			shift_pos--;
+		}
+
+		// Reset for next iteration
+		current_s1 = BIG_INT - 1;
+		num.j_s2--;
+	}
+
+	// Copy result back to s1
+	strcpy(s1, tmp);
+	
+	// Set sign
+	s1[0] = sign;
+
+	return s1;
 }
 
 /*
@@ -227,14 +378,13 @@ static char	*fill_numerator(char *numerator, uint64_t mantValue, int64_t expoVal
 		ft_strlcpy(numerator + BIG_INT - mant_len, mantTmp, mant_len + 1);
 		init_bigChar(exponent);
 		exponent[BIG_INT - 1] = '2';
-		if (!pow_table2(exponent, expoValue))
+		if (pow_table2(exponent, expoValue) == NULL)
 			return (NULL);
 		ft_multi(numerator, exponent);
+		// big_int_multiply(numerator, exponent);
 	}
 	else
 		ft_strlcpy(numerator + BIG_INT - mant_len, mantTmp, mant_len + 1);
-
-	// free(mantTmp);
 	return (numerator);
 }
 

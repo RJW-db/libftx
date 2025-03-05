@@ -20,38 +20,22 @@
  */
 void init_struct(char *s1, char *s2, t_number *num)
 {
-	num->i_s1 = 0;
-	num->j_s2 = 0;
 	num->digit_s1 = 0;
 	num->digit_s2 = 0;
-
-	// Find last index of s1
-	while (s1[num->i_s1])
-		num->i_s1++;
+	if (s1[num->digit_s1] == '+' || s1[num->digit_s1] == '-')
+		++num->digit_s1;
+	while (s1[num->digit_s1] == '0')
+		++num->digit_s1;
+	num->i_s1 = num->digit_s1 + ft_strlen(s1 + num->digit_s1);
 	if (num->i_s1 > 0)
-		num->i_s1--;
-
-	// Find last index of s2
-	while (s2[num->j_s2])
-		num->j_s2++;
+		--num->i_s1;
+	if (s2[num->digit_s2] == '+' || s2[num->digit_s2] == '-')
+		++num->digit_s2;
+	while (s2[num->digit_s2] == '0')
+		++num->digit_s2;
+	num->j_s2 = num->digit_s2 + ft_strlen(s2 + num->digit_s2);
 	if (num->j_s2 > 0)
-		num->j_s2--;
-
-	// Skip sign characters ('+' or '-') in s1
-	while (s1[num->digit_s1] && (s1[num->digit_s1] == '+' || s1[num->digit_s1] == '-'))
-		num->digit_s1++;
-
-	// Skip leading zeros in s1
-	while (s1[num->digit_s1] && s1[num->digit_s1] == '0')
-		num->digit_s1++;
-
-	// Skip sign characters ('+' or '-') in s2
-	while (s2[num->digit_s2] && (s2[num->digit_s2] == '+' || s2[num->digit_s2] == '-'))
-		num->digit_s2++;
-
-	// Skip leading zeros in s2
-	while (s2[num->digit_s2] && s2[num->digit_s2] == '0')
-		num->digit_s2++;
+		--num->j_s2;
 }
 
 /* compare_str()
@@ -64,23 +48,20 @@ void init_struct(char *s1, char *s2, t_number *num)
  */
 int		compare_str(char *s1, char *s2)
 {
-	t_number num;
-	int len_diff;
-	int char_diff;
+	t_number	num;
+	int			len_diff;
 
 	init_struct(s1, s2, &num);
 	len_diff = (num.i_s1 - num.digit_s1) - (num.j_s2 - num.digit_s2);
 	if (len_diff != 0)
-		return len_diff;
-
-	while (s1[num.digit_s1] == s2[num.digit_s2] && s1[num.digit_s1] && s2[num.digit_s2])
+		return (len_diff);
+	while (s1[num.digit_s1] != '\0' && s2[num.digit_s2] != '\0' &&
+			s1[num.digit_s1] == s2[num.digit_s2])
 	{
-		num.digit_s1++;
-		num.digit_s2++;
+		++num.digit_s1;
+		++num.digit_s2;
 	}
-	
-	char_diff = (unsigned char)(s1[num.digit_s1]) - (unsigned char)(s2[num.digit_s2]);
-	return char_diff;
+	return ((unsigned char)(s1[num.digit_s1]) - (unsigned char)(s2[num.digit_s2]));
 }
 
 
