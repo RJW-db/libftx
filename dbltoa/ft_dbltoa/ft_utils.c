@@ -6,11 +6,18 @@
 /*   By: jmetzger <jmetzger@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/02/12 17:26:37 by jmetzger      #+#    #+#                 */
-/*   Updated: 2025/03/04 22:02:13 by rde-brui      ########   odam.nl         */
+/*   Updated: 2025/03/05 02:23:15 by rjw           ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/ft_dbltoa.h"
+
+#if defined(__linux__)
+# define NEGATIVE_NAN 0
+#else
+# define NEGATIVE_NAN 1
+// #elif defined(__APPLE__) && defined(__MACH__)
+#endif
 
 /* init_bigChar()
  * The function takes str and fills it zeros (48 -> ASCII code for '0').
@@ -33,8 +40,9 @@ void init_bigChar(char *str)
  *		ogNum = -1.0 and mantissa = 0, return "-inf".
  *		ogNum = 0.0 and mantissa = 0, return "nan".
  */
-char	*error_inf(double ogNum, uint64_t mantissa)
+char	*error_inf(double ogNum, uint64_t mantissa, bool n_flag)
 {
+	const char	neg_nan[2][5] = {"-nan", "nan"};
 	char	*dblStr;
 
 	if (!mantissa && ogNum > 0)
@@ -42,7 +50,12 @@ char	*error_inf(double ogNum, uint64_t mantissa)
 	else if (!mantissa && ogNum < 0)
 		dblStr = ft_strdup("-inf");
 	else
-		dblStr = ft_strdup("nan");
+	{
+		if (n_flag == false)
+			dblStr = ft_strdup("nan");
+		else
+			dblStr = ft_strdup(neg_nan[NEGATIVE_NAN]);
+	}
 	return (dblStr);
 }
 

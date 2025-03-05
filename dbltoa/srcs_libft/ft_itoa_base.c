@@ -32,7 +32,7 @@ uint64_t	int64_to_abs(int64_t n)
 	return (uint64_t)((-(n + 1)) + 1);
 }
 
-size_t	int64_base(int64_t n, const char *base, char *buff, size_t buf_len)
+size_t	int64_base(int64_t n, const char *base, char *buff, size_t b_len)
 {
 	const bool	is_negative = (n < 0);
 	size_t		base_len;
@@ -42,21 +42,21 @@ size_t	int64_base(int64_t n, const char *base, char *buff, size_t buf_len)
 
 	abs_value = int64_to_abs(n);
 	base_len = strlen_safe(base);
-	if (base_len < 2 || buf_len < 2)
-		return ((buf_len != 0 && ft_strlcpy(buff, "\0", 1)), 0);
+	if ((base_len < 2 || b_len < 2) && (b_len == 0 || cpy_str(buff, "\0") == 0))
+		return (0);
 	num_digits = digit_counter(n, base_len);
-	while (num_digits-- >= buf_len)
+	while (num_digits-- >= b_len)
 		abs_value /= base_len;
-	index = buf_len - 1;
+	index = b_len - 1;
 	buff[index] = '\0';
-	while ((abs_value > 0 && index > 0) || index == buf_len - 1)
+	while ((abs_value > 0 && index > 0) || index == b_len - 1)
 	{
 		buff[--index] = base[abs_value % base_len];
 		abs_value /= base_len;
 	}
-	if (is_negative && index > 0)
+	if (is_negative == true && index > 0)
 		buff[--index] = '-';
 	if (index > 0)
-		ft_strlcpy(buff, buff + index, buf_len - index);
-	return (buf_len - index - 1);
+		cpy_str(buff, buff + index);
+	return (b_len - index - 1);
 }

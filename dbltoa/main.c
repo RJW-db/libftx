@@ -50,10 +50,11 @@ int	main(void)
 	// } else {
 	// 	printf("Failed to convert to bit string\n");
 	// }
-	float_tests();
-	double_tests();
+
+	// float_tests();
+	// double_tests();
 	edgecase_tests();
-	random_tests();
+	// random_tests();
 	// linear_range_tests();
 	// power_of_ten_tests();
 	// subnormal_to_max_tests();

@@ -6,7 +6,7 @@
 /*   By: jmetzger <jmetzger@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/02/12 17:26:37 by jmetzger      #+#    #+#                 */
-/*   Updated: 2025/03/04 21:54:06 by rde-brui      ########   odam.nl         */
+/*   Updated: 2025/03/05 01:59:50 by rjw           ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ char	*ft_divi(char *s1, char *s2);
 // UTILS
 void	init_bigChar(char *str);
 void	init_struct(char *s1, char *s2, t_number *num);
-char	*error_inf(double dbl, uint64_t mantissa);
+char	*error_inf(double ogNum, uint64_t mantissa, bool n_flag);
 char	*ft_add_sign(char *dblStr, bool n_flag);
 int		compare_str(char *s1, char *s2);
 // char	*double_to_bitstring(unsigned char *type, size_t size);
@@ -88,13 +88,12 @@ size_t				ft_strlen(const char *s);
 size_t				strlen_safe(const char *str);
 char				*ft_strchr(const char *s, int c);
 size_t				ft_strlcpy(char *dst, const char *src, size_t dstsize);
-long				atoi64(const char *str);
+int64_t				atoi64(const char *nptr);
 char				*ft_substr(char const *s, uint32_t start, size_t len);
 void				substr_buff(const char *s, uint32_t start, size_t len, char *buff);
 char				*strjoin_safe(char const *s1, char const *s2);
 char				*ft_itoa(long n);
-// char				*itoa_base(int64_t n, const char *base);
-size_t				int64_base(int64_t n, const char *base, char *buff, size_t buf_len);
+size_t				int64_base(int64_t n, const char *base, char *buff, size_t b_len);
 void				ft_putstr_fd(char *s, int fd);
 
 size_t	cpy_str(char *dst, const char *src);

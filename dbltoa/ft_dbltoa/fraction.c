@@ -6,11 +6,15 @@
 /*   By: jmetzger <jmetzger@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/02/12 17:26:37 by jmetzger      #+#    #+#                 */
-/*   Updated: 2025/03/04 22:06:54 by rde-brui      ########   odam.nl         */
+/*   Updated: 2025/03/05 02:50:39 by rjw           ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/ft_dbltoa.h"
+#include <math.h>
+
+// IEEE 754 representation of -NAN
+#define NEGATIVE_NAN_BITS 0xFFF8000000000000
 
 #define DBL_EXP_BITS 11
 #define DBL_EXP_DECIMAL_DIGITS 5
@@ -161,19 +165,20 @@ static char	*pow_table2(char *bigint, int64_t exponent)
 {
 	char	pow2[BIG_INT + 1];
 
-	if (!exponent)
+	if (exponent != 0)
 	{
-		init_bigChar(bigint);
-		bigint[BIG_INT - 1] = '1';
-	}
-	else
-	{
-		while (exponent-- > 1)
+		while (exponent > 1)
 		{
 			ft_strlcpy(pow2, bigint, BIG_INT + 1);
 			if (!ft_add(bigint, pow2))
 				return (NULL);
+			--exponent;
 		}
+	}
+	else
+	{
+		init_bigChar(bigint);
+		bigint[BIG_INT - 1] = '1';
 	}
 	return (bigint);
 }
@@ -317,12 +322,14 @@ char	*convert_to_fraction(double ogNum, char *nume, char *denom, bool *n_flag)
 
 	cast.d = ogNum;
 	double_to_bitstring(cast, bit_string);
-	if (bit_string[0] == '0')
+
+	if (bit_string[0] == '0' && cast.i != (int64_t)NEGATIVE_NAN_BITS)
 		*n_flag = false;
+
 	get_exponent_mantissa(&exponent, &mantissa, bit_string);
 	if (exponent == DBL_EXP_MAX)
 	{
-		return (error_inf(ogNum, mantissa));
+		return (error_inf(ogNum, mantissa, *n_flag));
 	}
 	fill_numerator(nume, mantissa, exponent);
 	fill_denominator(denom, exponent, ogNum);
