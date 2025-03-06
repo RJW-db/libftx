@@ -54,7 +54,6 @@ int	main(void)
 	// char *str = NULL;
 
 	// dbl = __DBL_MAX__;
-	
 	float_tests();
 	double_tests();
 	edgecase_tests();

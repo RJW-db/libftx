@@ -6,7 +6,7 @@
 /*   By: jmetzger <jmetzger@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/02/12 17:26:37 by jmetzger      #+#    #+#                 */
-/*   Updated: 2025/03/04 19:46:51 by rde-brui      ########   odam.nl         */
+/*   Updated: 2025/03/06 21:21:06 by rjw           ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,20 +31,20 @@
  */
 char	*ft_dbltoa(double ogNum)
 {
-	int			digitexpo;			// stores the exponent
+	int16_t			digitexpo;			// stores the exponent
 	char			numerator[BIG_INT + 1]; 	// storing the numerator
 	char			denominator[BIG_INT + 1]; 	// storing the denominator
 	// char			numerator[MAX_DBL_STR_LEN]; 	// storing the numerator
 	// char			denominator[MAX_DBL_STR_LEN]; 	// storing the denominator
-	char			*str;			// final string representation of the double
+	char			*str = NULL;			// could be stack for dbltoa_buff
 	bool 			n_flag;
+	t_dbl			strings;
 
 	n_flag = true;
 	// initialization numerator and denominator (filling them with zeros)
 	init_bigChar(numerator);
 	init_bigChar(denominator);
 
-	// Convert dbl into a fraction
 	str = convert_to_fraction(ogNum, numerator, denominator, &n_flag);
 	if (str != NULL)
 		return (str);
@@ -52,8 +52,10 @@ char	*ft_dbltoa(double ogNum)
 	// One digit infront of the '.'
 	convert_to_sci_notation(numerator, denominator, &digitexpo, ogNum);
 
+	strings = (t_dbl){numerator, denominator, str};
 	// Converts the processed numerator and denominator into a string
-	str = convert_to_str(str, numerator, denominator, digitexpo);
+	str = convert_to_str(&strings, digitexpo);
+	// str = convert_to_str(str, numerator, denominator, digitexpo);
 
 	// Add Sign and remove extra zeros
 	str = ft_add_sign(str, n_flag);

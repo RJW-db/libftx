@@ -6,7 +6,7 @@
 /*   By: jmetzger <jmetzger@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/02/12 17:26:37 by jmetzger      #+#    #+#                 */
-/*   Updated: 2025/03/06 03:32:37 by rjw           ########   odam.nl         */
+/*   Updated: 2025/03/06 21:17:47 by rjw           ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,12 @@
 // 2047 (max exponent value in IEEE 754) - 1075 (DBL_EXP_NORMAL_BIAS)
 #define DBL_EXP_MAX 972
 
+typedef union	u_double_bitcast
+{
+	double	d;
+	int64_t	i;
+}	t_bitcast;
 
-
-	
 /*
  * IEEE-754 Double Precision Format:
  * SEEEEEEE EEEEMMMM MMMMMMMM MMMMMMMM MMMMMMMM MMMMMMMM MMMMMMMM MMMMMMMM
@@ -340,7 +343,7 @@ char	*convert_to_fraction(double ogNum, char *nume, char *denom, bool *n_flag)
 	t_bitcast	cast;
 
 	cast.d = ogNum;
-	double_to_bitstring(cast, bit_string);
+	double_to_bitstring(cast.i, bit_string);
 
 	if (bit_string[0] == '0' && cast.i != (int64_t)NEGATIVE_NAN_BITS)
 		*n_flag = false;

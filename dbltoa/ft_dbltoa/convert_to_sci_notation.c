@@ -6,7 +6,7 @@
 /*   By: jmetzger <jmetzger@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/02/12 17:26:37 by jmetzger      #+#    #+#                 */
-/*   Updated: 2025/02/21 17:06:07 by jmetzger      ########   odam.nl         */
+/*   Updated: 2025/03/06 19:05:19 by rjw           ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,30 +45,30 @@
  *	3) Return intNum:
  *		The function returns 1.
  */
-static int	get_exponent_base10(double nb)
+static int16_t	get_exponent_base10(double nb)
 {
-	int	intNum;
-	intNum = 0;
+	int16_t	exponent;
 
 	if (nb < 0)
 		nb = -nb;
+	exponent = 0;
 	if (nb >= 10)
 	{
 		while (nb >= 10)
 		{
 			nb /= 10;
-			intNum++;
+			++exponent;
 		}
 	}
-	else if (nb < 1 && nb != 0)
+	if (nb != 0)
 	{
 		while (nb < 1)
 		{
 			nb *= 10;
-			intNum--;
+			--exponent;
 		}
 	}
-	return (intNum);
+	return (exponent);
 }
 
 /*
@@ -83,7 +83,7 @@ static int	get_exponent_base10(double nb)
  * 	 Multiply the numerator by 10^|digitexpo| -> This shifts the decimal point right
  * 	 Example: 0.024 (convert to 2.4 × 10⁻²)
  */
-void	convert_to_sci_notation(char *num, char *deno, int *digitexpo, double ogNum)
+void	convert_to_sci_notation(char *num, char *deno, int16_t *digitexpo, double ogNum)
 {
 	char	digit[BIG_INT + 1];
 

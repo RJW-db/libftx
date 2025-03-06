@@ -20,15 +20,15 @@
  */
 void init_struct(char *s1, char *s2, t_nbr *num)
 {
-	num->digit_s1 = (s1[0] == '+' || s1[0] == '-');
-	while (s1[num->digit_s1] == '0')
-		++num->digit_s1;
-	num->i_s1 = num->digit_s1 + ft_strlen(s1 + num->digit_s1);
+	num->sig_s1 = (s1[0] == '+' || s1[0] == '-');
+	while (s1[num->sig_s1] == '0')
+		++num->sig_s1;
+	num->i_s1 = num->sig_s1 + ft_strlen(s1 + num->sig_s1);
 	num->i_s1 -= (num->i_s1 > 0);
-	num->digit_s2 = (s2[0] == '+' || s2[0] == '-');
-	while (s2[num->digit_s2] == '0')
-		++num->digit_s2;
-	num->j_s2 = num->digit_s2 + ft_strlen(s2 + num->digit_s2);
+	num->sig_s2 = (s2[0] == '+' || s2[0] == '-');
+	while (s2[num->sig_s2] == '0')
+		++num->sig_s2;
+	num->j_s2 = num->sig_s2 + ft_strlen(s2 + num->sig_s2);
 	num->j_s2 -= (num->j_s2 > 0);
 }
 
@@ -46,16 +46,16 @@ int		compare_str(char *s1, char *s2)
 	int			len_diff;
 
 	init_struct(s1, s2, &num);
-	len_diff = (num.i_s1 - num.digit_s1) - (num.j_s2 - num.digit_s2);
+	len_diff = (num.i_s1 - num.sig_s1) - (num.j_s2 - num.sig_s2);
 	if (len_diff != 0)
 		return (len_diff);
-	while (s1[num.digit_s1] != '\0' && s2[num.digit_s2] != '\0' &&
-			s1[num.digit_s1] == s2[num.digit_s2])
+	while (s1[num.sig_s1] != '\0' && s2[num.sig_s2] != '\0' &&
+			s1[num.sig_s1] == s2[num.sig_s2])
 	{
-		++num.digit_s1;
-		++num.digit_s2;
+		++num.sig_s1;
+		++num.sig_s2;
 	}
-	return ((unsigned char)(s1[num.digit_s1]) - (unsigned char)(s2[num.digit_s2]));
+	return ((unsigned char)(s1[num.sig_s1]) - (unsigned char)(s2[num.sig_s2]));
 }
 
 

@@ -6,7 +6,7 @@
 /*   By: jmetzger <jmetzger@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/02/12 17:26:37 by jmetzger      #+#    #+#                 */
-/*   Updated: 2025/03/06 03:28:11 by rjw           ########   odam.nl         */
+/*   Updated: 2025/03/06 18:21:57 by rjw           ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,14 +58,14 @@ static void	ft_divi2(char *s1, char *s2, char *result, t_nbr *num)
 		return ;
 	init_struct(s1, s2, num);
 	ft_divi3(numer, denom);
-	nb = BIG_INT - num->digit_s2;
+	nb = BIG_INT - num->sig_s2;
 	if (nb > 15)
 		nb = 15;
-	ft_strlcpy(denom + 1, s2 + num->digit_s2, nb);
-	if (num->digit_s1 == num->digit_s2)
-		ft_strlcpy(numer + 1, s1 + num->digit_s1, nb);
+	ft_strlcpy(denom + 1, s2 + num->sig_s2, nb);
+	if (num->sig_s1 == num->sig_s2)
+		ft_strlcpy(numer + 1, s1 + num->sig_s1, nb);
 	else
-		ft_strlcpy(numer, s1 + num->digit_s1, nb + 1);
+		ft_strlcpy(numer, s1 + num->sig_s1, nb + 1);
 	if ((atoi64(numer) / atoi64(denom)) ==
 			(atoi64(numer) / ((atoi64(denom) + 1))))
 		nb = atoi64(numer) / atoi64(denom);

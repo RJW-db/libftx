@@ -6,7 +6,7 @@
 /*   By: jmetzger <jmetzger@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/02/12 17:26:37 by jmetzger      #+#    #+#                 */
-/*   Updated: 2025/03/06 03:28:33 by rjw           ########   odam.nl         */
+/*   Updated: 2025/03/06 21:21:30 by rjw           ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,30 +43,25 @@
 
 typedef struct	s_nbr
 {
-	int32_t	i_s1;   	// Index of the last character in s1
-	int32_t	j_s2;   	// Index of the last character in s2
-	int32_t	digit_s1;  	// Index of the first significant digit in s1
-	int32_t	digit_s2;  	// Index of the first significant digit in s2
+	int32_t	i_s1;	// Index of the last character in s1
+	int32_t	j_s2;	// Index of the last character in s2
+	int32_t	sig_s1;	// Index of the first significant digit in s1
+	int32_t	sig_s2;	// Index of the first significant digit in s2
 }	t_nbr;
 
-typedef struct	s_mult
+typedef struct s_dbl
 {
-	char	*result;
-	char	*s1;
-	char	*s2;
-}	t_mult;
-
-typedef union	u_double_bitcast
-{
-	double	d;
-	int64_t	i;
-}	t_bitcast;
+    char	*s1;
+    char	*s2;
+    char	*result;
+}	t_dbl;
 
 // CONVERTSION
 char	*ft_dbltoa(double dbl);
 char	*convert_to_fraction(double ogNum, char *nume, char *denom, bool *n_flag);
-void	convert_to_sci_notation(char *num, char *deno, int *digitexpo, double ogNum);
-char	*convert_to_str(char *dbl, char *num, char *deno, int digitexp);
+void	convert_to_sci_notation(char *num, char *deno, int16_t *digitexpo, double ogNum);
+// char	*convert_to_str(char *dbl, char *num, char *deno, int16_t digitexp);
+char	*convert_to_str(t_dbl *s, int16_t digitexp);
 bool 	binary_to_decimal(char *nbr, char *buff, size_t buff_size);
 
 // MATH
@@ -81,9 +76,7 @@ void	init_struct(char *s1, char *s2, t_nbr *num);
 char	*error_inf(double ogNum, uint64_t mantissa, bool n_flag);
 char	*ft_add_sign(char *dblStr, bool n_flag);
 int		compare_str(char *s1, char *s2);
-// char	*double_to_bitstring(unsigned char *type, size_t size);
-// char	*double_to_bitstring(double num, uint16_t total_bytes);
-char	*double_to_bitstring(t_bitcast cast, char *bit_string);
+char	*double_to_bitstring(int64_t dbl_to_int_case, char *bit_string);
 int64_t	ft_basecheck(char *base_from);
 int64_t	ft_atoi_b(char *nbr, char *base_from, int64_t basevalue, int64_t *sig);
 

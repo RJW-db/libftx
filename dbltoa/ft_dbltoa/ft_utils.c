@@ -6,7 +6,7 @@
 /*   By: jmetzger <jmetzger@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/02/12 17:26:37 by jmetzger      #+#    #+#                 */
-/*   Updated: 2025/03/05 02:23:15 by rjw           ########   odam.nl         */
+/*   Updated: 2025/03/06 21:16:10 by rjw           ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ char	*error_inf(double ogNum, uint64_t mantissa, bool n_flag)
  * 
  * And then it will joins the new tmp to the existing strBits
  */
-char	*double_to_bitstring(t_bitcast cast, char *bit_string)
+char	*double_to_bitstring(int64_t dbl_to_int_case, char *bit_string)
 {
 	char		buff[BYTE + 1];
 	int16_t		byte_idx;
@@ -87,7 +87,7 @@ char	*double_to_bitstring(t_bitcast cast, char *bit_string)
 	byte_idx = DBL_BYTES - 1;
 	while (byte_idx >= 0)
 	{
-		byte_val = cast.i >> (byte_idx * BYTE) & BYTE_MASK;
+		byte_val = dbl_to_int_case >> (byte_idx * BYTE) & BYTE_MASK;
 		int64_base(byte_val, "01", buff, BYTE + 1);
 		nbr = BYTE - ft_strlen(buff);
 		ft_memset(bit_string + index, '0', nbr);

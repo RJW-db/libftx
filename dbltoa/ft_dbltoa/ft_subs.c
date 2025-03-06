@@ -6,7 +6,7 @@
 /*   By: jmetzger <jmetzger@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/02/12 17:26:37 by jmetzger      #+#    #+#                 */
-/*   Updated: 2025/03/06 03:28:11 by rjw           ########   odam.nl         */
+/*   Updated: 2025/03/06 18:21:57 by rjw           ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ static char	*ft_subs3(char *s1)
 
 static void ft_subs2(char *s1, char *s2, t_nbr *num)
 {
-	while (num->j_s2 >= num->digit_s2 && num->i_s1 != 0)
+	while (num->j_s2 >= num->sig_s2 && num->i_s1 != 0)
 	{
 		// Borrow if needed
 		if (s1[num->i_s1] < s2[num->j_s2])
@@ -86,7 +86,7 @@ char *ft_subs(char *s1, char *s2)
 	int			comp;
 
 	init_struct(s1, s2, &num);
-	if (num.i_s1 == -1 || num.j_s2 == -1 || s2[num.digit_s2] == '\0')
+	if (num.i_s1 == -1 || num.j_s2 == -1 || s2[num.sig_s2] == '\0')
 		return s1;
 	
 	// If s1 == s2
@@ -103,7 +103,7 @@ char *ft_subs(char *s1, char *s2)
 		ft_subs_swap_negate(s1, s2, &num);
 
 	// Ensure s1 has enough space
-	if (num.i_s1 == 0 && (num.j_s2 != num.digit_s2 - 1 || s1[num.i_s1] < '0'))
+	if (num.i_s1 == 0 && (num.j_s2 != num.sig_s2 - 1 || s1[num.i_s1] < '0'))
 		return NULL;
 	return s1;
 }
