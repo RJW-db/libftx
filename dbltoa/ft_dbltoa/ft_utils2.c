@@ -18,24 +18,18 @@
  * which is designed to store metadata about two input strings s1 and s2. 
  * These strings represent big integers.
  */
-void init_struct(char *s1, char *s2, t_number *num)
+void init_struct(char *s1, char *s2, t_nbr *num)
 {
-	num->digit_s1 = 0;
-	num->digit_s2 = 0;
-	if (s1[num->digit_s1] == '+' || s1[num->digit_s1] == '-')
-		++num->digit_s1;
+	num->digit_s1 = (s1[0] == '+' || s1[0] == '-');
 	while (s1[num->digit_s1] == '0')
 		++num->digit_s1;
 	num->i_s1 = num->digit_s1 + ft_strlen(s1 + num->digit_s1);
-	if (num->i_s1 > 0)
-		--num->i_s1;
-	if (s2[num->digit_s2] == '+' || s2[num->digit_s2] == '-')
-		++num->digit_s2;
+	num->i_s1 -= (num->i_s1 > 0);
+	num->digit_s2 = (s2[0] == '+' || s2[0] == '-');
 	while (s2[num->digit_s2] == '0')
 		++num->digit_s2;
 	num->j_s2 = num->digit_s2 + ft_strlen(s2 + num->digit_s2);
-	if (num->j_s2 > 0)
-		--num->j_s2;
+	num->j_s2 -= (num->j_s2 > 0);
 }
 
 /* compare_str()
@@ -48,7 +42,7 @@ void init_struct(char *s1, char *s2, t_number *num)
  */
 int		compare_str(char *s1, char *s2)
 {
-	t_number	num;
+	t_nbr	num;
 	int			len_diff;
 
 	init_struct(s1, s2, &num);

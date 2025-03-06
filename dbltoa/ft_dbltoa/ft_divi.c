@@ -6,7 +6,7 @@
 /*   By: jmetzger <jmetzger@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/02/12 17:26:37 by jmetzger      #+#    #+#                 */
-/*   Updated: 2025/03/05 20:42:16 by rjw           ########   odam.nl         */
+/*   Updated: 2025/03/06 03:28:11 by rjw           ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ static void	ft_divi3(char *numer, char *denom)
 	denom[0] = '0';
 }
 
-static void	ft_divi2(char *s1, char *s2, char *result, t_number *num)
+static void	ft_divi2(char *s1, char *s2, char *result, t_nbr *num)
 {
 	long	nb;
 	char	tmp[BIG_INT + 1];
@@ -76,7 +76,7 @@ static void	ft_divi2(char *s1, char *s2, char *result, t_number *num)
 
 char	*ft_divi(char *s1, char *s2)
 {
-	t_number	num;
+	t_nbr	num;
 	char		sign;
 	char		result[BIG_INT + 1];
 

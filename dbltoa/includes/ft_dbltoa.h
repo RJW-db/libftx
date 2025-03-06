@@ -6,7 +6,7 @@
 /*   By: jmetzger <jmetzger@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/02/12 17:26:37 by jmetzger      #+#    #+#                 */
-/*   Updated: 2025/03/05 20:43:11 by rjw           ########   odam.nl         */
+/*   Updated: 2025/03/06 03:28:33 by rjw           ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,18 +41,25 @@
 # define BIG_INT	1024 // DBL_MIN is the larges number -> has 1024 digits
 # define MAX_DBL_STR_LEN 1077	//	longest subnormal number + terminator
 
-typedef struct s_number
+typedef struct	s_nbr
 {
-	int i_s1;   	// Index of the last character in s1
-	int j_s2;   	// Index of the last character in s2
-	int digit_s1;  	// Index of the first significant digit in s1
-	int digit_s2;  	// Index of the first significant digit in s2
-} t_number;
+	int32_t	i_s1;   	// Index of the last character in s1
+	int32_t	j_s2;   	// Index of the last character in s2
+	int32_t	digit_s1;  	// Index of the first significant digit in s1
+	int32_t	digit_s2;  	// Index of the first significant digit in s2
+}	t_nbr;
+
+typedef struct	s_mult
+{
+	char	*result;
+	char	*s1;
+	char	*s2;
+}	t_mult;
 
 typedef union	u_double_bitcast
 {
-	double d;
-	int64_t i;
+	double	d;
+	int64_t	i;
 }	t_bitcast;
 
 // CONVERTSION
@@ -70,7 +77,7 @@ char	*ft_divi(char *s1, char *s2);
 
 // UTILS
 void	init_bigChar(char *str);
-void	init_struct(char *s1, char *s2, t_number *num);
+void	init_struct(char *s1, char *s2, t_nbr *num);
 char	*error_inf(double ogNum, uint64_t mantissa, bool n_flag);
 char	*ft_add_sign(char *dblStr, bool n_flag);
 int		compare_str(char *s1, char *s2);

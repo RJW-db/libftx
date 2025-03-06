@@ -6,7 +6,7 @@
 /*   By: rjw <rjw@student.codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/09/11 20:30:39 by rjw           #+#    #+#                 */
-/*   Updated: 2025/01/08 17:44:16 by rde-brui      ########   odam.nl         */
+/*   Updated: 2025/03/05 21:37:59 by rjw           ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ size_t	find_set_not(t_cchr *str, char *set)
 
 /**
  * Return index of the last occurence of c1.
- * Using char c vs derefencing was very slightly faster with testing.
  */
 size_t	find_char_not(t_cchr *str, t_cchr c1)
 {

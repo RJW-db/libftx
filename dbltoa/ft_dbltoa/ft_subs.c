@@ -6,7 +6,7 @@
 /*   By: jmetzger <jmetzger@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/02/12 17:26:37 by jmetzger      #+#    #+#                 */
-/*   Updated: 2025/03/05 20:40:56 by rjw           ########   odam.nl         */
+/*   Updated: 2025/03/06 03:28:11 by rjw           ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ static char	*ft_subs3(char *s1)
 	return (s1);
 }
 
-static void ft_subs2(char *s1, char *s2, t_number *num)
+static void ft_subs2(char *s1, char *s2, t_nbr *num)
 {
 	while (num->j_s2 >= num->digit_s2 && num->i_s1 != 0)
 	{
@@ -62,7 +62,7 @@ static void ft_subs2(char *s1, char *s2, t_number *num)
 	}
 }
 
-static void ft_subs_swap_negate(char *s1, char *s2, t_number *num)
+static void ft_subs_swap_negate(char *s1, char *s2, t_nbr *num)
 {
 	char tmp[BIG_INT + 1];
 
@@ -82,7 +82,7 @@ static void ft_subs_swap_negate(char *s1, char *s2, t_number *num)
 
 char *ft_subs(char *s1, char *s2)
 {
-	t_number	num;
+	t_nbr	num;
 	int			comp;
 
 	init_struct(s1, s2, &num);

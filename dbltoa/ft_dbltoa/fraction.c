@@ -6,7 +6,7 @@
 /*   By: jmetzger <jmetzger@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/02/12 17:26:37 by jmetzger      #+#    #+#                 */
-/*   Updated: 2025/03/05 21:08:28 by rjw           ########   odam.nl         */
+/*   Updated: 2025/03/06 03:32:37 by rjw           ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,10 +130,6 @@
  * 
  */
 
-#include <stddef.h>
-#include <stdint.h>
-#include <string.h>
-
 static void get_exponent_mantissa(int *exponent, uint64_t *mantissa, char *strbits)
 {
 	char	expoTmp[DBL_EXP_BITS + 1];
@@ -141,18 +137,21 @@ static void get_exponent_mantissa(int *exponent, uint64_t *mantissa, char *strbi
 	char	mantTmp[DBL_MANT_BITS + 1];
 	char	mantStr[DBL_MANT_DECIMAL_DIGITS + 1];
 
-	substr_buff(strbits, 1, 11, expoTmp);
-	substr_buff(strbits, 12, 52, mantTmp);
+	substr_buff(strbits, 1, DBL_EXP_BITS, expoTmp);
+	substr_buff(strbits, DBL_EXP_BITS + 1, DBL_MANT_BITS, mantTmp);
 	binary_to_decimal(expoTmp, expoStr, sizeof(expoStr));
 	binary_to_decimal(mantTmp, mantStr, sizeof(mantStr));
 	*exponent = atoi64(expoStr);
 	*mantissa = atoi64(mantStr);
-	if (*exponent == 0) 
-		*exponent -= DBL_EXP_SUBNORMAL_BIAS;
-	else
+	if (*exponent != 0) 
 		*exponent -= DBL_EXP_NORMAL_BIAS;
-	if (atoi64(expoTmp) > 0 && (atoi64(expoStr) - DBL_EXP_NORMAL_BIAS) != DBL_EXP_MAX)
+	else
+		*exponent -= DBL_EXP_SUBNORMAL_BIAS;
+	if (atoi64(expoTmp) > 0 &&
+		(atoi64(expoStr) - DBL_EXP_NORMAL_BIAS) != DBL_EXP_MAX)
+	{
 		*mantissa += (1UL << DBL_MANT_BITS);
+	}
 }
 
 char	*big_int_add(char *s1, char *s2)
@@ -179,15 +178,15 @@ char	*big_int_add(char *s1, char *s2)
 		ft_memmove(s1 + 1, s1, len);
 		s1[0] = carry + '0';
 	}
-	return s1;
+	return (s1);
 }
 
 /*
  * This function is designed to calculate powers of 2 using a big integer representation stored in a string (bigint). 
  * It does so by repeatedly adding the current value to itself, essentially doubling it, to simulate exponentiation.
  */
-// static char	*pow_table2(char *bigint, uint64_t exponent)
-static char	*pow_table2(char *bigint, int64_t exponent)
+// static char	*pow2(char *bigint, uint64_t exponent)
+static char	*pow2(char *bigint, int64_t exponent)
 {
 	char	pow2[BIG_INT + 1];
 
@@ -195,131 +194,20 @@ static char	*pow_table2(char *bigint, int64_t exponent)
 	{
 		while (exponent > 1)
 		{
-			// puts("not here");
-			ft_strlcpy(pow2, bigint, BIG_INT + 1);
+			cpy_str(pow2, bigint);
 			if (big_int_add(bigint, pow2) == NULL)
 				return (NULL);
-			// if (ft_add(bigint, pow2) == NULL)
-			// 	return (NULL);
-			// if (exponent == 2) {
-			// 	printf(">%s<\n", bigint);
-			// 	printf("%lld\n", exponent);
-			// 	exit(0);
-			// }
 			--exponent;
 		}
 	}
 	else
 	{
+		// TODO
+		puts("None of the tests made it come here, probably remove whole else");
 		init_bigChar(bigint);
 		bigint[BIG_INT - 1] = '1';
 	}
 	return (bigint);
-}
-
-// char* big_int_multiply(char* s1, char* s2)
-// {
-// 	int len1 = strlen(s1);
-// 	int len2 = strlen(s2);
-	
-// 	// Allocate result with enough space
-// 	char* result = calloc(len1 + len2 + 1, sizeof(char));
-	
-// 	// Multiply each digit
-// 	for (int i = len1 - 1; i >= 0; i--) {
-// 		for (int j = len2 - 1; j >= 0; j--) {
-// 			int product = (s1[i] - '0') * (s2[j] - '0');
-// 			int pos = i + j + 1;
-			
-// 			product += result[pos];
-// 			result[pos] = product % 10;
-// 			result[pos - 1] += product / 10;
-// 		}
-// 	}
-	
-// 	// Convert back to string
-// 	for (int i = 0; i < len1 + len2; i++) {
-// 		result[i] += '0';
-// 	}
-	
-// 	return result;
-// }
-
-// static void shift_and_zero(char *s1, t_number *num) {
-// 	// Shift digits left
-// 	memmove(s1 + num->digit_s1 - 1, s1 + num->digit_s1, 
-// 			strlen(s1 + num->digit_s1) + 1);
-	
-// 	// Set last digit to zero
-// 	s1[strlen(s1) - 1] = '0';
-// }
-
-// Multiply two big integers
-char *big_int_multiply(char *s1, char *s2) {
-	t_number num;
-	char sign = '+';
-	char tmp[BIG_INT + 1] = {0};
-	char tmp2[BIG_INT + 1] = {0};
-
-	// Initialize structure
-	init_struct(s1, s2, &num);
-
-	// Special case: if either number is zero
-	if (num.i_s1 < num.digit_s1 || num.j_s2 < num.digit_s2) {
-		memset(s1, '0', BIG_INT);
-		s1[0] = '+';
-		return s1;
-	}
-
-	// Determine sign
-	if (s1[0] != s2[0])
-		sign = '-';
-
-	// Reset tmp arrays
-	memset(tmp, '0', BIG_INT);
-	memset(tmp2, '0', BIG_INT);
-
-	// Multiply digit by digit
-	int current_s1 = num.i_s1;
-	while (num.j_s2 >= num.digit_s2) {
-		int current_s2 = num.j_s2;
-		int shift_pos = current_s1 - (BIG_INT - 1 - num.j_s2);
-
-		while (current_s1 >= num.digit_s1) {
-			// Multiply current digits
-			int digit1 = s1[current_s1] - '0';
-			int digit2 = s2[current_s2] - '0';
-			int product = digit1 * digit2;
-
-			// Reset tmp2
-			memset(tmp2, '0', BIG_INT);
-
-			// Place product in correct position
-			tmp2[shift_pos] = (product % 10) + '0';
-			if (product >= 10)
-				tmp2[shift_pos - 1] = (product / 10) + '0';
-
-			// Add to running total
-			char *add_result = big_int_add(tmp, tmp2);
-			if (!add_result)
-				return NULL;
-
-			current_s1--;
-			shift_pos--;
-		}
-
-		// Reset for next iteration
-		current_s1 = BIG_INT - 1;
-		num.j_s2--;
-	}
-
-	// Copy result back to s1
-	strcpy(s1, tmp);
-	
-	// Set sign
-	s1[0] = sign;
-
-	return s1;
 }
 
 /*
@@ -345,34 +233,33 @@ char *big_int_multiply(char *s1, char *s2) {
  * Steps:
  * 		1):
  * 			Convert the mantissa to a String
- * 		2): (expoValue > 0)
+ * 		2): (expo > 0)
  * 			Places the mantissa value at the end of numerator* (shifting it right)
  * 			Calculates mantissa * 2^exponent
  * 		3): else
  * 			(Exponent is Zero or Negative) -> Simply copies the mantissa string into the numerator*.
  * 		4):
  */
-static char	*fill_numerator(char *numerator, uint64_t mantValue, int64_t expoValue)
+static char	*fill_numerator(char *numerator, uint64_t mant, int64_t expo)
 {
 	char	mantTmp[DBL_MANT_BITS + 1];
 	char	exponent[BIG_INT + 1];
 	size_t	mant_len;
 
-	mant_len = int64_base(mantValue, DECIMAL_BASE, mantTmp, sizeof(mantTmp));
+	mant_len = int64_base(mant, DECIMAL_BASE, mantTmp, sizeof(mantTmp));
 	if (mant_len >= BIG_INT)
 		return (NULL);
-	if (expoValue > 0)
+	if (expo > 0)
 	{	
-		ft_strlcpy(numerator + BIG_INT - mant_len, mantTmp, mant_len + 1);
+		cpy_str(numerator + BIG_INT - mant_len, mantTmp);
 		init_bigChar(exponent);
 		exponent[BIG_INT - 1] = '2';
-		if (pow_table2(exponent, expoValue) == NULL)
+		if (pow2(exponent, expo) == NULL)
 			return (NULL);
 		ft_multi(numerator, exponent);
-		// big_int_multiply(numerator, exponent);
 	}
 	else
-		ft_strlcpy(numerator + BIG_INT - mant_len, mantTmp, mant_len + 1);
+		cpy_str(numerator + BIG_INT - mant_len, mantTmp);
 	return (numerator);
 }
 
@@ -401,21 +288,15 @@ static char	*fill_numerator(char *numerator, uint64_t mantValue, int64_t expoVal
  */
 static char			*fill_denominator(char *denominator, long exponent, double ogNum)
 {
-	if (exponent > 0)
+	init_bigChar(denominator);
+	if (exponent <= 0 && ogNum != 0) 
 	{
-		init_bigChar(denominator);
-		denominator[BIG_INT - 1] = '1';
-	}
-	else if (ogNum != 0) 
-	{
-		init_bigChar(denominator);
 		denominator[BIG_INT - 1] = '2';
-		if (!pow_table2(denominator, -exponent))
+		if (pow2(denominator, -exponent) == NULL)
 			return (NULL);
 	}
 	else 
 	{
-		init_bigChar(denominator);
 		denominator[BIG_INT - 1] = '1';
 	}
 	return (denominator);
