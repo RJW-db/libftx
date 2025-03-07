@@ -6,7 +6,7 @@
 /*   By: jmetzger <jmetzger@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/02/12 17:26:37 by jmetzger      #+#    #+#                 */
-/*   Updated: 2025/03/06 19:05:19 by rjw           ########   odam.nl         */
+/*   Updated: 2025/03/07 17:31:23 by rde-brui      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,11 +94,11 @@ void	convert_to_sci_notation(char *num, char *deno, int16_t *digitexpo, double o
 	if (*digitexpo > 0)
 	{
 		digit[BIG_INT - *digitexpo - 1] = '1';
-		ft_multi(deno, digit);
+		ft_multiply(deno, digit);
 	}
 	else if (*digitexpo < 0)
 	{
 		digit[BIG_INT + *digitexpo - 1] = '1';
-		ft_multi(num, digit);
+		ft_multiply(num, digit);
 	}
 }

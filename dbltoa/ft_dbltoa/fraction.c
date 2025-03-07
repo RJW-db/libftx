@@ -6,7 +6,7 @@
 /*   By: jmetzger <jmetzger@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/02/12 17:26:37 by jmetzger      #+#    #+#                 */
-/*   Updated: 2025/03/07 14:58:33 by rde-brui      ########   odam.nl         */
+/*   Updated: 2025/03/07 17:31:23 by rde-brui      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,7 +157,7 @@ static void get_exponent_mantissa(int *exponent, uint64_t *mantissa, char *strbi
 	}
 }
 
-char	*big_int_add(char *s1, char *s2)
+char	*ft_addition(char *s1, char *s2)
 {
 	int32_t	len;
 	int32_t	carry;
@@ -198,15 +198,16 @@ static char	*pow2(char *bigint, int64_t exponent)
 		while (exponent > 1)
 		{
 			cpy_str(pow2, bigint);
-			if (big_int_add(bigint, pow2) == NULL)
-				return (NULL);
+			// if (ft_addition(bigint, pow2) == NULL)
+			// 	return (NULL);
+			ft_addition(bigint, pow2);
 			--exponent;
 		}
 	}
 	else
 	{
 		// TODO
-		puts("None of the tests made it come here, probably remove whole else");
+		puts("\nEDGECASE, only 339 of tester: subnormal_to_max_tests");
 		init_bigChar(bigint);
 		bigint[BIG_INT - 1] = '1';
 	}
@@ -259,7 +260,7 @@ static char	*fill_numerator(char *numerator, uint64_t mant, int64_t expo)
 		exponent[BIG_INT - 1] = '2';
 		if (pow2(exponent, expo) == NULL)
 			return (NULL);
-		ft_multi(numerator, exponent);
+		ft_multiply(numerator, exponent);
 	}
 	else
 		cpy_str(numerator + BIG_INT - mant_len, mantTmp);

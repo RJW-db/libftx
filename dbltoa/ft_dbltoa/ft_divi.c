@@ -6,7 +6,7 @@
 /*   By: jmetzger <jmetzger@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/02/12 17:26:37 by jmetzger      #+#    #+#                 */
-/*   Updated: 2025/03/06 18:21:57 by rjw           ########   odam.nl         */
+/*   Updated: 2025/03/07 17:31:32 by rde-brui      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,10 @@ static void	ft_divi4(char *s1, char *s2, char *tmp, long *nb)
 {
 	*nb = 0;
 	init_bigChar(tmp);
-	while (compare_str(big_int_add(tmp, s2), s1) <= 0)
-		(*nb)++;
+	while (compare_str(ft_addition(tmp, s2), s1) <= 0)
+		++(*nb);
 }
-
+// ft_strncmp(result, s2, ft_strlen(result) + 1)
 static void	ft_divi3(char *numer, char *denom)
 {
 	ft_memset(numer, 0, 10);
@@ -54,7 +54,7 @@ static void	ft_divi2(char *s1, char *s2, char *result, t_nbr *num)
 	char	numer[16];
 	char	denom[16];
 
-	if (compare_str(s1, s2) < 0)
+	while (ft_strncmp(s1, s2, ft_strlen(s1) + 1) < 0)
 		return ;
 	init_struct(s1, s2, num);
 	ft_divi3(numer, denom);
@@ -74,7 +74,7 @@ static void	ft_divi2(char *s1, char *s2, char *result, t_nbr *num)
 	result[BIG_INT - 1] = nb + 48;
 }
 
-char	*ft_divi(char *s1, char *s2)
+void	ft_division(char *s1, char *s2)
 {
 	t_nbr	num;
 	char		sign;
@@ -82,8 +82,8 @@ char	*ft_divi(char *s1, char *s2)
 
 	sign = '+';
 	init_bigChar(result);
-	if (!compare_str(result, s2))
-		return (NULL);
+	if (ft_strncmp(result, s2, ft_strlen(result) + 1) == 0)
+		return ;
 	else if (s1[0] != s2[0])
 		sign = '-';
 	else if (s1[0] == s2[0])
@@ -93,5 +93,4 @@ char	*ft_divi(char *s1, char *s2)
 	ft_divi2(s1, s2, result, &num);
 	ft_strlcpy(s1, result, BIG_INT + 1);
 	s1[0] = sign;
-	return (s1);
 }

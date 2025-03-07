@@ -51,17 +51,16 @@ int	main(void)
 	// 	printf("Failed to convert to bit string\n");
 	// }
 	// double dbl = 0;
-	// char *str = NULL;
-
+	// cha;r *str = NULL;
 	// dbl = __DBL_MAX__;
 	float_tests();
 	double_tests();
 	edgecase_tests();
 	random_tests();
-	// linear_range_tests();
+	linear_range_tests();
 	// power_of_ten_tests();
 	// subnormal_to_max_tests();
-	// negative_power_of_ten_tests();
+	negative_power_of_ten_tests();
 
 	// char buff[1078];
 	// dbltoa_buff(0.0, buff, 1078);
@@ -169,7 +168,6 @@ void	edgecase_tests(void)
 	single_test(3, 1);
 
 	single_test(4, __DBL_MAX__);
-	// exit(0);
 	single_test(5, __DBL_MIN__);
 	single_test(6, __DBL_EPSILON__);			// Smallest difference between two doubles
 	single_test(7, __DBL_DENORM_MIN__);			// Smallest subnormal number

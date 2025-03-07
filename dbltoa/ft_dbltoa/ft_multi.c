@@ -6,7 +6,7 @@
 /*   By: jmetzger <jmetzger@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/02/12 17:26:37 by jmetzger      #+#    #+#                 */
-/*   Updated: 2025/03/07 15:06:07 by rde-brui      ########   odam.nl         */
+/*   Updated: 2025/03/07 17:31:23 by rde-brui      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ static void	init_numbers(t_nbr *nbr, char *s1, char *s2)
 	nbr->j_s2 = ft_strlen(s2 + nbr->sig_s2) - 1;
 }
 
-char	*ft_multi(char *s1, char *s2)
+void	ft_multiply(char *s1, char *s2)
 {
 	char	result[BIG_INT + 1];
 	char	sign;
@@ -102,5 +102,4 @@ char	*ft_multi(char *s1, char *s2)
 	process_digits(&strings, &nbr);
 	cpy_str(s1, result);
 	s1[0] = sign;
-	return (s1);
 }

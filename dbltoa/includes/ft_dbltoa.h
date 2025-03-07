@@ -6,7 +6,7 @@
 /*   By: jmetzger <jmetzger@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/02/12 17:26:37 by jmetzger      #+#    #+#                 */
-/*   Updated: 2025/03/07 15:20:09 by rde-brui      ########   odam.nl         */
+/*   Updated: 2025/03/07 17:41:19 by rde-brui      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,17 +68,19 @@ char	*convert_to_str(t_dbl *s, int16_t digitexp);
 bool 	binary_to_decimal(char *nbr, char *buff, size_t buff_size);
 
 // MATH
-char	*big_int_add(char* s1, char* s2);
-char	*ft_subs(char *s1, char *s2);
-char	*ft_multi(char *s1, char *s2);
-char	*ft_divi(char *s1, char *s2);
+char	*ft_addition(char* s1, char* s2);
+void	ft_subtraction(char *s1, char *s2);
+void	ft_multiply(char *s1, char *s2);
+void	ft_division(char *s1, char *s2);
 
 // UTILS
 void	init_bigChar(char *str);
 void	init_struct(char *s1, char *s2, t_nbr *num);
 void	error_inf(t_dbl *strs, double ogNum, uint64_t mantissa, bool n_flag);
-char	*ft_add_sign(char *dblStr, bool n_flag);
+void	ft_add_sign(char *dblStr, bool n_flag);
 int		compare_str(char *s1, char *s2);
+int		ft_strncmp(const char *s1, const char *s2, size_t n);
+
 char	*double_to_bitstring(int64_t dbl_to_int_cast, char *bit_string);
 int64_t	ft_basecheck(char *base_from);
 int64_t	ft_atoi_b(char *nbr, char *base_from, int64_t basevalue, int64_t *sig);

@@ -6,7 +6,7 @@
 /*   By: jmetzger <jmetzger@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/02/12 17:26:37 by jmetzger      #+#    #+#                 */
-/*   Updated: 2025/03/06 18:21:57 by rjw           ########   odam.nl         */
+/*   Updated: 2025/03/07 17:31:00 by rde-brui      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static void	ft_subs5(char *s1, char *s2)
 	ft_strlcpy(tmp, s2, BIG_INT + 1);
 	tmp[0] = '-';
 	// ft_add(s1, tmp);
-	big_int_add(s1, tmp);
+	ft_addition(s1, tmp);
 }
 
 static void	ft_subs4(char *s1, char *s2)
@@ -36,7 +36,7 @@ static void	ft_subs4(char *s1, char *s2)
 	ft_strlcpy(tmp, s2, BIG_INT + 1);
 	tmp[0] = '+';
 	// ft_add(s1, tmp);
-	big_int_add(s1, tmp);
+	ft_addition(s1, tmp);
 }
 
 static char	*ft_subs3(char *s1)
@@ -80,20 +80,18 @@ static void ft_subs_swap_negate(char *s1, char *s2, t_nbr *num)
 		s1[0] = '+';
 }
 
-char *ft_subs(char *s1, char *s2)
+void	ft_subtraction(char *s1, char *s2)
 {
 	t_nbr	num;
-	int			comp;
+	int		comp;
 
 	init_struct(s1, s2, &num);
 	if (num.i_s1 == -1 || num.j_s2 == -1 || s2[num.sig_s2] == '\0')
-		return s1;
-	
-	// If s1 == s2
-	if ((comp = compare_str(s1, s2)) == 0)
-		return ft_subs3(s1);
-	
-	if (s1[0] == '+' && s2[0] == '-')
+		return ;
+	comp = ft_strncmp(s1, s2, ft_strlen(s1) + 1);
+	if (comp == 0)
+		ft_subs3(s1);
+	else if (s1[0] == '+' && s2[0] == '-')
 		ft_subs4(s1, s2);
 	else if (s1[0] == '-' && s2[0] == '+')
 		ft_subs5(s1, s2);
@@ -101,9 +99,4 @@ char *ft_subs(char *s1, char *s2)
 		ft_subs2(s1, s2, &num);
 	else
 		ft_subs_swap_negate(s1, s2, &num);
-
-	// Ensure s1 has enough space
-	if (num.i_s1 == 0 && (num.j_s2 != num.sig_s2 - 1 || s1[num.i_s1] < '0'))
-		return NULL;
-	return s1;
 }

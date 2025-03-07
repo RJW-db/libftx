@@ -43,7 +43,7 @@ void init_struct(char *s1, char *s2, t_nbr *num)
 int		compare_str(char *s1, char *s2)
 {
 	t_nbr	num;
-	int			len_diff;
+	int		len_diff;
 
 	init_struct(s1, s2, &num);
 	len_diff = (num.i_s1 - num.sig_s1) - (num.j_s2 - num.sig_s2);
