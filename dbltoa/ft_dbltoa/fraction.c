@@ -6,7 +6,7 @@
 /*   By: jmetzger <jmetzger@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/02/12 17:26:37 by jmetzger      #+#    #+#                 */
-/*   Updated: 2025/03/06 21:17:47 by rjw           ########   odam.nl         */
+/*   Updated: 2025/03/07 14:58:33 by rde-brui      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -335,7 +335,8 @@ static char			*fill_denominator(char *denominator, long exponent, double ogNum)
  * 		S1111111 1111MMMM MMMMMMMM MMMMMMMM MMMMMMMM MMMMMMMM MMMMMMMM MMMMMMMM
  * 	- get_exponent_mantissa() subtracts the bias (1023), so we get 972 (2047 - 1075).
  */
-char	*convert_to_fraction(double ogNum, char *nume, char *denom, bool *n_flag)
+// char	*convert_to_fraction(double ogNum, char *nume, char *denom, bool *n_flag)
+bool	convert_to_fraction(double ogNum, t_dbl *strings, bool *n_flag)
 {
 	char		bit_string[DBL_BIT_COUNT + 1];
 	int			exponent;
@@ -351,9 +352,10 @@ char	*convert_to_fraction(double ogNum, char *nume, char *denom, bool *n_flag)
 	get_exponent_mantissa(&exponent, &mantissa, bit_string);
 	if (exponent == DBL_EXP_MAX)
 	{
-		return (error_inf(ogNum, mantissa, *n_flag));
+		error_inf(strings, ogNum, mantissa, *n_flag);
+		return (false);
 	}
-	fill_numerator(nume, mantissa, exponent);
-	fill_denominator(denom, exponent, ogNum);
-	return (NULL);
+	fill_numerator(strings->s1, mantissa, exponent);
+	fill_denominator(strings->s2, exponent, ogNum);
+	return (true);
 }

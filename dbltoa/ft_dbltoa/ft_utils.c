@@ -6,7 +6,7 @@
 /*   By: jmetzger <jmetzger@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/02/12 17:26:37 by jmetzger      #+#    #+#                 */
-/*   Updated: 2025/03/06 21:16:10 by rjw           ########   odam.nl         */
+/*   Updated: 2025/03/07 15:04:24 by rde-brui      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,25 +40,42 @@ void init_bigChar(char *str)
  *		ogNum = -1.0 and mantissa = 0, return "-inf".
  *		ogNum = 0.0 and mantissa = 0, return "nan".
  */
-char	*error_inf(double ogNum, uint64_t mantissa, bool n_flag)
+// char	*error_inf(t_dbl *strs, double ogNum, uint64_t mantissa, bool n_flag)
+// {
+// 	char	result[5];
+// 	const char	neg_nan[2][5] = {"-nan", "nan"};
+// 	char	*dblStr;
+
+// 	if (mantissa == 0 && ogNum > 0)
+// 		dblStr = ft_strdup("inf");
+// 	else if (mantissa == 0 && ogNum < 0)
+// 		dblStr = ft_strdup("-inf");
+// 	else
+// 	{
+// 		if (n_flag == false)
+// 			dblStr = ft_strdup("nan");
+// 		else
+// 			dblStr = ft_strdup(neg_nan[NEGATIVE_NAN]);
+// 	}
+// 	return (dblStr);
+// }
+
+void	error_inf(t_dbl *strs, double ogNum, uint64_t mantissa, bool n_flag)
 {
 	const char	neg_nan[2][5] = {"-nan", "nan"};
-	char	*dblStr;
 
-	if (!mantissa && ogNum > 0)
-		dblStr = ft_strdup("inf");
-	else if (!mantissa && ogNum < 0)
-		dblStr = ft_strdup("-inf");
+	if (mantissa == 0 && ogNum > 0)
+		cpy_str(strs->result, "inf");
+	else if (mantissa == 0 && ogNum < 0)
+		cpy_str(strs->result, "-inf");
 	else
 	{
 		if (n_flag == false)
-			dblStr = ft_strdup("nan");
+			cpy_str(strs->result, "nan");
 		else
-			dblStr = ft_strdup(neg_nan[NEGATIVE_NAN]);
+			cpy_str(strs->result, neg_nan[NEGATIVE_NAN]);
 	}
-	return (dblStr);
 }
-
 
 /* double_to_bitstring()
  * Converts the void* (in this case double) into a string of bits.
@@ -74,7 +91,7 @@ char	*error_inf(double ogNum, uint64_t mantissa, bool n_flag)
  * 
  * And then it will joins the new tmp to the existing strBits
  */
-char	*double_to_bitstring(int64_t dbl_to_int_case, char *bit_string)
+char	*double_to_bitstring(int64_t dbl_to_int_cast, char *bit_string)
 {
 	char		buff[BYTE + 1];
 	int16_t		byte_idx;
@@ -87,7 +104,7 @@ char	*double_to_bitstring(int64_t dbl_to_int_case, char *bit_string)
 	byte_idx = DBL_BYTES - 1;
 	while (byte_idx >= 0)
 	{
-		byte_val = dbl_to_int_case >> (byte_idx * BYTE) & BYTE_MASK;
+		byte_val = dbl_to_int_cast >> (byte_idx * BYTE) & BYTE_MASK;
 		int64_base(byte_val, "01", buff, BYTE + 1);
 		nbr = BYTE - ft_strlen(buff);
 		ft_memset(bit_string + index, '0', nbr);
@@ -144,7 +161,8 @@ char *ft_add_sign(char *dblStr, bool n_flag)
 	// Step 4:
 	strncpy(result + n_flag, dblStr + 1, len);	// TODO: use libft ft_strncpy
 	result[len + n_flag] = '\0';
-
-	free(dblStr);
+	// free(dblStr);
+	cpy_str(dblStr, result);
+	free(result);
 	return (result);
 }

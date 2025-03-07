@@ -6,7 +6,7 @@
 /*   By: jmetzger <jmetzger@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/02/12 17:26:37 by jmetzger      #+#    #+#                 */
-/*   Updated: 2025/03/06 21:21:30 by rjw           ########   odam.nl         */
+/*   Updated: 2025/03/07 14:43:18 by rde-brui      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,14 +51,16 @@ typedef struct	s_nbr
 
 typedef struct s_dbl
 {
-    char	*s1;
-    char	*s2;
-    char	*result;
+	char	*s1;
+	char	*s2;
+	char	*result;
+	bool	is_buffered;
 }	t_dbl;
 
 // CONVERTSION
-char	*ft_dbltoa(double dbl);
-char	*convert_to_fraction(double ogNum, char *nume, char *denom, bool *n_flag);
+char	*dbltoa(double dbl);
+// char	*convert_to_fraction(double ogNum, char *nume, char *denom, bool *n_flag);
+bool	convert_to_fraction(double ogNum, t_dbl *strings, bool *n_flag);
 void	convert_to_sci_notation(char *num, char *deno, int16_t *digitexpo, double ogNum);
 // char	*convert_to_str(char *dbl, char *num, char *deno, int16_t digitexp);
 char	*convert_to_str(t_dbl *s, int16_t digitexp);
@@ -73,10 +75,10 @@ char	*ft_divi(char *s1, char *s2);
 // UTILS
 void	init_bigChar(char *str);
 void	init_struct(char *s1, char *s2, t_nbr *num);
-char	*error_inf(double ogNum, uint64_t mantissa, bool n_flag);
+void	error_inf(t_dbl *strs, double ogNum, uint64_t mantissa, bool n_flag);
 char	*ft_add_sign(char *dblStr, bool n_flag);
 int		compare_str(char *s1, char *s2);
-char	*double_to_bitstring(int64_t dbl_to_int_case, char *bit_string);
+char	*double_to_bitstring(int64_t dbl_to_int_cast, char *bit_string);
 int64_t	ft_basecheck(char *base_from);
 int64_t	ft_atoi_b(char *nbr, char *base_from, int64_t basevalue, int64_t *sig);
 
@@ -92,7 +94,7 @@ int64_t				atoi64(const char *nptr);
 char				*ft_substr(char const *s, uint32_t start, size_t len);
 void				substr_buff(const char *s, uint32_t start, size_t len, char *buff);
 char				*strjoin_safe(char const *s1, char const *s2);
-char				*ft_itoa(long n);
+// char				*ft_itoa(long n);
 size_t				int64_base(int64_t n, const char *base, char *buff, size_t b_len);
 void				ft_putstr_fd(char *s, int fd);
 

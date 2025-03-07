@@ -94,7 +94,7 @@ bool	single_test(size_t index, double input)
 {
 	char buffer[MAX_DBL_STR_LEN];  // longest number + terminator
 
-	char *output = ft_dbltoa(input);
+	char *output = dbltoa(input);
 	// printf("%s\n", output);
 	format_double(buffer, sizeof(buffer), input);
 

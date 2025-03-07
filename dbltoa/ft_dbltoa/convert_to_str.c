@@ -6,7 +6,7 @@
 /*   By: jmetzger <jmetzger@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/02/12 17:26:37 by jmetzger      #+#    #+#                 */
-/*   Updated: 2025/03/06 21:24:40 by rjw           ########   odam.nl         */
+/*   Updated: 2025/03/07 15:03:12 by rde-brui      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,13 +66,13 @@ static void	place_decimal_point(char *resultStr, char *num, int *len, int16_t *d
  * Initializes memory for the result string, places the decimal point, 
  * and adds leading zeros for numbers < 1.
  */
-static char	*initialize_result_string(char *digit, char *zero, int16_t *digitexp, int *len)
+static char	*initialize_result_string(char *result, char *digit, char *zero, int16_t *digitexp, int *len)
 {
-	char *result;
+	// char *result;
 
-	result = malloc(sizeof(char) * (MAX_DIGIT + 1));
-	if (result == NULL)
-		return (NULL);
+	// result = malloc(sizeof(char) * (MAX_DIGIT + 1));
+	// if (result == NULL)
+	// 	return (NULL);
 	result[MAX_DIGIT] = '\0';
 	ft_memset(result, '0', MAX_DIGIT);
 	if (*digitexp < 0)
@@ -102,9 +102,10 @@ char	*convert_to_str(t_dbl *s, int16_t digitexp)
 	char	zero[BIG_INT + 1];
 
 	len = 1;
-	s->result = initialize_result_string(dix, zero, &digitexp, &len);
-	if (s->result == NULL)
-		return (NULL);
+	initialize_result_string(s->result, dix, zero, &digitexp, &len);
+	// s->result = initialize_result_string(dix, zero, &digitexp, &len);
+	// if (s->result == NULL)
+	// 	return (NULL);
 	if (digitexp == 0)
 		len = convert_first_digit(s->result, s->s1, s->s2);
 	else if (digitexp < 0)
