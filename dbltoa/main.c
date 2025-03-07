@@ -63,6 +63,11 @@ int	main(void)
 	// subnormal_to_max_tests();
 	// negative_power_of_ten_tests();
 
+	// char buff[1078];
+	// dbltoa_buff(0.0, buff, 1078);
+	// puts(buff);
+	// dbltoa_buff(__DBL_MAX__, buff, 1078);
+	// puts(buff);
 	return (0);
 }
 

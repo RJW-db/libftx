@@ -6,7 +6,7 @@
 /*   By: jmetzger <jmetzger@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/02/12 17:26:37 by jmetzger      #+#    #+#                 */
-/*   Updated: 2025/03/07 14:43:18 by rde-brui      ########   odam.nl         */
+/*   Updated: 2025/03/07 15:20:09 by rde-brui      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ typedef struct s_dbl
 
 // CONVERTSION
 char	*dbltoa(double dbl);
+uint16_t	dbltoa_buff(double ogNum, char *buff, uint16_t b_size);
 // char	*convert_to_fraction(double ogNum, char *nume, char *denom, bool *n_flag);
 bool	convert_to_fraction(double ogNum, t_dbl *strings, bool *n_flag);
 void	convert_to_sci_notation(char *num, char *deno, int16_t *digitexpo, double ogNum);

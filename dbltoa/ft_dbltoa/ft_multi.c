@@ -6,7 +6,7 @@
 /*   By: jmetzger <jmetzger@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/02/12 17:26:37 by jmetzger      #+#    #+#                 */
-/*   Updated: 2025/03/06 21:17:20 by rjw           ########   odam.nl         */
+/*   Updated: 2025/03/07 15:06:07 by rde-brui      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ char	*ft_multi(char *s1, char *s2)
 	if ((s1[0] == '-' && s2[0] != '-') || (s1[0] != '-' && s2[0] == '-'))
 		sign = '-';
 	init_numbers(&nbr, s1, s2);
-	strings = (t_dbl){s1, s2, result};
+	strings = (t_dbl){.s1 = s1, .s2 = s2, .result = result};
 	process_digits(&strings, &nbr);
 	cpy_str(s1, result);
 	s1[0] = sign;
