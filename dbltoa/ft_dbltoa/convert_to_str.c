@@ -6,7 +6,7 @@
 /*   By: jmetzger <jmetzger@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/02/12 17:26:37 by jmetzger      #+#    #+#                 */
-/*   Updated: 2025/03/08 01:11:11 by rjw           ########   odam.nl         */
+/*   Updated: 2025/03/08 01:31:34 by rjw           ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,46 +43,48 @@ static void		convert_first_digit(char *result, char *num, char *deno)
 /*
  * Ensures that the decimal point is placed correctly in the string representation.
  */
-static void	place_decimal_point(char *resultStr, char *num, uint16_t *len, int16_t *digitexp)
+static void	place_decimal_point(char *result, char *num, uint16_t *len, int16_t *digitexp)
 {
-	char	zero[BIG_INT + 1];
+	char		zero[BIG_INT + 1];
 	uint16_t	i;
 
 	i = 0;
 	init_bigChar(zero);
 	if (*len - 1 > *digitexp && *digitexp != 0)
 	{
-		resultStr[(*len)++] = '.';
+		result[(*len)++] = '.';
 		*digitexp = 0;
 	}
-	if (ft_strncmp(num, zero, ft_strlen(num) + 1) == 0)
+	if (ft_strncmp(num, zero, BIG_INT + 1) == 0)
 	{
-		while (resultStr[i] && resultStr[i] != '.')
+		while (result[i] && result[i] != '.')
 			++i;
-		if (resultStr[i] == '\0')
-			resultStr[*digitexp + 2] = '.';
+		if (result[i] == '\0')
+			result[*digitexp + 2] = '.';
 	}
 }
 
-uint16_t	init_result_str(char *result, int16_t digitexp)
+uint16_t	initialize_strings(t_dbl *s, int16_t *digitexp)
 {
 	uint16_t	len;
 	int16_t	pos_exp;
 
-	result[MAX_DIGIT] = '\0';
-	ft_memset(result, '0', MAX_DIGIT);
-	if (digitexp > 0)
+	s->result[MAX_DIGIT] = '\0';
+	ft_memset(s->result, '0', MAX_DIGIT);
+	if (*digitexp > 0)
 		return (1);
-	result[2] = '.';
-	if (digitexp < 0)
+	s->result[2] = '.';
+	if (*digitexp < 0)
 	{
 		len = 0;
-		pos_exp = -digitexp;
+		pos_exp = -(*digitexp);
 		while (len < pos_exp)
 			++len;
 		len += 2;
+		*digitexp = 0;
 		return (len);
 	}
+	convert_first_digit(s->result, s->s1, s->s2);
 	return (3);
 }
 
@@ -114,14 +116,10 @@ char	*convert_to_str(t_dbl *s, int16_t digitexp)
 	char		zero[BIG_INT + 1];
 	uint16_t	len;
 
-	len = init_result_str(s->result, digitexp);
+	len = initialize_strings(s, &digitexp);
 	init_bigChar(digit);
 	digit[BIG_INT - 2] = '1';
 	init_bigChar(zero);
-	if (digitexp == 0)
-		convert_first_digit(s->result, s->s1, s->s2);
-	else if (digitexp < 0)
-		digitexp = 0;
 	while (ft_strncmp(s->s1, zero, BIG_INT) != 0 && len < MAX_DIGIT)
 	{
 		// init_bigChar(tmp);

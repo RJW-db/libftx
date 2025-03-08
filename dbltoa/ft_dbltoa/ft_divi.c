@@ -6,7 +6,7 @@
 /*   By: jmetzger <jmetzger@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/02/12 17:26:37 by jmetzger      #+#    #+#                 */
-/*   Updated: 2025/03/07 17:31:32 by rde-brui      ########   odam.nl         */
+/*   Updated: 2025/03/08 01:30:06 by rjw           ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ static void	ft_divi4(char *s1, char *s2, char *tmp, long *nb)
 	while (compare_str(ft_addition(tmp, s2), s1) <= 0)
 		++(*nb);
 }
-// ft_strncmp(result, s2, ft_strlen(result) + 1)
+
 static void	ft_divi3(char *numer, char *denom)
 {
 	ft_memset(numer, 0, 10);
@@ -77,20 +77,11 @@ static void	ft_divi2(char *s1, char *s2, char *result, t_nbr *num)
 void	ft_division(char *s1, char *s2)
 {
 	t_nbr	num;
-	char		sign;
-	char		result[BIG_INT + 1];
+	char	result[BIG_INT + 1];
 
-	sign = '+';
 	init_bigChar(result);
-	if (ft_strncmp(result, s2, ft_strlen(result) + 1) == 0)
+	if (ft_strncmp(result, s2, BIG_INT + 1) == 0)
 		return ;
-	else if (s1[0] != s2[0])
-		sign = '-';
-	else if (s1[0] == s2[0])
-		sign = '+';
-	s1[0] = '+';
-	s2[0] = '+';
 	ft_divi2(s1, s2, result, &num);
-	ft_strlcpy(s1, result, BIG_INT + 1);
-	s1[0] = sign;
+	cpy_str(s1, result);
 }
