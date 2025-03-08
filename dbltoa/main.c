@@ -50,17 +50,19 @@ int	main(void)
 	// } else {
 	// 	printf("Failed to convert to bit string\n");
 	// }
-	// double dbl = 0;
-	// cha;r *str = NULL;
-	// dbl = __DBL_MAX__;
+// 	double dbl = 0;
+// 	// cha;r *str = NULL;
+// 	dbl = __DBL_MAX__;
+// 	dbltoa(dbl);
+// exit(0);
 	float_tests();
 	double_tests();
 	edgecase_tests();
 	random_tests();
-	linear_range_tests();
+	// linear_range_tests();
 	// power_of_ten_tests();
 	// subnormal_to_max_tests();
-	negative_power_of_ten_tests();
+	// negative_power_of_ten_tests();
 
 	// char buff[1078];
 	// dbltoa_buff(0.0, buff, 1078);

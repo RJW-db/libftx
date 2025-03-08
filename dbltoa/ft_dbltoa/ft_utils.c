@@ -6,7 +6,7 @@
 /*   By: jmetzger <jmetzger@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/02/12 17:26:37 by jmetzger      #+#    #+#                 */
-/*   Updated: 2025/03/07 17:59:08 by rde-brui      ########   odam.nl         */
+/*   Updated: 2025/03/08 01:02:47 by rjw           ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,26 +40,6 @@ void init_bigChar(char *str)
  *		ogNum = -1.0 and mantissa = 0, return "-inf".
  *		ogNum = 0.0 and mantissa = 0, return "nan".
  */
-// char	*error_inf(t_dbl *strs, double ogNum, uint64_t mantissa, bool n_flag)
-// {
-// 	char	result[5];
-// 	const char	neg_nan[2][5] = {"-nan", "nan"};
-// 	char	*dblStr;
-
-// 	if (mantissa == 0 && ogNum > 0)
-// 		dblStr = ft_strdup("inf");
-// 	else if (mantissa == 0 && ogNum < 0)
-// 		dblStr = ft_strdup("-inf");
-// 	else
-// 	{
-// 		if (n_flag == false)
-// 			dblStr = ft_strdup("nan");
-// 		else
-// 			dblStr = ft_strdup(neg_nan[NEGATIVE_NAN]);
-// 	}
-// 	return (dblStr);
-// }
-
 void	error_inf(t_dbl *strs, double ogNum, uint64_t mantissa, bool n_flag)
 {
 	const char	neg_nan[2][5] = {"-nan", "nan"};
@@ -115,26 +95,6 @@ char	*double_to_bitstring(int64_t dbl_to_int_cast, char *bit_string)
 	return (bit_string);
 }
 
-
-char	*ft_strncpy(char *dst, const char *src, size_t n)
-{
-	size_t	i;
-
-	i = 0;
-	while (i < n && src[i] != '\0')
-	{
-		dst[i] = src[i];
-		++i;
-	}
-	while (i < n)
-	{
-		dst[i] = '\0';
-		++i;
-	}
-	return (dst);
-}
-
-
 /* ft_add_sign()
  * This function formats a numeric string by performing the following operations:
  *   1) Removing unnecessary trailing zeros from the decimal part of the string.
@@ -157,64 +117,19 @@ char	*ft_strncpy(char *dst, const char *src, size_t n)
  *      - The function copies the necessary portion of the original string into the result string, 
  * 		  skipping the first character if `n_flag` is true.
  */
-void	ft_add_sign(char *dblStr, bool n_flag)
+void	ft_add_sign(char *result, bool n_flag)
 {
-	int len;
-	char *result;
+	uint16_t	len;
 
-	len = ft_strlen(dblStr) - 1;
-	// Step 1:
-	while (len > 0 && dblStr[len] == '0')
+	len = ft_strlen(result) - 1;
+	while (len > 0 && result[len] == '0')
 		--len;
-	if (dblStr[len] == '.' && dblStr[0] == '0')
+	if (result[len] == '.' && result[0] == '0')
 		--len;
-	// Step 2:
-	result = (char*)malloc(len + n_flag + 1);
-	if (!result)
-		return ;
-	
-	// Step 3:
-	if (n_flag == true)
+	if (n_flag == false)
+		ft_memmove(result + n_flag, result + 1, len);
+	else
 		result[0] = '-';
-
-	// Step 4:
-	ft_strncpy(result + n_flag, dblStr + 1, len);	// TODO: use libft ft_strncpy
 	result[len + n_flag] = '\0';
-	cpy_str(dblStr, result);
-	free(result);
 }
 
-// void	ft_add_sign(char *dblStr, bool n_flag)
-// {
-// 	int len;
-// 	char *result;
-
-// 	len = ft_strlen(dblStr) - 1;
-// 	// Step 1:
-// 	while (len > 0 && dblStr[len] == '0')
-// 		--len;
-// 	if (dblStr[len] == '.' && dblStr[0] == '0')
-// 		--len;
-// 	// Step 2:
-// 	result = (char*)malloc(len + n_flag + 1);
-// 	if (!result)
-// 		return ;
-	
-// 	// Step 3:
-// 	if (n_flag == true)
-// 		result[0] = '-';
-
-// 	// Step 4:
-// 	ft_strncpy(result + n_flag, dblStr + 1, len);	// TODO: use libft ft_strncpy
-// 	result[len + n_flag] = '\0';
-// 	cpy_str(dblStr, result);
-// 	free(result);
-// 	// if (n_flag == true)
-// 	// {
-// 	// 	// Move the entire string to the right to make space for '-'
-// 	// 	ft_memmove(dblStr + 1, dblStr, len + 1);
-// 	// 	dblStr[0] = '-';  // Place the minus sign at the start
-// 	// }
-// 	// puts(dblStr);
-// 	// exit(0);
-// }

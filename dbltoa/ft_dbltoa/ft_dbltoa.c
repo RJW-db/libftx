@@ -6,7 +6,7 @@
 /*   By: jmetzger <jmetzger@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/02/12 17:26:37 by jmetzger      #+#    #+#                 */
-/*   Updated: 2025/03/07 15:23:52 by rde-brui      ########   odam.nl         */
+/*   Updated: 2025/03/07 18:43:22 by rjw           ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ char	*dbltoa(double ogNum)
 
 	// Add Sign and remove extra zeros
 	ft_add_sign(result, n_flag);
+	
 	// if (strings.is_buffered == false)
 		return (ft_strdup(result));
 	// return (ft_strlen(strings.result));

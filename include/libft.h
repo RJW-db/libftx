@@ -6,7 +6,7 @@
 /*   By: jdobos <jdobos@student.42.fr>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/01/15 16:27:18 by rde-brui      #+#    #+#                 */
-/*   Updated: 2025/03/05 01:51:52 by rjw           ########   odam.nl         */
+/*   Updated: 2025/03/08 00:59:59 by rjw           ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -177,6 +177,7 @@ size_t		cpy_str_s(char *dst, t_cchr *src);
 size_t		cpy_till_char_s(char *dst, t_cchr *src, t_cchr chr);
 void		ft_striteri(char *s, void (*f)(uint32_t, char*));
 size_t		ft_strlcat(char *dst, t_cchr *src, size_t size);
+char		*ft_strncpy(char *dst, const char *src, size_t n);
 size_t		ft_strlcpy(char *dst, t_cchr *src, size_t size);
 char		*charmove(char *dest, const char *src, size_t n);
 char		*ft_strmapi(char const *s, char (*f)(uint32_t, char));

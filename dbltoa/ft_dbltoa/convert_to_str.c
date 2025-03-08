@@ -6,7 +6,7 @@
 /*   By: jmetzger <jmetzger@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/02/12 17:26:37 by jmetzger      #+#    #+#                 */
-/*   Updated: 2025/03/07 17:37:27 by rde-brui      ########   odam.nl         */
+/*   Updated: 2025/03/08 01:11:11 by rjw           ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
  * --tmp[BIG_INT - 1];
  * if tmp[] = '5' it would become tmp[] = '4'
  */
-static uint16_t		convert_first_digit(char *result, char *num, char *deno)
+static void		convert_first_digit(char *result, char *num, char *deno)
 {
 	char	tmp[BIG_INT + 1];
 	char	digit[BIG_INT + 1];
@@ -38,7 +38,6 @@ static uint16_t		convert_first_digit(char *result, char *num, char *deno)
 		--tmp[BIG_INT - 1];
 	}
 	ft_multiply(num, digit);
-	return (3);
 }
 
 /*
@@ -74,15 +73,17 @@ uint16_t	init_result_str(char *result, int16_t digitexp)
 	ft_memset(result, '0', MAX_DIGIT);
 	if (digitexp > 0)
 		return (1);
-	len = 2;
-	result[len] = '.';
+	result[2] = '.';
 	if (digitexp < 0)
 	{
+		len = 0;
 		pos_exp = -digitexp;
-		while (len - 2 < pos_exp)
+		while (len < pos_exp)
 			++len;
+		len += 2;
+		return (len);
 	}
-	return (len);
+	return (3);
 }
 
 int	ft_strncmp(const char *s1, const char *s2, size_t n)
@@ -108,23 +109,22 @@ int	ft_strncmp(const char *s1, const char *s2, size_t n)
 // char	*convert_to_str(char *str, char *num, char *deno, int16_t digitexp)
 char	*convert_to_str(t_dbl *s, int16_t digitexp)
 {
-	char	tmp[BIG_INT + 1];
-	char	digit[BIG_INT + 1];
-	char	zero[BIG_INT + 1];
+	char		tmp[BIG_INT + 1];
+	char		digit[BIG_INT + 1];
+	char		zero[BIG_INT + 1];
 	uint16_t	len;
-	size_t	zero_len_plus_term;
+
 	len = init_result_str(s->result, digitexp);
 	init_bigChar(digit);
 	digit[BIG_INT - 2] = '1';
 	init_bigChar(zero);
 	if (digitexp == 0)
-		len = convert_first_digit(s->result, s->s1, s->s2);
+		convert_first_digit(s->result, s->s1, s->s2);
 	else if (digitexp < 0)
 		digitexp = 0;
-	zero_len_plus_term = ft_strlen(zero) + 1;
-	while (ft_strncmp(s->s1, zero, zero_len_plus_term) != 0 && len < MAX_DIGIT)
+	while (ft_strncmp(s->s1, zero, BIG_INT) != 0 && len < MAX_DIGIT)
 	{
-		init_bigChar(tmp);
+		// init_bigChar(tmp);
 		cpy_str(tmp, s->s1);
 		ft_division(tmp, s->s2);
 		s->result[len++] = tmp[BIG_INT - 1];
