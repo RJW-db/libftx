@@ -6,16 +6,16 @@
 /*   By: jmetzger <jmetzger@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/02/12 17:26:37 by jmetzger      #+#    #+#                 */
-/*   Updated: 2025/03/08 02:47:13 by rjw           ########   odam.nl         */
+/*   Updated: 2025/03/08 03:07:52 by rjw           ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/ft_dbltoa.h"
 
 #if defined(__linux__)
-# define NEGATIVE_NAN 0
+# define NEGATIVE_NAN_INDEX 0
 #else
-# define NEGATIVE_NAN 1
+# define NEGATIVE_NAN_INDEX 1
 // #elif defined(__APPLE__) && defined(__MACH__)
 #endif
 
@@ -36,24 +36,24 @@ void intialize_string(char *str)
  * This function handles errors related to floating-point numbers, 
  * specifically when dealing with special cases like "infinity" or "NaN" (Not a Number).
  * Example:
- * 		ogNum = 1.0 and mantissa = 0, return "inf".
- *		ogNum = -1.0 and mantissa = 0, return "-inf".
- *		ogNum = 0.0 and mantissa = 0, return "nan".
+ * 		value = 1.0 and mantissa = 0, return "inf".
+ *		value = -1.0 and mantissa = 0, return "-inf".
+ *		value = 0.0 and mantissa = 0, return "nan".
  */
-void	special_value(t_dbl *strs, double ogNum, uint64_t mantissa, bool n_flag)
+void	special_value(t_dbl *strs, double val, uint64_t mant, bool is_neg)
 {
-	const char	neg_nan[2][5] = {"-nan", "nan"};
+	const char	nan_strings[2][5] = {"-nan", "nan"};
 
-	if (mantissa == 0 && ogNum > 0)
+	if (mant == 0 && val > 0)
 		cpy_str(strs->result, "inf");
-	else if (mantissa == 0 && ogNum < 0)
+	else if (mant == 0 && val < 0)
 		cpy_str(strs->result, "-inf");
 	else
 	{
-		if (n_flag == false)
+		if (is_neg == false)
 			cpy_str(strs->result, "nan");
 		else
-			cpy_str(strs->result, neg_nan[NEGATIVE_NAN]);
+			cpy_str(strs->result, nan_strings[NEGATIVE_NAN_INDEX]);
 	}
 }
 
@@ -71,35 +71,35 @@ void	special_value(t_dbl *strs, double ogNum, uint64_t mantissa, bool n_flag)
  * 
  * And then it will joins the new tmp to the existing strBits
  */
-char	*double_to_bits(int64_t dbl_to_int_cast, char *bit_string)
+char	*double_to_bits(int64_t double_bits, char *bit_representation)
 {
-	char		buff[BYTE + 1];
-	int16_t		byte_idx;
-	size_t		index;
-	size_t		nbr;
-	uint8_t		byte_val;
+	char		byte_buffer[BYTE + 1];
+	int16_t		byte_index;
+	size_t		bit_index;
+	size_t		bit_count;
+	uint8_t		byte_value;
 
-	bit_string[DBL_BIT_COUNT] = '\0';
-	index = 0;
-	byte_idx = DBL_BYTES - 1;
-	while (byte_idx >= 0)
+	bit_representation[DBL_BIT_COUNT] = '\0';
+	byte_index = DBL_BYTES - 1;
+	bit_index = 0;
+	while (byte_index >= 0)
 	{
-		byte_val = dbl_to_int_cast >> (byte_idx * BYTE) & BYTE_MASK;
-		int64_base(byte_val, "01", buff, BYTE + 1);
-		nbr = BYTE - ft_strlen(buff);
-		ft_memset(bit_string + index, '0', nbr);
-		cpy_str(bit_string + index + nbr, buff);
-		index += BYTE;
-		--byte_idx;
+		byte_value = double_bits >> (byte_index * BYTE) & BYTE_MASK;
+		int64_base(byte_value, "01", byte_buffer, BYTE + 1);
+		bit_count = BYTE - ft_strlen(byte_buffer);
+		ft_memset(bit_representation + bit_index, '0', bit_count);
+		cpy_str(bit_representation + bit_index + bit_count, byte_buffer);
+		bit_index += BYTE;
+		--byte_index;
 	}
-	return (bit_string);
+	return (bit_representation);
 }
 
 /* ft_add_sign()
  * This function formats a numeric string by performing the following operations:
  *   1) Removing unnecessary trailing zeros from the decimal part of the string.
  *   2) Ensuring proper decimal formatting by keeping exactly two decimal places if a decimal point is present.
- *   3) Adding a negative sign to the string if `n_flag` is false.
+ *   3) Adding a negative sign to the string if `is_neg` is false.
  *
  * Steps:
  *   1. Step 1: Trim trailing zeros:
@@ -110,14 +110,14 @@ char	*double_to_bits(int64_t dbl_to_int_cast, char *bit_string)
  *      - Allocate memory for the resulting string, accounting the extra 2zeros and negative sign.
  *
  *   3. Step 3: Handle negative sign:
- *      - If `n_flag` is `false`, the function prepends a negative sign (`'-'`) to the resulting string.
- *      - If `n_flag` is `true`, no negative sign is added.
+ *      - If `is_neg` is `false`, the function prepends a negative sign (`'-'`) to the resulting string.
+ *      - If `is_neg` is `true`, no negative sign is added.
  *
  *   4. Step 4: Copy the formatted string:
  *      - The function copies the necessary portion of the original string into the result string, 
- * 		  skipping the first character if `n_flag` is true.
+ * 		  skipping the first character if `is_neg` is true.
  */
-void	ft_add_sign(char *result, bool n_flag)
+void	ft_add_sign(char *result, bool is_neg)
 {
 	uint16_t	len;
 
@@ -126,10 +126,10 @@ void	ft_add_sign(char *result, bool n_flag)
 		--len;
 	if (result[len] == '.' && result[0] == '0')
 		--len;
-	if (n_flag == false)
-		ft_memmove(result + n_flag, result + 1, len);
+	if (is_neg == false)
+		ft_memmove(result + is_neg, result + 1, len);
 	else
 		result[0] = '-';
-	result[len + n_flag] = '\0';
+	result[len + is_neg] = '\0';
 }
 

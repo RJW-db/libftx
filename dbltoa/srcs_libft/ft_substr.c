@@ -1,48 +1,22 @@
 
 #include "../includes/ft_dbltoa.h"
 
-char	*ft_substr(char const *s, uint32_t start, size_t len)
-{
-	char	*ptr;
-	size_t	i;
-	size_t	s_len;
-
-	if (s == NULL)
-		return (NULL);
-	s_len = ft_strlen(s);
-	if (s_len <= start)
-		len = 0;
-	else if ((s_len - start) < len)
-		len = s_len - start;
-	ptr = malloc((len + 1) * sizeof(char));
-	if (ptr == NULL)
-		return (NULL);
-	i = 0;
-	while (i < len && s[start + i])
-	{
-		ptr[i] = s[start + i];
-		++i;
-	}
-	ptr[i] = '\0';
-	return (ptr);
-}
-
-void	substr_buff(const char *s, uint32_t start, size_t len, char *buff)
+void	extract_substr(const char *s, uint32_t start, size_t ln, char *buf)
 {
 	size_t i = 0;
 	size_t s_len;
 
-	if (s == NULL || buff == NULL)
+	if (s == NULL || buf == NULL)
 		return;
 	s_len = ft_strlen(s);
 	if (s_len <= start)
-		len = 0;
-	else if ((s_len - start) < len)
-		len = s_len - start;
-	while (i < len && s[start + i])
+		ln = 0;
+	else if ((s_len - start) < ln)
+		ln = s_len - start;
+	while (i < ln && s[start + i])
 	{
-		buff[i] = s[start + i];
+		buf[i] = s[start + i];
 		++i;
 	}
-	buff[i] = '\0';
+	buf[i] = '\0';
 }

@@ -6,7 +6,7 @@
 /*   By: jmetzger <jmetzger@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/02/12 17:26:37 by jmetzger      #+#    #+#                 */
-/*   Updated: 2025/03/08 02:33:34 by rjw           ########   odam.nl         */
+/*   Updated: 2025/03/08 02:57:57 by rjw           ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@
  * 
  * For more information (https://github.com/llefranc/42_ft_printf)
  */
-char	*dbltoa(double ogNum)
+char	*dbltoa(double value)
 {
 	int16_t			digitexpo;			// stores the exponent
 	char			numerator[BIG_INT + 1]; 	// storing the numerator
@@ -37,16 +37,16 @@ char	*dbltoa(double ogNum)
 	// char			numerator[MAX_DBL_STR_LEN]; 	// storing the numerator
 	// char			denominator[MAX_DBL_STR_LEN]; 	// storing the denominator
 	char			result[MAX_DIGIT + 1];
-	bool 			n_flag;
+	bool 			is_neg;
 	t_dbl			strings;
 
-	n_flag = true;
+	is_neg = true;
 	// initialization numerator and denominator (filling them with zeros)
 	intialize_string(numerator);
 	intialize_string(denominator);
 	
 	strings = (t_dbl){numerator, denominator, result, false};
-	if (fraction_conversion(ogNum, &strings, &n_flag) == false)
+	if (fraction_conversion(value, &strings, &is_neg) == false)
 	{
 		if (strings.is_buffered == false)
 			return (ft_strdup(result));
@@ -54,7 +54,7 @@ char	*dbltoa(double ogNum)
 	}
 	
 	// One digit infront of the '.'
-	scientific_notation(numerator, denominator, &digitexpo, ogNum);
+	scientific_notation(numerator, denominator, &digitexpo, value);
 
 	// Converts the processed numerator and denominator into a string
 	convert_to_str(&strings, digitexpo);
@@ -62,7 +62,7 @@ char	*dbltoa(double ogNum)
 	// printf(">%s\n", result);
 
 	// Add Sign and remove extra zeros
-	ft_add_sign(result, n_flag);
+	ft_add_sign(result, is_neg);
 	
 	// if (strings.is_buffered == false)
 		return (ft_strdup(result));
@@ -70,7 +70,7 @@ char	*dbltoa(double ogNum)
 }
 
 
-uint16_t	dbltoa_buff(double ogNum, char *buff, uint16_t b_size)
+uint16_t	dbltoa_buff(double value, char *buff, uint16_t b_size)
 {
 	int16_t			digitexpo;			// stores the exponent
 	char			numerator[BIG_INT + 1]; 	// storing the numerator
@@ -78,16 +78,16 @@ uint16_t	dbltoa_buff(double ogNum, char *buff, uint16_t b_size)
 	// char			numerator[MAX_DBL_STR_LEN]; 	// storing the numerator
 	// char			denominator[MAX_DBL_STR_LEN]; 	// storing the denominator
 	// char			result[MAX_DIGIT + 1];
-	bool 			n_flag;
+	bool 			is_neg;
 	t_dbl			strings;
 
-	n_flag = true;
+	is_neg = true;
 	// initialization numerator and denominator (filling them with zeros)
 	intialize_string(numerator);
 	intialize_string(denominator);
 	
 	strings = (t_dbl){numerator, denominator, buff, false};
-	if (fraction_conversion(ogNum, &strings, &n_flag) == false)
+	if (fraction_conversion(value, &strings, &is_neg) == false)
 	{
 		if (strings.is_buffered == false)
 			// return (ft_strdup(result));
@@ -95,7 +95,7 @@ uint16_t	dbltoa_buff(double ogNum, char *buff, uint16_t b_size)
 	}
 	
 	// One digit infront of the '.'
-	scientific_notation(numerator, denominator, &digitexpo, ogNum);
+	scientific_notation(numerator, denominator, &digitexpo, value);
 
 	// Converts the processed numerator and denominator into a string
 	convert_to_str(&strings, digitexpo);
@@ -103,7 +103,7 @@ uint16_t	dbltoa_buff(double ogNum, char *buff, uint16_t b_size)
 	// printf(">%s\n", result);
 
 	// Add Sign and remove extra zeros
-	ft_add_sign(strings.result, n_flag);
+	ft_add_sign(strings.result, is_neg);
 	// if (strings.is_buffered == false)
 		// return (ft_strdup(result));
 

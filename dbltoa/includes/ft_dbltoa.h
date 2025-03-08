@@ -6,7 +6,7 @@
 /*   By: jmetzger <jmetzger@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/02/12 17:26:37 by jmetzger      #+#    #+#                 */
-/*   Updated: 2025/03/08 02:47:13 by rjw           ########   odam.nl         */
+/*   Updated: 2025/03/08 03:50:37 by rjw           ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,49 +60,45 @@ typedef struct s_dbl
 }	t_dbl;
 
 // CONVERTSION
-char	*dbltoa(double dbl);
-uint16_t	dbltoa_buff(double ogNum, char *buff, uint16_t b_size);
-// char	*fraction_conversion(double ogNum, char *nume, char *denom, bool *n_flag);
-bool	fraction_conversion(double ogNum, t_dbl *strings, bool *n_flag);
-void	scientific_notation(char *num, char *deno, int16_t *digitexpo, double ogNum);
-// char	*convert_to_str(char *dbl, char *num, char *deno, int16_t digitexp);
-char	*convert_to_str(t_dbl *s, int16_t digitexp);
-bool 	binary_to_decimal(char *nbr, char *buff, size_t buff_size);
+char		*dbltoa(double dbl);
+uint16_t	dbltoa_buff(double value, char *buff, uint16_t b_size);
+bool		fraction_conversion(double value, t_dbl *strings, bool *is_neg);
+void		scientific_notation(char *num, char *deno, int16_t *digitexpo, double value);
+void		convert_to_str(t_dbl *s, int16_t digitexp);
+bool		binary_to_decimal(const char *bin_str, char *dec_str, size_t size);
 
 // MATH
-char	*ft_addition(char* s1, char* s2);
-void	ft_subtraction(char *s1, char *s2);
-void	ft_multiply(char *s1, char *s2);
-void	ft_division(char *s1, char *s2);
+char		*ft_addition(char* s1, char* s2);
+void		ft_subtraction(char *s1, char *s2);
+void		ft_multiply(char *s1, char *s2);
+void		ft_division(char *s1, char *s2);
 
 // UTILS
-void	intialize_string(char *str);
-void	init_struct(char *s1, char *s2, t_nbr *num);
-void	special_value(t_dbl *strs, double ogNum, uint64_t mantissa, bool n_flag);
-void	ft_add_sign(char *dblStr, bool n_flag);
-int		compare_str(char *s1, char *s2);
-int		ft_strncmp(const char *s1, const char *s2, size_t n);
+void		intialize_string(char *str);
+void		init_struct(char *s1, char *s2, t_nbr *num);
+void		special_value(t_dbl *strs, double val, uint64_t mant, bool is_neg);
+void		ft_add_sign(char *dblStr, bool is_neg);
+int			compare_str(char *s1, char *s2);
+int			ft_strncmp(const char *s1, const char *s2, size_t n);
 
-char	*double_to_bits(int64_t dbl_to_int_cast, char *bit_string);
-int64_t	ft_basecheck(char *base_from);
-int64_t	ft_atoi_b(char *nbr, char *base_from, int64_t basevalue, int64_t *sig);
+char		*double_to_bits(int64_t dbl_to_int_cast, char *bit_string);
+int64_t		ft_basecheck(char *base_from);
+int64_t		ft_atoi_b(const char *nbr, char *base_from, bool *sign);
 
-void ft_bzero(void *str, size_t size_n);
-char *ft_strdup(const char *str);
-void				*ft_memset(void *b, int c, size_t len);
-void				*ft_memmove(void *dst, const void *src, size_t len);
-size_t				ft_strlen(const char *s);
-size_t				strlen_safe(const char *str);
-char				*ft_strchr(const char *s, int c);
-size_t				ft_strlcpy(char *dst, const char *src, size_t dstsize);
-int64_t				atoi64(const char *nptr);
-char				*ft_substr(char const *s, uint32_t start, size_t len);
-void				substr_buff(const char *s, uint32_t start, size_t len, char *buff);
-char				*strjoin_safe(char const *s1, char const *s2);
-// char				*ft_itoa(long n);
-size_t				int64_base(int64_t n, const char *base, char *buff, size_t b_len);
-void				ft_putstr_fd(char *s, int fd);
+void 		ft_bzero(void *str, size_t size_n);
+char 		*ft_strdup(const char *str);
+void		*ft_memset(void *b, int c, size_t len);
+void		*ft_memmove(void *dst, const void *src, size_t len);
+size_t		ft_strlen(const char *s);
+size_t		strlen_safe(const char *str);
+char		*ft_strchr(const char *s, int c);
+size_t		ft_strlcpy(char *dst, const char *src, size_t dstsize);
+int64_t		atoi64(const char *nptr);
+void		extract_substr(const char *s, uint32_t start, size_t ln, char *buf);
+char		*strjoin_safe(char const *s1, char const *s2);
+size_t		int64_base(int64_t n, const char *base, char *buff, size_t b_len);
+void		ft_putstr_fd(char *s, int fd);
 
-size_t	cpy_str(char *dst, const char *src);
-uint8_t	digit_counter(int64_t n, uint8_t base_len);
+size_t		cpy_str(char *dst, const char *src);
+uint8_t		digit_counter(int64_t n, uint8_t base_len);
 #endif

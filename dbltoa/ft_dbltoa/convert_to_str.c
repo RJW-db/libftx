@@ -6,7 +6,7 @@
 /*   By: jmetzger <jmetzger@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/02/12 17:26:37 by jmetzger      #+#    #+#                 */
-/*   Updated: 2025/03/08 02:32:22 by rjw           ########   odam.nl         */
+/*   Updated: 2025/03/08 03:05:20 by rjw           ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,8 +108,7 @@ int	ft_strncmp(const char *s1, const char *s2, size_t n)
  * function that converts a fraction (numerator/denominator) into a floating-point number string.
  * Handles edge cases like numbers < 1, proper placement of decimal point, and precision.
  */
-// char	*convert_to_str(char *str, char *num, char *deno, int16_t digitexp)
-char	*convert_to_str(t_dbl *s, int16_t digitexp)
+void	convert_to_str(t_dbl *s, int16_t digitexp)
 {
 	char		tmp[BIG_INT + 1];
 	char		digit[BIG_INT + 1];
@@ -131,5 +130,4 @@ char	*convert_to_str(t_dbl *s, int16_t digitexp)
 		ft_multiply(s->s1, digit);
 		place_decimal_point(s->result, s->s1, &len, &digitexp);
 	}
-	return (s->result);
 }

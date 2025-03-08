@@ -6,7 +6,7 @@
 /*   By: jmetzger <jmetzger@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/02/12 17:26:37 by jmetzger      #+#    #+#                 */
-/*   Updated: 2025/03/04 21:34:40 by rde-brui      ########   odam.nl         */
+/*   Updated: 2025/03/08 03:53:37 by rjw           ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int64_t			ft_basecheck(char *base_from)
 	return (1);
 }
 
-static int64_t			ft_isnumber(char c, char *base_from)
+static int64_t			ft_isnumber(const char c, char *base_from)
 {
 	int64_t i;
 
@@ -46,27 +46,29 @@ static int64_t			ft_isnumber(char c, char *base_from)
 	return (i);
 }
 
-int64_t			ft_atoi_b(char *nbr, char *base_from, int64_t basevalue, int64_t *sig)
+int64_t			ft_atoi_b(const char *nbr, char *base_from, bool *is_neg)
 {
-	int64_t nb;
-	int64_t i;
+	int64_t		nb;
+	uint64_t	i;
 
 	nb = 0;
 	i = 0;
-	*sig = 1;
+	*is_neg = false;
 	while ((nbr[i] >= 9 && nbr[i] <= 13) || nbr[i] == ' ')
-		i++;
+		++i;
 	while (nbr[i] == '-' || nbr[i] == '+')
 	{
 		if (nbr[i] == '-')
-			*sig *= -1;
-		i++;
+			*is_neg = !(*is_neg);
+		++i;
 	}
 	while (ft_isnumber(nbr[i], base_from) + 1 > 0)
 	{
-		nb *= basevalue;
+		nb *= ft_strlen(base_from);
 		nb += ft_isnumber(nbr[i], base_from);
-		i++;
+		++i;
 	}
-	return (nb * (*sig));
+	if (*is_neg == false)
+		return (nb);
+	return (-nb);
 }

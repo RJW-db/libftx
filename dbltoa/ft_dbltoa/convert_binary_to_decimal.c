@@ -6,21 +6,20 @@
 /*   By: jmetzger <jmetzger@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/02/12 17:26:37 by jmetzger      #+#    #+#                 */
-/*   Updated: 2025/03/04 21:34:35 by rde-brui      ########   odam.nl         */
+/*   Updated: 2025/03/08 03:50:31 by rjw           ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/ft_dbltoa.h"
 
-static void	ft_itoabase_len(uint64_t nbu, char *base_to, uint64_t basevalue, int64_t *len)
+static void	itoabase_len(uint64_t nbu, uint64_t basevalue, int64_t *len)
 {
-	if (nbu >= basevalue)
+	while (nbu >= basevalue)
 	{
-		ft_itoabase_len(nbu / basevalue, base_to, basevalue, len);
-		ft_itoabase_len(nbu % basevalue, base_to, basevalue, len);
-	}
-	else
+		nbu /= basevalue;
 		*len += 1;
+	}
+	*len += 1;
 }
 
 static void	ft_itoabase_val(uint64_t nbu, char *base_to, uint64_t basevalue, char *nbrconv)
@@ -42,38 +41,38 @@ static void	ft_itoabase_val(uint64_t nbu, char *base_to, uint64_t basevalue, cha
 	}
 }
 
-static uint64_t	ft_convunsigned(int64_t nb)
+static uint64_t	convert_to_unsigned(int64_t convert_to_unsigned)
 {
-	uint64_t nbu;
+	uint64_t unsigned_value;
 
-	nbu = 0;
-	if (nb < 0)
+	unsigned_value = 0;
+	if (convert_to_unsigned < 0)
 	{
-		nbu = -1 * nb;
+		unsigned_value = -1 * convert_to_unsigned;
 	}
 	else
-		nbu = nb;
-	return (nbu);
+		unsigned_value = convert_to_unsigned;
+	return (unsigned_value);
 }
 
-bool	binary_to_decimal(char *nbr, char *buff, size_t buff_size)
+bool		binary_to_decimal(const char *bin_str, char *dec_str, size_t size)
 {
-	uint64_t	nbu;
-	int64_t		len;
-	int64_t		sig;
+	uint64_t	binary_value;
+	int64_t		bit_length;
+	bool		sign;
 
-	nbu = ft_convunsigned(ft_atoi_b(nbr, BINARY_BASE, BINARY_NBR, &sig));
+	binary_value = convert_to_unsigned(ft_atoi_b(bin_str, BINARY_BASE, &sign));
 
-	len = 0;
-	ft_itoabase_len(nbu, DECIMAL_BASE, DECIMAL_NBR, &len);
+	bit_length = 0;
+	itoabase_len(binary_value, DECIMAL_NBR, &bit_length);
 
-	if (buff_size < (size_t)(len + 1))
+	if (size < (size_t)(bit_length + 1))
 		return (false);
 
-	ft_memset(buff, '\0', len + 1);
-	if (sig < 0 && nbu != 0)
-		buff[0] = '-';
+	ft_memset(dec_str, '\0', bit_length + 1);
+	if (sign == true && binary_value != 0)
+		dec_str[0] = '-';
 
-	ft_itoabase_val(nbu, DECIMAL_BASE, DECIMAL_NBR, buff);
+	ft_itoabase_val(binary_value, DECIMAL_BASE, DECIMAL_NBR, dec_str);
 	return (true);
 }

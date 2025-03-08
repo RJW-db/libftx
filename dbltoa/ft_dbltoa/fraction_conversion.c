@@ -6,7 +6,7 @@
 /*   By: jmetzger <jmetzger@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/02/12 17:26:37 by jmetzger      #+#    #+#                 */
-/*   Updated: 2025/03/08 02:47:13 by rjw           ########   odam.nl         */
+/*   Updated: 2025/03/08 03:24:09 by rjw           ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 // IEEE 754 representation of -NAN
 #define NEGATIVE_NAN_BITS 0xFFF8000000000000
-
 #define DBL_EXP_BITS 11
 #define DBL_EXP_DECIMAL_DIGITS 5
 #define DBL_MANT_BITS 52
@@ -89,7 +88,7 @@ typedef union	u_double_bitcast
  *		------------------------------------------------
  *
  * Adjusts the mantissa bias?
- * 	if (atoi64(expoTmp) && (atoi64(expoStr) - 1075) != 972)
+ * 	if (atoi64(exp_bits) && (atoi64(exp_str) - 1075) != 972)
  *     			*mantissa += (1UL << 52); 	// Adds 2^52 to restore the implicit 1
  * 	If exponent is NOT 972, add 2^52 to the mantissa. (Bit-shift 52 to left)
  * 	This accounts for the implicit leading 1 in normalized numbers.
@@ -120,10 +119,10 @@ typedef union	u_double_bitcast
  * 
  * Steps:
  * 		1):
- * 			expoTmp : Extracts 11 bits of the exponent (starts at 1 to skip the sign bit)
- * 			mantTmp : Extracts mantissa bits (starts at 12, because exponent goes till 11 bits)
+ * 			exp_bits : Extracts 11 bits of the exponent (starts at 1 to skip the sign bit)
+ * 			mant_bits : Extracts mantissa bits (starts at 12, because exponent goes till 11 bits)
  * 		2):
- * 			Converts binary exponent to expoStr/mantStr (exponent "10000000000" → decimal "1024")
+ * 			Converts binary exponent to exp_str/mant_str (exponent "10000000000" → decimal "1024")
  * 		3):
  * 			Converts string to int (string "1024" to integer 1024)
  * 		4):
@@ -133,23 +132,23 @@ typedef union	u_double_bitcast
  */
 static void extract_expo_mant(int16_t *exponent, uint64_t *mant, char *strbits)
 {
-	char	expoTmp[DBL_EXP_BITS + 1];
-	char	expoStr[DBL_EXP_DECIMAL_DIGITS + 1];
-	char	mantTmp[DBL_MANT_BITS + 1];
-	char	mantStr[DBL_MANT_DECIMAL_DIGITS + 1];
+	char	exp_bits[DBL_EXP_BITS + 1];
+	char	exp_str[DBL_EXP_DECIMAL_DIGITS + 1];
+	char	mant_bits[DBL_MANT_BITS + 1];
+	char	mant_str[DBL_MANT_DECIMAL_DIGITS + 1];
 
-	substr_buff(strbits, 1, DBL_EXP_BITS, expoTmp);
-	substr_buff(strbits, DBL_EXP_BITS + 1, DBL_MANT_BITS, mantTmp);
-	binary_to_decimal(expoTmp, expoStr, sizeof(expoStr));
-	binary_to_decimal(mantTmp, mantStr, sizeof(mantStr));
-	*exponent = atoi64(expoStr);
-	*mant = atoi64(mantStr);
+	extract_substr(strbits, 1, DBL_EXP_BITS, exp_bits);
+	extract_substr(strbits, DBL_EXP_BITS + 1, DBL_MANT_BITS, mant_bits);
+	binary_to_decimal(exp_bits, exp_str, sizeof(exp_str));
+	binary_to_decimal(mant_bits, mant_str, sizeof(mant_str));
+	*exponent = atoi64(exp_str);
+	*mant = atoi64(mant_str);
 	if (*exponent != 0) 
 		*exponent -= DBL_EXP_NORMAL_BIAS;
 	else
 		*exponent -= DBL_EXP_SUBNORMAL_BIAS;
-	if (atoi64(expoTmp) > 0 &&
-		(atoi64(expoStr) - DBL_EXP_NORMAL_BIAS) != DBL_EXP_MAX)
+	if (atoi64(exp_bits) > 0 &&
+		(atoi64(exp_str) - DBL_EXP_NORMAL_BIAS) != DBL_EXP_MAX)
 	{
 		*mant += (1UL << DBL_MANT_BITS);
 	}
@@ -244,16 +243,16 @@ static char	*pow2(char *bigint, int64_t exponent)
  */
 static char	*fill_numerator(char *numerator, uint64_t mant, int16_t expo)
 {
-	char	mantTmp[DBL_MANT_BITS + 1];
+	char	mant_bits[DBL_MANT_BITS + 1];
 	char	exponent[BIG_INT + 1];
 	size_t	mant_len;
 
-	mant_len = int64_base(mant, DECIMAL_BASE, mantTmp, sizeof(mantTmp));
+	mant_len = int64_base(mant, DECIMAL_BASE, mant_bits, sizeof(mant_bits));
 	if (mant_len >= BIG_INT)
 		return (NULL);
 	if (expo > 0)
 	{	
-		cpy_str(numerator + BIG_INT - mant_len, mantTmp);
+		cpy_str(numerator + BIG_INT - mant_len, mant_bits);
 		intialize_string(exponent);
 		exponent[BIG_INT - 1] = '2';
 		if (pow2(exponent, expo) == NULL)
@@ -261,7 +260,7 @@ static char	*fill_numerator(char *numerator, uint64_t mant, int16_t expo)
 		ft_multiply(numerator, exponent);
 	}
 	else
-		cpy_str(numerator + BIG_INT - mant_len, mantTmp);
+		cpy_str(numerator + BIG_INT - mant_len, mant_bits);
 	return (numerator);
 }
 
@@ -270,7 +269,7 @@ static char	*fill_numerator(char *numerator, uint64_t mant, int16_t expo)
  * 
  * If the exponent is Positive
  * 		The denominator is just 1, meaning the fraction is already in its final form
- * If the ogNum != 0
+ * If the value != 0
  * 		Exponent is Negative -> denominator = 2^−exponent
  * 		Calculates 2^−exponent
  * else Floating-point number is Zero
@@ -288,10 +287,10 @@ static char	*fill_numerator(char *numerator, uint64_t mant, int16_t expo)
  * fill_denominator sets the denominator, either as 1 (for positive exponents) or as 2^−exponent (for negative exponents).
  * Together, they allow a floating-point number to be represented as a fraction.
  */
-static char	*fill_denominator(char *denominator, int16_t exponent, double ogNum)
+static char	*fill_denominator(char *denominator, int16_t exponent, double value)
 {
 	intialize_string(denominator);
-	if (exponent <= 0 && ogNum != 0) 
+	if (exponent <= 0 && value != 0) 
 	{
 		denominator[BIG_INT - 1] = '2';
 		if (pow2(denominator, -exponent) == NULL)
@@ -334,26 +333,26 @@ static char	*fill_denominator(char *denominator, int16_t exponent, double ogNum)
  * 		S1111111 1111MMMM MMMMMMMM MMMMMMMM MMMMMMMM MMMMMMMM MMMMMMMM MMMMMMMM
  * 	- get_exponent_mantissa() subtracts the bias (1023), so we get 972 (2047 - 1075).
  */
-bool	fraction_conversion(double ogNum, t_dbl *strings, bool *n_flag)
+bool	fraction_conversion(double value, t_dbl *strings, bool *is_neg)
 {
 	char		bit_representation[DBL_BIT_COUNT + 1];
 	int16_t		exp_value;
 	uint64_t	mantissa_value;
 	t_bitcast	cast;
 
-	cast.d = ogNum;
+	cast.d = value;
 	double_to_bits(cast.i, bit_representation);
 
 	if (bit_representation[0] == '0' && cast.i != (int64_t)NEGATIVE_NAN_BITS)
-		*n_flag = false;
+		*is_neg = false;
 
 	extract_expo_mant(&exp_value, &mantissa_value, bit_representation);
 	if (exp_value == DBL_EXP_MAX)
 	{
-		special_value(strings, ogNum, mantissa_value, *n_flag);
+		special_value(strings, value, mantissa_value, *is_neg);
 		return (false);
 	}
 	fill_numerator(strings->s1, mantissa_value, exp_value);
-	fill_denominator(strings->s2, exp_value, ogNum);
+	fill_denominator(strings->s2, exp_value, value);
 	return (true);
 }
