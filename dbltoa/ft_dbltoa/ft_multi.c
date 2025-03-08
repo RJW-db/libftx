@@ -6,7 +6,7 @@
 /*   By: jmetzger <jmetzger@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/02/12 17:26:37 by jmetzger      #+#    #+#                 */
-/*   Updated: 2025/03/08 01:35:01 by rjw           ########   odam.nl         */
+/*   Updated: 2025/03/08 02:32:22 by rjw           ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ void	ft_multiply(char *s1, char *s2)
 	t_dbl	strings;
 	t_nbr	nbr;
 
-	init_bigChar(result);
+	intialize_string(result);
 	sign = '+';
 	if ((s1[0] == '-' && s2[0] != '-') || (s1[0] != '-' && s2[0] == '-'))
 		sign = '-';

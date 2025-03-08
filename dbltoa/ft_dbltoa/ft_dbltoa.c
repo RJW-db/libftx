@@ -6,7 +6,7 @@
 /*   By: jmetzger <jmetzger@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/02/12 17:26:37 by jmetzger      #+#    #+#                 */
-/*   Updated: 2025/03/08 01:32:35 by rjw           ########   odam.nl         */
+/*   Updated: 2025/03/08 02:33:34 by rjw           ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,11 +42,11 @@ char	*dbltoa(double ogNum)
 
 	n_flag = true;
 	// initialization numerator and denominator (filling them with zeros)
-	init_bigChar(numerator);
-	init_bigChar(denominator);
+	intialize_string(numerator);
+	intialize_string(denominator);
 	
 	strings = (t_dbl){numerator, denominator, result, false};
-	if (convert_to_fraction(ogNum, &strings, &n_flag) == false)
+	if (fraction_conversion(ogNum, &strings, &n_flag) == false)
 	{
 		if (strings.is_buffered == false)
 			return (ft_strdup(result));
@@ -54,7 +54,7 @@ char	*dbltoa(double ogNum)
 	}
 	
 	// One digit infront of the '.'
-	convert_to_sci_notation(numerator, denominator, &digitexpo, ogNum);
+	scientific_notation(numerator, denominator, &digitexpo, ogNum);
 
 	// Converts the processed numerator and denominator into a string
 	convert_to_str(&strings, digitexpo);
@@ -83,11 +83,11 @@ uint16_t	dbltoa_buff(double ogNum, char *buff, uint16_t b_size)
 
 	n_flag = true;
 	// initialization numerator and denominator (filling them with zeros)
-	init_bigChar(numerator);
-	init_bigChar(denominator);
+	intialize_string(numerator);
+	intialize_string(denominator);
 	
 	strings = (t_dbl){numerator, denominator, buff, false};
-	if (convert_to_fraction(ogNum, &strings, &n_flag) == false)
+	if (fraction_conversion(ogNum, &strings, &n_flag) == false)
 	{
 		if (strings.is_buffered == false)
 			// return (ft_strdup(result));
@@ -95,7 +95,7 @@ uint16_t	dbltoa_buff(double ogNum, char *buff, uint16_t b_size)
 	}
 	
 	// One digit infront of the '.'
-	convert_to_sci_notation(numerator, denominator, &digitexpo, ogNum);
+	scientific_notation(numerator, denominator, &digitexpo, ogNum);
 
 	// Converts the processed numerator and denominator into a string
 	convert_to_str(&strings, digitexpo);

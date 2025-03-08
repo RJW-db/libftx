@@ -43,7 +43,7 @@ int	main(void)
 {
 	// double test_num = 3.14;
 	// print_double_bits(test_num);
-	// char *bit_string = double_to_bitstring(test_num, sizeof(double));
+	// char *bit_string = double_to_bits(test_num, sizeof(double));
 	// if (bit_string) {
 	// 	printf("Bit string: %s\n", bit_string);
 	// 	free(bit_string);

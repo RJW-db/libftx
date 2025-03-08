@@ -23,13 +23,13 @@ SRCS		= main.c \
 			  srcs_libft/ft_itoa.c \
 			  srcs_libft/ft_itoa_base.c \
 			  srcs_libft/ft_memmove.c \
-			  ft_dbltoa/convert_to_sci_notation.c \
+			  ft_dbltoa/scientific_notation.c \
 			  ft_dbltoa/convert_binary_to_decimal.c \
 			  ft_dbltoa/convert_binary_to_decimal2.c \
 			  ft_dbltoa/ft_subs.c \
 			  ft_dbltoa/ft_multi.c \
 			  ft_dbltoa/ft_divi.c \
-			  ft_dbltoa/fraction.c \
+			  ft_dbltoa/fraction_conversion.c \
 			  ft_dbltoa/ft_utils2.c \
 			  ft_dbltoa/ft_utils.c \
 			  ft_dbltoa/ft_dbltoa.c \

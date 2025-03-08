@@ -6,7 +6,7 @@
 /*   By: jmetzger <jmetzger@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/02/12 17:26:37 by jmetzger      #+#    #+#                 */
-/*   Updated: 2025/03/08 01:38:45 by rjw           ########   odam.nl         */
+/*   Updated: 2025/03/08 02:47:13 by rjw           ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,20 +19,20 @@
 // #elif defined(__APPLE__) && defined(__MACH__)
 #endif
 
-/* init_bigChar()
+/* intialize_string()
  * The function takes str and fills it zeros (48 -> ASCII code for '0').
  * The first place of the string (str[0]) will be filled with a '+',
  * because the first place in binary is the sign holder, 
  * so we will fill it with a '+'
  */
-void init_bigChar(char *str)
+void intialize_string(char *str)
 {
 	ft_memset(str, '0', BIG_INT);
 	str[BIG_INT] = '\0';
 	str[0] = '+';				// TODO check if this can be entirely removed
 }
 
-/* error_inf()
+/* special_value()
  * This function handles errors related to floating-point numbers, 
  * specifically when dealing with special cases like "infinity" or "NaN" (Not a Number).
  * Example:
@@ -40,7 +40,7 @@ void init_bigChar(char *str)
  *		ogNum = -1.0 and mantissa = 0, return "-inf".
  *		ogNum = 0.0 and mantissa = 0, return "nan".
  */
-void	error_inf(t_dbl *strs, double ogNum, uint64_t mantissa, bool n_flag)
+void	special_value(t_dbl *strs, double ogNum, uint64_t mantissa, bool n_flag)
 {
 	const char	neg_nan[2][5] = {"-nan", "nan"};
 
@@ -57,7 +57,7 @@ void	error_inf(t_dbl *strs, double ogNum, uint64_t mantissa, bool n_flag)
 	}
 }
 
-/* double_to_bitstring()
+/* double_to_bits()
  * Converts the void* (in this case double) into a string of bits.
  * So, 3.14 will turn into 01000000 00001001 00001100 11001100 11001100 11001100 11001100 11001100
  * 
@@ -71,7 +71,7 @@ void	error_inf(t_dbl *strs, double ogNum, uint64_t mantissa, bool n_flag)
  * 
  * And then it will joins the new tmp to the existing strBits
  */
-char	*double_to_bitstring(int64_t dbl_to_int_cast, char *bit_string)
+char	*double_to_bits(int64_t dbl_to_int_cast, char *bit_string)
 {
 	char		buff[BYTE + 1];
 	int16_t		byte_idx;

@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   convert_to_sci_notation.c                          :+:    :+:            */
+/*   scientific_notation.c                          :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: jmetzger <jmetzger@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/02/12 17:26:37 by jmetzger      #+#    #+#                 */
-/*   Updated: 2025/03/07 17:31:23 by rde-brui      ########   odam.nl         */
+/*   Updated: 2025/03/08 02:26:18 by rjw           ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/ft_dbltoa.h"
 
-/* get_exponent_base10()
+/* calculate_exponent()
  * This function is to determine the order of magnitude (or exponent in scientific notation)
  * of the given number.
  * The function calculates the exponent of the number in base 10—essentially 
@@ -45,26 +45,26 @@
  *	3) Return intNum:
  *		The function returns 1.
  */
-static int16_t	get_exponent_base10(double nb)
+static int16_t	calculate_exponent(double nbr)
 {
 	int16_t	exponent;
 
-	if (nb < 0)
-		nb = -nb;
+	if (nbr < 0)
+		nbr = -nbr;
 	exponent = 0;
-	if (nb >= 10)
+	if (nbr >= 10)
 	{
-		while (nb >= 10)
+		while (nbr >= 10)
 		{
-			nb /= 10;
+			nbr /= 10;
 			++exponent;
 		}
 	}
-	if (nb != 0)
+	if (nbr != 0)
 	{
-		while (nb < 1)
+		while (nbr < 1)
 		{
-			nb *= 10;
+			nbr *= 10;
 			--exponent;
 		}
 	}
@@ -83,22 +83,21 @@ static int16_t	get_exponent_base10(double nb)
  * 	 Multiply the numerator by 10^|digitexpo| -> This shifts the decimal point right
  * 	 Example: 0.024 (convert to 2.4 × 10⁻²)
  */
-void	convert_to_sci_notation(char *num, char *deno, int16_t *digitexpo, double ogNum)
+void	scientific_notation(char *nbr, char *deno, int16_t *digitexpo, double ogNum)
 {
 	char	digit[BIG_INT + 1];
 
-	// base-10 exponent needed to express ogNum in scientific notation
-	*digitexpo = get_exponent_base10(ogNum);
-
-	init_bigChar(digit);
+	*digitexpo = calculate_exponent(ogNum);
 	if (*digitexpo > 0)
 	{
+		intialize_string(digit);
 		digit[BIG_INT - *digitexpo - 1] = '1';
 		ft_multiply(deno, digit);
 	}
 	else if (*digitexpo < 0)
 	{
+		intialize_string(digit);
 		digit[BIG_INT + *digitexpo - 1] = '1';
-		ft_multiply(num, digit);
+		ft_multiply(nbr, digit);
 	}
 }

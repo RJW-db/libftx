@@ -6,7 +6,7 @@
 /*   By: jmetzger <jmetzger@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/02/12 17:26:37 by jmetzger      #+#    #+#                 */
-/*   Updated: 2025/03/08 01:31:34 by rjw           ########   odam.nl         */
+/*   Updated: 2025/03/08 02:32:22 by rjw           ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@ static void		convert_first_digit(char *result, char *num, char *deno)
 	char	tmp[BIG_INT + 1];
 	char	digit[BIG_INT + 1];
 
-	init_bigChar(tmp);
-	init_bigChar(digit);
+	intialize_string(tmp);
+	intialize_string(digit);
 	digit[BIG_INT - 2] = '1';
 	
 	cpy_str(tmp, num);
@@ -49,7 +49,7 @@ static void	place_decimal_point(char *result, char *num, uint16_t *len, int16_t 
 	uint16_t	i;
 
 	i = 0;
-	init_bigChar(zero);
+	intialize_string(zero);
 	if (*len - 1 > *digitexp && *digitexp != 0)
 	{
 		result[(*len)++] = '.';
@@ -117,12 +117,12 @@ char	*convert_to_str(t_dbl *s, int16_t digitexp)
 	uint16_t	len;
 
 	len = initialize_strings(s, &digitexp);
-	init_bigChar(digit);
+	intialize_string(digit);
 	digit[BIG_INT - 2] = '1';
-	init_bigChar(zero);
+	intialize_string(zero);
 	while (ft_strncmp(s->s1, zero, BIG_INT) != 0 && len < MAX_DIGIT)
 	{
-		// init_bigChar(tmp);
+		// intialize_string(tmp);
 		cpy_str(tmp, s->s1);
 		ft_division(tmp, s->s2);
 		s->result[len++] = tmp[BIG_INT - 1];

@@ -6,7 +6,7 @@
 /*   By: jmetzger <jmetzger@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/02/12 17:26:37 by jmetzger      #+#    #+#                 */
-/*   Updated: 2025/03/07 17:41:19 by rde-brui      ########   odam.nl         */
+/*   Updated: 2025/03/08 02:47:13 by rjw           ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@
 # define DBL_BYTES 8
 # define BYTE 8
 # define DBL_BIT_COUNT 64
+
+#define DBL_MANT_DECIMAL_DIGITS 16  // Maximum digits needed for mantissa
 
 #define DECIMAL_NBR 10
 #define DECIMAL_BASE "0123456789"
@@ -60,9 +62,9 @@ typedef struct s_dbl
 // CONVERTSION
 char	*dbltoa(double dbl);
 uint16_t	dbltoa_buff(double ogNum, char *buff, uint16_t b_size);
-// char	*convert_to_fraction(double ogNum, char *nume, char *denom, bool *n_flag);
-bool	convert_to_fraction(double ogNum, t_dbl *strings, bool *n_flag);
-void	convert_to_sci_notation(char *num, char *deno, int16_t *digitexpo, double ogNum);
+// char	*fraction_conversion(double ogNum, char *nume, char *denom, bool *n_flag);
+bool	fraction_conversion(double ogNum, t_dbl *strings, bool *n_flag);
+void	scientific_notation(char *num, char *deno, int16_t *digitexpo, double ogNum);
 // char	*convert_to_str(char *dbl, char *num, char *deno, int16_t digitexp);
 char	*convert_to_str(t_dbl *s, int16_t digitexp);
 bool 	binary_to_decimal(char *nbr, char *buff, size_t buff_size);
@@ -74,14 +76,14 @@ void	ft_multiply(char *s1, char *s2);
 void	ft_division(char *s1, char *s2);
 
 // UTILS
-void	init_bigChar(char *str);
+void	intialize_string(char *str);
 void	init_struct(char *s1, char *s2, t_nbr *num);
-void	error_inf(t_dbl *strs, double ogNum, uint64_t mantissa, bool n_flag);
+void	special_value(t_dbl *strs, double ogNum, uint64_t mantissa, bool n_flag);
 void	ft_add_sign(char *dblStr, bool n_flag);
 int		compare_str(char *s1, char *s2);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
 
-char	*double_to_bitstring(int64_t dbl_to_int_cast, char *bit_string);
+char	*double_to_bits(int64_t dbl_to_int_cast, char *bit_string);
 int64_t	ft_basecheck(char *base_from);
 int64_t	ft_atoi_b(char *nbr, char *base_from, int64_t basevalue, int64_t *sig);
 
