@@ -6,7 +6,7 @@
 /*   By: rjw <rjw@student.codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/03/01 01:29:17 by rjw           #+#    #+#                 */
-/*   Updated: 2025/03/01 01:29:19 by rjw           ########   odam.nl         */
+/*   Updated: 2025/03/09 03:30:56 by rjw           ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int8_t	sign_d(double n)
 	return (-1);
 }
 
-uint64_t	int64_to_abs(int64_t n)
+uint64_t	abs_int64(int64_t n)
 {
 	if (n >= 0)
 		return ((uint64_t)n);

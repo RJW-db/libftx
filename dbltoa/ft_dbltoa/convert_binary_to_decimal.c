@@ -6,73 +6,66 @@
 /*   By: jmetzger <jmetzger@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/02/12 17:26:37 by jmetzger      #+#    #+#                 */
-/*   Updated: 2025/03/08 03:50:31 by rjw           ########   odam.nl         */
+/*   Updated: 2025/03/09 03:50:08 by rjw           ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/ft_dbltoa.h"
 
-static void	itoabase_len(uint64_t nbu, uint64_t basevalue, int64_t *len)
+// base_len && convert_to_base, can be in atoi_utils or something
+
+uint16_t	base_len(uint64_t nbr, uint64_t base)
 {
-	while (nbu >= basevalue)
+	uint16_t	length;
+	
+	length = 1;
+	while (nbr >= base)
 	{
-		nbu /= basevalue;
-		*len += 1;
+		nbr /= base;
+		length += 1;
 	}
-	*len += 1;
+	return length;
 }
 
-static void	ft_itoabase_val(uint64_t nbu, char *base_to, uint64_t basevalue, char *nbrconv)
+void	convert_base(uint64_t nbu, char *base, uint64_t b_val, char *result)
 {
 	uint64_t	i;
+	uint64_t	len;
+	char		tmp;
 
-	i = 0;
-	if (nbu >= basevalue)
+	if (b_val < 2 || b_val > 64)
+		return;
+	len = 0;
+	while (nbu >= b_val)
 	{
-		ft_itoabase_val(nbu / basevalue, base_to, basevalue, nbrconv);
-		ft_itoabase_val(nbu % basevalue, base_to, basevalue, nbrconv);
+		result[len++] = base[nbu % b_val];
+		nbu /= b_val;
 	}
-	else
+	result[len++] = base[nbu];
+	result[len] = '\0';
+	for (i = 0; i < len / 2; ++i)
 	{
-		while (nbrconv[i])
-			i++;
-		nbrconv[i] = base_to[nbu];
-		nbrconv[i + 1] = '\0';
+		tmp = result[i];
+		result[i] = result[len - i - 1];
+		result[len - i - 1] = tmp;
 	}
 }
 
-static uint64_t	convert_to_unsigned(int64_t convert_to_unsigned)
-{
-	uint64_t unsigned_value;
-
-	unsigned_value = 0;
-	if (convert_to_unsigned < 0)
-	{
-		unsigned_value = -1 * convert_to_unsigned;
-	}
-	else
-		unsigned_value = convert_to_unsigned;
-	return (unsigned_value);
-}
-
-bool		binary_to_decimal(const char *bin_str, char *dec_str, size_t size)
+bool	binary_to_decimal(const char *bin_str, char *dec_str, size_t size)
 {
 	uint64_t	binary_value;
-	int64_t		bit_length;
+	uint16_t	bit_length;
 	bool		sign;
 
-	binary_value = convert_to_unsigned(ft_atoi_b(bin_str, BINARY_BASE, &sign));
+	binary_value = abs_int64(atoi_base(bin_str, BINARY_BASE, &sign));
 
-	bit_length = 0;
-	itoabase_len(binary_value, DECIMAL_NBR, &bit_length);
+	bit_length = base_len(binary_value, DECIMAL_NBR);
 
 	if (size < (size_t)(bit_length + 1))
 		return (false);
-
 	ft_memset(dec_str, '\0', bit_length + 1);
 	if (sign == true && binary_value != 0)
 		dec_str[0] = '-';
-
-	ft_itoabase_val(binary_value, DECIMAL_BASE, DECIMAL_NBR, dec_str);
+	convert_base(binary_value, DECIMAL_BASE, DECIMAL_NBR, dec_str);
 	return (true);
 }

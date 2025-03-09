@@ -6,7 +6,7 @@
 /*   By: jmetzger <jmetzger@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/02/12 17:26:37 by jmetzger      #+#    #+#                 */
-/*   Updated: 2025/03/08 03:50:37 by rjw           ########   odam.nl         */
+/*   Updated: 2025/03/09 04:09:00 by rjw           ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ char		*dbltoa(double dbl);
 uint16_t	dbltoa_buff(double value, char *buff, uint16_t b_size);
 bool		fraction_conversion(double value, t_dbl *strings, bool *is_neg);
 void		scientific_notation(char *num, char *deno, int16_t *digitexpo, double value);
-void		convert_to_str(t_dbl *s, int16_t digitexp);
+void		double_to_string(t_dbl *s, int16_t digitexp);
 bool		binary_to_decimal(const char *bin_str, char *dec_str, size_t size);
 
 // MATH
@@ -82,9 +82,7 @@ int			compare_str(char *s1, char *s2);
 int			ft_strncmp(const char *s1, const char *s2, size_t n);
 
 char		*double_to_bits(int64_t dbl_to_int_cast, char *bit_string);
-int64_t		ft_basecheck(char *base_from);
-int64_t		ft_atoi_b(const char *nbr, char *base_from, bool *sign);
-
+int64_t		atoi_base(const char *num_str, char *base, bool *is_neg);
 void 		ft_bzero(void *str, size_t size_n);
 char 		*ft_strdup(const char *str);
 void		*ft_memset(void *b, int c, size_t len);
@@ -101,4 +99,5 @@ void		ft_putstr_fd(char *s, int fd);
 
 size_t		cpy_str(char *dst, const char *src);
 uint8_t		digit_counter(int64_t n, uint8_t base_len);
+uint64_t	abs_int64(int64_t n);
 #endif

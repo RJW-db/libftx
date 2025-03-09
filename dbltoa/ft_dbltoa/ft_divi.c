@@ -6,7 +6,7 @@
 /*   By: jmetzger <jmetzger@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/02/12 17:26:37 by jmetzger      #+#    #+#                 */
-/*   Updated: 2025/03/08 02:32:22 by rjw           ########   odam.nl         */
+/*   Updated: 2025/03/09 04:10:05 by rjw           ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@
  * 		Performs further calculations if necessary to ensure accuracy in the result.
  */
 
-static uint8_t	ft_find_quotient(char *s1, char *s2)
+static uint8_t	find_quotient(char *s1, char *s2)
 {
 	char	tmp[BIG_INT + 1];
 	uint8_t	quotient;
@@ -51,18 +51,18 @@ static void	init_buffers(char *numerator, char *denominator)
 	denominator[0] = '0';
 }
 
-static void	division_core(char *s1, char *s2, char *result, t_nbr *nbr)
+static void	perform_division(char *s1, char *deno, char *result, t_nbr *nbr)
 {
 	char	numerator[DBL_MANT_DECIMAL_DIGITS];
 	char	denominator[DBL_MANT_DECIMAL_DIGITS];
 	uint8_t	quotient;
 
-	init_struct(s1, s2, nbr);
+	init_struct(s1, deno, nbr);
 	init_buffers(numerator, denominator);
 	quotient = BIG_INT - nbr->sig_s2;
 	if (quotient > DBL_MANT_DECIMAL_DIGITS - 1)
 		quotient = DBL_MANT_DECIMAL_DIGITS - 1;
-	ft_strlcpy(denominator + 1, s2 + nbr->sig_s2, quotient);
+	ft_strlcpy(denominator + 1, deno + nbr->sig_s2, quotient);
 	if (nbr->sig_s1 == nbr->sig_s2)
 		ft_strlcpy(numerator + 1, s1 + nbr->sig_s1, quotient);
 	else
@@ -71,7 +71,7 @@ static void	division_core(char *s1, char *s2, char *result, t_nbr *nbr)
 		(atoi64(numerator) / ((atoi64(denominator) + 1))))
 		quotient = atoi64(numerator) / atoi64(denominator);
 	else
-		quotient = ft_find_quotient(s1, s2);
+		quotient = find_quotient(s1, deno);
 	result[BIG_INT - 1] = quotient + '0';
 }
 
@@ -84,6 +84,6 @@ void	ft_division(char *s1, char *s2)
 	if (ft_strncmp(result, s2, BIG_INT + 1) == 0)
 		return ;
 	if (ft_strncmp(s1, s2, ft_strlen(s1) + 1) >= 0)
-		division_core(s1, s2, result, &nbr);
+		perform_division(s1, s2, result, &nbr);
 	cpy_str(s1, result);
 }

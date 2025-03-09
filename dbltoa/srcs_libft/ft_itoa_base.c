@@ -25,7 +25,7 @@ uint8_t	digit_counter(int64_t n, uint8_t base_len)
 	return (count);
 }
 
-uint64_t	int64_to_abs(int64_t n)
+uint64_t	abs_int64(int64_t n)
 {
 	if (n >= 0)
 		return ((uint64_t)n);
@@ -40,7 +40,7 @@ size_t	int64_base(int64_t n, const char *base, char *buff, size_t b_len)
 	size_t		index;
 	uint8_t		num_digits;
 
-	abs_value = int64_to_abs(n);
+	abs_value = abs_int64(n);
 	base_len = strlen_safe(base);
 	if ((base_len < 2 || b_len < 2) && (b_len == 0 || cpy_str(buff, "\0") == 0))
 		return (0);

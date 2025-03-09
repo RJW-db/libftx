@@ -6,7 +6,7 @@
 /*   By: rjw <rjw@student.codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/09/11 20:31:43 by rjw           #+#    #+#                 */
-/*   Updated: 2025/03/04 15:18:22 by rde-brui      ########   odam.nl         */
+/*   Updated: 2025/03/09 03:32:08 by rjw           ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,9 +82,7 @@ char	*int_to_str(char *dst, uint8_t len, int64_t n, const char *base)
 	uint64_t		abs_value;
 
 	dst[len] = '\0';
-	abs_value = (uint64_t)n;
-	if (n < 0)
-		abs_value = (uint64_t)(-(n + 1)) + 1;
+	abs_value = abs_int64(n);
 	while (len > 0)
 	{
 		--len;

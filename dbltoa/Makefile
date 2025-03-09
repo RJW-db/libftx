@@ -33,7 +33,7 @@ SRCS		= main.c \
 			  ft_dbltoa/ft_utils2.c \
 			  ft_dbltoa/ft_utils.c \
 			  ft_dbltoa/ft_dbltoa.c \
-			  ft_dbltoa/convert_to_str.c
+			  ft_dbltoa/double_to_string.c
 
 # Create list of object files (replace .c with .o and store in OBJ_PATH)
 OBJ			= $(SRCS:%.c=$(OBJ_PATH)/%.o)

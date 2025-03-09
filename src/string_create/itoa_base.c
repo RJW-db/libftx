@@ -6,7 +6,7 @@
 /*   By: rjw <rjw@student.codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/03/01 02:29:51 by rjw           #+#    #+#                 */
-/*   Updated: 2025/03/05 01:52:39 by rjw           ########   odam.nl         */
+/*   Updated: 2025/03/09 03:30:56 by rjw           ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ size_t	int64_base(int64_t n, const char *base, char *buff, size_t b_len)
 	size_t		index;
 	uint8_t		num_digits;
 
-	abs_value = int64_to_abs(n);
+	abs_value = abs_int64(n);
 	base_len = strlen_safe(base);
 	if ((base_len < 2 || b_len < 2) && (b_len == 0 || cpy_str(buff, "\0") == 0))
 		return (0);

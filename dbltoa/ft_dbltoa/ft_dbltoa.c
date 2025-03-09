@@ -6,7 +6,7 @@
 /*   By: jmetzger <jmetzger@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/02/12 17:26:37 by jmetzger      #+#    #+#                 */
-/*   Updated: 2025/03/08 02:57:57 by rjw           ########   odam.nl         */
+/*   Updated: 2025/03/09 04:01:08 by rjw           ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,8 +57,8 @@ char	*dbltoa(double value)
 	scientific_notation(numerator, denominator, &digitexpo, value);
 
 	// Converts the processed numerator and denominator into a string
-	convert_to_str(&strings, digitexpo);
-	// result = convert_to_str(&strings, digitexpo);
+	double_to_string(&strings, digitexpo);
+	// result = double_to_string(&strings, digitexpo);
 	// printf(">%s\n", result);
 
 	// Add Sign and remove extra zeros
@@ -98,8 +98,8 @@ uint16_t	dbltoa_buff(double value, char *buff, uint16_t b_size)
 	scientific_notation(numerator, denominator, &digitexpo, value);
 
 	// Converts the processed numerator and denominator into a string
-	convert_to_str(&strings, digitexpo);
-	// result = convert_to_str(&strings, digitexpo);
+	double_to_string(&strings, digitexpo);
+	// result = double_to_string(&strings, digitexpo);
 	// printf(">%s\n", result);
 
 	// Add Sign and remove extra zeros

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   convert_to_str.c                                   :+:    :+:            */
+/*   double_to_string.c                                   :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: jmetzger <jmetzger@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/02/12 17:26:37 by jmetzger      #+#    #+#                 */
-/*   Updated: 2025/03/08 03:05:20 by rjw           ########   odam.nl         */
+/*   Updated: 2025/03/09 04:00:17 by rjw           ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
  * --tmp[BIG_INT - 1];
  * if tmp[] = '5' it would become tmp[] = '4'
  */
-static void		convert_first_digit(char *result, char *num, char *deno)
+static void		process_first_digit(char *result, char *num, char *deno)
 {
 	char	tmp[BIG_INT + 1];
 	char	digit[BIG_INT + 1];
@@ -43,31 +43,31 @@ static void		convert_first_digit(char *result, char *num, char *deno)
 /*
  * Ensures that the decimal point is placed correctly in the string representation.
  */
-static void	place_decimal_point(char *result, char *num, uint16_t *len, int16_t *digitexp)
+static void	insert_dec_point(char *res, char *num, uint16_t *len, int16_t *exp)
 {
 	char		zero[BIG_INT + 1];
 	uint16_t	i;
 
 	i = 0;
 	intialize_string(zero);
-	if (*len - 1 > *digitexp && *digitexp != 0)
+	if (*len - 1 > *exp && *exp != 0)
 	{
-		result[(*len)++] = '.';
-		*digitexp = 0;
+		res[(*len)++] = '.';
+		*exp = 0;
 	}
 	if (ft_strncmp(num, zero, BIG_INT + 1) == 0)
 	{
-		while (result[i] && result[i] != '.')
+		while (res[i] && res[i] != '.')
 			++i;
-		if (result[i] == '\0')
-			result[*digitexp + 2] = '.';
+		if (res[i] == '\0')
+			res[*exp + 2] = '.';
 	}
 }
 
 uint16_t	initialize_strings(t_dbl *s, int16_t *digitexp)
 {
+	int16_t		pos_exp;
 	uint16_t	len;
-	int16_t	pos_exp;
 
 	s->result[MAX_DIGIT] = '\0';
 	ft_memset(s->result, '0', MAX_DIGIT);
@@ -84,7 +84,7 @@ uint16_t	initialize_strings(t_dbl *s, int16_t *digitexp)
 		*digitexp = 0;
 		return (len);
 	}
-	convert_first_digit(s->result, s->s1, s->s2);
+	process_first_digit(s->result, s->s1, s->s2);
 	return (3);
 }
 
@@ -108,14 +108,14 @@ int	ft_strncmp(const char *s1, const char *s2, size_t n)
  * function that converts a fraction (numerator/denominator) into a floating-point number string.
  * Handles edge cases like numbers < 1, proper placement of decimal point, and precision.
  */
-void	convert_to_str(t_dbl *s, int16_t digitexp)
+void	double_to_string(t_dbl *s, int16_t digit_exponent)
 {
 	char		tmp[BIG_INT + 1];
 	char		digit[BIG_INT + 1];
 	char		zero[BIG_INT + 1];
 	uint16_t	len;
 
-	len = initialize_strings(s, &digitexp);
+	len = initialize_strings(s, &digit_exponent);
 	intialize_string(digit);
 	digit[BIG_INT - 2] = '1';
 	intialize_string(zero);
@@ -128,6 +128,6 @@ void	convert_to_str(t_dbl *s, int16_t digitexp)
 		while (tmp[BIG_INT - 1]-- != '0')
 			ft_subtraction(s->s1, s->s2);
 		ft_multiply(s->s1, digit);
-		place_decimal_point(s->result, s->s1, &len, &digitexp);
+		insert_dec_point(s->result, s->s1, &len, &digit_exponent);
 	}
 }

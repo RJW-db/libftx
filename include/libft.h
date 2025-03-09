@@ -6,7 +6,7 @@
 /*   By: jdobos <jdobos@student.42.fr>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/01/15 16:27:18 by rde-brui      #+#    #+#                 */
-/*   Updated: 2025/03/08 00:59:59 by rjw           ########   odam.nl         */
+/*   Updated: 2025/03/09 03:30:56 by rjw           ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,7 +123,7 @@ int			ft_lstsize(t_lst *lst);
 //	Math Functions
 int8_t		sign(int n);
 int8_t		sign_d(double n);
-uint64_t	int64_to_abs(int64_t n);
+uint64_t	abs_int64(int64_t n);
 uint8_t		digit_counter(int64_t n, uint8_t base_len);
 uint8_t		digit_ucounter(uint64_t n, uint8_t base_len);
 

@@ -6,7 +6,7 @@
 /*   By: jmetzger <jmetzger@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/02/12 17:26:37 by jmetzger      #+#    #+#                 */
-/*   Updated: 2025/03/08 03:24:09 by rjw           ########   odam.nl         */
+/*   Updated: 2025/03/09 03:58:51 by rjw           ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -195,8 +195,6 @@ static char	*pow2(char *bigint, int64_t exponent)
 		while (exponent > 1)
 		{
 			cpy_str(pow2, bigint);
-			// if (ft_addition(bigint, pow2) == NULL)
-			// 	return (NULL);
 			ft_addition(bigint, pow2);
 			--exponent;
 		}
@@ -241,10 +239,10 @@ static char	*pow2(char *bigint, int64_t exponent)
  * 			(Exponent is Zero or Negative) -> Simply copies the mantissa string into the numerator*.
  * 		4):
  */
-static char	*fill_numerator(char *numerator, uint64_t mant, int16_t expo)
+static char	*populate_numerator(char *num_str, uint64_t mant, int16_t expo)
 {
 	char	mant_bits[DBL_MANT_BITS + 1];
-	char	exponent[BIG_INT + 1];
+	char	exp_str[BIG_INT + 1];
 	size_t	mant_len;
 
 	mant_len = int64_base(mant, DECIMAL_BASE, mant_bits, sizeof(mant_bits));
@@ -252,16 +250,16 @@ static char	*fill_numerator(char *numerator, uint64_t mant, int16_t expo)
 		return (NULL);
 	if (expo > 0)
 	{	
-		cpy_str(numerator + BIG_INT - mant_len, mant_bits);
-		intialize_string(exponent);
-		exponent[BIG_INT - 1] = '2';
-		if (pow2(exponent, expo) == NULL)
+		cpy_str(num_str + BIG_INT - mant_len, mant_bits);
+		intialize_string(exp_str);
+		exp_str[BIG_INT - 1] = '2';
+		if (pow2(exp_str, expo) == NULL)
 			return (NULL);
-		ft_multiply(numerator, exponent);
+		ft_multiply(num_str, exp_str);
 	}
 	else
-		cpy_str(numerator + BIG_INT - mant_len, mant_bits);
-	return (numerator);
+		cpy_str(num_str + BIG_INT - mant_len, mant_bits);
+	return (num_str);
 }
 
 /*
@@ -276,31 +274,29 @@ static char	*fill_numerator(char *numerator, uint64_t mant, int16_t expo)
  *		Sets denominator to 1, avoiding unnecessary calculations.
  * 
  * Example:
- * fill_denominator(deno, exponent, 6.25)
+ * populate_denominator(deno, exponent, 6.25)
  * 		-exponent > 0, so deno = 1
  * Final Fraction
  * 		4004
  * 		---- = 6.25
  * 		  1
  * 
- * fill_numerator handles the mantissa and scales it based on the exponent.
- * fill_denominator sets the denominator, either as 1 (for positive exponents) or as 2^−exponent (for negative exponents).
+ * populate_numerator handles the mantissa and scales it based on the exponent.
+ * populate_denominator sets the denominator, either as 1 (for positive exponents) or as 2^−exponent (for negative exponents).
  * Together, they allow a floating-point number to be represented as a fraction.
  */
-static char	*fill_denominator(char *denominator, int16_t exponent, double value)
+static char	*populate_denominator(char *denom_str, int16_t expo, double value)
 {
-	intialize_string(denominator);
-	if (exponent <= 0 && value != 0) 
+	intialize_string(denom_str);
+	if (expo <= 0 && value != 0) 
 	{
-		denominator[BIG_INT - 1] = '2';
-		if (pow2(denominator, -exponent) == NULL)
+		denom_str[BIG_INT - 1] = '2';
+		if (pow2(denom_str, -expo) == NULL)
 			return (NULL);
+		return (denom_str);
 	}
-	else 
-	{
-		denominator[BIG_INT - 1] = '1';
-	}
-	return (denominator);
+	denom_str[BIG_INT - 1] = '1';
+	return (denom_str);
 }
 
 /*
@@ -352,7 +348,7 @@ bool	fraction_conversion(double value, t_dbl *strings, bool *is_neg)
 		special_value(strings, value, mantissa_value, *is_neg);
 		return (false);
 	}
-	fill_numerator(strings->s1, mantissa_value, exp_value);
-	fill_denominator(strings->s2, exp_value, value);
+	populate_numerator(strings->s1, mantissa_value, exp_value);
+	populate_denominator(strings->s2, exp_value, value);
 	return (true);
 }

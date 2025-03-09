@@ -6,69 +6,67 @@
 /*   By: jmetzger <jmetzger@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/02/12 17:26:37 by jmetzger      #+#    #+#                 */
-/*   Updated: 2025/03/08 03:53:37 by rjw           ########   odam.nl         */
+/*   Updated: 2025/03/09 03:22:54 by rjw           ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/ft_dbltoa.h"
 
-int64_t			ft_basecheck(char *base_from)
+static int64_t	is_valid_base(const char c, const char *base)
 {
-	int64_t i;
-	int64_t j;
-
-	i = 0;
-	if (base_from[0] == '\0' || base_from[1] == '\0')
-		return (0);
-	while (base_from[i])
+	int64_t i = 0;
+	
+	while (base[i] != '\0')
 	{
-		j = i;
-		if ((base_from[i] >= 9 && base_from[i] <= 13) || base_from[i] == ' '
-				|| base_from[i] == '+' || base_from[i] == '-')
-			return (0);
-		while (base_from[++j])
-			if (base_from[j] == base_from[i])
-				return (0);
+		if (base[i] == c)
+			return (i);
 		i++;
 	}
-	return (1);
+	return (-1);
 }
 
-static int64_t			ft_isnumber(const char c, char *base_from)
+static int16_t	parse_string(const char *nbr_str, char *base, bool *is_neg)
 {
-	int64_t i;
+	int16_t	i;
 
-	i = 0;
-	while (base_from[i] && base_from[i] != c)
-		i++;
-	if (base_from[i] == '\0' || c == '\0')
-		return (-1);
-	return (i);
-}
-
-int64_t			ft_atoi_b(const char *nbr, char *base_from, bool *is_neg)
-{
-	int64_t		nb;
-	uint64_t	i;
-
-	nb = 0;
-	i = 0;
 	*is_neg = false;
-	while ((nbr[i] >= 9 && nbr[i] <= 13) || nbr[i] == ' ')
+	if (nbr_str == NULL || base == NULL)
+		return (-1);
+	i = 0;
+	while ((nbr_str[i] >= '\t' && nbr_str[i] <= '\r') || nbr_str[i] == ' ')
 		++i;
-	while (nbr[i] == '-' || nbr[i] == '+')
+	while (nbr_str[i] == '-' || nbr_str[i] == '+')
 	{
-		if (nbr[i] == '-')
+		if (nbr_str[i] == '-')
 			*is_neg = !(*is_neg);
 		++i;
 	}
-	while (ft_isnumber(nbr[i], base_from) + 1 > 0)
+	return (i);
+}
+
+// Main function to convert the string to an integer based on the specified base
+int64_t	atoi_base(const char *nbr_str, char *base, bool *is_neg)
+{
+	uint64_t	base_len;
+	int16_t		index;
+	int64_t		digit;
+	int64_t		nbr;
+
+	index = parse_string(nbr_str, base, is_neg);
+	if (index == -1)
+		return (0);
+	base_len = ft_strlen(base);
+	if (base_len < 2)
+		return (0);
+	nbr = 0;
+	digit = is_valid_base(nbr_str[index], base);
+	while (digit >= 0)
 	{
-		nb *= ft_strlen(base_from);
-		nb += ft_isnumber(nbr[i], base_from);
-		++i;
+		nbr = nbr * base_len + digit;
+		++index;
+		digit = is_valid_base(nbr_str[index], base);
 	}
-	if (*is_neg == false)
-		return (nb);
-	return (-nb);
+	if (*is_neg)
+		nbr = -nbr;
+	return (nbr);
 }
