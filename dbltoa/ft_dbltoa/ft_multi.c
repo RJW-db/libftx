@@ -6,7 +6,7 @@
 /*   By: jmetzger <jmetzger@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/02/12 17:26:37 by jmetzger      #+#    #+#                 */
-/*   Updated: 2025/03/08 02:32:22 by rjw           ########   odam.nl         */
+/*   Updated: 2025/03/10 17:59:21 by rde-brui      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ static void	multiply_single_digit(t_dbl *s, t_nbr *nbr, int32_t i, int32_t j)
 	carry = 0;
 	while (j >= 0)
 	{
-		pos = BIG_INT - 1 - (nbr->j_s2 - i) - (nbr->i_s1 - j);
+		pos = MAX_DBL_STR_LEN - 1 - (nbr->j_s2 - i) - (nbr->i_s1 - j);
 		if (pos >= 1)
 		{
 			tmp = ((s->s2[nbr->sig_s2 + i] - '0') * \
@@ -88,7 +88,7 @@ static void	init_numbers(t_nbr *nbr, char *s1, char *s2)
 
 void	ft_multiply(char *s1, char *s2)
 {
-	char	result[BIG_INT + 1];
+	char	result[MAX_DBL_STR_LEN + 1];
 	char	sign;
 	t_dbl	strings;
 	t_nbr	nbr;

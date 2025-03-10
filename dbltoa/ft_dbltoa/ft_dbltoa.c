@@ -6,14 +6,14 @@
 /*   By: jmetzger <jmetzger@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/02/12 17:26:37 by jmetzger      #+#    #+#                 */
-/*   Updated: 2025/03/10 14:32:59 by rde-brui      ########   odam.nl         */
+/*   Updated: 2025/03/10 18:23:49 by rde-brui      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/ft_dbltoa.h"
 
 //	Static functions
-static void	dbltoa_process(double value, t_dbl *strings);
+static void	dbltoa_convert(double value, t_dbl *strings);
 
 /* ft_dbltoa()
  * This function converts a double or float to an char*.
@@ -32,14 +32,13 @@ static void	dbltoa_process(double value, t_dbl *strings);
  * 
  * For more information (https://github.com/llefranc/42_ft_printf)
  */
-static void	dbltoa_process(double value, t_dbl *strings)
+static void	dbltoa_convert(double value, t_dbl *strings)
 {
 	int16_t			digitexpo;			// stores the exponent
-	char			numerator[BIG_INT + 1]; 	// storing the numerator
-	char			denominator[BIG_INT + 1]; 	// storing the denominator
+	char			numerator[MAX_DBL_STR_LEN + 1]; 	// storing the numerator
+	char			denominator[MAX_DBL_STR_LEN + 1]; 	// storing the denominator
 	// char			numerator[MAX_DBL_STR_LEN]; 	// storing the numerator
 	// char			denominator[MAX_DBL_STR_LEN]; 	// storing the denominator
-	// char			result[MAX_DIGIT + 1];
 	bool 			is_neg;
 
 	is_neg = true;
@@ -64,18 +63,21 @@ char	*dbltoa(double value)
 
 	strings.result = result;
 	strings.is_buffered = false;
-	dbltoa_process(value, &strings);
+	dbltoa_convert(value, &strings);
+	// if (result[0] == '0')
+	// 	return (ft_strdup(result + 1));
+	// return (ft_strdup(result + (result[0] == '0')));
 	return (ft_strdup(result));
 }
 
 uint16_t	dbltoa_buff(double value, char *buff, uint16_t b_size)
 {
 	int16_t			digitexpo;			// stores the exponent
-	char			numerator[BIG_INT + 1]; 	// storing the numerator
-	char			denominator[BIG_INT + 1]; 	// storing the denominator
+	char			numerator[MAX_DBL_STR_LEN + 1]; 	// storing the numerator
+	char			denominator[MAX_DBL_STR_LEN + 1]; 	// storing the denominator
 	// char			numerator[MAX_DBL_STR_LEN]; 	// storing the numerator
 	// char			denominator[MAX_DBL_STR_LEN]; 	// storing the denominator
-	// char			result[MAX_DIGIT + 1];
+	// char			result[MAX_DBL_STR_LEN + 1];
 	bool 			is_neg;
 	t_dbl			strings;
 

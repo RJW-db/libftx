@@ -6,7 +6,7 @@
 /*   By: jmetzger <jmetzger@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/02/12 17:26:37 by jmetzger      #+#    #+#                 */
-/*   Updated: 2025/03/10 14:38:51 by rde-brui      ########   odam.nl         */
+/*   Updated: 2025/03/10 18:00:35 by rde-brui      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,14 @@
 # include <stdbool.h>
 # include <stdint.h>
 
+// # define MAX_DIGIT	1030
+// # define BIG_INT	1024 // DBL_MIN is the larges number -> has 1024 digits
 
-# define MAX_DIGIT	1030
-# define BIG_INT	1024 // DBL_MIN is the larges number -> has 1024 digits
+# define MAX_DIGIT	1083
 # define MAX_DBL_STR_LEN 1077	//	longest subnormal number + terminator
+
+// # define MAX_DIGIT	1030
+// # define MAX_DBL_STR_LEN 1024	//	longest subnormal number + terminator
 
 # define BYTE_MASK 0xFF
 # define DBL_BYTES 8
@@ -69,8 +73,8 @@ void		double_to_string(t_dbl *s, int16_t digit_exponent);
 bool		binary_to_decimal(const char *bin_str, char *dec_str, size_t size);
 
 // MATH
-void		ft_addition(char *s1, char *s2);
-// char		*ft_addition(char* s1, char* s2);
+// void		ft_addition(char *s1, char *s2);
+char		*ft_addition(char* s1, char* s2);
 // void		ft_subtraction(char *s1, char *s2);
 int			ft_subtraction(char *s1, char *s2);
 

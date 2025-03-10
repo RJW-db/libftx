@@ -6,7 +6,7 @@
 /*   By: jmetzger <jmetzger@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/02/12 17:26:37 by jmetzger      #+#    #+#                 */
-/*   Updated: 2025/03/08 03:07:52 by rjw           ########   odam.nl         */
+/*   Updated: 2025/03/10 18:16:41 by rde-brui      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,8 @@
  */
 void intialize_string(char *str)
 {
-	ft_memset(str, '0', BIG_INT);
-	str[BIG_INT] = '\0';
+	ft_memset(str, '0', MAX_DBL_STR_LEN);
+	str[MAX_DBL_STR_LEN] = '\0';
 	str[0] = '+';				// TODO check if this can be entirely removed
 }
 

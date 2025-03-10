@@ -8,6 +8,7 @@
 		"stddef.h": "c",
 		"string.h": "c",
 		"stdint.h": "c",
-		"functional": "c"
+		"functional": "c",
+		"stdbool.h": "c"
 	}
 }

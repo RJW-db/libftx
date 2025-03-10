@@ -16,26 +16,26 @@
  * Converts a fraction (numerator/denominator) into a string representation of a floating-point number.
  * Handles cases such as numbers less than 1, decimal placement, and precision.
  * 
- * --tmp[BIG_INT - 1];
+ * --tmp[MAX_DBL_STR_LEN - 1];
  * if tmp[] = '5' it would become tmp[] = '4'
  */
 static void		process_first_digit(char *result, char *num, char *deno)
 {
-	char	tmp[BIG_INT + 1];
-	char	digit[BIG_INT + 1];
+	char	tmp[MAX_DBL_STR_LEN + 1];
+	char	digit[MAX_DBL_STR_LEN + 1];
 
 	intialize_string(tmp);
 	intialize_string(digit);
-	digit[BIG_INT - 2] = '1';
+	digit[MAX_DBL_STR_LEN - 2] = '1';
 	
 	cpy_str(tmp, num);
 	ft_division(tmp, deno);			// TODO might change functions
 	
-	result[1] = tmp[BIG_INT - 1];
-	while (tmp[BIG_INT - 1] != '0')  
+	result[1] = tmp[MAX_DBL_STR_LEN - 1];
+	while (tmp[MAX_DBL_STR_LEN - 1] != '0')  
 	{  
 		ft_subtraction(num, deno);		// TODO might change functions
-		--tmp[BIG_INT - 1];
+		--tmp[MAX_DBL_STR_LEN - 1];
 	}
 	ft_multiply(num, digit);
 }
@@ -45,7 +45,7 @@ static void		process_first_digit(char *result, char *num, char *deno)
  */
 static void	insert_dec_point(char *res, char *num, uint16_t *len, int16_t *exp)
 {
-	char		zero[BIG_INT + 1];
+	char		zero[MAX_DBL_STR_LEN + 1];
 	uint16_t	i;
 
 	i = 0;
@@ -55,7 +55,7 @@ static void	insert_dec_point(char *res, char *num, uint16_t *len, int16_t *exp)
 		res[(*len)++] = '.';
 		*exp = 0;
 	}
-	if (ft_strncmp(num, zero, BIG_INT + 1) == 0)
+	if (ft_strncmp(num, zero, MAX_DBL_STR_LEN + 1) == 0)
 	{
 		while (res[i] != '\0' && res[i] != '.')
 			++i;
@@ -110,23 +110,30 @@ int	ft_strncmp(const char *s1, const char *s2, size_t n)
  */
 void	double_to_string(t_dbl *s, int16_t digit_exponent)
 {
-	char		tmp[BIG_INT + 1];
-	char		digit[BIG_INT + 1];
-	char		zero[BIG_INT + 1];
+	char		tmp[MAX_DBL_STR_LEN + 1];
+	char		digit[MAX_DBL_STR_LEN + 1];
+	char		zero[MAX_DBL_STR_LEN + 1];
 	uint16_t	len;
 
 	len = initialize_strings(s, &digit_exponent);
 	intialize_string(digit);
-	digit[BIG_INT - 2] = '1';
+	digit[MAX_DBL_STR_LEN - 2] = '1';
 	intialize_string(zero);
-	while (ft_strncmp(s->s1, zero, BIG_INT) != 0 && len < MAX_DIGIT)
+
+	while (ft_strncmp(s->s1, zero, MAX_DBL_STR_LEN) != 0 && len < MAX_DIGIT)
 	{
+		intialize_string(tmp);
 		cpy_str(tmp, s->s1);
 		ft_division(tmp, s->s2);
-		s->result[len++] = tmp[BIG_INT - 1];
-		while (tmp[BIG_INT - 1]-- != '0')
+		s->result[len++] = tmp[MAX_DBL_STR_LEN - 1];
+		while (tmp[MAX_DBL_STR_LEN - 1]-- != '0')
 			ft_subtraction(s->s1, s->s2);
 		ft_multiply(s->s1, digit);
 		insert_dec_point(s->result, s->s1, &len, &digit_exponent);
 	}
+	// if (s->result[0] == '0' && s->result[1] == '0' ) {
+	// 	// ft_memmove(s->result, s->result + 1, ft_strlen(s->result + 1) + 1);
+	// 	cpy_str(s->result, s->result + 1);
+	// }
+	// printf("%s\n", s->result);
 }

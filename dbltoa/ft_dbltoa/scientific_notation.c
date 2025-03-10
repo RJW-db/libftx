@@ -85,19 +85,19 @@ static int16_t	calculate_exponent(double nbr)
  */
 void	scientific_notation(char *num, char *deno, int16_t *digitexpo, double value)
 {
-	char	digit[BIG_INT + 1];
+	char	digit[MAX_DBL_STR_LEN + 1];
 
 	*digitexpo = calculate_exponent(value);
 	if (*digitexpo > 0)
 	{
 		intialize_string(digit);
-		digit[BIG_INT - *digitexpo - 1] = '1';
+		digit[MAX_DBL_STR_LEN - *digitexpo - 1] = '1';
 		ft_multiply(deno, digit);
 	}
 	else if (*digitexpo < 0)
 	{
 		intialize_string(digit);
-		digit[BIG_INT + *digitexpo - 1] = '1';
+		digit[MAX_DBL_STR_LEN + *digitexpo - 1] = '1';
 		ft_multiply(num, digit);
 	}
 }

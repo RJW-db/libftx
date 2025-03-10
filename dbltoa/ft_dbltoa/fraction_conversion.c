@@ -6,7 +6,7 @@
 /*   By: jmetzger <jmetzger@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/02/12 17:26:37 by jmetzger      #+#    #+#                 */
-/*   Updated: 2025/03/10 02:54:53 by rjw           ########   odam.nl         */
+/*   Updated: 2025/03/10 17:59:21 by rde-brui      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,7 +154,7 @@ static void extract_expo_mant(int16_t *exponent, uint64_t *mant, char *strbits)
 	}
 }
 
-void	ft_addition(char *s1, char *s2)
+char	*ft_addition(char *s1, char *s2)
 {
 	int32_t	len;
 	int32_t	carry;
@@ -178,6 +178,7 @@ void	ft_addition(char *s1, char *s2)
 		ft_memmove(s1 + 1, s1, len);
 		s1[0] = carry + '0';
 	}
+	return (s1);
 }
 
 /*
@@ -187,7 +188,7 @@ void	ft_addition(char *s1, char *s2)
 // static char	*pow2(char *bigint, uint64_t exponent)
 static char	*pow2(char *bigint, int64_t exponent)
 {
-	char	pow2[BIG_INT + 1];
+	char	pow2[MAX_DBL_STR_LEN + 1];
 
 	if (exponent != 0)
 	{
@@ -203,7 +204,7 @@ static char	*pow2(char *bigint, int64_t exponent)
 		// TODO
 		// puts("\nEDGECASE, only 339 of tester: subnormal_to_max_tests");
 		intialize_string(bigint);
-		bigint[BIG_INT - 1] = '1';
+		bigint[MAX_DBL_STR_LEN - 1] = '1';
 	}
 	return (bigint);
 }
@@ -224,7 +225,7 @@ static char	*pow2(char *bigint, int64_t exponent)
  * 		- Representing the number as a fraction first ensures more accurate decimal conversion.
  * 	2. Handles Large Numbers
  * 		- Standard double values are limited in precision.
- * 		- Using big integers (BIG_INT) allows for higher precision conversions, making this method ideal for scientific or financial applications.
+ * 		- Using big integers (MAX_DBL_STR_LEN) allows for higher precision conversions, making this method ideal for scientific or financial applications.
  * 
  * 
  * The function converts the mantissa into a big integer and scales it by 2^exponent
@@ -241,23 +242,23 @@ static char	*pow2(char *bigint, int64_t exponent)
 static char	*populate_numerator(char *num_str, uint64_t mant, int16_t expo)
 {
 	char	mant_bits[DBL_MANT_BITS + 1];
-	char	exp_str[BIG_INT + 1];
+	char	exp_str[MAX_DBL_STR_LEN + 1];
 	size_t	mant_len;
 
 	mant_len = int64_base(mant, DECIMAL_BASE, mant_bits, sizeof(mant_bits));
-	if (mant_len >= BIG_INT)
+	if (mant_len >= MAX_DBL_STR_LEN)
 		return (NULL);
 	if (expo > 0)
 	{	
-		cpy_str(num_str + BIG_INT - mant_len, mant_bits);
+		cpy_str(num_str + MAX_DBL_STR_LEN - mant_len, mant_bits);
 		intialize_string(exp_str);
-		exp_str[BIG_INT - 1] = '2';
+		exp_str[MAX_DBL_STR_LEN - 1] = '2';
 		if (pow2(exp_str, expo) == NULL)
 			return (NULL);
 		ft_multiply(num_str, exp_str);
 	}
 	else
-		cpy_str(num_str + BIG_INT - mant_len, mant_bits);
+		cpy_str(num_str + MAX_DBL_STR_LEN - mant_len, mant_bits);
 	return (num_str);
 }
 
@@ -289,12 +290,12 @@ static char	*populate_denominator(char *denom_str, int16_t expo, double value)
 	intialize_string(denom_str);
 	if (expo <= 0 && value != 0) 
 	{
-		denom_str[BIG_INT - 1] = '2';
+		denom_str[MAX_DBL_STR_LEN - 1] = '2';
 		if (pow2(denom_str, -expo) == NULL)
 			return (NULL);
 		return (denom_str);
 	}
-	denom_str[BIG_INT - 1] = '1';
+	denom_str[MAX_DBL_STR_LEN - 1] = '1';
 	return (denom_str);
 }
 

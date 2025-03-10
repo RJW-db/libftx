@@ -50,22 +50,22 @@ int	main(void)
 	// } else {
 	// 	printf("Failed to convert to bit string\n");
 	// }
-// 	double dbl = 0;
-// 	// cha;r *str = NULL;
-// 	dbl = __DBL_MAX__;
-// 	dbltoa(dbl);
-// char *output = dbltoa(0);
-// printf("%s\n", output);
-// free(output);
-// exit(0);
+	// double dbl = 0;
+	// dbl = 10000000000000003096614376152413048208109554690349451174220128548038993319997892036002416949924978717442765739064816521709922285414434346682046265082050320008030223212838050621638314677133314688548864.000000;
+	// char *output = dbltoa(dbl);
+	// printf("%s\n", output);
+	// free(output);
+	// puts("prima");
+	// exit(0);
+
 	float_tests();
 	double_tests();
 	edgecase_tests();
 	random_tests();
-	// linear_range_tests();
-	// power_of_ten_tests();
-	// subnormal_to_max_tests();
-	// negative_power_of_ten_tests();
+	linear_range_tests();
+	power_of_ten_tests();
+	subnormal_to_max_tests();
+	negative_power_of_ten_tests();
 
 	// char buff[1078];
 	// dbltoa_buff(0.0, buff, 1078);
@@ -232,7 +232,11 @@ void	power_of_ten_tests(void)
 	printf("power_of_ten_tests\n");
 	for (double i = 1.0; i < __DBL_MAX__; i *= 10)
 	{
-		single_test(index, i);
+		// if (index == 24) {
+			// printf("%f\n", i);
+			single_test(index, i);
+			// exit(0);
+		// }
 		++index;
 	}
 	printf("\n");

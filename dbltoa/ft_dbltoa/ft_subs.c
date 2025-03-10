@@ -6,7 +6,7 @@
 /*   By: jmetzger <jmetzger@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/02/12 17:26:37 by jmetzger      #+#    #+#                 */
-/*   Updated: 2025/03/10 02:33:00 by rjw           ########   odam.nl         */
+/*   Updated: 2025/03/10 17:59:21 by rde-brui      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static bool set_to_zero(char *s1)
 {
-	ft_memset(s1, '0', BIG_INT);
+	ft_memset(s1, '0', MAX_DBL_STR_LEN);
 	s1[0] = '+';
 	return (false);
 }
@@ -51,8 +51,8 @@ int	ft_subtraction(char *s1, char *s2)
 {
 	int comparison_result;
 	t_nbr nbr;
-	init_struct(s1, s2, &nbr);
 
+	init_struct(s1, s2, &nbr);
 	comparison_result = ft_strncmp(s1, s2, ft_strlen(s1) + 1);
 	if (comparison_result == 0)
 		return set_to_zero(s1);
