@@ -6,7 +6,7 @@
 /*   By: jmetzger <jmetzger@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/02/12 17:26:37 by jmetzger      #+#    #+#                 */
-/*   Updated: 2025/03/10 03:09:45 by rjw           ########   odam.nl         */
+/*   Updated: 2025/03/10 14:20:33 by rde-brui      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,13 +30,6 @@ static uint8_t	find_quotient(char *s1, char *s2)
 	}
 	return (quotient);
 }
-static void	init_buffers(char *numerator, char *denominator)
-{
-	ft_memset(numerator, '\0', 10);
-	ft_memset(denominator, '\0', 10);
-	numerator[0] = '0';
-	denominator[0] = '0';
-}
 
 static void	perform_division(char *s1, char *deno, char *result, t_nbr *nbr)
 {
@@ -45,15 +38,19 @@ static void	perform_division(char *s1, char *deno, char *result, t_nbr *nbr)
 	uint8_t	quotient;
 
 	init_struct(s1, deno, nbr);
-	init_buffers(numerator, denominator);
+	numerator[0] = '0';
+	denominator[0] = '0';
 	quotient = BIG_INT - nbr->sig_s2;
 	if (quotient > DBL_MANT_DECIMAL_DIGITS - 1)
 		quotient = DBL_MANT_DECIMAL_DIGITS - 1;
-	ft_strlcpy(numerator, s1 + nbr->sig_s1, quotient);
+	ft_strlcpy(denominator + 1, deno + nbr->sig_s2, quotient);
+	if (nbr->sig_s1 == nbr->sig_s2)
+		ft_strlcpy(numerator + 1, s1 + nbr->sig_s1, quotient);
+	else
+		ft_strlcpy(numerator, s1 + nbr->sig_s1, quotient + 1);
 	if ((atoi64(numerator) / atoi64(denominator)) == \
 		(atoi64(numerator) / ((atoi64(denominator) + 1))))
 		quotient = atoi64(numerator) / atoi64(denominator);
-		
 	else
 		quotient = find_quotient(s1, deno);
 	result[BIG_INT - 1] = quotient + '0';

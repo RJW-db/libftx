@@ -2,6 +2,7 @@
 NAME		= floattest
 CC 			= cc
 CFLAGS 		= -Wall -Wextra -Werror
+CFLAGS		+= -g
 
 # Header files path
 SRC_HEADER	= ./includes
