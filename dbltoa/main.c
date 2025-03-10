@@ -21,35 +21,14 @@ void	power_of_ten_tests(void);
 void	subnormal_to_max_tests(void);
 void	negative_power_of_ten_tests(void);
 
-// typedef union	u_double_bicast
-// {
-// 	double d;
-// 	int64_t i;
-// }	t_double_bicast;
-
-// void print_double_bits(double num) {
-// 	t_double_bicast bitcast = { .d = num };
-// 	printf("Double value: %f\n", num);
-// 	printf("Int64 representation: %lld\n", (long long)bitcast.i);
-	
-// 	// Print each byte
-// 	for (uint16_t i = 0; i < sizeof(double); i++) {
-// 		uint8_t byte = (bitcast.i >> (i * 8)) & 0xFF;
-// 		printf("Byte %d: %02X\n", i, byte);
-// 	}
-// }
 
 int	main(void)
 {
-	// double test_num = 3.14;
-	// print_double_bits(test_num);
-	// char *bit_string = double_to_bits(test_num, sizeof(double));
-	// if (bit_string) {
-	// 	printf("Bit string: %s\n", bit_string);
-	// 	free(bit_string);
-	// } else {
-	// 	printf("Failed to convert to bit string\n");
-	// }
+	// single_test(1, -__DBL_DENORM_MIN__);
+	// single_test(2, 99999999999999991611392.000000);
+	// single_test(3, -99999999999999991611392.000000);
+	// single_test(4, 0.0F);
+
 	// double dbl = 0;
 	// dbl = 10000000000000003096614376152413048208109554690349451174220128548038993319997892036002416949924978717442765739064816521709922285414434346682046265082050320008030223212838050621638314677133314688548864.000000;
 	// char *output = dbltoa(dbl);
@@ -263,7 +242,7 @@ void	negative_power_of_ten_tests(void)
 	for (double i = -1.0; i > -__DBL_MAX__; i *= 10)
 	{
 		// if (index == 24) {
-			// printf("%f\n", i);
+		// 	printf("%f\n", i);
 			single_test(index, i);
 		// 	exit(0);
 		// }

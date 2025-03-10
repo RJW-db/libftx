@@ -6,7 +6,7 @@
 /*   By: jmetzger <jmetzger@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/02/12 17:26:37 by jmetzger      #+#    #+#                 */
-/*   Updated: 2025/03/10 18:23:49 by rde-brui      ########   odam.nl         */
+/*   Updated: 2025/03/10 21:08:12 by rde-brui      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,6 @@ static void	dbltoa_convert(double value, t_dbl *strings)
 	int16_t			digitexpo;			// stores the exponent
 	char			numerator[MAX_DBL_STR_LEN + 1]; 	// storing the numerator
 	char			denominator[MAX_DBL_STR_LEN + 1]; 	// storing the denominator
-	// char			numerator[MAX_DBL_STR_LEN]; 	// storing the numerator
-	// char			denominator[MAX_DBL_STR_LEN]; 	// storing the denominator
 	bool 			is_neg;
 
 	is_neg = true;
@@ -57,27 +55,22 @@ static void	dbltoa_convert(double value, t_dbl *strings)
 
 char	*dbltoa(double value)
 {
-	// char			result[MAX_DBL_STR_LEN + 1];
-	char	result[MAX_DIGIT + 1];
+	char	result[MAX_DBL_STR_LEN + 1];
 	t_dbl	strings;
 
 	strings.result = result;
 	strings.is_buffered = false;
 	dbltoa_convert(value, &strings);
-	// if (result[0] == '0')
-	// 	return (ft_strdup(result + 1));
-	// return (ft_strdup(result + (result[0] == '0')));
 	return (ft_strdup(result));
 }
+
+
 
 uint16_t	dbltoa_buff(double value, char *buff, uint16_t b_size)
 {
 	int16_t			digitexpo;			// stores the exponent
 	char			numerator[MAX_DBL_STR_LEN + 1]; 	// storing the numerator
 	char			denominator[MAX_DBL_STR_LEN + 1]; 	// storing the denominator
-	// char			numerator[MAX_DBL_STR_LEN]; 	// storing the numerator
-	// char			denominator[MAX_DBL_STR_LEN]; 	// storing the denominator
-	// char			result[MAX_DBL_STR_LEN + 1];
 	bool 			is_neg;
 	t_dbl			strings;
 

@@ -69,8 +69,8 @@ uint16_t	initialize_strings(t_dbl *s, int16_t *digitexp)
 	int16_t		pos_exp;
 	uint16_t	len;
 
-	s->result[MAX_DIGIT] = '\0';
-	ft_memset(s->result, '0', MAX_DIGIT);
+	s->result[MAX_DBL_STR_LEN] = '\0';
+	ft_memset(s->result, '0', MAX_DBL_STR_LEN);
 	if (*digitexp > 0)
 		return (1);
 	s->result[2] = '.';
@@ -120,7 +120,7 @@ void	double_to_string(t_dbl *s, int16_t digit_exponent)
 	digit[MAX_DBL_STR_LEN - 2] = '1';
 	intialize_string(zero);
 
-	while (ft_strncmp(s->s1, zero, MAX_DBL_STR_LEN) != 0 && len < MAX_DIGIT)
+	while (ft_strncmp(s->s1, zero, MAX_DBL_STR_LEN) != 0 && len < MAX_DBL_STR_LEN)
 	{
 		intialize_string(tmp);
 		cpy_str(tmp, s->s1);
