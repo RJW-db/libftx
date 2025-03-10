@@ -83,7 +83,7 @@ static int16_t	calculate_exponent(double nbr)
  * 	 Multiply the numerator by 10^|digitexpo| -> This shifts the decimal point right
  * 	 Example: 0.024 (convert to 2.4 × 10⁻²)
  */
-void	scientific_notation(char *nbr, char *deno, int16_t *digitexpo, double value)
+void	scientific_notation(char *num, char *deno, int16_t *digitexpo, double value)
 {
 	char	digit[BIG_INT + 1];
 
@@ -98,6 +98,6 @@ void	scientific_notation(char *nbr, char *deno, int16_t *digitexpo, double value
 	{
 		intialize_string(digit);
 		digit[BIG_INT + *digitexpo - 1] = '1';
-		ft_multiply(nbr, digit);
+		ft_multiply(num, digit);
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: jmetzger <jmetzger@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/02/12 17:26:37 by jmetzger      #+#    #+#                 */
-/*   Updated: 2025/03/10 02:53:21 by rjw           ########   odam.nl         */
+/*   Updated: 2025/03/10 14:38:51 by rde-brui      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,30 +26,23 @@
 # include <stdbool.h>
 # include <stdint.h>
 
-# define BYTE_MASK 0xFF
-# define DBL_BYTES 8
-# define BYTE 8
-# define DBL_BIT_COUNT 64
-
-#define DBL_MANT_DECIMAL_DIGITS 16  // Maximum digits needed for mantissa
-
-#define DECIMAL_NBR 10
-#define DECIMAL_BASE "0123456789"
-#define BINARY_NBR 2
-#define BINARY_BASE "01"
-#define HEXADECIMAL_BASE "0123456789ABCDEF"
 
 # define MAX_DIGIT	1030
 # define BIG_INT	1024 // DBL_MIN is the larges number -> has 1024 digits
 # define MAX_DBL_STR_LEN 1077	//	longest subnormal number + terminator
 
-typedef struct	s_nbr
-{
-	int32_t	i_s1;	// Index of the last character in s1
-	int32_t	j_s2;	// Index of the last character in s2
-	int32_t	sig_s1;	// Index of the first significant digit in s1
-	int32_t	sig_s2;	// Index of the first significant digit in s2
-}	t_nbr;
+# define BYTE_MASK 0xFF
+# define DBL_BYTES 8
+# define BYTE 8
+# define DBL_BIT_COUNT 64
+
+# define DBL_MANT_DECIMAL_DIGITS 16  // Maximum digits needed for mantissa
+
+# define DECIMAL_NBR 10
+# define DECIMAL_BASE "0123456789"
+# define BINARY_NBR 2
+# define BINARY_BASE "01"
+# define HEXADECIMAL_BASE "0123456789ABCDEF"
 
 typedef struct s_dbl
 {
@@ -59,12 +52,20 @@ typedef struct s_dbl
 	bool	is_buffered;
 }	t_dbl;
 
+typedef struct	s_nbr
+{
+	int32_t	i_s1;	// Index of the last character in s1
+	int32_t	j_s2;	// Index of the last character in s2
+	int32_t	sig_s1;	// Index of the first significant digit in s1
+	int32_t	sig_s2;	// Index of the first significant digit in s2
+}	t_nbr;
+
 // CONVERTSION
 char		*dbltoa(double dbl);
 uint16_t	dbltoa_buff(double value, char *buff, uint16_t b_size);
 bool		fraction_conversion(double value, t_dbl *strings, bool *is_neg);
 void		scientific_notation(char *num, char *deno, int16_t *digitexpo, double value);
-void		double_to_string(t_dbl *s, int16_t digitexp);
+void		double_to_string(t_dbl *s, int16_t digit_exponent);
 bool		binary_to_decimal(const char *bin_str, char *dec_str, size_t size);
 
 // MATH
@@ -84,7 +85,7 @@ void		ft_add_sign(char *dblStr, bool is_neg);
 int			ft_strncmp(const char *s1, const char *s2, size_t n);
 
 char		*double_to_bits(int64_t dbl_to_int_cast, char *bit_string);
-int64_t		atoi_base(const char *num_str, char *base, bool *is_neg);
+int64_t		atoi_base(const char *nbr_str, char *base, bool *is_neg);
 void 		ft_bzero(void *str, size_t size_n);
 char 		*ft_strdup(const char *str);
 void		*ft_memset(void *b, int c, size_t len);
