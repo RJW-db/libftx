@@ -6,7 +6,7 @@
 /*   By: jmetzger <jmetzger@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/02/12 17:26:37 by jmetzger      #+#    #+#                 */
-/*   Updated: 2025/03/10 19:51:49 by rde-brui      ########   odam.nl         */
+/*   Updated: 2025/03/10 20:53:48 by rde-brui      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,14 +26,8 @@
 # include <stdbool.h>
 # include <stdint.h>
 
-// # define MAX_DIGIT	1030
-// # define BIG_INT	1024 // DBL_MIN is the larges number -> has 1024 digits
-
-# define MAX_DIGIT	1083
-# define MAX_DBL_STR_LEN 1077	//	longest subnormal number + terminator
-
-// # define MAX_DIGIT	1030
-// # define MAX_DBL_STR_LEN 1024	//	longest subnormal number + terminator
+# define MAX_DIGIT	1084
+# define MAX_DBL_STR_LEN 1078	//	longest numbers in str -__DBL_DENORM_MIN__
 
 # define BYTE_MASK 0xFF
 # define DBL_BYTES 8
