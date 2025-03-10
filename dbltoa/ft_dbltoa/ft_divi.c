@@ -6,43 +6,30 @@
 /*   By: jmetzger <jmetzger@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/02/12 17:26:37 by jmetzger      #+#    #+#                 */
-/*   Updated: 2025/03/09 04:10:05 by rjw           ########   odam.nl         */
+/*   Updated: 2025/03/10 03:09:45 by rjw           ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/ft_dbltoa.h"
 
-/*
- * The function does division for large integers with optimized handling 
- * for floating-point-like calculations by operating mainly on 
- * the first 15 digits of the numbers. 
- * It ensures proper sign handling and falls back on full bigint division when necessary.
- * 
- * ft_divi: 
- * 		This function is the main entry point to divide two large integers represented as strings. 
- * 		It checks for division by zero, calculates the result, and returns the result as a string.
- * division_core: 
- * 		This function performs the optimized division on the large integers, 
- * 		especially for floating-point calculations where only 
- * 		the first 15 digits are typically used for the result.
- * init_buffers: 
- * 		Initializes arrays for storing the numbers involved in the division.
- * ft_divi4: 
- * 		Performs further calculations if necessary to ensure accuracy in the result.
- */
-
 static uint8_t	find_quotient(char *s1, char *s2)
 {
-	char	tmp[BIG_INT + 1];
-	uint8_t	quotient;
-
-	quotient = 0;
-	intialize_string(tmp);
-	while (compare_str(ft_addition(tmp, s2), s1) <= 0)
+	char tmp[BIG_INT + 1];
+	uint8_t quotient = 0;
+	
+	cpy_str(tmp, s1);
+	while (1) {
+		int result = ft_subtraction(tmp, s2);	// while testing tmp could be s1
+		if (result < 0)
+			break;
+		// if (result == 0) {					// never got here?
+		//     ++quotient;
+		//     break;puts("here");
+		// }
 		++quotient;
+	}
 	return (quotient);
 }
-
 static void	init_buffers(char *numerator, char *denominator)
 {
 	ft_memset(numerator, '\0', 10);
@@ -62,14 +49,11 @@ static void	perform_division(char *s1, char *deno, char *result, t_nbr *nbr)
 	quotient = BIG_INT - nbr->sig_s2;
 	if (quotient > DBL_MANT_DECIMAL_DIGITS - 1)
 		quotient = DBL_MANT_DECIMAL_DIGITS - 1;
-	ft_strlcpy(denominator + 1, deno + nbr->sig_s2, quotient);
-	if (nbr->sig_s1 == nbr->sig_s2)
-		ft_strlcpy(numerator + 1, s1 + nbr->sig_s1, quotient);
-	else
-		ft_strlcpy(numerator, s1 + nbr->sig_s1, quotient + 1);
+	ft_strlcpy(numerator, s1 + nbr->sig_s1, quotient);
 	if ((atoi64(numerator) / atoi64(denominator)) == \
 		(atoi64(numerator) / ((atoi64(denominator) + 1))))
 		quotient = atoi64(numerator) / atoi64(denominator);
+		
 	else
 		quotient = find_quotient(s1, deno);
 	result[BIG_INT - 1] = quotient + '0';

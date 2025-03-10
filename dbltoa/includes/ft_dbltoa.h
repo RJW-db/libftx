@@ -6,7 +6,7 @@
 /*   By: jmetzger <jmetzger@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/02/12 17:26:37 by jmetzger      #+#    #+#                 */
-/*   Updated: 2025/03/09 04:09:00 by rjw           ########   odam.nl         */
+/*   Updated: 2025/03/10 02:53:21 by rjw           ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,8 +68,11 @@ void		double_to_string(t_dbl *s, int16_t digitexp);
 bool		binary_to_decimal(const char *bin_str, char *dec_str, size_t size);
 
 // MATH
-char		*ft_addition(char* s1, char* s2);
-void		ft_subtraction(char *s1, char *s2);
+void		ft_addition(char *s1, char *s2);
+// char		*ft_addition(char* s1, char* s2);
+// void		ft_subtraction(char *s1, char *s2);
+int			ft_subtraction(char *s1, char *s2);
+
 void		ft_multiply(char *s1, char *s2);
 void		ft_division(char *s1, char *s2);
 
@@ -78,7 +81,6 @@ void		intialize_string(char *str);
 void		init_struct(char *s1, char *s2, t_nbr *num);
 void		special_value(t_dbl *strs, double val, uint64_t mant, bool is_neg);
 void		ft_add_sign(char *dblStr, bool is_neg);
-int			compare_str(char *s1, char *s2);
 int			ft_strncmp(const char *s1, const char *s2, size_t n);
 
 char		*double_to_bits(int64_t dbl_to_int_cast, char *bit_string);

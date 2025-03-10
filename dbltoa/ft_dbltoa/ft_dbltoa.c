@@ -6,7 +6,7 @@
 /*   By: jmetzger <jmetzger@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/02/12 17:26:37 by jmetzger      #+#    #+#                 */
-/*   Updated: 2025/03/09 04:01:08 by rjw           ########   odam.nl         */
+/*   Updated: 2025/03/10 03:13:05 by rjw           ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,9 +41,9 @@ char	*dbltoa(double value)
 	t_dbl			strings;
 
 	is_neg = true;
-	// initialization numerator and denominator (filling them with zeros)
 	intialize_string(numerator);
 	intialize_string(denominator);
+	intialize_string(result);	// hmm
 	
 	strings = (t_dbl){numerator, denominator, result, false};
 	if (fraction_conversion(value, &strings, &is_neg) == false)

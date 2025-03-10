@@ -6,7 +6,7 @@
 /*   By: jmetzger <jmetzger@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/02/12 17:26:37 by jmetzger      #+#    #+#                 */
-/*   Updated: 2025/03/09 03:58:51 by rjw           ########   odam.nl         */
+/*   Updated: 2025/03/10 02:54:53 by rjw           ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,7 +154,7 @@ static void extract_expo_mant(int16_t *exponent, uint64_t *mant, char *strbits)
 	}
 }
 
-char	*ft_addition(char *s1, char *s2)
+void	ft_addition(char *s1, char *s2)
 {
 	int32_t	len;
 	int32_t	carry;
@@ -178,7 +178,6 @@ char	*ft_addition(char *s1, char *s2)
 		ft_memmove(s1 + 1, s1, len);
 		s1[0] = carry + '0';
 	}
-	return (s1);
 }
 
 /*
@@ -202,7 +201,7 @@ static char	*pow2(char *bigint, int64_t exponent)
 	else
 	{
 		// TODO
-		puts("\nEDGECASE, only 339 of tester: subnormal_to_max_tests");
+		// puts("\nEDGECASE, only 339 of tester: subnormal_to_max_tests");
 		intialize_string(bigint);
 		bigint[BIG_INT - 1] = '1';
 	}

@@ -57,7 +57,7 @@ static void	insert_dec_point(char *res, char *num, uint16_t *len, int16_t *exp)
 	}
 	if (ft_strncmp(num, zero, BIG_INT + 1) == 0)
 	{
-		while (res[i] && res[i] != '.')
+		while (res[i] != '\0' && res[i] != '.')
 			++i;
 		if (res[i] == '\0')
 			res[*exp + 2] = '.';
@@ -121,7 +121,6 @@ void	double_to_string(t_dbl *s, int16_t digit_exponent)
 	intialize_string(zero);
 	while (ft_strncmp(s->s1, zero, BIG_INT) != 0 && len < MAX_DIGIT)
 	{
-		// intialize_string(tmp);
 		cpy_str(tmp, s->s1);
 		ft_division(tmp, s->s2);
 		s->result[len++] = tmp[BIG_INT - 1];

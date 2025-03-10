@@ -32,30 +32,5 @@ void init_struct(char *s1, char *s2, t_nbr *num)
 	num->j_s2 -= (num->j_s2 > 0);
 }
 
-/* compare_str()
- * The function compares two strings (s1 and s2), 
- * which are represent large integers.
- *
- * - Returns a positive value if the first string (s1) represents a larger number.
- * - Returns a negative value if the first string (s1) represents a smaller number.
- * - Returns 0 if both strings represent the same number.
- */
-int		compare_str(char *s1, char *s2)
-{
-	t_nbr	num;
-	int		len_diff;
-
-	init_struct(s1, s2, &num);
-	len_diff = (num.i_s1 - num.sig_s1) - (num.j_s2 - num.sig_s2);
-	if (len_diff != 0)
-		return (len_diff);
-	while (s1[num.sig_s1] != '\0' && s2[num.sig_s2] != '\0' &&
-			s1[num.sig_s1] == s2[num.sig_s2])
-	{
-		++num.sig_s1;
-		++num.sig_s2;
-	}
-	return ((unsigned char)(s1[num.sig_s1]) - (unsigned char)(s2[num.sig_s2]));
-}
 
 

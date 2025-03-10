@@ -54,6 +54,9 @@ int	main(void)
 // 	// cha;r *str = NULL;
 // 	dbl = __DBL_MAX__;
 // 	dbltoa(dbl);
+// char *output = dbltoa(0);
+// printf("%s\n", output);
+// free(output);
 // exit(0);
 	float_tests();
 	double_tests();
@@ -170,6 +173,7 @@ void	edgecase_tests(void)
 	single_test(3, 1);
 
 	single_test(4, __DBL_MAX__);
+	// exit(0);
 	single_test(5, __DBL_MIN__);
 	single_test(6, __DBL_EPSILON__);			// Smallest difference between two doubles
 	single_test(7, __DBL_DENORM_MIN__);			// Smallest subnormal number
