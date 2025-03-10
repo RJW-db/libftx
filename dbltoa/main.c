@@ -120,6 +120,7 @@ void	float_tests(void)
 	printf("float_tests\n");
 	single_test(1, -0.0F);
 	single_test(2, 0.0F);
+	// exit(0);
 	single_test(3, +0.0F);
 
 	single_test(4, -1.0F);

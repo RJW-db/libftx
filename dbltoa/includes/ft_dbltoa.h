@@ -6,7 +6,7 @@
 /*   By: jmetzger <jmetzger@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/02/12 17:26:37 by jmetzger      #+#    #+#                 */
-/*   Updated: 2025/03/10 18:00:35 by rde-brui      ########   odam.nl         */
+/*   Updated: 2025/03/10 19:51:49 by rde-brui      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ int64_t		atoi_base(const char *nbr_str, char *base, bool *is_neg);
 void 		ft_bzero(void *str, size_t size_n);
 char 		*ft_strdup(const char *str);
 void		*ft_memset(void *b, int c, size_t len);
-void		*ft_memmove(void *dst, const void *src, size_t len);
+void		*ft_memmove(void *dest, const void *src, size_t len);
 size_t		ft_strlen(const char *s);
 size_t		strlen_safe(const char *str);
 char		*ft_strchr(const char *s, int c);
