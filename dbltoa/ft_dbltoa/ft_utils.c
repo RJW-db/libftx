@@ -6,7 +6,7 @@
 /*   By: jmetzger <jmetzger@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/02/12 17:26:37 by jmetzger      #+#    #+#                 */
-/*   Updated: 2025/03/10 20:41:03 by rde-brui      ########   odam.nl         */
+/*   Updated: 2025/03/10 20:50:28 by rde-brui      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,22 +144,26 @@ char	*double_to_bits(int64_t double_bits, char *bit_representation)
 
 void ft_add_sign(char *result, bool is_neg)
 {
-    uint16_t	len;
-    uint16_t	offset = 1; // Default to removing one zero
-    
-    len = ft_strlen(result) - 1;
-    while (len > 0 && result[len] == '0')
-        --len;
-    if (result[len] == '.' && result[0] == '0')
-        --len;
-    if (result[1] == '0' && result[2] >= '1' && result[2] <= '9')
+	uint16_t	len;
+	uint16_t	offset = 1;
+// printf(">%s\n", result);
+	len = ft_strlen(result) - 1;
+	while (len > 0 && result[len] == '0')
+		--len;
+	if (result[len] == '.' && result[0] == '0')
+		--len;
+	if (result[1] == '0' && result[2] >= '1' && result[2] <= '9')
 	{
-        offset = 2;
-        --len;
-    }
-    if (is_neg == false)
-        ft_memmove(result, result + offset, len);
-    else
-        result[0] = '-';
-    result[len + is_neg] = '\0';
+		offset = 2;
+		--len;
+	}
+	if (is_neg == false)
+		ft_memmove(result, result + offset, len);
+	else
+	{
+		result[0] = '-';
+		if (offset == 2)
+			ft_memmove(result + 1, result + 2, len);
+	}
+	result[len + is_neg] = '\0';
 }

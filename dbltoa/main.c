@@ -58,8 +58,8 @@ int	main(void)
 	// puts("prima");
 	// exit(0);
 
-	float_tests();
-	double_tests();
+	// float_tests();
+	// double_tests();
 	edgecase_tests();
 	random_tests();
 	linear_range_tests();
@@ -104,10 +104,10 @@ bool	single_test(size_t index, double input)
 	char buffer[MAX_DBL_STR_LEN];  // longest number + terminator
 
 	char *output = dbltoa(input);
-	// printf("%s\n", output);
+	printf("%s\n", output);
 	format_double(buffer, sizeof(buffer), input);
 
-	// printf("%s\n", buffer);  // Print the buffer content
+	printf("%s\n", buffer);  // Print the buffer content
 
 	testing_dbltoa(index, strncmp(output, buffer, strlen(buffer) + 1) == 0);
 	free(output);
@@ -169,31 +169,31 @@ void	double_tests(void)
 void	edgecase_tests(void)
 {
 	printf("edgecase_tests\n");
-	single_test(1, 0);
-	single_test(2, -1);
-	single_test(3, 1);
+	// single_test(1, 0);
+	// single_test(2, -1);
+	// single_test(3, 1);
 
-	single_test(4, __DBL_MAX__);
-	// exit(0);
-	single_test(5, __DBL_MIN__);
-	single_test(6, __DBL_EPSILON__);			// Smallest difference between two doubles
-	single_test(7, __DBL_DENORM_MIN__);			// Smallest subnormal number
+	// single_test(4, __DBL_MAX__);
+	// single_test(5, __DBL_MIN__);
+	// single_test(6, __DBL_EPSILON__);			// Smallest difference between two doubles
+	// single_test(7, __DBL_DENORM_MIN__);			// Smallest subnormal number
 
-	single_test(8, DBL_MAX_EXP);				// Maximum binary exponent (+1024)
-	single_test(9, DBL_MIN_EXP);				// Minimum binary exponent (-1021 for normal, subnormals go lower)
-	single_test(10, DBL_MANT_DIG);				// Number of bits in mantissa (53)
-	single_test(11, DBL_DIG);					// Max decimal digits of precision (15-17)
-	single_test(12, DBL_MAX_10_EXP);			// Max base-10 exponent (≈308)
-	single_test(13, DBL_MIN_10_EXP);			// Min base-10 exponent (≈-307)
+	// single_test(8, DBL_MAX_EXP);				// Maximum binary exponent (+1024)
+	// single_test(9, DBL_MIN_EXP);				// Minimum binary exponent (-1021 for normal, subnormals go lower)
+	// single_test(10, DBL_MANT_DIG);				// Number of bits in mantissa (53)
+	// single_test(11, DBL_DIG);					// Max decimal digits of precision (15-17)
+	// single_test(12, DBL_MAX_10_EXP);			// Max base-10 exponent (≈308)
+	// single_test(13, DBL_MIN_10_EXP);			// Min base-10 exponent (≈-307)
 
-	single_test(14, INFINITY);
-	single_test(15, -INFINITY);
-	single_test(16, NAN);						// Any NaN (implementation-defined)
-	single_test(17, -NAN);						// Negative NaN
+	// single_test(14, INFINITY);
+	// single_test(15, -INFINITY);
+	// single_test(16, NAN);						// Any NaN (implementation-defined)
+	// single_test(17, -NAN);						// Negative NaN
 
-	single_test(18, -__DBL_MAX__);
-	single_test(19, -__DBL_MIN__);
+	// single_test(18, -__DBL_MAX__);
+	// single_test(19, -__DBL_MIN__);
 	single_test(20, -__DBL_DENORM_MIN__);
+	exit(0);
 	single_test(21, -__DBL_EPSILON__);
 
 	single_test(22, pow(10, DBL_MAX_10_EXP));	// Max possible power of 10
@@ -263,7 +263,11 @@ void	negative_power_of_ten_tests(void)
 	printf("negative_power_of_ten_tests\n");
 	for (double i = -1.0; i > -__DBL_MAX__; i *= 10)
 	{
-		single_test(index, i);
+		// if (index == 24) {
+			// printf("%f\n", i);
+			single_test(index, i);
+		// 	exit(0);
+		// }
 		++index;
 	}
 	printf("\n");
