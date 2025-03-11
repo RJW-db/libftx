@@ -1,5 +1,2 @@
-==238559== Conditional jump or move depends on uninitialised value(s)
-==238559==    at 0x1099EC: ft_strlen (in /home/rde-brui/mnt/Documents/vm_share/lib_private/dbltoa/a.out)
-==238559==    by 0x10B65F: ft_add_sign (in /home/rde-brui/mnt/Documents/vm_share/lib_private/dbltoa/a.out)
-==238559==    by 0x1092CF: dbltoa (in /home/rde-brui/mnt/Documents/vm_share/lib_private/dbltoa/a.out)
-==238559==    by 0x3630353238363832: ???
+du -h . | sort -rh | head -n 30
+rm -rf ~/.cache/*

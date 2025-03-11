@@ -3,30 +3,30 @@
 
 // Function to get the length of the string representing a floating-point number
 int get_num_len(double num) {
-    int len = 0;
-    if (num < 0) {
-        len++; // for the minus sign
-        num = -num;
-    }
+	int len = 0;
+	if (num < 0) {
+		len++; // for the minus sign
+		num = -num;
+	}
 
-    // Handle the integer part
-    int integer_part = (int) num;
-    do {
-        len++;
-        integer_part /= 10;
-    } while (integer_part > 0);
+	// Handle the integer part
+	int integer_part = (int) num;
+	do {
+		len++;
+		integer_part /= 10;
+	} while (integer_part > 0);
 
-    // Handle the decimal part
-    num -= (int) num; // removing the integer part
-    if (num > 0) {
-        len++; // for the decimal point
-        while (num != (int) num) {
-            num *= 10;
-            len++;
-        }
-    }
+	// Handle the decimal part
+	num -= (int) num; // removing the integer part
+	if (num > 0) {
+		len++; // for the decimal point
+		while (num != (int) num) {
+			num *= 10;
+			len++;
+		}
+	}
 
-    return len;
+	return len;
 }
 
 // Function to print the floating-point number using Dragon4 algorithm

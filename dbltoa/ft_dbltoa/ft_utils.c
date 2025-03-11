@@ -6,7 +6,7 @@
 /*   By: jmetzger <jmetzger@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/02/12 17:26:37 by jmetzger      #+#    #+#                 */
-/*   Updated: 2025/03/10 22:10:41 by rjw           ########   odam.nl         */
+/*   Updated: 2025/03/11 16:15:27 by rjw           ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ char	*double_to_bits(int64_t double_bits, char *bit_representation)
 	return (bit_representation);
 }
 
-/* ft_add_sign()
+/* process_number_string()
  * This function formats a numeric string by performing the following operations:
  *   1) Removing unnecessary trailing zeros from the decimal part of the string.
  *   2) Ensuring proper decimal formatting by keeping exactly two decimal places if a decimal point is present.
@@ -117,7 +117,7 @@ char	*double_to_bits(int64_t double_bits, char *bit_representation)
  *      - The function copies the necessary portion of the original string into the result string, 
  * 		  skipping the first character if `is_neg` is true.
  */
-// void	ft_add_sign(char *result, bool is_neg)
+// void	process_number_string(char *result, bool is_neg)
 // {
 // 	uint16_t	len;
 
@@ -142,7 +142,7 @@ char	*double_to_bits(int64_t double_bits, char *bit_representation)
 // 	result[len + is_neg] = '\0';
 // }
 
-uint16_t	ft_add_sign(char *result, bool is_neg)
+uint16_t	process_number_string(char *result, bool is_neg)
 {
 	uint16_t	offset;
 	uint16_t	len;
@@ -152,7 +152,9 @@ uint16_t	ft_add_sign(char *result, bool is_neg)
 	while (len > 0 && result[len] == '0')
 		--len;
 	if (result[len] == '.' && result[0] == '0')
+	{
 		--len;
+	}
 	if (result[1] == '0' && result[2] >= '1' && result[2] <= '9')
 	{
 		offset = 2;
@@ -169,6 +171,6 @@ uint16_t	ft_add_sign(char *result, bool is_neg)
 	result[len + is_neg] = '\0';
 	// len += is_neg + (offset == 0);
 	// if (len != ft_strlen(result))
-	// 	printf("\n\n>%s<\n\n", result);
+	// printf("\n\n>%s<\n\n", result);
 	return (len + is_neg + (offset == 0));
 }
