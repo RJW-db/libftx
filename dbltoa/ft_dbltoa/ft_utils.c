@@ -6,7 +6,7 @@
 /*   By: jmetzger <jmetzger@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/02/12 17:26:37 by jmetzger      #+#    #+#                 */
-/*   Updated: 2025/03/10 21:40:14 by rde-brui      ########   odam.nl         */
+/*   Updated: 2025/03/10 22:10:41 by rjw           ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,11 +142,12 @@ char	*double_to_bits(int64_t double_bits, char *bit_representation)
 // 	result[len + is_neg] = '\0';
 // }
 
-void ft_add_sign(char *result, bool is_neg)
+uint16_t	ft_add_sign(char *result, bool is_neg)
 {
+	uint16_t	offset;
 	uint16_t	len;
-	uint16_t	offset = 1;
 
+	offset = 1;
 	len = ft_strlen(result) - 1;
 	while (len > 0 && result[len] == '0')
 		--len;
@@ -166,10 +167,8 @@ void ft_add_sign(char *result, bool is_neg)
 			ft_memmove(result + 1, result + 2, len);
 	}
 	result[len + is_neg] = '\0';
-	len += is_neg + (offset == 0);
-	if (len != ft_strlen(result))
-		printf("\n\n>%s<\n\n", result);
-	
-	// return (len + is_neg + (offset == 0))
-		
+	// len += is_neg + (offset == 0);
+	// if (len != ft_strlen(result))
+	// 	printf("\n\n>%s<\n\n", result);
+	return (len + is_neg + (offset == 0));
 }

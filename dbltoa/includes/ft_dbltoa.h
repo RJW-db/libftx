@@ -6,7 +6,7 @@
 /*   By: jmetzger <jmetzger@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/02/12 17:26:37 by jmetzger      #+#    #+#                 */
-/*   Updated: 2025/03/10 21:03:51 by rde-brui      ########   odam.nl         */
+/*   Updated: 2025/03/10 22:16:50 by rjw           ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,6 @@ typedef struct s_dbl
 	char	*s1;
 	char	*s2;
 	char	*result;
-	bool	is_buffered;
 }	t_dbl;
 
 typedef struct	s_nbr
@@ -79,7 +78,7 @@ void		ft_division(char *s1, char *s2);
 void		intialize_string(char *str);
 void		init_struct(char *s1, char *s2, t_nbr *num);
 void		special_value(t_dbl *strs, double val, uint64_t mant, bool is_neg);
-void		ft_add_sign(char *dblStr, bool is_neg);
+uint16_t	ft_add_sign(char *dblStr, bool is_neg);
 int			ft_strncmp(const char *s1, const char *s2, size_t n);
 
 char		*double_to_bits(int64_t dbl_to_int_cast, char *bit_string);
