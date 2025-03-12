@@ -6,11 +6,12 @@
 /*   By: rjw <rjw@student.codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/03/12 01:20:34 by rjw           #+#    #+#                 */
-/*   Updated: 2025/03/12 14:47:16 by rde-brui      ########   odam.nl         */
+/*   Updated: 2025/03/12 16:14:26 by rde-brui      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/dbltoa.h"
+#include <dbltoa.h>
+
 #include <float.h>
 #include <stdarg.h>
 #include <locale.h>

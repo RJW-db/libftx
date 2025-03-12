@@ -37,7 +37,11 @@ SRC_DIR			:=	src/
 ALLOC			:=	calloc.c					deallocation.c					realloc.c
 ARRAY			:=	2d_array.c					2d_array_utils.c				2d_shrink_array.c		\
 					splitted.c					split.c							split_set.c
-CNVRT			:=	str_to_number.c
+CNVRT			:=	str_to_number.c				str_to_number_base.c
+DBTOA			:=	dbltoa.c					fraction_conversion.c			fraction_operations.c	\
+					ft_binary_to_decimal.c		scientific_notation.c			double_to_string.c		\
+					precision.c					init_helpers.c					ft_addition.c			\
+					ft_subtraction.c			ft_multiply.c					ft_division.c
 DYNAR			:=	dynarr.c					dynarr_insert.c
 G_N_L			:=	get_next_line.c				get_input_buff.c
 LLIST			:=	linked_list.c				list_info.c						move_or_remove_nodes.c
@@ -66,6 +70,7 @@ SSRCH			:=	str_len.c					str_compare.c					str_null_check.c		\
 SRCS			:=	$(addprefix $(SRC_DIR)alloc_functions/, $(ALLOC)) 									\
 					$(addprefix $(SRC_DIR)arrays_nested/, $(ARRAY)) 									\
 					$(addprefix $(SRC_DIR)conversions/, $(CNVRT))										\
+					$(addprefix $(SRC_DIR)dbltoa/, $(DBTOA))											\
 					$(addprefix $(SRC_DIR)dynamic_array/, $(DYNAR)) 									\
 					$(addprefix $(SRC_DIR)get_next_line/, $(G_N_L)) 									\
 					$(addprefix $(SRC_DIR)linked_list/, $(LLIST))										\
@@ -86,8 +91,9 @@ OBJS			:=	$(SRCS:%.c=$(BUILD_DIR)%.o)
 DEPS			:=	$(OBJS:.o=.d)
 #		Header files
 HEADERS_FILES	:=	libft.h						common_defs.h					ft_printf.h				\
-					dynarr.h					is_ctype1.h						is_ctype2.h				\
-					validate_ptr.h				terminal_markup.h				wrap_functions.h
+					dbltoa.h					dynarr.h						is_ctype1.h				\
+					is_ctype2.h					validate_ptr.h					terminal_markup.h		\
+					wrap_functions.h
 HEADERS			:=	$(addprefix $(INC_DIR), $(HEADERS_FILES))
 
 #		Remove these created files

@@ -6,11 +6,11 @@
 /*   By: rjw <rjw@student.codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/03/12 01:38:48 by rjw           #+#    #+#                 */
-/*   Updated: 2025/03/12 15:24:08 by rde-brui      ########   odam.nl         */
+/*   Updated: 2025/03/12 16:14:26 by rde-brui      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/dbltoa.h"
+#include <dbltoa.h>
 
 uint8_t	digit_counter(int64_t n, uint8_t base_len)
 {

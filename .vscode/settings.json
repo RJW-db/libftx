@@ -12,6 +12,7 @@
 		"__config": "c",
 		"locale": "c",
 		"type_traits": "c",
-		"sstream": "c"
+		"sstream": "c",
+		"dbltoa.h": "c"
 	}
 }
