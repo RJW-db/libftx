@@ -270,7 +270,6 @@ static void	varies_buff_size(void)
 	//	need precision if to big of a number.
 	char *str = dbltoa(-123.1F);
 	puts(str);
-	exit(0);
 
 	// terminate buff and return 0
 	// char		result[10];
