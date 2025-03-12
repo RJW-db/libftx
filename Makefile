@@ -67,29 +67,29 @@ SSRCH			:=	str_len.c					str_compare.c					str_null_check.c		\
 
 #		Map prefixes to their directories
 #	Base sources
-ALLOC_SRCS	:= $(addprefix $(SRC_DIR)alloc_functions/, $(ALLOC))
-ARRAY_SRCS	:= $(addprefix $(SRC_DIR)arrays_nested/, $(ARRAY))
-CNVRT_SRCS	:= $(addprefix $(SRC_DIR)conversions/, $(CNVRT))
-G_N_L_SRCS	:= $(addprefix $(SRC_DIR)get_next_line/, $(G_N_L))
-MRKUP_SRCS	:= $(addprefix $(SRC_DIR)terminal_markup/, $(MRKUP))
-MATH_SRCS	:= $(addprefix $(SRC_DIR)math/, $(MATH_))
-MEDIT_SRCS	:= $(addprefix $(SRC_DIR)memory_edit/, $(MEDIT))
-MSRCH_SRCS	:= $(addprefix $(SRC_DIR)memory_search/, $(MSRCH))
-PTCHR_SRCS	:= $(addprefix $(SRC_DIR)put_chars/, $(PTCHR))
-SCRTE_SRCS	:= $(addprefix $(SRC_DIR)string_create/, $(SCRTE))
-SEDIT_SRCS	:= $(addprefix $(SRC_DIR)string_edit/, $(SEDIT))
-SSRCH_SRCS	:= $(addprefix $(SRC_DIR)string_search/, $(SSRCH))
+ALLOC_SRCS		:=	$(addprefix $(SRC_DIR)alloc_functions/, $(ALLOC))
+ARRAY_SRCS		:=	$(addprefix $(SRC_DIR)arrays_nested/, $(ARRAY))
+CNVRT_SRCS		:=	$(addprefix $(SRC_DIR)conversions/, $(CNVRT))
+G_N_L_SRCS		:=	$(addprefix $(SRC_DIR)get_next_line/, $(G_N_L))
+MRKUP_SRCS		:=	$(addprefix $(SRC_DIR)terminal_markup/, $(MRKUP))
+MATH_SRCS		:=	$(addprefix $(SRC_DIR)math/, $(MATH_))
+MEDIT_SRCS		:=	$(addprefix $(SRC_DIR)memory_edit/, $(MEDIT))
+MSRCH_SRCS		:=	$(addprefix $(SRC_DIR)memory_search/, $(MSRCH))
+PTCHR_SRCS		:=	$(addprefix $(SRC_DIR)put_chars/, $(PTCHR))
+SCRTE_SRCS		:=	$(addprefix $(SRC_DIR)string_create/, $(SCRTE))
+SEDIT_SRCS		:=	$(addprefix $(SRC_DIR)string_edit/, $(SEDIT))
+SSRCH_SRCS		:=	$(addprefix $(SRC_DIR)string_search/, $(SSRCH))
 
 #	Extra Sources
 DBL_SRCS		:=	$(addprefix $(SRC_DIR)dbltoa/, $(DBTOA))
 DYN_SRCS		:=	$(addprefix $(SRC_DIR)dynamic_array/, $(DYNAR))
-PRT_SRCS		:=	$(addprefix $(SRC_DIR)printf/, $(PRNTF))
 LLT_SRCS		:=	$(addprefix $(SRC_DIR)linked_list/, $(LLIST))
+PRT_SRCS		:=	$(addprefix $(SRC_DIR)printf/, $(PRNTF))
 WRP_SRCS		:=	$(addprefix $(SRC_DIR)wrap_functions/, $(FWRAP))
 
-BASE_SRCS	:=	$(ALLOC_SRCS)	$(ARRAY_SRCS)	$(CNVRT_SRCS)	$(G_N_L_SRCS)	$(MRKUP_SRCS)			\
-				$(MATH_SRCS)	$(MEDIT_SRCS)	$(MSRCH_SRCS)	$(PTCHR_SRCS)	$(SCRTE_SRCS)			\
-				$(SEDIT_SRCS)	$(SSRCH_SRCS)
+BASE_SRCS		:=	$(ALLOC_SRCS)	$(ARRAY_SRCS)	$(CNVRT_SRCS)	$(G_N_L_SRCS)	$(MRKUP_SRCS)		\
+					$(MATH_SRCS)	$(MEDIT_SRCS)	$(MSRCH_SRCS)	$(PTCHR_SRCS)	$(SCRTE_SRCS)		\
+					$(SEDIT_SRCS)	$(SSRCH_SRCS)
 
 #		Generate object file names
 BASE_OBJS		:=	$(BASE_SRCS:%.c=$(BUILD_DIR)%.o)
@@ -119,6 +119,17 @@ DELETE			:=	*.out																				\
 #		Default target
 all: $(NAME)
 
+#		Main target
+$(NAME): $(ALL_OBJS)
+	@ar rcs $(NAME) $(ALL_OBJS)
+	@printf "$(CREATED)" $@ $(CUR_DIR)
+
+#		Compile .c files to .o files
+$(BUILD_DIR)%.o: %.c $(HEADERS)
+	@mkdir -p $(@D)
+	$(COMPILER) $(CFLAGS) -I $(INC_DIR) -c $< -o $@
+
+
 base: $(BASE_OBJS)
 	@ar rcs $(NAME) $(BASE_OBJS)
 	@printf "$(CREATED)" $@ $(CUR_DIR)
@@ -131,27 +142,17 @@ dynarr: $(DYN_OBJS)
 	@ar rcs $(NAME) $(DYN_OBJS)
 	@printf "$(CREATED)" $@ $(CUR_DIR)
 
-printf: $(PRT_OBJS)
-	@ar rcs $(NAME) $(PRT_OBJS)
-	@printf "$(CREATED)" $@ $(CUR_DIR)
-
 llist: $(LLT_OBJS)
 	@ar rcs $(NAME) $(LLT_OBJS)
+	@printf "$(CREATED)" $@ $(CUR_DIR)
+
+printf: $(PRT_OBJS)
+	@ar rcs $(NAME) $(PRT_OBJS)
 	@printf "$(CREATED)" $@ $(CUR_DIR)
 
 wrap: $(WRP_OBJS)
 	@ar rcs $(NAME) $(WRP_OBJS)
 	@printf "$(CREATED)" $@ $(CUR_DIR)
-
-#		Main target
-$(NAME): $(ALL_OBJS)
-	@ar rcs $(NAME) $(ALL_OBJS)
-	@printf "$(CREATED)" $@ $(CUR_DIR)
-
-#		Compile .c files to .o files
-$(BUILD_DIR)%.o: %.c $(HEADERS)
-	@mkdir -p $(@D)
-	$(COMPILER) $(CFLAGS) -I $(INC_DIR) -c $< -o $@
 
 #	For linux, -Wl,--wrap=malloc, add this where you create your program
 malloc_wrap:	all
@@ -195,7 +196,8 @@ print-%:
 #		Include dependencies
 -include $(DEPS)
 
-.PHONY: all malloc_wrap tester test clean no_print_clean fclean no_print_fclean clean_tester allclean re print-%
+.PHONY:	all base dbltoa dynarr llist printf wrap malloc_wrap tester test clean \
+		no_print_clean fclean no_print_fclean clean_tester allclean re print-%
 
 # ----------------------------------- colors --------------------------------- #
 BOLD			=	\033[1m

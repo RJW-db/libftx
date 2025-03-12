@@ -44,6 +44,8 @@ uint16_t	dbltoa_buff(double value, char *buff, uint16_t b_size)
 	t_dbl		strings;
 	uint16_t	result_len;
 
+	if (buff == NULL)
+		return (0);
 	if (b_size == 1)
 		buff[0] = '\0';
 	if (b_size <= 1)
@@ -53,8 +55,7 @@ uint16_t	dbltoa_buff(double value, char *buff, uint16_t b_size)
 	result_len = dbltoa_convert(value, &strings);
 	if (b_size <= result_len)
 	{
-		ft_strlcpy(buff, result, b_size);
-		--b_size;
+		ft_strlcpy(buff, result, b_size--);
 		if (buff[b_size - 1] == '.')
 		{
 			buff[b_size - 1] = '\0';
