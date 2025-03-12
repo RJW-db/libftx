@@ -6,7 +6,7 @@
 /*   By: rjw <rjw@student.codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/03/12 01:36:51 by rjw           #+#    #+#                 */
-/*   Updated: 2025/03/12 03:55:25 by rjw           ########   odam.nl         */
+/*   Updated: 2025/03/12 14:10:16 by rde-brui      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,10 @@ void	ft_division(char *s1, char *s2)
 
 static void	perform_division(char *s1, char *den, char *result, t_nbr *nbr)
 {
-	char numerator[DBL_MANT_DECIMAL_DIGITS];
-	char denominator[DBL_MANT_DECIMAL_DIGITS];
-	uint8_t quotient;
-	
+	char	numerator[DBL_MANT_DECIMAL_DIGITS];
+	char	denominator[DBL_MANT_DECIMAL_DIGITS];
+	uint8_t	quotient;
+
 	init_struct(s1, den, nbr);
 	ft_memset(numerator, '\0', DBL_MANT_DECIMAL_DIGITS);
 	ft_memset(denominator, '\0', DBL_MANT_DECIMAL_DIGITS);
@@ -57,15 +57,15 @@ static void	perform_division(char *s1, char *den, char *result, t_nbr *nbr)
 
 static uint8_t	is_division_result_equal(char *num_str, char *den_str)
 {
-	int64_t num = atoi64(num_str);
-	int64_t den = atoi64(den_str);
-	int64_t quotient;
+	const int64_t	num = atoi64(num_str);
+	const int64_t	den = atoi64(den_str);
+	int64_t			quotient;
 
 	if (den > 0)
 	{
 		quotient = num / den;
 		if (quotient == (num / (den + 1)))
-			return quotient;
+			return (quotient);
 	}
 	return (0);
 }
@@ -80,11 +80,11 @@ static uint8_t	find_quotient(char *s1, char *s2)
 	{
 		result = ft_subtraction(s1, s2);
 		if (result < 0)
-			break;
+			break ;
 		if (result == 0)
 		{
 			++quotient;
-			break;
+			break ;
 		}
 		++quotient;
 	}

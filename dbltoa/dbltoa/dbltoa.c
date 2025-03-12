@@ -50,7 +50,6 @@ uint16_t	dbltoa_buff(double value, char *buff, uint16_t b_size)
 	strings.result = result;
 	strings.prec = NO_PRECISION;
 	result_len = dbltoa_convert(value, &strings);
-	// printf(">%s\n", strings.result);
 	if (b_size <= result_len)
 	{
 		ft_strlcpy(buff, result, b_size);
@@ -68,11 +67,11 @@ uint16_t	dbltoa_buff(double value, char *buff, uint16_t b_size)
 
 static int16_t	dbltoa_convert(double value, t_dbl *strings)
 {
-	int16_t		digitexpo;
 	char		numerator[MAX_DBL_STR_LEN + 1];
 	char		denominator[MAX_DBL_STR_LEN + 1];
-	bool 		is_neg;
 	uint16_t	result_len;
+	int16_t		digitexpo;
+	bool		is_neg;
 
 	is_neg = true;
 	intialize_buff(numerator);
@@ -82,7 +81,6 @@ static int16_t	dbltoa_convert(double value, t_dbl *strings)
 	if (fraction_conversion(value, strings, &is_neg) == false)
 		return (ft_strlen(strings->result));
 	scientific_notation(numerator, denominator, &digitexpo, value);
-	
 	result_len = double_to_string(strings, digitexpo, is_neg);
 	if (strings->prec == NO_PRECISION)
 		return (result_len);

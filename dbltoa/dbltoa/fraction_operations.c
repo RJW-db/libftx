@@ -6,7 +6,7 @@
 /*   By: rjw <rjw@student.codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/03/12 02:52:56 by rjw           #+#    #+#                 */
-/*   Updated: 2025/03/12 03:40:00 by rjw           ########   odam.nl         */
+/*   Updated: 2025/03/12 14:17:58 by rde-brui      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ char	*populate_numerator(char *num_str, uint64_t mant, int16_t expo)
 	if (mant_len >= MAX_DBL_STR_LEN)
 		return (NULL);
 	if (expo > 0)
-	{	
+	{
 		cpy_str(num_str + MAX_DBL_STR_LEN - mant_len, mant_bits);
 		intialize_buff(exp_str);
 		exp_str[MAX_DBL_STR_LEN - 1] = '2';
@@ -41,7 +41,7 @@ char	*populate_numerator(char *num_str, uint64_t mant, int16_t expo)
 char	*populate_denominator(char *denom_str, int16_t expo, double value)
 {
 	intialize_buff(denom_str);
-	if (expo <= 0 && value != 0) 
+	if (expo <= 0 && value != 0)
 	{
 		denom_str[MAX_DBL_STR_LEN - 1] = '2';
 		if (pow2(denom_str, -expo) == NULL)

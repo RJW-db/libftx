@@ -6,7 +6,7 @@
 /*   By: rjw <rjw@student.codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/03/12 01:37:10 by rjw           #+#    #+#                 */
-/*   Updated: 2025/03/12 03:31:54 by rjw           ########   odam.nl         */
+/*   Updated: 2025/03/12 14:16:45 by rde-brui      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,14 +20,14 @@ static int8_t	swap_and_negate(char *s1, char *s2, t_nbr *nbr);
 int16_t	ft_subtraction(char *s1, char *s2)
 {
 	int16_t	comparison_result;
-	t_nbr		nbr;
+	t_nbr	nbr;
 
 	init_struct(s1, s2, &nbr);
 	comparison_result = ft_strncmp(s1, s2, ft_strlen(s1) + 1);
 	if (comparison_result == 0)
-		return set_to_zero(s1);
+		return (set_to_zero(s1));
 	else if (comparison_result > 0)
-		return subtract_values(s1, s2, &nbr);
+		return (subtract_values(s1, s2, &nbr));
 	return (swap_and_negate(s1, s2, &nbr));
 }
 
