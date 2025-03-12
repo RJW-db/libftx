@@ -21,7 +21,7 @@ char	*dbltoa(double value)
 	t_dbl	strings;
 
 	strings.result = result;
-	strings.prec = UINT16_MAX;
+	strings.prec = NO_PRECISION;
 	dbltoa_convert(value, &strings);
 	return (ft_strdup(result));
 }
@@ -48,7 +48,7 @@ uint16_t	dbltoa_buff(double value, char *buff, uint16_t b_size)
 	if (b_size <= 1)
 		return (b_size);
 	strings.result = result;
-	strings.prec = UINT16_MAX;
+	strings.prec = NO_PRECISION;
 	result_len = dbltoa_convert(value, &strings);
 	// printf(">%s\n", strings.result);
 	if (b_size <= result_len)
@@ -68,9 +68,9 @@ uint16_t	dbltoa_buff(double value, char *buff, uint16_t b_size)
 
 static int16_t	dbltoa_convert(double value, t_dbl *strings)
 {
-	int16_t		digitexpo;			// stores the exponent
-	char		numerator[MAX_DBL_STR_LEN + 1]; 	// storing the numerator
-	char		denominator[MAX_DBL_STR_LEN + 1]; 	// storing the denominator
+	int16_t		digitexpo;
+	char		numerator[MAX_DBL_STR_LEN + 1];
+	char		denominator[MAX_DBL_STR_LEN + 1];
 	bool 		is_neg;
 	uint16_t	result_len;
 
@@ -84,7 +84,7 @@ static int16_t	dbltoa_convert(double value, t_dbl *strings)
 	scientific_notation(numerator, denominator, &digitexpo, value);
 	
 	result_len = double_to_string(strings, digitexpo, is_neg);
-	if (strings->prec == UINT16_MAX)
+	if (strings->prec == NO_PRECISION)
 		return (result_len);
 	return (process_precision(strings->result, strings->prec));
 }

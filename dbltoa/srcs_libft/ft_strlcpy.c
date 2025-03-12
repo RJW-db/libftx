@@ -6,7 +6,7 @@
 /*   By: rjw <rjw@student.codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/03/12 01:40:00 by rjw           #+#    #+#                 */
-/*   Updated: 2025/03/12 01:40:02 by rjw           ########   odam.nl         */
+/*   Updated: 2025/03/12 03:32:56 by rjw           ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,10 +37,10 @@ size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize)
 
 char *ft_strdup(const char *str)
 {
-    size_t len = ft_strlen(str);
-    char *copy = (char *)malloc(len + 1);
-    for (size_t i = 0; i < len; i++)
-        copy[i] = str[i];
-    copy[len] = '\0';
-    return copy;
+	size_t len = ft_strlen(str);
+	char *copy = (char *)malloc(len + 1);
+	for (size_t i = 0; i < len; i++)
+		copy[i] = str[i];
+	copy[len] = '\0';
+	return copy;
 }

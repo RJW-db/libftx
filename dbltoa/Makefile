@@ -15,8 +15,7 @@ OBJ_PATH	= obj
 SRCS		=	dbltoa/dbltoa.c \
 				dbltoa/fraction_conversion.c \
 				dbltoa/fraction_operations.c \
-				dbltoa/convert_binary_to_decimal.c \
-				dbltoa/convert_binary_to_decimal2.c \
+				dbltoa/ft_binary_to_decimal.c \
 				dbltoa/scientific_notation.c \
 				dbltoa/double_to_string.c \
 				dbltoa/precision.c \
@@ -31,7 +30,6 @@ SRCS		=	dbltoa/dbltoa.c \
 				srcs_libft/ft_strchr.c \
 				srcs_libft/ft_strlcpy.c \
 				srcs_libft/ft_strjoin.c \
-				srcs_libft/ft_putstr_fd.c \
 				srcs_libft/ft_substr.c \
 				srcs_libft/ft_itoa_base.c \
 				srcs_libft/ft_memmove.c

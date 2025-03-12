@@ -6,7 +6,7 @@
 /*   By: rjw <rjw@student.codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/03/12 01:36:32 by rjw           #+#    #+#                 */
-/*   Updated: 2025/03/12 02:57:23 by rjw           ########   odam.nl         */
+/*   Updated: 2025/03/12 03:31:36 by rjw           ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,35 +30,35 @@ typedef union	u_double_bitcast
 }	t_bitcast;
 
 /*
- * IEEE-754 Double Precision Format:
- * SEEEEEEE EEEEMMMM MMMMMMMM MMMMMMMM MMMMMMMM MMMMMMMM MMMMMMMM MMMMMMMM
- * ↑↑           ↑
- * ||           └── Mantissa (52 bits) → `mantissa`
- * |└── Exponent (11 bits) → `exponent`
- * └── Sign bit (1 bit)
- * 
- * Sign Bit (1 bit): 0 for positive, 1 for negative.
- * Exponent (11 bits): Stores the power of 2 (biased by 1023).
- * Mantissa (52 bits): Stores the fractional part.
- * 
- * 		------------------------------------------------
- * 
- * If exponent == 972, this means dbl is either:
- * Infinity (+∞ or -∞)
- * NaN (Not a Number -> 0.0 / 0.0)
- * Calls special_value() to return a string like "inf" or "nan".
- * TEST CASES:
- * 	- double test = 1.0 / 0.0; // Division by zero creates +∞
- * 	- double test = -1.0 / 0.0; // Negative division by zero creates -∞
- * 	- double test = 0.0 / 0.0; // 0 divided by 0 produces NaN
- * 
- * Why 972?
- * In IEEE-754:
- * 	- The exponent is stored as biased (actual_exp + 1023).
- * 	- Infinity and NaN have an exponent of all 1s (2047 in decimal).
- * 		S1111111 1111MMMM MMMMMMMM MMMMMMMM MMMMMMMM MMMMMMMM MMMMMMMM MMMMMMMM
- * 	- get_exponent_mantissa() subtracts the bias (1023), so we get 972 (2047 - 1075).
- */
+* IEEE-754 Double Precision Format:
+* SEEEEEEE EEEEMMMM MMMMMMMM MMMMMMMM MMMMMMMM MMMMMMMM MMMMMMMM MMMMMMMM
+* ↑↑           ↑
+* ||           └── Mantissa (52 bits) → `mantissa`
+* |└── Exponent (11 bits) → `exponent`
+* └── Sign bit (1 bit)
+* 
+* Sign Bit (1 bit): 0 for positive, 1 for negative.
+* Exponent (11 bits): Stores the power of 2 (biased by 1023).
+* Mantissa (52 bits): Stores the fractional part.
+* 
+* 		------------------------------------------------
+* 
+* If exponent == 972, this means dbl is either:
+* Infinity (+∞ or -∞)
+* NaN (Not a Number -> 0.0 / 0.0)
+* Calls special_value() to return a string like "inf" or "nan".
+* TEST CASES:
+* 	- double test = 1.0 / 0.0; // Division by zero creates +∞
+* 	- double test = -1.0 / 0.0; // Negative division by zero creates -∞
+* 	- double test = 0.0 / 0.0; // 0 divided by 0 produces NaN
+* 
+* Why 972?
+* In IEEE-754:
+* 	- The exponent is stored as biased (actual_exp + 1023).
+* 	- Infinity and NaN have an exponent of all 1s (2047 in decimal).
+* 		S1111111 1111MMMM MMMMMMMM MMMMMMMM MMMMMMMM MMMMMMMM MMMMMMMM MMMMMMMM
+* 	- get_exponent_mantissa() subtracts the bias (1023), so we get 972 (2047 - 1075).
+*/
 bool	fraction_conversion(double value, t_dbl *strings, bool *is_neg)
 {
 	char		bit_representation[DBL_BIT_COUNT + 1];
@@ -108,105 +108,105 @@ static char	*double_to_bits(int64_t double_bits, char *bit_representation)
 }
 
 /*
- * IEEE-754 Double Precision Format:
- * SEEEEEEE EEEEMMMM MMMMMMMM MMMMMMMM MMMMMMMM MMMMMMMM MMMMMMMM MMMMMMMM
- * ↑↑           ↑
- * ||           └── Mantissa (52 bits) → `mantissa`
- * |└── Exponent (11 bits) → `exponent`
- * └── Sign bit (1 bit)
- * 
- * Sign Bit (1 bit): 0 for positive, 1 for negative.
- * Exponent (11 bits): Stores the power of 2 (biased by 1023).
- * Mantissa (52 bits): Stores the fractional part.
- *
- *		------------------------------------------------
- *
- * What the function does?
- *	- Extracts the 11-bit exponent from the binary string.
- *	- Extracts the 52-bit mantissa from the binary string.
- *	- Converts exponent and mantissa to decimal.
- *	- Adjusts for normalized/denormalized numbers.
- *
- *		------------------------------------------------
- *
- * Adjusts the exponent bias?
- * 	IEEE-754 exponent bias is 1023.
- * 	Denormalized numbers (exponent 0) use -1074 instead of -1075.
- * 	Normalized numbers subtract 1075 to get the actual exponent.
- *
- * 	Example:
- * 	| Binary 	    | Exponent | Decimal (Biased) | Adjusted (Actual Exponent) |
- * 	| "10000000000" |	1024   | 	  1075		  |	   1024 - 1075   =   -51   |
- *	| "01111111111"	|	1023   |	  1075		  |	   1023 - 1075   =   -52   |
- * 	| "00000000000"	|	0	   | 	  1075		  |	   0 	- 1074   =   -1074 |
- *
- *
- * Why 1074 and 1075?
- * 	{
- * 		// Adjusts the exponent bias
- * 		if (*exponent == 0)
- *			*exponent -= 1074;
- *		else
- *			*exponent -= 1075;
- * 	 }
- * 	- The exponent is stored with a bias of 1023.
- * 	- The smallest exponent for a normalized number is -1022.
- * 	- If the exponent is not zero, we adjust it using:
- *				actual exponent = stored exponent − 1023 − 1 = stored exponent − 1075
- *	- When the exponent is all zeros (00000000000), the number is denormalized.
- *	- The actual exponent for denormals is always -1022 (minimum exponent) - 52 (mantissa shift):
- *				− 1022 − 52 = − 1074
- * 	- This is why for denormalized numbers, we use:
- *				exponent -= 1074;
- * 	- For normalized numbers, we use:
- *				exponent -= 1075;
- *				Because the implicit leading 1 bit in the mantissa shifts the exponent by an extra 1.
- * 
- *		------------------------------------------------
- *
- * Adjusts the mantissa bias?
- * 	if (atoi64(exp_bits) && (atoi64(exp_str) - 1075) != 972)
- *     			*mantissa += (1UL << 52); 	// Adds 2^52 to restore the implicit 1
- * 	If exponent is NOT 972, add 2^52 to the mantissa. (Bit-shift 52 to left)
- * 	This accounts for the implicit leading 1 in normalized numbers.
- *	In other words:
- *		If the exponent is not zero & not 972, the number is normalized, 
- *		and implicit leading 1 is added (mantissa becomes 1.xxxxx instead of 0.xxxxx).
- *
- *		Example:
- *		| Mantissa Bits	| Decimal Mantissa | Adjusted Mantissa (with 2^52)	   |
- *		| "100100..."	| 31897010349248   | 31897010349248 + 4503599627370496 |
- *
- * Why is 972 used?
- * 	The 972 is related to special cases of floating-point numbers 
- * 	like Infinity (Inf) and NaN (Not-a-Number).
- * 
- * 	Special IEEE-754 Exponent Values
- * 	- The largest possible exponent in 11-bit storage is 2047 (11111111111 in binary).
- * 	- The largest normal exponent is 1023.
- * 	- A value of 1024 could mean infinity (Inf).
- * 	- Exponent value 972 is an indicator of Inf or NaN.
- * 
- * 	Why Check if (exponent - 1075) != 972?
- * 	- If the biased exponent is 2047, the number is Inf or NaN.
- * 	- To detect this, we check:
- * 		if (exponent - 1075 != 972)
- * 		- When exponent - 1075 == 972 → It is Inf or NaN.
- * 		- Otherwise, it is a regular number.
- * 
- * Steps:
- * 		1):
- * 			exp_bits : Extracts 11 bits of the exponent (starts at 1 to skip the sign bit)
- * 			mant_bits : Extracts mantissa bits (starts at 12, because exponent goes till 11 bits)
- * 		2):
- * 			Converts binary exponent to exp_str/mant_str (exponent "10000000000" → decimal "1024")
- * 		3):
- * 			Converts string to int (string "1024" to integer 1024)
- * 		4):
- * 			Adjusts the exponent bias
- * 			Normlize number (if not zerro)
- * 
- */
+* IEEE-754 Double Precision Format:
+* SEEEEEEE EEEEMMMM MMMMMMMM MMMMMMMM MMMMMMMM MMMMMMMM MMMMMMMM MMMMMMMM
+* ↑↑           ↑
+* ||           └── Mantissa (52 bits) → `mantissa`
+* |└── Exponent (11 bits) → `exponent`
+* └── Sign bit (1 bit)
+* 
+* Sign Bit (1 bit): 0 for positive, 1 for negative.
+* Exponent (11 bits): Stores the power of 2 (biased by 1023).
+* Mantissa (52 bits): Stores the fractional part.
+*
+*		------------------------------------------------
+*
+* What the function does?
+*	- Extracts the 11-bit exponent from the binary string.
+*	- Extracts the 52-bit mantissa from the binary string.
+*	- Converts exponent and mantissa to decimal.
+*	- Adjusts for normalized/denormalized numbers.
+*
+*		------------------------------------------------
+*
+* Adjusts the exponent bias?
+* 	IEEE-754 exponent bias is 1023.
+* 	Denormalized numbers (exponent 0) use -1074 instead of -1075.
+* 	Normalized numbers subtract 1075 to get the actual exponent.
+*
+* 	Example:
+* 	| Binary 	    | Exponent | Decimal (Biased) | Adjusted (Actual Exponent) |
+* 	| "10000000000" |	1024   | 	  1075		  |	   1024 - 1075   =   -51   |
+*	| "01111111111"	|	1023   |	  1075		  |	   1023 - 1075   =   -52   |
+* 	| "00000000000"	|	0	   | 	  1075		  |	   0 	- 1074   =   -1074 |
+*
+*
+* Why 1074 and 1075?
+* 	{
+* 		// Adjusts the exponent bias
+* 		if (*exponent == 0)
+*			*exponent -= 1074;
+*		else
+*			*exponent -= 1075;
+* 	 }
+* 	- The exponent is stored with a bias of 1023.
+* 	- The smallest exponent for a normalized number is -1022.
+* 	- If the exponent is not zero, we adjust it using:
+*				actual exponent = stored exponent − 1023 − 1 = stored exponent − 1075
+*	- When the exponent is all zeros (00000000000), the number is denormalized.
+*	- The actual exponent for denormals is always -1022 (minimum exponent) - 52 (mantissa shift):
+*				− 1022 − 52 = − 1074
+* 	- This is why for denormalized numbers, we use:
+*				exponent -= 1074;
+* 	- For normalized numbers, we use:
+*				exponent -= 1075;
+*				Because the implicit leading 1 bit in the mantissa shifts the exponent by an extra 1.
+* 
+*		------------------------------------------------
+*
+* Adjusts the mantissa bias?
+* 	if (atoi64(exp_bits) && (atoi64(exp_str) - 1075) != 972)
+*     			*mantissa += (1UL << 52); 	// Adds 2^52 to restore the implicit 1
+* 	If exponent is NOT 972, add 2^52 to the mantissa. (Bit-shift 52 to left)
+* 	This accounts for the implicit leading 1 in normalized numbers.
+*	In other words:
+*		If the exponent is not zero & not 972, the number is normalized, 
+*		and implicit leading 1 is added (mantissa becomes 1.xxxxx instead of 0.xxxxx).
+*
+*		Example:
+*		| Mantissa Bits	| Decimal Mantissa | Adjusted Mantissa (with 2^52)	   |
+*		| "100100..."	| 31897010349248   | 31897010349248 + 4503599627370496 |
+*
+* Why is 972 used?
+* 	The 972 is related to special cases of floating-point numbers 
+* 	like Infinity (Inf) and NaN (Not-a-Number).
+* 
+* 	Special IEEE-754 Exponent Values
+* 	- The largest possible exponent in 11-bit storage is 2047 (11111111111 in binary).
+* 	- The largest normal exponent is 1023.
+* 	- A value of 1024 could mean infinity (Inf).
+* 	- Exponent value 972 is an indicator of Inf or NaN.
+* 
+* 	Why Check if (exponent - 1075) != 972?
+* 	- If the biased exponent is 2047, the number is Inf or NaN.
+* 	- To detect this, we check:
+* 		if (exponent - 1075 != 972)
+* 		- When exponent - 1075 == 972 → It is Inf or NaN.
+* 		- Otherwise, it is a regular number.
+* 
+* Steps:
+* 		1):
+* 			exp_bits : Extracts 11 bits of the exponent (starts at 1 to skip the sign bit)
+* 			mant_bits : Extracts mantissa bits (starts at 12, because exponent goes till 11 bits)
+* 		2):
+* 			Converts binary exponent to exp_str/mant_str (exponent "10000000000" → decimal "1024")
+* 		3):
+* 			Converts string to int (string "1024" to integer 1024)
+* 		4):
+* 			Adjusts the exponent bias
+* 			Normlize number (if not zerro)
+* 
+*/
 static void	extract_expo_mant(int16_t *exponent, uint64_t *mant, char *strbits)
 {
 	char	exp_bits[DBL_EXP_BITS + 1];
@@ -233,13 +233,13 @@ static void	extract_expo_mant(int16_t *exponent, uint64_t *mant, char *strbits)
 
 
 /* special_value()
- * This function handles errors related to floating-point numbers, 
- * specifically when dealing with special cases like "infinity" or "NaN" (Not a Number).
- * Example:
- * 		value = 1.0 and mantissa = 0, return "inf".
- *		value = -1.0 and mantissa = 0, return "-inf".
- *		value = 0.0 and mantissa = 0, return "nan".
- */
+* This function handles errors related to floating-point numbers, 
+* specifically when dealing with special cases like "infinity" or "NaN" (Not a Number).
+* Example:
+* 		value = 1.0 and mantissa = 0, return "inf".
+*		value = -1.0 and mantissa = 0, return "-inf".
+*		value = 0.0 and mantissa = 0, return "nan".
+*/
 static void	special_value(t_dbl *strs, double val, uint64_t mant, bool is_neg)
 {
 	const char	nan_strings[2][5] = {"-nan", "nan"};

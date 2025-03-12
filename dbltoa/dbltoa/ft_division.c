@@ -6,7 +6,7 @@
 /*   By: rjw <rjw@student.codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/03/12 01:36:51 by rjw           #+#    #+#                 */
-/*   Updated: 2025/03/12 03:07:08 by rjw           ########   odam.nl         */
+/*   Updated: 2025/03/12 03:55:25 by rjw           ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,20 +72,19 @@ static uint8_t	is_division_result_equal(char *num_str, char *den_str)
 
 static uint8_t	find_quotient(char *s1, char *s2)
 {
-	char	tmp[MAX_DBL_STR_LEN + 1];
 	uint8_t	quotient;
 	int16_t	result;
 
 	quotient = 0;
-	cpy_str(tmp, s1);
-	while (1) {
-		result = ft_subtraction(tmp, s2);	// tested multiple times but tmp could be s1
+	while (1)
+	{
+		result = ft_subtraction(s1, s2);
 		if (result < 0)
 			break;
 		if (result == 0)
 		{
-		    ++quotient;
-		    break;
+			++quotient;
+			break;
 		}
 		++quotient;
 	}

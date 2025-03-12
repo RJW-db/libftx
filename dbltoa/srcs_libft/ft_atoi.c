@@ -6,7 +6,7 @@
 /*   By: rjw <rjw@student.codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/03/12 01:38:37 by rjw           #+#    #+#                 */
-/*   Updated: 2025/03/12 01:38:39 by rjw           ########   odam.nl         */
+/*   Updated: 2025/03/12 03:32:06 by rjw           ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int64_t	atoi64(const char *nptr)
 
 void ft_bzero(void *str, size_t size_n)
 {
-    unsigned char *p = (unsigned char *)str;
-    for (size_t i = 0; i < size_n; i++)
-        p[i] = 0;
+	unsigned char *p = (unsigned char *)str;
+	for (size_t i = 0; i < size_n; i++)
+		p[i] = 0;
 }

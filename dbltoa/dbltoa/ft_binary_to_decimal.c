@@ -1,19 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   convert_binary_to_decimal.c                        :+:    :+:            */
+/*   ft_binary_to_decimal.c                             :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: rjw <rjw@student.codam.nl>                   +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2025/03/12 01:31:31 by rjw           #+#    #+#                 */
-/*   Updated: 2025/03/12 01:45:05 by rjw           ########   odam.nl         */
+/*   Created: 2025/03/12 03:53:16 by rjw           #+#    #+#                 */
+/*   Updated: 2025/03/12 03:53:18 by rjw           ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/dbltoa.h"
 
-uint16_t	base_len(uint64_t nbr, uint64_t base);
-void		convert_base(uint64_t nbu, char *base, uint64_t b_val, char *result);
+static uint16_t	base_length(uint64_t nbr, uint64_t base);
+static void		convert_base( \
+					uint64_t nbu, char *base, uint64_t b_val, char *result);
 
 bool	binary_to_decimal(const char *bin_str, char *dec_str, size_t size)
 {
@@ -22,9 +23,7 @@ bool	binary_to_decimal(const char *bin_str, char *dec_str, size_t size)
 	bool		sign;
 
 	binary_value = abs_int64(atoi_base(bin_str, BINARY_BASE, &sign));
-
-	bit_length = base_len(binary_value, DECIMAL_NBR);
-
+	bit_length = base_length(binary_value, DECIMAL_NBR);
 	if (size < (size_t)(bit_length + 1))
 		return (false);
 	ft_memset(dec_str, '\0', bit_length + 1);
@@ -34,8 +33,7 @@ bool	binary_to_decimal(const char *bin_str, char *dec_str, size_t size)
 	return (true);
 }
 
-// base_len && convert_to_base, can be in atoi_utils or something
-uint16_t	base_len(uint64_t nbr, uint64_t base)
+static uint16_t	base_length(uint64_t nbr, uint64_t base)
 {
 	uint16_t	length;
 	
@@ -45,10 +43,10 @@ uint16_t	base_len(uint64_t nbr, uint64_t base)
 		nbr /= base;
 		length += 1;
 	}
-	return length;
+	return (length);
 }
 
-void	convert_base(uint64_t nbu, char *base, uint64_t b_val, char *result)
+static void	convert_base(uint64_t nbu, char *base, uint64_t b_val, char *result)
 {
 	uint64_t	i;
 	uint64_t	len;
