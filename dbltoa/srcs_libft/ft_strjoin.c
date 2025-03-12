@@ -6,11 +6,13 @@
 /*   By: rjw <rjw@student.codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/03/12 01:39:54 by rjw           #+#    #+#                 */
-/*   Updated: 2025/03/12 03:32:54 by rjw           ########   odam.nl         */
+/*   Updated: 2025/03/12 15:00:33 by rde-brui      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/dbltoa.h"
+#include <stdlib.h>
+
 bool	strs_ok(const char *s1, const char *s2)
 {
 	return (!(s1 == NULL || s2 == NULL));
