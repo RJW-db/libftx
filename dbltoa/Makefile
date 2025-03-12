@@ -24,15 +24,8 @@ SRCS		=	dbltoa/dbltoa.c \
 				dbltoa/ft_subtraction.c \
 				dbltoa/ft_multiply.c \
 				dbltoa/ft_division.c \
-				srcs_libft/ft_memset.c \
-				srcs_libft/ft_atoi.c \
-				srcs_libft/ft_strlen.c \
-				srcs_libft/ft_strchr.c \
-				srcs_libft/ft_strlcpy.c \
-				srcs_libft/ft_strjoin.c \
-				srcs_libft/ft_substr.c \
-				srcs_libft/ft_itoa_base.c \
-				srcs_libft/ft_memmove.c
+				srcs_libft/libft.c \
+				srcs_libft/ft_itoa_base.c
 
 # Create list of object files (replace .c with .o and store in OBJ_PATH)
 OBJ			= $(SRCS:%.c=$(OBJ_PATH)/%.o)

@@ -6,7 +6,7 @@
 /*   By: rjw <rjw@student.codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/03/11 20:02:40 by rjw           #+#    #+#                 */
-/*   Updated: 2025/03/12 14:22:02 by rde-brui      ########   odam.nl         */
+/*   Updated: 2025/03/12 15:33:06 by rde-brui      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,7 @@ static void	handle_carry(char *s1, int16_t len, int16_t i, int16_t *carry)
 			s1[i] = (*carry % 10) + '0';
 		else
 		{
-			ft_memmove(s1 + 1, s1, len);
+			charmove(s1 + 1, s1, len);
 			s1[0] = (*carry % 10) + '0';
 		}
 		*carry /= 10;

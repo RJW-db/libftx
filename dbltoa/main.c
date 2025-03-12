@@ -6,7 +6,7 @@
 /*   By: rjw <rjw@student.codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/03/12 01:41:44 by rjw           #+#    #+#                 */
-/*   Updated: 2025/03/12 14:47:21 by rde-brui      ########   odam.nl         */
+/*   Updated: 2025/03/12 15:42:04 by rde-brui      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 #include <strings.h>
 #include <ctype.h>
 #include <stdio.h>
+#include <stdlib.h>
 
 # define RESET			"\033[0m"
 # define BOLD			"\033[1m"

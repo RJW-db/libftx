@@ -6,7 +6,7 @@
 /*   By: rjw <rjw@student.codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/03/12 01:35:36 by rjw           #+#    #+#                 */
-/*   Updated: 2025/03/12 14:16:07 by rde-brui      ########   odam.nl         */
+/*   Updated: 2025/03/12 15:33:06 by rde-brui      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,12 +129,12 @@ static uint16_t	process_number_string(char *result, bool is_neg)
 		--len;
 	}
 	if (is_neg == false)
-		ft_memmove(result, result + offset, len);
+		charmove(result, result + offset, len);
 	else
 	{
 		result[0] = '-';
 		if (offset == 2)
-			ft_memmove(result + 1, result + 2, len);
+			charmove(result + 1, result + 2, len);
 	}
 	result[len + is_neg] = '\0';
 	return (len + is_neg + (offset == 0));

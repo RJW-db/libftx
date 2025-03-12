@@ -6,7 +6,7 @@
 /*   By: rjw <rjw@student.codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/09/11 20:30:04 by rjw           #+#    #+#                 */
-/*   Updated: 2025/01/13 16:24:05 by rjw           ########   odam.nl         */
+/*   Updated: 2025/03/12 15:47:44 by rde-brui      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ size_t	strlen_safe(t_cchr *str)
 	if (str == NULL)
 		return (0);
 	n = 0;
-	while (str[n])
+	while (str[n] != '\0')
 		++n;
 	return (n);
 }

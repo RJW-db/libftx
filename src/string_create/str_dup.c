@@ -6,7 +6,7 @@
 /*   By: rjw <rjw@student.codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/09/11 20:31:39 by rjw           #+#    #+#                 */
-/*   Updated: 2025/01/11 03:53:21 by rjw           ########   odam.nl         */
+/*   Updated: 2025/03/12 15:42:25 by rde-brui      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ char	*ft_strdup(t_cchr *s)
 	str = (char *)malloc((len + 1) * sizeof(char));
 	if (str == NULL)
 		return (NULL);
-	ft_strlcpy(str, s, len + 1);
+	cpy_str(str, s);
 	return (str);
 }
 

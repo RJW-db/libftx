@@ -6,7 +6,7 @@
 /*   By: rjw <rjw@student.codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/03/12 01:38:30 by rjw           #+#    #+#                 */
-/*   Updated: 2025/03/12 14:53:22 by rde-brui      ########   odam.nl         */
+/*   Updated: 2025/03/12 15:33:32 by rde-brui      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,10 +116,9 @@ void		init_struct(char *s1, char *s2, t_nbr *num);
 
 int			ft_strncmp(const char *s1, const char *s2, size_t n);
 int64_t		atoi_base(const char *nbr_str, char *base, bool *is_neg);
-void		ft_bzero(void *str, size_t size_n);
 char		*ft_strdup(const char *str);
 void		*ft_memset(void *b, int c, size_t len);
-void		*ft_memmove(void *dest, const void *src, size_t len);
+char		*charmove(char *dest, const char *src, size_t n);
 size_t		ft_strlen(const char *s);
 size_t		strlen_safe(const char *str);
 char		*ft_strchr(const char *s, int c);

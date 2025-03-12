@@ -6,7 +6,7 @@
 /*   By: rjw <rjw@student.codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/09/11 20:32:47 by rjw           #+#    #+#                 */
-/*   Updated: 2025/01/30 21:16:02 by rjw           ########   odam.nl         */
+/*   Updated: 2025/03/12 15:32:13 by rde-brui      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	*ft_memmove(void *dest, const void *src, size_t n)
 	tmp = dest;
 	if (src > dest)
 		while (n--)
-			*(char *)tmp++ = *(char *)src++;
+			*tmp++ = *(char *)src++;
 	if (dest > src)
 		while (n--)
 			*((char *)dest + n) = *((char *)src + n);

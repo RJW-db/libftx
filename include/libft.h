@@ -6,7 +6,7 @@
 /*   By: jdobos <jdobos@student.42.fr>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/01/15 16:27:18 by rde-brui      #+#    #+#                 */
-/*   Updated: 2025/03/09 03:30:56 by rjw           ########   odam.nl         */
+/*   Updated: 2025/03/12 15:49:50 by rde-brui      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -180,6 +180,7 @@ size_t		ft_strlcat(char *dst, t_cchr *src, size_t size);
 char		*ft_strncpy(char *dst, const char *src, size_t n);
 size_t		ft_strlcpy(char *dst, t_cchr *src, size_t size);
 char		*charmove(char *dest, const char *src, size_t n);
+void		extract_substr(const char *s, uint32_t start, size_t ln, char *buf);
 char		*ft_strmapi(char const *s, char (*f)(uint32_t, char));
 void		swap_ptr(void **s1, void **s2);
 uint8_t		nbr_to_buff(char *dst, int64_t n);

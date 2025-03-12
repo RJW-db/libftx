@@ -6,7 +6,7 @@
 /*   By: rjw <rjw@student.codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/03/12 02:12:12 by rjw           #+#    #+#                 */
-/*   Updated: 2025/03/12 14:49:04 by rde-brui      ########   odam.nl         */
+/*   Updated: 2025/03/12 15:33:06 by rde-brui      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	ft_addition(char *s1, char *s2)
 	}
 	if (carry > 0)
 	{
-		ft_memmove(s1 + 1, s1, len);
+		charmove(s1 + 1, s1, len);
 		s1[0] = carry + '0';
 	}
 }
