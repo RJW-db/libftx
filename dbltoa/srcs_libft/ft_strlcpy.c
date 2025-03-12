@@ -6,11 +6,12 @@
 /*   By: rjw <rjw@student.codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/03/12 01:40:00 by rjw           #+#    #+#                 */
-/*   Updated: 2025/03/12 03:32:56 by rjw           ########   odam.nl         */
+/*   Updated: 2025/03/12 14:58:15 by rde-brui      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/dbltoa.h"
+#include <stdlib.h>
 
 size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize)
 {
