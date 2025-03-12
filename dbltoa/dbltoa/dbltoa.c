@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   ft_dbltoa.c                                        :+:    :+:            */
+/*   dbltoa.c                                        :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: rjw <rjw@student.codam.nl>                   +#+                     */
 /*                                                   +#+                      */
@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/ft_dbltoa.h"
+#include "../includes/dbltoa.h"
 
 //	Static functions
 static int16_t	dbltoa_convert(double value, t_dbl *strings);
@@ -75,15 +75,15 @@ static int16_t	dbltoa_convert(double value, t_dbl *strings)
 	uint16_t	result_len;
 
 	is_neg = true;
-	intialize_string(numerator);
-	intialize_string(denominator);
+	intialize_buff(numerator);
+	intialize_buff(denominator);
 	strings->s1 = numerator;
 	strings->s2 = denominator;
 	if (fraction_conversion(value, strings, &is_neg) == false)
 		return (ft_strlen(strings->result));
 	scientific_notation(numerator, denominator, &digitexpo, value);
-	double_to_string(strings, digitexpo);
-	result_len = process_number_string(strings->result, is_neg);
+	
+	result_len = double_to_string(strings, digitexpo, is_neg);
 	if (strings->prec == UINT16_MAX)
 		return (result_len);
 	return (process_precision(strings->result, strings->prec));

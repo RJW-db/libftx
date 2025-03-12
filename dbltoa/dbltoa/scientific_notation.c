@@ -1,16 +1,50 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   scientific_notation.c                          :+:    :+:            */
+/*   scientific_notation.c                              :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: jmetzger <jmetzger@student.codam.nl>         +#+                     */
+/*   By: rjw <rjw@student.codam.nl>                   +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2025/02/12 17:26:37 by jmetzger      #+#    #+#                 */
-/*   Updated: 2025/03/08 02:26:18 by rjw           ########   odam.nl         */
+/*   Created: 2025/03/12 01:38:15 by rjw           #+#    #+#                 */
+/*   Updated: 2025/03/12 03:16:48 by rjw           ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/ft_dbltoa.h"
+#include "../includes/dbltoa.h"
+
+//	Static Function
+static int16_t	calculate_exponent(double nbr);
+
+/*
+ * Converts a fraction (numerator/denominator) into scientific notation,  
+ * ensuring that only one nonzero digit appears before the decimal point.
+ * 
+ * - If (*digitexpo > 0) : Number too large, needs scaling down
+ * 	 Multiply the denominator by 10^digitexpo -> This shifts the decimal point left
+ * 	 Example: 122.5 (convert to 1.225 × 10²)
+ * 	
+ * - If (*digitexpo < 0) : Number too small, needs scaling up
+ * 	 Multiply the numerator by 10^|digitexpo| -> This shifts the decimal point right
+ * 	 Example: 0.024 (convert to 2.4 × 10⁻²)
+ */
+void	scientific_notation(char *num, char *deno, int16_t *digitexpo, double value)
+{
+	char	digit[MAX_DBL_STR_LEN + 1];
+
+	*digitexpo = calculate_exponent(value);
+	if (*digitexpo > 0)
+	{
+		intialize_buff(digit);
+		digit[MAX_DBL_STR_LEN - *digitexpo - 1] = '1';
+		ft_multiply(deno, digit);
+	}
+	else if (*digitexpo < 0)
+	{
+		intialize_buff(digit);
+		digit[MAX_DBL_STR_LEN + *digitexpo - 1] = '1';
+		ft_multiply(num, digit);
+	}
+}
 
 /* calculate_exponent()
  * This function is to determine the order of magnitude (or exponent in scientific notation)
@@ -69,35 +103,4 @@ static int16_t	calculate_exponent(double nbr)
 		}
 	}
 	return (exponent);
-}
-
-/*
- * Converts a fraction (numerator/denominator) into scientific notation,  
- * ensuring that only one nonzero digit appears before the decimal point.
- * 
- * - If (*digitexpo > 0) : Number too large, needs scaling down
- * 	 Multiply the denominator by 10^digitexpo -> This shifts the decimal point left
- * 	 Example: 122.5 (convert to 1.225 × 10²)
- * 	
- * - If (*digitexpo < 0) : Number too small, needs scaling up
- * 	 Multiply the numerator by 10^|digitexpo| -> This shifts the decimal point right
- * 	 Example: 0.024 (convert to 2.4 × 10⁻²)
- */
-void	scientific_notation(char *num, char *deno, int16_t *digitexpo, double value)
-{
-	char	digit[MAX_DBL_STR_LEN + 1];
-
-	*digitexpo = calculate_exponent(value);
-	if (*digitexpo > 0)
-	{
-		intialize_string(digit);
-		digit[MAX_DBL_STR_LEN - *digitexpo - 1] = '1';
-		ft_multiply(deno, digit);
-	}
-	else if (*digitexpo < 0)
-	{
-		intialize_string(digit);
-		digit[MAX_DBL_STR_LEN + *digitexpo - 1] = '1';
-		ft_multiply(num, digit);
-	}
 }

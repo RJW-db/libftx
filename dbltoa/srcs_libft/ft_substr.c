@@ -1,5 +1,16 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        ::::::::            */
+/*   ft_substr.c                                        :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: rjw <rjw@student.codam.nl>                   +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2025/03/12 01:40:09 by rjw           #+#    #+#                 */
+/*   Updated: 2025/03/12 01:40:36 by rjw           ########   odam.nl         */
+/*                                                                            */
+/* ************************************************************************** */
 
-#include "../includes/ft_dbltoa.h"
+#include "../includes/dbltoa.h"
 
 void	extract_substr(const char *s, uint32_t start, size_t ln, char *buf)
 {
@@ -7,7 +18,7 @@ void	extract_substr(const char *s, uint32_t start, size_t ln, char *buf)
 	size_t s_len;
 
 	if (s == NULL || buf == NULL)
-		return;
+		return ;
 	s_len = ft_strlen(s);
 	if (s_len <= start)
 		ln = 0;

@@ -1,4 +1,16 @@
-#include "includes/ft_dbltoa.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        ::::::::            */
+/*   dbltoa_buff_tester.c                               :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: rjw <rjw@student.codam.nl>                   +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2025/03/12 01:41:36 by rjw           #+#    #+#                 */
+/*   Updated: 2025/03/12 02:11:34 by rjw           ########   odam.nl         */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "includes/dbltoa.h"
 #include <float.h>
 #include <math.h>
 
@@ -35,6 +47,7 @@ int	main(void)
 	negative_power_of_ten_tests_b();
 	
 	// varies_buff_size();
+
 	return (0);
 }
 

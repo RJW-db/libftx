@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   itoa_base.c                                     :+:    :+:            */
+/*   ft_itoa_base.c                                     :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: jmetzger <jmetzger@student.codam.nl>         +#+                     */
+/*   By: rjw <rjw@student.codam.nl>                   +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2025/02/12 17:26:37 by jmetzger      #+#    #+#                 */
-/*   Updated: 2025/03/03 17:05:02 by rjw           ########   odam.nl         */
+/*   Created: 2025/03/12 01:38:48 by rjw           #+#    #+#                 */
+/*   Updated: 2025/03/12 01:38:51 by rjw           ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/ft_dbltoa.h"
+#include "../includes/dbltoa.h"
 
 uint8_t	digit_counter(int64_t n, uint8_t base_len)
 {

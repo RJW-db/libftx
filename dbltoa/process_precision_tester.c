@@ -6,11 +6,11 @@
 /*   By: rjw <rjw@student.codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/03/12 01:15:54 by rjw           #+#    #+#                 */
-/*   Updated: 2025/03/12 01:21:15 by rjw           ########   odam.nl         */
+/*   Updated: 2025/03/12 01:29:30 by rjw           ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/ft_dbltoa.h"
+#include "../includes/dbltoa.h"
 
 //	Static Functions
 static void	process_precision_tester(void);

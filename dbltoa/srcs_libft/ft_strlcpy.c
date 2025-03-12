@@ -1,5 +1,16 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        ::::::::            */
+/*   ft_strlcpy.c                                       :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: rjw <rjw@student.codam.nl>                   +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2025/03/12 01:40:00 by rjw           #+#    #+#                 */
+/*   Updated: 2025/03/12 01:40:02 by rjw           ########   odam.nl         */
+/*                                                                            */
+/* ************************************************************************** */
 
-#include "../includes/ft_dbltoa.h"
+#include "../includes/dbltoa.h"
 
 size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize)
 {

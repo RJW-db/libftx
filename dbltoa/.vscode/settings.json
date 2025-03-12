@@ -1,6 +1,6 @@
 {
 	"files.associations": {
-		"ft_dbltoa.h": "c",
+		"dbltoa.h": "c",
 		"cstddef": "c",
 		"stdarg.h": "c",
 		"random": "c",

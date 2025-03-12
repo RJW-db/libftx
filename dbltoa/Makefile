@@ -8,34 +8,33 @@ CFLAGS		+= -g
 SRC_HEADER	= ./includes
 
 # Source directories
-SRC_DIRS	= srcs_libft ft_dbltoa
+SRC_DIRS	= srcs_libft dbltoa
 OBJ_PATH	= obj
 
 # Sources
-SRCS		= main.c \
-			  srcs_libft/ft_memset.c \
-			  srcs_libft/ft_atoi.c \
-			  srcs_libft/ft_strlen.c \
-			  srcs_libft/ft_strchr.c \
-			  srcs_libft/ft_strlcpy.c \
-			  srcs_libft/ft_strjoin.c \
-			  srcs_libft/ft_putstr_fd.c \
-			  srcs_libft/ft_substr.c \
-			  srcs_libft/ft_itoa.c \
-			  srcs_libft/ft_itoa_base.c \
-			  srcs_libft/ft_memmove.c \
-			  ft_dbltoa/scientific_notation.c \
-			  ft_dbltoa/convert_binary_to_decimal.c \
-			  ft_dbltoa/convert_binary_to_decimal2.c \
-			  ft_dbltoa/ft_subs.c \
-			  ft_dbltoa/ft_multi.c \
-			  ft_dbltoa/ft_divi.c \
-			  ft_dbltoa/fraction_conversion.c \
-			  ft_dbltoa/ft_utils2.c \
-			  ft_dbltoa/ft_utils.c \
-			  ft_dbltoa/ft_dbltoa.c \
-			  ft_dbltoa/double_to_string.c \
-			  ft_dbltoa/precision.c
+SRCS		=	dbltoa/dbltoa.c \
+				dbltoa/fraction_conversion.c \
+				dbltoa/fraction_operations.c \
+				dbltoa/convert_binary_to_decimal.c \
+				dbltoa/convert_binary_to_decimal2.c \
+				dbltoa/scientific_notation.c \
+				dbltoa/double_to_string.c \
+				dbltoa/precision.c \
+				dbltoa/init_helpers.c \
+				dbltoa/ft_addition.c	\
+				dbltoa/ft_subtraction.c \
+				dbltoa/ft_multiply.c \
+				dbltoa/ft_division.c \
+				srcs_libft/ft_memset.c \
+				srcs_libft/ft_atoi.c \
+				srcs_libft/ft_strlen.c \
+				srcs_libft/ft_strchr.c \
+				srcs_libft/ft_strlcpy.c \
+				srcs_libft/ft_strjoin.c \
+				srcs_libft/ft_putstr_fd.c \
+				srcs_libft/ft_substr.c \
+				srcs_libft/ft_itoa_base.c \
+				srcs_libft/ft_memmove.c
 
 # Create list of object files (replace .c with .o and store in OBJ_PATH)
 OBJ			= $(SRCS:%.c=$(OBJ_PATH)/%.o)
@@ -60,7 +59,7 @@ $(NAME):	$(OBJ)
 # Rule for compiling .c into .o in obj/ folder
 $(OBJ_PATH)/%.o: %.c
 		@mkdir -p $(OBJ_PATH)/srcs_libft
-		@mkdir -p $(OBJ_PATH)/ft_dbltoa
+		@mkdir -p $(OBJ_PATH)/dbltoa
 		$(CC) $(CFLAGS) -c -I $(SRC_HEADER) -o $@ $<
 
 # Clean

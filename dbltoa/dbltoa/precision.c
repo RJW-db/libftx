@@ -6,11 +6,11 @@
 /*   By: rjw <rjw@student.codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/03/11 20:02:40 by rjw           #+#    #+#                 */
-/*   Updated: 2025/03/12 00:57:25 by rjw           ########   odam.nl         */
+/*   Updated: 2025/03/12 02:32:44 by rjw           ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/ft_dbltoa.h"
+#include "../includes/dbltoa.h"
 
 //	Static functions
 static void		handle_carry(char *s1, int16_t *len, int16_t i, int16_t *carry);

@@ -6,11 +6,11 @@
 /*   By: rjw <rjw@student.codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/03/12 01:20:34 by rjw           #+#    #+#                 */
-/*   Updated: 2025/03/12 01:22:14 by rjw           ########   odam.nl         */
+/*   Updated: 2025/03/12 01:29:30 by rjw           ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/ft_dbltoa.h"
+#include "../includes/dbltoa.h"
 
 //	Static Functions
 static void	integer_part_length_tester(void);
