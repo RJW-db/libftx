@@ -6,14 +6,14 @@
 /*   By: rjw <rjw@student.codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/03/11 20:02:40 by rjw           #+#    #+#                 */
-/*   Updated: 2025/03/12 16:14:26 by rde-brui      ########   odam.nl         */
+/*   Updated: 2025/03/12 17:43:21 by rde-brui      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <dbltoa.h>
 
 //	Static functions
-static void		handle_carry(char *s1, int16_t len, int16_t i, int16_t *carry);
+static void		handle_carry(char *s1, int16_t *len, int16_t i, int16_t *carry);
 static uint16_t	add_precision(char *s1, const char *s2);
 static uint16_t	set_precision(char *result, uint16_t prec, uint16_t dot_index);
 
@@ -65,6 +65,7 @@ static uint16_t	set_precision(char *result, uint16_t prec, uint16_t dot_index)
 		rounding_increment[prec_index + 1] = '\0';
 		return (add_precision(result, rounding_increment));
 	}
+
 	if (result[dot_index + prec_index - 1] == '.')
 	{
 		--prec_index;
@@ -90,7 +91,7 @@ static uint16_t	add_precision(char *s1, const char *s2)
 			carry += s1[i] - '0';
 		if (j >= 0 && s2[j] != '.')
 			carry += s2[j] - '0';
-		handle_carry(s1, s1_len, i, &carry);
+		handle_carry(s1, &s1_len, i, &carry);
 		--i;
 		--j;
 	}
@@ -102,7 +103,7 @@ static uint16_t	add_precision(char *s1, const char *s2)
 	return (i + 1);
 }
 
-static void	handle_carry(char *s1, int16_t len, int16_t i, int16_t *carry)
+static void	handle_carry(char *s1, int16_t *len, int16_t i, int16_t *carry)
 {
 	if (i < 0 || s1[i] != '.')
 	{
@@ -110,7 +111,7 @@ static void	handle_carry(char *s1, int16_t len, int16_t i, int16_t *carry)
 			s1[i] = (*carry % 10) + '0';
 		else
 		{
-			charmove(s1 + 1, s1, len);
+			charmove(s1 + 1, s1, ++(*len));
 			s1[0] = (*carry % 10) + '0';
 		}
 		*carry /= 10;

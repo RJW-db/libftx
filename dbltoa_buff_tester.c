@@ -6,7 +6,7 @@
 /*   By: rjw <rjw@student.codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/03/12 01:41:36 by rjw           #+#    #+#                 */
-/*   Updated: 2025/03/12 16:13:40 by rde-brui      ########   odam.nl         */
+/*   Updated: 2025/03/12 16:57:49 by rde-brui      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@
 # define BLUE			"\033[0;34m" 
 # define MAGENTA		"\033[35m"
 
-static void		testing_dbltoa_b(size_t index, bool str_check, bool nbr_check);
 static uint16_t	format_double_b(char *expected, size_t size, double input);
 static bool		single_test_b(size_t index, double input, size_t buff_len);
 static void		float_tests_b(void);
@@ -55,19 +54,6 @@ int	main(void)
 	// varies_buff_size();
 
 	return (0);
-}
-
-void	testing_dbltoa_b(size_t index, bool str_check, bool nbr_check)
-{
-	const char *table[4] = {
-		RED "%zu.KO " RESET,
-		YELLOW "%zu.KO " RESET,
-		BLUE "%zu.KO " RESET,
-		GREEN "%zu.OK " RESET
-	};
-    int table_index = (str_check << 1) | nbr_check;
-
-    printf((table[table_index]), index);
 }
 
 static uint16_t	format_double_b(char *expected, size_t size, double input)

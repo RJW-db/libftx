@@ -1,2 +1,0 @@
-du -h . | sort -rh | head -n 30
-rm -rf ~/.cache/*
