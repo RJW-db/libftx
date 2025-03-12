@@ -6,13 +6,19 @@
 /*   By: rjw <rjw@student.codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/03/12 01:41:44 by rjw           #+#    #+#                 */
-/*   Updated: 2025/03/12 01:41:56 by rjw           ########   odam.nl         */
+/*   Updated: 2025/03/12 14:47:21 by rde-brui      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/dbltoa.h"
 #include <float.h>
-#include <math.h>
+#include <stdarg.h>
+#include <locale.h>
+#include <unistd.h>
+#include <string.h>
+#include <strings.h>
+#include <ctype.h>
+#include <stdio.h>
 
 # define RESET			"\033[0m"
 # define BOLD			"\033[1m"

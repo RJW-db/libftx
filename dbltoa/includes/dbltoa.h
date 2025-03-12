@@ -6,25 +6,18 @@
 /*   By: rjw <rjw@student.codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/03/12 01:38:30 by rjw           #+#    #+#                 */
-/*   Updated: 2025/03/12 03:35:39 by rjw           ########   odam.nl         */
+/*   Updated: 2025/03/12 14:53:22 by rde-brui      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef DBLTOA_H
 # define DBLTOA_H
 
-# include <math.h>	//	INFINITY, NAN
-# include <stdio.h>
-# include <stdarg.h>
-# include <locale.h>
-# include <stdlib.h>
-# include <float.h>
-# include <unistd.h>
-# include <string.h>
-# include <strings.h>
-# include <ctype.h>
+# include <math.h>		//	INFINITY, NAN
+# include <stddef.h>	//	size_t
+# include <stdint.h>	//	int16_t, uint16_t
 # include <stdbool.h>
-# include <stdint.h>
+// # include <stdio.h>
 
 //	longest numbers -__DBL_DENORM_MIN__ is 1077 characters long
 # define MAX_DBL_STR_LEN 1078
@@ -73,14 +66,6 @@ typedef struct s_dbl
 	uint16_t	prec;
 }	t_dbl;
 
-// /**
-//  * @brief Prints a string with with markup given by user.
-//  * 
-//  * @note The last argument must be 0.
-//  * 
-//  * @param[in] str is which get the markup.
-//  * @param[in] ... varied number given for markup
-
 /**
  * struct s_nbr - Structure to hold numerical string information
  * @param[in] i_s1 Index of the last character in s1
@@ -93,7 +78,7 @@ typedef struct s_dbl
  * first significant digits. It helps in various numerical operations where
  * such information is required.
  */
-typedef struct	s_nbr
+typedef struct s_nbr
 {
 	int32_t	i_s1;
 	int32_t	j_s2;
@@ -101,10 +86,16 @@ typedef struct	s_nbr
 	int32_t	sig_s2;
 }	t_nbr;
 
+typedef union u_double_bitcast
+{
+	double	d;
+	int64_t	i;
+}	t_bitcast;
+
 char		*dbltoa(double dbl);
 uint16_t	dbltoa_buff(double value, char *buff, uint16_t b_size);
 
-// Conversions
+//	Conversions
 bool		fraction_conversion(double value, t_dbl *strings, bool *is_neg);
 bool		binary_to_decimal(const char *bin_str, char *dec_str, size_t size);
 char		*populate_numerator(char *num_str, uint64_t mant, int16_t expo);
@@ -113,20 +104,20 @@ void		scientific_notation(char *num, char *deno, int16_t *digitexpo, double valu
 uint16_t	double_to_string(t_dbl *s, int16_t digit_exponent, bool is_neg);
 uint16_t	process_precision(char *result, uint16_t prec);
 
-// Math
-char		*ft_addition(char* s1, char* s2);
+//	Math
+void		ft_addition(char *s1, char *s2);
 int16_t		ft_subtraction(char *s1, char *s2);
 void		ft_multiply(char *s1, char *s2);
 void		ft_division(char *s1, char *s2);
 
-// Init_helpers
+//	Init_helpers
 void		intialize_buff(char *buff);
 void		init_struct(char *s1, char *s2, t_nbr *num);
 
 int			ft_strncmp(const char *s1, const char *s2, size_t n);
 int64_t		atoi_base(const char *nbr_str, char *base, bool *is_neg);
-void 		ft_bzero(void *str, size_t size_n);
-char 		*ft_strdup(const char *str);
+void		ft_bzero(void *str, size_t size_n);
+char		*ft_strdup(const char *str);
 void		*ft_memset(void *b, int c, size_t len);
 void		*ft_memmove(void *dest, const void *src, size_t len);
 size_t		ft_strlen(const char *s);

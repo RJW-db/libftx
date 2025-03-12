@@ -6,15 +6,14 @@
 /*   By: rjw <rjw@student.codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/03/12 03:53:16 by rjw           #+#    #+#                 */
-/*   Updated: 2025/03/12 03:53:18 by rjw           ########   odam.nl         */
+/*   Updated: 2025/03/12 14:42:12 by rde-brui      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/dbltoa.h"
 
 static uint16_t	base_length(uint64_t nbr, uint64_t base);
-static void		convert_base( \
-					uint64_t nbu, char *base, uint64_t b_val, char *result);
+static void		convert_base(uint64_t nbu, char *base, uint64_t b_val, char *result);
 
 bool	binary_to_decimal(const char *bin_str, char *dec_str, size_t size)
 {
@@ -36,7 +35,7 @@ bool	binary_to_decimal(const char *bin_str, char *dec_str, size_t size)
 static uint16_t	base_length(uint64_t nbr, uint64_t base)
 {
 	uint16_t	length;
-	
+
 	length = 1;
 	while (nbr >= base)
 	{

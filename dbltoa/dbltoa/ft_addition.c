@@ -6,19 +6,19 @@
 /*   By: rjw <rjw@student.codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/03/12 02:12:12 by rjw           #+#    #+#                 */
-/*   Updated: 2025/03/12 03:31:44 by rjw           ########   odam.nl         */
+/*   Updated: 2025/03/12 14:49:04 by rde-brui      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/dbltoa.h"
 
-char	*ft_addition(char *s1, char *s2)
+void	ft_addition(char *s1, char *s2)
 {
 	int32_t	len;
 	int32_t	carry;
 	int32_t	i;
 	int32_t	sum;
-	
+
 	s1 += (*s1 == '+');
 	s2 += (*s2 == '+');
 	carry = 0;
@@ -36,5 +36,4 @@ char	*ft_addition(char *s1, char *s2)
 		ft_memmove(s1 + 1, s1, len);
 		s1[0] = carry + '0';
 	}
-	return (s1);
 }

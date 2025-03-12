@@ -6,7 +6,7 @@
 /*   By: rjw <rjw@student.codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/03/12 03:14:31 by rjw           #+#    #+#                 */
-/*   Updated: 2025/03/12 03:31:57 by rjw           ########   odam.nl         */
+/*   Updated: 2025/03/12 14:24:47 by rde-brui      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	intialize_buff(char *buff)
 {
 	ft_memset(buff, '0', MAX_DBL_STR_LEN);
 	buff[MAX_DBL_STR_LEN] = '\0';
-	buff[0] = '+';				// TODO check if this can be entirely removed
+	buff[0] = '+';
 }
 
 void	init_struct(char *s1, char *s2, t_nbr *num)
