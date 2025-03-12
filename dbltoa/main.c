@@ -9,9 +9,9 @@
 # define GREEN			"\033[32m"
 # define MAGENTA		"\033[35m"
 
+bool	single_test(size_t index, double input);
 void	testing_dbltoa(size_t index, bool check);
 void	format_double(char *expected, size_t size, double input);
-bool	single_test(size_t index, double input);
 void	float_tests(void);
 void	double_tests(void);
 void	edgecase_tests(void);
@@ -31,6 +31,22 @@ int	main(void)
 	power_of_ten_tests();
 	subnormal_to_max_tests();
 	negative_power_of_ten_tests();
+	return (0);
+}
+
+bool	single_test(size_t index, double input)
+{
+	char expected[MAX_DBL_STR_LEN];
+	char *result;
+
+	format_double(expected, sizeof(expected), input);
+	result = dbltoa(input);
+
+	// printf("%s\n", expected);
+	// printf("%s\n", result);
+
+	testing_dbltoa(index, strncmp(result, expected, strlen(expected) + 1) == 0);
+	free(result);
 	return (0);
 }
 
@@ -56,23 +72,6 @@ void	format_double(char *expected, size_t size, double input)
 	}
 }
 
-bool	single_test(size_t index, double input)
-{
-	char expected[MAX_DBL_STR_LEN];
-	char *result;
-
-	format_double(expected, sizeof(expected), input);
-	result = dbltoa(input);
-
-	// printf("%s\n", expected);
-	// printf("%s\n", result);
-
-	testing_dbltoa(index, strncmp(result, expected, strlen(expected) + 1) == 0);
-	free(result);
-	return (0);
-}
-
-// 1000000000000000000000000000000000000000000000000000000000000000
 void	float_tests(void)
 {
 	printf("float_tests\n");

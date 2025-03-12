@@ -6,7 +6,7 @@
 /*   By: rjw <rjw@student.codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/03/11 20:02:40 by rjw           #+#    #+#                 */
-/*   Updated: 2025/03/11 20:57:23 by rjw           ########   odam.nl         */
+/*   Updated: 2025/03/12 00:57:25 by rjw           ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,11 @@ uint16_t	process_precision(char *result, uint16_t prec)
 		if (result[res_index] == '.')
 		{
 			res_index = set_precision(result, prec, res_index);
+			if (res_index == 1 && is_neg == true && result[0] == '0')
+			{
+				cpy_str(result - is_neg, result);
+				is_neg = false;
+			}
 			break ;
 		}
 		++res_index;
@@ -58,6 +63,11 @@ static uint16_t	set_precision(char *result, uint16_t prec, uint16_t dot_index)
 		rounding_increment[prec_index] = '1';
 		rounding_increment[prec_index + 1] = '\0';
 		return (add_precision(result, rounding_increment));
+	}
+	if (result[dot_index + prec_index - 1] == '.')
+	{
+		--prec_index;
+		result[dot_index + prec_index] = '\0';
 	}
 	return (dot_index + prec_index);
 }

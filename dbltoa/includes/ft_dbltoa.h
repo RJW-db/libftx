@@ -3,18 +3,17 @@
 /*                                                        ::::::::            */
 /*   ft_dbltoa.h                                        :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: jmetzger <jmetzger@student.codam.nl>         +#+                     */
+/*   By: rjw <rjw@student.codam.nl>                   +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2025/02/12 17:26:37 by jmetzger      #+#    #+#                 */
-/*   Updated: 2025/03/11 20:10:46 by rjw           ########   odam.nl         */
+/*   Created: 2025/03/12 01:25:31 by rjw           #+#    #+#                 */
+/*   Updated: 2025/03/12 01:25:38 by rjw           ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #ifndef FT_DBLTOA_H
 # define FT_DBLTOA_H
 
-#include <math.h>	//	INFINITY, NAN
+# include <math.h>	//	INFINITY, NAN
 # include <stdio.h>
 # include <stdarg.h>
 # include <locale.h>
