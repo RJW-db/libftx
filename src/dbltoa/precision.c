@@ -6,7 +6,7 @@
 /*   By: rjw <rjw@student.codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/03/11 20:02:40 by rjw           #+#    #+#                 */
-/*   Updated: 2025/03/13 21:08:28 by rde-brui      ########   odam.nl         */
+/*   Updated: 2025/03/13 21:25:36 by rde-brui      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,7 @@ uint16_t	process_precision(char *result, uint16_t prec)
 			printf("pad_index %hu\n", pad_index);
 			// printf("check %hu\n", prec - pad_index);
 			printf("\n>>>%s<\n", result - 1);
+			
 			
 			// printf(">%hu<\n", pad_index);
 			// printf(">%hu<\n", dot_index);
