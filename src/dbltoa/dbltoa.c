@@ -18,7 +18,7 @@ static int16_t	dbltoa_convert(double value, t_dbl *strings);
 
 char	*dbltoa(double value)
 {
-	char	result[MAX_DBL_STR_LEN + 1];
+	char	result[MAX_DBL_BUFF + 1];
 	t_dbl	strings;
 
 	strings.result = result;
@@ -29,7 +29,7 @@ char	*dbltoa(double value)
 
 char	*dbltoa_precision(double value, uint16_t prec)
 {
-	char	result[MAX_DBL_STR_LEN + 1];
+	char	result[MAX_DBL_BUFF + 1];
 	t_dbl	strings;
 
 	strings.result = result;
@@ -40,7 +40,7 @@ char	*dbltoa_precision(double value, uint16_t prec)
 
 uint16_t	dbltoa_buff(double value, char *buff, uint16_t b_size)
 {
-	char		result[MAX_DBL_STR_LEN + 1];
+	char		result[MAX_DBL_BUFF + 1];
 	t_dbl		strings;
 	uint16_t	result_len;
 // printf(">%f\n", value);
@@ -75,7 +75,7 @@ uint16_t	dbltoa_buff(double value, char *buff, uint16_t b_size)
 
 uint16_t	dbltoa_buff_prec(double value, char *buff, uint16_t b_size, uint16_t prec)
 {
-	char		result[MAX_DBL_STR_LEN + 1];
+	char		result[MAX_DBL_BUFF + 1];
 	t_dbl		strings;
 	uint16_t	result_len;
 // printf(">%f\n", value);

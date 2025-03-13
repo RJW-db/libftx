@@ -18,6 +18,9 @@
 		"stdint.h": "c",
 		"stddef.h": "c",
 		"functional": "c",
-		"compare": "c"
+		"compare": "c",
+		"stdbool.h": "c",
+		"stdlib.h": "c",
+		"stdio.h": "c"
 	}
 }

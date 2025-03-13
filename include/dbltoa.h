@@ -6,7 +6,7 @@
 /*   By: rjw <rjw@student.codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/03/12 01:38:30 by rjw           #+#    #+#                 */
-/*   Updated: 2025/03/13 19:58:58 by rde-brui      ########   odam.nl         */
+/*   Updated: 2025/03/13 20:18:27 by rde-brui      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 # include <stdio.h>
 
 // //	longest numbers -__DBL_DENORM_MIN__ is 1077 characters long + terminator
-# define MAX_DBL_STR_LEN 1386
+# define MAX_DBL_STR_LEN 1078
 // //	__DBL_MAX__ consist of 309 characters
 // # define MAX_DBL_INTEGER 309
 // //	MAX_DBL_STR_LEN + MAX_DBL_INTEGER
@@ -32,8 +32,7 @@
  * -__DBL_DENORM_MIN__ = 1077
  * 309 + 1077 + terminator = 1386
  */
-// # define MAX_DBL_BUFF MAX_DBL_STR_LEN + MAX_DBL_INTEGER
-// # define MAX_DBL_STR_LEN 1386
+# define MAX_DBL_BUFF 1386
 # define UNLIMITED_PRECISION 1076
 // # define FULL_PRECISION 1078
 

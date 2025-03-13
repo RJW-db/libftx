@@ -6,7 +6,7 @@
 /*   By: rjw <rjw@student.codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/03/11 20:02:40 by rjw           #+#    #+#                 */
-/*   Updated: 2025/03/13 18:48:04 by rde-brui      ########   odam.nl         */
+/*   Updated: 2025/03/13 20:17:43 by rde-brui      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@ uint16_t	zero_padding(char *result, bool is_dot, uint16_t prec)
 {
 	char		*tmp;
 	uint16_t	i;
-printf(">%s<\n", result);
-printf("   %hu\n", prec);
+// printf(">%s<\n", result);
+// printf("   %hu\n", prec);
 	tmp = result;
 	if (is_dot == true)
 	{
