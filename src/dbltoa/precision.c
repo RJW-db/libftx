@@ -6,7 +6,7 @@
 /*   By: rjw <rjw@student.codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/03/11 20:02:40 by rjw           #+#    #+#                 */
-/*   Updated: 2025/03/12 17:43:21 by rde-brui      ########   odam.nl         */
+/*   Updated: 2025/03/13 18:48:04 by rde-brui      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,44 @@ static void		handle_carry(char *s1, int16_t *len, int16_t i, int16_t *carry);
 static uint16_t	add_precision(char *s1, const char *s2);
 static uint16_t	set_precision(char *result, uint16_t prec, uint16_t dot_index);
 
+uint16_t	zero_padding(char *result, bool is_dot, uint16_t prec)
+{
+	char		*tmp;
+	uint16_t	i;
+printf(">%s<\n", result);
+printf("   %hu\n", prec);
+	tmp = result;
+	if (is_dot == true)
+	{
+		// puts("nope");
+		tmp[0] = '.';
+		++tmp;
+	}
+	i = 0;
+	// puts("yur");
+	// printf("%hu\n", prec);
+	// exit(0);
+	while (i < prec)
+	{
+		tmp[i] = '0';
+		++i;
+		// printf("%hu\n", i);
+	}
+	// puts("yur");
+
+	// printf(">%c<\n", tmp[1]);
+	// printf(">%s<\n", tmp);
+	// printf(">%hu<\n", i);
+	tmp[i] = '\0';
+	// printf("result %s\n", result - 3);
+	// exit(0);
+	return (i + is_dot);
+}
+
 uint16_t	process_precision(char *result, uint16_t prec)
 {
 	uint16_t	res_index;
+	uint16_t	dot_index;
 	bool		is_neg;
 
 	is_neg = false;
@@ -33,17 +68,53 @@ uint16_t	process_precision(char *result, uint16_t prec)
 	{
 		if (result[res_index] == '.')
 		{
+			
+			// puts(result - is_neg);
+			dot_index = res_index;
 			res_index = set_precision(result, prec, res_index);
 			if (res_index == 1 && is_neg == true && result[0] == '0')
 			{
 				cpy_str(result - is_neg, result);
 				is_neg = false;
 			}
-			break ;
+			// puts(result - is_neg);
+			// while (kijken vanaf dot_index of kleiner is dan precision, so ja vullen met padding)
+			uint16_t pad_index = 0;
+			dot_index += 1;
+			while (result[dot_index + pad_index] != '\0' && pad_index < prec - 1)
+				++pad_index;
+
+			// printf("pad_index %hu\n", pad_index);
+			// printf("check %hu\n", prec - pad_index);
+			// printf("%s\n", result + dot_index);
+			if (pad_index < prec)
+				zero_padding(result + (dot_index + 0) + pad_index, false, prec - pad_index);
+			else
+				puts("nope");
+			// printf(">>%s<\n", result);
+			// printf(">>%s<\n", result + res_index);
+			// printf("return %hu\n", (dot_index + 1) + pad_index + is_neg);
+			// printf("\t %hu\n", (dot_index + 1) + prec + is_neg);
+
+			return ((dot_index) + prec + is_neg);
+			// return (res_index + is_neg);
+			// break ;
 		}
 		++res_index;
 	}
-	return (res_index + is_neg);
+	// puts("yur");
+	// puts(result);
+	// puts(result + res_index - 1);
+	// printf("%hu\n", prec);
+	uint16_t pad = 0;
+	// puts(result);
+	if (prec > 0) {
+		pad = zero_padding(result + res_index, true, prec);
+	}
+	// puts(result);
+	return (res_index + is_neg + pad);
+	// return (cpy_str(result + res_index, ".00") + res_index + is_neg);
+	// return (res_index + is_neg);
 }
 
 static uint16_t	set_precision(char *result, uint16_t prec, uint16_t dot_index)
@@ -65,7 +136,6 @@ static uint16_t	set_precision(char *result, uint16_t prec, uint16_t dot_index)
 		rounding_increment[prec_index + 1] = '\0';
 		return (add_precision(result, rounding_increment));
 	}
-
 	if (result[dot_index + prec_index - 1] == '.')
 	{
 		--prec_index;

@@ -6,7 +6,7 @@
 /*   By: rjw <rjw@student.codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/03/12 01:38:30 by rjw           #+#    #+#                 */
-/*   Updated: 2025/03/12 15:33:32 by rde-brui      ########   odam.nl         */
+/*   Updated: 2025/03/13 19:58:58 by rde-brui      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,25 @@
 # include <stddef.h>	//	size_t
 # include <stdint.h>	//	int16_t, uint16_t
 # include <stdbool.h>
-// # include <stdio.h>
 
-//	longest numbers -__DBL_DENORM_MIN__ is 1077 characters long
-# define MAX_DBL_STR_LEN 1078
-# define NO_PRECISION UINT16_MAX
+# include <stdlib.h>
+# include <stdio.h>
+
+// //	longest numbers -__DBL_DENORM_MIN__ is 1077 characters long + terminator
+# define MAX_DBL_STR_LEN 1386
+// //	__DBL_MAX__ consist of 309 characters
+// # define MAX_DBL_INTEGER 309
+// //	MAX_DBL_STR_LEN + MAX_DBL_INTEGER
+
+/**
+ * __DBL_MAX__ = 309
+ * -__DBL_DENORM_MIN__ = 1077
+ * 309 + 1077 + terminator = 1386
+ */
+// # define MAX_DBL_BUFF MAX_DBL_STR_LEN + MAX_DBL_INTEGER
+// # define MAX_DBL_STR_LEN 1386
+# define UNLIMITED_PRECISION 1076
+// # define FULL_PRECISION 1078
 
 # define BYTE_MASK 0xFF
 # define DBL_BYTES 8
@@ -94,6 +108,7 @@ typedef union u_double_bitcast
 
 char		*dbltoa(double dbl);
 uint16_t	dbltoa_buff(double value, char *buff, uint16_t b_size);
+uint16_t	dbltoa_buff_prec(double value, char *buff, uint16_t b_size, uint16_t prec);
 
 //	Conversions
 bool		fraction_conversion(double value, t_dbl *strings, bool *is_neg);

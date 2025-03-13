@@ -22,7 +22,7 @@ char	*dbltoa(double value)
 	t_dbl	strings;
 
 	strings.result = result;
-	strings.prec = NO_PRECISION;
+	strings.prec = UNLIMITED_PRECISION;
 	dbltoa_convert(value, &strings);
 	return (ft_strdup(result));
 }
@@ -43,7 +43,7 @@ uint16_t	dbltoa_buff(double value, char *buff, uint16_t b_size)
 	char		result[MAX_DBL_STR_LEN + 1];
 	t_dbl		strings;
 	uint16_t	result_len;
-
+// printf(">%f\n", value);
 	if (buff == NULL)
 		return (0);
 	if (b_size == 1)
@@ -51,10 +51,14 @@ uint16_t	dbltoa_buff(double value, char *buff, uint16_t b_size)
 	if (b_size <= 1)
 		return (b_size);
 	strings.result = result;
-	strings.prec = NO_PRECISION;
+	// strings.prec = UNLIMITED_PRECISION;
+	strings.prec = 4;
 	result_len = dbltoa_convert(value, &strings);
+	// printf("\n\n%s\n", result);
+	// printf("%hu\n", result_len);
 	if (b_size <= result_len)
 	{
+
 		ft_strlcpy(buff, result, b_size--);
 		if (buff[b_size - 1] == '.')
 		{
@@ -63,7 +67,44 @@ uint16_t	dbltoa_buff(double value, char *buff, uint16_t b_size)
 		}
 		return (b_size);
 	}
-	ft_strlcpy(buff, result, result_len + 1);
+	// puts("result");
+	ft_strlcpy(buff, result, result_len + 2);
+	// puts(buff);
+	return (result_len);
+}
+
+uint16_t	dbltoa_buff_prec(double value, char *buff, uint16_t b_size, uint16_t prec)
+{
+	char		result[MAX_DBL_STR_LEN + 1];
+	t_dbl		strings;
+	uint16_t	result_len;
+// printf(">%f\n", value);
+	if (buff == NULL)
+		return (0);
+	if (b_size == 1)
+		buff[0] = '\0';
+	if (b_size <= 1)
+		return (b_size);
+	strings.result = result;
+	// strings.prec = UNLIMITED_PRECISION;
+	strings.prec = prec;
+	result_len = dbltoa_convert(value, &strings);
+	// printf("\n\n%s\n", result);
+	// printf("%hu\n", result_len);
+	if (b_size <= result_len)
+	{
+
+		ft_strlcpy(buff, result, b_size--);
+		if (buff[b_size - 1] == '.')
+		{
+			buff[b_size - 1] = '\0';
+			--b_size;
+		}
+		return (b_size);
+	}
+	// puts("result");
+	ft_strlcpy(buff, result, result_len + 2);
+	// puts(buff);
 	return (result_len);
 }
 
@@ -84,7 +125,9 @@ static int16_t	dbltoa_convert(double value, t_dbl *strings)
 		return (ft_strlen(strings->result));
 	scientific_notation(numerator, denominator, &digitexpo, value);
 	result_len = double_to_string(strings, digitexpo, is_neg);
-	if (strings->prec == NO_PRECISION)
-		return (result_len);
+	// puts(strings->result);
+	// exit(0);
+	// if (strings->prec == UNLIMITED_PRECISION)
+	// 	return (result_len);
 	return (process_precision(strings->result, strings->prec));
 }
