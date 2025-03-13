@@ -6,7 +6,7 @@
 /*   By: rjw <rjw@student.codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/03/11 20:02:40 by rjw           #+#    #+#                 */
-/*   Updated: 2025/03/13 20:17:43 by rde-brui      ########   odam.nl         */
+/*   Updated: 2025/03/13 21:08:28 by rde-brui      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,38 +60,55 @@ uint16_t	process_precision(char *result, uint16_t prec)
 	is_neg = false;
 	if (*result == '-')
 	{
-		is_neg = true;
-		result += is_neg;
+		if (result[1] == '0' && result[2] == '\0') {
+		// puts("hier");
+			cpy_str(result, "0");
+		}
+		else {
+			is_neg = true;
+			result += is_neg;
+		}
 	}
 	res_index = 0;
 	while (result[res_index] != '\0')
 	{
 		if (result[res_index] == '.')
 		{
-			
 			// puts(result - is_neg);
 			dot_index = res_index;
 			res_index = set_precision(result, prec, res_index);
 			if (res_index == 1 && is_neg == true && result[0] == '0')
 			{
+				// puts("\nhier");
+				// puts(result);
 				cpy_str(result - is_neg, result);
 				is_neg = false;
 			}
-			// puts(result - is_neg);
+			// puts("yur");
+			// puts(result - 1);
+			// exit(0);
 			// while (kijken vanaf dot_index of kleiner is dan precision, so ja vullen met padding)
 			uint16_t pad_index = 0;
-			dot_index += 1;
-			while (result[dot_index + pad_index] != '\0' && pad_index < prec - 1)
-				++pad_index;
+			if (prec != 0) {
+				dot_index += 1;
+				while (result[dot_index + pad_index] != '\0' && pad_index < prec - 1)
+					++pad_index;
+			}
 
-			// printf("pad_index %hu\n", pad_index);
+			printf("pad_index %hu\n", pad_index);
 			// printf("check %hu\n", prec - pad_index);
-			// printf("%s\n", result + dot_index);
-			if (pad_index < prec)
+			printf("\n>>>%s<\n", result - 1);
+			
+			// printf(">%hu<\n", pad_index);
+			// printf(">%hu<\n", dot_index);
+			// printf(">%hu<\n", prec);
+			// printf(">%hu<\n", is_neg);
+			// if (pad_index < prec/*  && result[1] == '\0' */)
+			if (pad_index < prec && (pad_index != 0 && prec != 1))
 				zero_padding(result + (dot_index + 0) + pad_index, false, prec - pad_index);
-			else
-				puts("nope");
-			// printf(">>%s<\n", result);
+			// else
+			// 	puts("nope");
+			printf(">>%s<\n", result - 1);
 			// printf(">>%s<\n", result + res_index);
 			// printf("return %hu\n", (dot_index + 1) + pad_index + is_neg);
 			// printf("\t %hu\n", (dot_index + 1) + prec + is_neg);
@@ -106,7 +123,9 @@ uint16_t	process_precision(char *result, uint16_t prec)
 	// puts(result);
 	// puts(result + res_index - 1);
 	// printf("%hu\n", prec);
+	
 	uint16_t pad = 0;
+	
 	// puts(result);
 	if (prec > 0) {
 		pad = zero_padding(result + res_index, true, prec);
