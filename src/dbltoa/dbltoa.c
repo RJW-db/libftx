@@ -90,8 +90,9 @@ uint16_t	dbltoa_buff_prec(double value, char *buff, uint16_t b_size, uint16_t pr
 	strings.prec = prec;
 	result_len = dbltoa_convert(value, &strings);
 	// printf("\n\n%s\n", result);
-	// printf("%hu\n", result_len);
-	if (b_size <= result_len)
+	// printf("result_len %hu\n", result_len);
+	// printf("b_size %hu\n", b_size);
+	if (b_size < result_len)
 	{
 
 		ft_strlcpy(buff, result, b_size--);

@@ -6,7 +6,7 @@
 /*   By: rjw <rjw@student.codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/03/11 20:02:40 by rjw           #+#    #+#                 */
-/*   Updated: 2025/03/13 21:25:36 by rde-brui      ########   odam.nl         */
+/*   Updated: 2025/03/14 03:07:27 by rjw           ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ uint16_t	zero_padding(char *result, bool is_dot, uint16_t prec)
 	// printf(">%hu<\n", i);
 	tmp[i] = '\0';
 	// printf("result %s\n", result - 3);
+	// printf("%hu\n", i +is_dot);
 	// exit(0);
 	return (i + is_dot);
 }
@@ -63,6 +64,7 @@ uint16_t	process_precision(char *result, uint16_t prec)
 		if (result[1] == '0' && result[2] == '\0') {
 		// puts("hier");
 			cpy_str(result, "0");
+			// puts(result);
 		}
 		else {
 			is_neg = true;
@@ -70,6 +72,7 @@ uint16_t	process_precision(char *result, uint16_t prec)
 		}
 	}
 	res_index = 0;
+	// puts("hiero");
 	while (result[res_index] != '\0')
 	{
 		if (result[res_index] == '.')
@@ -77,10 +80,17 @@ uint16_t	process_precision(char *result, uint16_t prec)
 			// puts(result - is_neg);
 			dot_index = res_index;
 			res_index = set_precision(result, prec, res_index);
-			if (res_index == 1 && is_neg == true && result[0] == '0')
+			// if (res_index == 1)
+			// 	dot_index = 0;
+			// printf(">%hu<\n", dot_index);
+			// printf(">%hu<\n", res_index);
+			// puts(result - 1);
+			// exit(0);
+			// printf("res_index %hu\nis_neg %d\n result[0] %c\n", res_index, is_neg, result[0]);
+			if (res_index == 1 && is_neg == true /* && result[0] == '0' */)
 			{
 				// puts("\nhier");
-				// puts(result);
+				puts(result);
 				cpy_str(result - is_neg, result);
 				is_neg = false;
 			}
@@ -95,9 +105,9 @@ uint16_t	process_precision(char *result, uint16_t prec)
 					++pad_index;
 			}
 
-			printf("pad_index %hu\n", pad_index);
+			// printf("pad_index %hu\n", pad_index);
 			// printf("check %hu\n", prec - pad_index);
-			printf("\n>>>%s<\n", result - 1);
+			// printf("\n>>>%s<\n", result - 1);
 			
 			
 			// printf(">%hu<\n", pad_index);
@@ -106,10 +116,10 @@ uint16_t	process_precision(char *result, uint16_t prec)
 			// printf(">%hu<\n", is_neg);
 			// if (pad_index < prec/*  && result[1] == '\0' */)
 			if (pad_index < prec && (pad_index != 0 && prec != 1))
-				zero_padding(result + (dot_index + 0) + pad_index, false, prec - pad_index);
+				/* notUsed =  */zero_padding(result + (dot_index + 0) + pad_index, false, prec - pad_index);
 			// else
 			// 	puts("nope");
-			printf(">>%s<\n", result - 1);
+			// printf(">>%s<\n", result - 1);
 			// printf(">>%s<\n", result + res_index);
 			// printf("return %hu\n", (dot_index + 1) + pad_index + is_neg);
 			// printf("\t %hu\n", (dot_index + 1) + prec + is_neg);
@@ -123,14 +133,21 @@ uint16_t	process_precision(char *result, uint16_t prec)
 	// puts("yur");
 	// puts(result);
 	// puts(result + res_index - 1);
-	// printf("%hu\n", prec);
-	
+	// printf("%hu\n", res_index);
+	// exit(0);
 	uint16_t pad = 0;
 	
 	// puts(result);
 	if (prec > 0) {
 		pad = zero_padding(result + res_index, true, prec);
 	}
+	// printf("%c\n", result[0]);
+	// printf("%c\n", result[1]);
+	// printf("%zu\n", ft_strlen(result));
+	// printf("  %hu\n", res_index + is_neg + pad);
+	// printf("%hu\n", res_index + is_neg);
+	// printf("%hu\n", pad);
+	// exit(0);
 	// puts(result);
 	return (res_index + is_neg + pad);
 	// return (cpy_str(result + res_index, ".00") + res_index + is_neg);

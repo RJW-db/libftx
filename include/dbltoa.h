@@ -6,7 +6,7 @@
 /*   By: rjw <rjw@student.codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/03/12 01:38:30 by rjw           #+#    #+#                 */
-/*   Updated: 2025/03/13 20:18:27 by rde-brui      ########   odam.nl         */
+/*   Updated: 2025/03/14 02:23:12 by rjw           ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,9 @@
 /**
  * __DBL_MAX__ = 309
  * -__DBL_DENORM_MIN__ = 1077
- * 309 + 1077 + terminator = 1386
+ * 309 + 1077 + 1 (terminator) = 1386
  */
-# define MAX_DBL_BUFF 1386
+# define MAX_DBL_BUFF 1387
 # define UNLIMITED_PRECISION 1076
 // # define FULL_PRECISION 1078
 
