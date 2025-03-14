@@ -6,7 +6,7 @@
 /*   By: rjw <rjw@student.codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/03/11 20:02:40 by rjw           #+#    #+#                 */
-/*   Updated: 2025/03/14 21:05:11 by rde-brui      ########   odam.nl         */
+/*   Updated: 2025/03/14 21:41:58 by rde-brui      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,218 +67,63 @@ bool	is_only_zero_decimals(char *result)
 	return (true);
 }
 
+uint16_t	inbetween(char *result, uint16_t res_len, uint16_t prec, bool is_neg)
+{
+	if (is_neg == true && result[0] == '0' && (result[1] != '.' || is_only_zero_decimals(result + 2) == true))
+	{
+		cpy_str(result - is_neg, result);
+		is_neg = false;
+		--result;
+	}
+	if (prec == 0)
+		return (res_len + is_neg);
+	uint16_t new_dot_index = 0;
+	while (result[new_dot_index] != '\0' && result[new_dot_index] != '.')
+		++new_dot_index;
+	if (result[new_dot_index] == '\0') {
+		zero_padding(result + new_dot_index, true, prec);
+		return (res_len + is_neg + true + prec);
+	}
+	uint16_t	decimal_count = 0;
+	while (result[new_dot_index + 1 /* +1 skip . */ + decimal_count] != '\0') {
+		++decimal_count;
+	}
+	uint16_t pad_zero = 0;
+	if (prec > decimal_count) {
+		pad_zero = prec - decimal_count;
+		zero_padding(result + new_dot_index + 1 + decimal_count, false, pad_zero);
+		return (res_len + is_neg + pad_zero);
+	}
+	return (res_len + is_neg);
+}
+
 uint16_t	process_precision(char *result, uint16_t prec)
 {
 	uint16_t	res_index;
-	uint16_t	integer;
-	bool		is_neg;
 	uint16_t	res_len;
+	bool		is_neg;
+	uint16_t	padding;
 
-// printf("\nresult %s\n", result);
-// exit(0);
-	res_len = 0;
-	is_neg = false;
-	if (*result == '-')
-	{
-		if (result[1] == '0' && result[2] == '\0') {
-		// puts("hier");
-			cpy_str(result, "0");
-			// puts(result);
-		}
-		else {
-			is_neg = true;
-			result += is_neg;
-		}
-	}
-// 	puts(result);
-// exit(0);
-
+	if (result[0] == '-' && result[1] == '0' && result[2] == '\0')
+		cpy_str(result, "0");
+	is_neg = (*result == '-');
+	if (is_neg == true)
+		result += is_neg;
 	res_index = 0;
-	// puts("hiero");
 	while (result[res_index] != '\0')
 	{
 		if (result[res_index] == '.')
 		{
-			// integer = res_index - 1; // dpt_index moet integer heten
-			res_len = set_precision(result, prec, res_index);	// maybe if, if decimals with '\0' are smaller than prec, don't go in here
-			// puts(result);
-			// exit(0);
-			if (is_neg == true && result[0] == '0' && (result[1] != '.' || is_only_zero_decimals(result + 2) == true))
-			{
-				// puts(result);
-				cpy_str(result - is_neg, result);
-				is_neg = false;
-				--result;
-				// puts(result);
-				// exit(0);
-			}
-			if (prec == 0) {
-				return (res_len + is_neg);
-			}
-			uint16_t new_dot_index = 0;
-			while (result[new_dot_index] != '\0' && result[new_dot_index] != '.')
-				++new_dot_index;
-
-			if (result[new_dot_index] == '\0') {
-				zero_padding(result + new_dot_index, true, prec);
-				return (res_len + is_neg + true + prec);
-			}
-			uint16_t	decimal_count = 0;
-			while (result[new_dot_index + 1 /* +1 skip . */ + decimal_count] != '\0') {
-				// printf("c %c\n", result[new_dot_index + decimal_count]);
-				++decimal_count;
-			}
-			uint16_t pad_zero = 0;
-			if (prec > decimal_count) {
-				pad_zero = prec - decimal_count;
-				zero_padding(result + new_dot_index + 1 + decimal_count, false, pad_zero);
-				// printf("res_len %hu\n", res_len);
-				return (res_len + is_neg + pad_zero);
-				// printf("prec %hu\n", prec);
-				// printf("pad_zero %hu\n", pad_zero);
-			}
-			return (res_len + is_neg);
+			res_len = set_precision(result, prec, res_index);
+			return (inbetween(result, res_len, prec, is_neg));
 		}
 		++res_index;
 	}
-	uint16_t pad = 0;
-	
-	// puts(result);
-	if (prec > 0) {
-		pad = zero_padding(result + res_index, true, prec);
-	}
-	return (res_index + is_neg + pad);
+	padding = 0;
+	if (prec > 0)
+		padding = zero_padding(result + res_index, true, prec);
+	return (res_index + is_neg + padding);
 }
-// uint16_t	process_precision(char *result, uint16_t prec)
-// {
-// 	uint16_t	res_index;
-// 	uint16_t	dot_index;
-// 	bool		is_neg;
-
-// // printf("\nresult %s\n", result);
-// // exit(0);
-// 	is_neg = false;
-// 	if (*result == '-')
-// 	{
-// 		if (result[1] == '0' && result[2] == '\0') {
-// 		// puts("hier");
-// 			cpy_str(result, "0");
-// 			// puts(result);
-// 		}
-// 		else {
-// 			is_neg = true;
-// 			result += is_neg;
-// 		}
-// 	}
-// // 	puts(result);
-// // exit(0);
-
-// 	res_index = 0;
-// 	// puts("hiero");
-// 	while (result[res_index] != '\0')
-// 	{
-// 		// printf("c %c\n", result[res_index]);
-// 		if (result[res_index] == '.')
-// 		{
-// 			// puts(result - 1);
-// 			// exit(0);
-// 			dot_index = res_index; // dpt_index moet integer heten
-// 			res_index = set_precision(result, prec, res_index);	// maybe if, if decimals with '\0' are smaller than prec, don't go in here
-// 			uint16_t new_dot_index = 0;
-// 			while (result[new_dot_index] != '\0' && result[new_dot_index] != '.')
-// 				++new_dot_index;
-// 			// if (result[new_dot_index] == '.')
-// 			// 	dot_index = new_dot_index;
-// 			// else
-// 			// 	dot_index = 0;
-// 			// printf("%hu\n", dot_index);
-// 			// printf("%d\n%c\n", is_neg, result[0]);
-// 			// puts(result-1);
-// 			// exit(0);
-// 			// 	dot_index = 0;
-// 			// printf("res_index %hu\nis_neg %d\n result[0] %c\n", res_index, is_neg, result[0]);
-// 			if (is_neg == true && result[0] == '0' && (result[1] != '.' || is_only_zero_decimals(result + 2) == true))
-// 			{
-// 				// puts("\nhier");
-// 				// puts(result);
-// 				cpy_str(result - is_neg, result);
-// 				is_neg = false;
-// 				--result;
-// 				// puts(result);
-// 				// exit(0);
-// 			}
-// 			if (res_index != 1)
-// 			{
-// 				// printf("\nresult  %s\n", result);
-// 				// printf("dot_index %hu\n",dot_index);
-// 				// puts(result + dot_index + 1);
-// 				// puts("yur");
-// 				// exit(0);
-// 				uint16_t pad_zero = 0;
-// 				if (prec != 0) {
-// 					// dot_index += (result[dot_index] == '.');
-// 					// dot_index += 1;
-// 					// dot_index += 1 - (result[dot_index] != '.');
-// 					// printf("dot_index %hu\n",dot_index);
-
-// 					// while (pad_zero < prec && result[dot_index + pad_zero] != '\0') {
-// 					if (result[new_dot_index] == '\0')
-// 					{
-// 						pad_zero = prec;
-// 					}
-// 					while (result[dot_index + pad_zero] != '\0' && pad_zero < prec) {
-// 						// puts(result + dot_index + pad_zero);
-// 						++pad_zero;
-// 					}
-// 				}
-// 				// printf("pad_zero %hu\n",pad_zero);
-// 				// printf("%hu\n",prec - pad_zero);
-// 				// puts(result - 1);
-// 				// exit(0);
-
-// 				uint16_t bake = 0;
-// 				if (pad_zero < prec && (pad_zero != 0 && prec != 1)) {
-// 					bake = zero_padding(result + dot_index + pad_zero, false, prec - pad_zero);
-// 					// puts(result);
-// 					// printf("%hu\n", bake + dot_index + pad_zero /* + is_neg */);
-// 					// printf("%hu\n", dot_index + prec + is_neg);
-// 					// exit(0);
-// 					// return (bake);
-// 				}
-// 				else if (pad_zero == 0 && prec != 0){
-// 					bake = zero_padding(result + dot_index + pad_zero, true, prec - pad_zero);
-// 					// printf(">%hu\n", bake + dot_index + is_neg);
-// 					// puts("yur");
-// 					// puts(result);
-// 					return (bake + dot_index + is_neg);
-// 				}
-// 				else {
-// 					bake = zero_padding(result + new_dot_index, true, pad_zero);
-// 					return (bake + new_dot_index + is_neg);
-// 				}
-// 					// puts("nope");
-// 				// puts(result);
-// 				// exit(0);
-// 				// printf("return %hu\n", (dot_index + 1) + pad_zero + is_neg);
-// 			}
-// 			else {
-// 				// puts("yur");
-// 				if (prec > 0)
-// 					return (zero_padding(result + 1 /* dot */, true, prec) + is_neg + 1 /* dot */);
-// 				return (res_index + is_neg);
-// 			}
-// 			return (dot_index + prec + is_neg);
-// 		}
-// 		++res_index;
-// 	}
-// 	uint16_t pad = 0;
-	
-// 	// puts(result);
-// 	if (prec > 0) {
-// 		pad = zero_padding(result + res_index, true, prec);
-// 	}
-// 	return (res_index + is_neg + pad);
-// }
 
 static uint16_t	set_precision(char *result, uint16_t prec, uint16_t dot_index)
 {
@@ -293,8 +138,6 @@ static uint16_t	set_precision(char *result, uint16_t prec, uint16_t dot_index)
 	result[dot_index + prec_index] = '\0';
 	if (rounding_nbr >= '5')
 	{
-		// puts(result);
-		// exit(0);
 		ft_memset(rounding_increment, '0', prec_index);
 		rounding_increment[1] = '.';
 		rounding_increment[prec_index] = '1';
