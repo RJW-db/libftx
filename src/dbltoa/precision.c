@@ -6,7 +6,7 @@
 /*   By: rjw <rjw@student.codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/03/11 20:02:40 by rjw           #+#    #+#                 */
-/*   Updated: 2025/03/14 04:35:53 by rjw           ########   odam.nl         */
+/*   Updated: 2025/03/14 17:16:24 by rde-brui      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,19 @@ uint16_t	zero_padding(char *result, bool is_dot, uint16_t prec)
 	// exit(0);
 	return (i + is_dot);
 }
+bool	is_only_zero_decimals(char *result)
+{
+	uint16_t zeros;
 
+	zeros = 0;
+	while (result[zeros] == '0')
+	{
+		++zeros;
+	}
+	if (result[zeros] != '\0')
+		return (false);
+	return (true);
+}
 uint16_t	process_precision(char *result, uint16_t prec)
 {
 	uint16_t	res_index;
@@ -61,6 +73,7 @@ uint16_t	process_precision(char *result, uint16_t prec)
 	bool		is_neg;
 
 // puts(result);
+// exit(0);
 	is_neg = false;
 	if (*result == '-')
 	{
@@ -74,22 +87,26 @@ uint16_t	process_precision(char *result, uint16_t prec)
 			result += is_neg;
 		}
 	}
-	// puts(result);
+// 	puts(result);
+// exit(0);
+
 	res_index = 0;
 	// puts("hiero");
 	while (result[res_index] != '\0')
 	{
 		if (result[res_index] == '.')
 		{
-			// puts(result - is_neg);
+			// puts(result - 1);
+			// exit(0);
 			dot_index = res_index;
-			res_index = set_precision(result, prec, res_index);
+			res_index = set_precision(result, prec, res_index);	// maybe if, if decimals with '\0' are smaller than prec, don't go in here
 			// printf("%hu\n", res_index);
-			// puts(result);
+			// puts(result-1);
+			// printf("%d\n%c\n", is_neg, result[0]);
 			// exit(0);
 			// 	dot_index = 0;
 			// printf("res_index %hu\nis_neg %d\n result[0] %c\n", res_index, is_neg, result[0]);
-			if (/* res_index == 1 &&  */is_neg == true && result[0] == '0')
+			if (is_neg == true && result[0] == '0' && (result[1] != '.' || is_only_zero_decimals(result + 2) == true))
 			{
 				// puts("\nhier");
 				// puts(result);

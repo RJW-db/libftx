@@ -92,17 +92,17 @@ uint16_t	dbltoa_buff_prec(double value, char *buff, uint16_t b_size, uint16_t pr
 	// printf("\n\n%s\n", result);
 	// printf("result_len %hu\n", result_len);
 	// printf("b_size %hu\n", b_size);
-	if (b_size < result_len)
-	{
+	// if (b_size < result_len)
+	// {
 
-		ft_strlcpy(buff, result, b_size--);
-		if (buff[b_size - 1] == '.')
-		{
-			buff[b_size - 1] = '\0';
-			--b_size;
-		}
-		return (b_size);
-	}
+	// 	ft_strlcpy(buff, result, b_size--);
+	// 	if (buff[b_size - 1] == '.')
+	// 	{
+	// 		buff[b_size - 1] = '\0';
+	// 		--b_size;
+	// 	}
+	// 	return (b_size);
+	// }
 	// puts("result");
 	ft_strlcpy(buff, result, result_len + 2);
 	// puts(buff);
