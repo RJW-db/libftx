@@ -6,7 +6,7 @@
 /*   By: rjw <rjw@student.codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/03/11 20:02:40 by rjw           #+#    #+#                 */
-/*   Updated: 2025/03/14 04:10:25 by rjw           ########   odam.nl         */
+/*   Updated: 2025/03/14 04:35:53 by rjw           ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,22 +101,34 @@ uint16_t	process_precision(char *result, uint16_t prec)
 			}
 			if (res_index != 1)
 			{
+				// puts(result);
 				// printf("%hu\n",dot_index);
 				// puts("yur");
 				// puts(result + dot_index + 1);
 				// exit(0);
-				// while (kijken vanaf dot_index of kleiner is dan precision, so ja vullen met padding)
 				uint16_t pad_index = 0;
 				if (prec != 0) {
 					dot_index += 1;
 					while (result[dot_index + pad_index] != '\0' && pad_index < prec - 0)
 						++pad_index;
 				}
-				// printf("%hu\n",pad_index);
-				if (pad_index < prec && (pad_index != 0 && prec != 1))
-					/* notUsed =  */zero_padding(result + (dot_index + 0) + pad_index, false, prec - pad_index);
+				// printf("%hu\n", pad_index + dot_index);
+				// printf("%hu\n",prec - pad_index);
+				// exit(0);
+
+				uint16_t bake = 0;
+				if (pad_index < prec && (pad_index != 0 && prec != 1)) {
+					bake = zero_padding(result + (dot_index + 0) + pad_index, false, prec - pad_index);
+					// puts(result);
+					// printf("%hu\n", bake + dot_index + pad_index /* + is_neg */);
+					// printf("%hu\n", dot_index + prec + is_neg);
+					// exit(0);
+					// return (bake);
+				}
 				// else
 				// 	puts("nope");
+				// puts(result);
+				// exit(0);
 				// printf("return %hu\n", (dot_index + 1) + pad_index + is_neg);
 			}
 			else {
@@ -125,7 +137,7 @@ uint16_t	process_precision(char *result, uint16_t prec)
 					return (zero_padding(result + 1 /* dot */, true, prec) + is_neg + 1 /* dot */);
 				return (res_index + is_neg);
 			}
-			return ((dot_index) + prec + is_neg);
+			return (dot_index + prec + is_neg);
 		}
 		++res_index;
 	}
