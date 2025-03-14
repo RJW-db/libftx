@@ -6,7 +6,7 @@
 /*   By: rjw <rjw@student.codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/03/11 20:02:40 by rjw           #+#    #+#                 */
-/*   Updated: 2025/03/14 03:42:12 by rjw           ########   odam.nl         */
+/*   Updated: 2025/03/14 04:10:25 by rjw           ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ uint16_t	process_precision(char *result, uint16_t prec)
 			// exit(0);
 			// 	dot_index = 0;
 			// printf("res_index %hu\nis_neg %d\n result[0] %c\n", res_index, is_neg, result[0]);
-			if (res_index == 1 && is_neg == true && result[0] == '0')
+			if (/* res_index == 1 &&  */is_neg == true && result[0] == '0')
 			{
 				// puts("\nhier");
 				// puts(result);
@@ -101,16 +101,18 @@ uint16_t	process_precision(char *result, uint16_t prec)
 			}
 			if (res_index != 1)
 			{
+				// printf("%hu\n",dot_index);
 				// puts("yur");
-				// puts(result - 1);
+				// puts(result + dot_index + 1);
 				// exit(0);
 				// while (kijken vanaf dot_index of kleiner is dan precision, so ja vullen met padding)
 				uint16_t pad_index = 0;
 				if (prec != 0) {
 					dot_index += 1;
-					while (result[dot_index + pad_index] != '\0' && pad_index < prec - 1)
+					while (result[dot_index + pad_index] != '\0' && pad_index < prec - 0)
 						++pad_index;
 				}
+				// printf("%hu\n",pad_index);
 				if (pad_index < prec && (pad_index != 0 && prec != 1))
 					/* notUsed =  */zero_padding(result + (dot_index + 0) + pad_index, false, prec - pad_index);
 				// else
