@@ -6,7 +6,7 @@
 /*   By: rjw <rjw@student.codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/03/11 20:02:40 by rjw           #+#    #+#                 */
-/*   Updated: 2025/03/14 03:07:27 by rjw           ########   odam.nl         */
+/*   Updated: 2025/03/14 03:42:12 by rjw           ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ uint16_t	zero_padding(char *result, bool is_dot, uint16_t prec)
 	uint16_t	i;
 // printf(">%s<\n", result);
 // printf("   %hu\n", prec);
+// exit(0);
 	tmp = result;
 	if (is_dot == true)
 	{
@@ -48,6 +49,7 @@ uint16_t	zero_padding(char *result, bool is_dot, uint16_t prec)
 	tmp[i] = '\0';
 	// printf("result %s\n", result - 3);
 	// printf("%hu\n", i +is_dot);
+	// puts(result - 1);
 	// exit(0);
 	return (i + is_dot);
 }
@@ -58,6 +60,7 @@ uint16_t	process_precision(char *result, uint16_t prec)
 	uint16_t	dot_index;
 	bool		is_neg;
 
+// puts(result);
 	is_neg = false;
 	if (*result == '-')
 	{
@@ -71,6 +74,7 @@ uint16_t	process_precision(char *result, uint16_t prec)
 			result += is_neg;
 		}
 	}
+	// puts(result);
 	res_index = 0;
 	// puts("hiero");
 	while (result[res_index] != '\0')
@@ -80,53 +84,46 @@ uint16_t	process_precision(char *result, uint16_t prec)
 			// puts(result - is_neg);
 			dot_index = res_index;
 			res_index = set_precision(result, prec, res_index);
-			// if (res_index == 1)
-			// 	dot_index = 0;
-			// printf(">%hu<\n", dot_index);
-			// printf(">%hu<\n", res_index);
-			// puts(result - 1);
+			// printf("%hu\n", res_index);
+			// puts(result);
 			// exit(0);
+			// 	dot_index = 0;
 			// printf("res_index %hu\nis_neg %d\n result[0] %c\n", res_index, is_neg, result[0]);
-			if (res_index == 1 && is_neg == true /* && result[0] == '0' */)
+			if (res_index == 1 && is_neg == true && result[0] == '0')
 			{
 				// puts("\nhier");
-				puts(result);
+				// puts(result);
 				cpy_str(result - is_neg, result);
 				is_neg = false;
+				--result;
+				// puts(result);
+				// exit(0);
 			}
-			// puts("yur");
-			// puts(result - 1);
-			// exit(0);
-			// while (kijken vanaf dot_index of kleiner is dan precision, so ja vullen met padding)
-			uint16_t pad_index = 0;
-			if (prec != 0) {
-				dot_index += 1;
-				while (result[dot_index + pad_index] != '\0' && pad_index < prec - 1)
-					++pad_index;
+			if (res_index != 1)
+			{
+				// puts("yur");
+				// puts(result - 1);
+				// exit(0);
+				// while (kijken vanaf dot_index of kleiner is dan precision, so ja vullen met padding)
+				uint16_t pad_index = 0;
+				if (prec != 0) {
+					dot_index += 1;
+					while (result[dot_index + pad_index] != '\0' && pad_index < prec - 1)
+						++pad_index;
+				}
+				if (pad_index < prec && (pad_index != 0 && prec != 1))
+					/* notUsed =  */zero_padding(result + (dot_index + 0) + pad_index, false, prec - pad_index);
+				// else
+				// 	puts("nope");
+				// printf("return %hu\n", (dot_index + 1) + pad_index + is_neg);
 			}
-
-			// printf("pad_index %hu\n", pad_index);
-			// printf("check %hu\n", prec - pad_index);
-			// printf("\n>>>%s<\n", result - 1);
-			
-			
-			// printf(">%hu<\n", pad_index);
-			// printf(">%hu<\n", dot_index);
-			// printf(">%hu<\n", prec);
-			// printf(">%hu<\n", is_neg);
-			// if (pad_index < prec/*  && result[1] == '\0' */)
-			if (pad_index < prec && (pad_index != 0 && prec != 1))
-				/* notUsed =  */zero_padding(result + (dot_index + 0) + pad_index, false, prec - pad_index);
-			// else
-			// 	puts("nope");
-			// printf(">>%s<\n", result - 1);
-			// printf(">>%s<\n", result + res_index);
-			// printf("return %hu\n", (dot_index + 1) + pad_index + is_neg);
-			// printf("\t %hu\n", (dot_index + 1) + prec + is_neg);
-
+			else {
+				// puts("yur");
+				if (prec > 0)
+					return (zero_padding(result + 1 /* dot */, true, prec) + is_neg + 1 /* dot */);
+				return (res_index + is_neg);
+			}
 			return ((dot_index) + prec + is_neg);
-			// return (res_index + is_neg);
-			// break ;
 		}
 		++res_index;
 	}
