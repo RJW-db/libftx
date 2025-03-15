@@ -18,7 +18,7 @@ static int16_t	dbltoa_convert(double value, t_dbl *strings);
 
 char	*dbltoa(double value)
 {
-	char	result[MAX_DBL_BUFF + 1];
+	char	result[MAX_DBL_BUFF];
 	t_dbl	strings;
 
 	strings.result = result;
@@ -29,7 +29,7 @@ char	*dbltoa(double value)
 
 char	*dbltoa_precision(double value, uint16_t prec)
 {
-	char	result[MAX_DBL_BUFF + 1];
+	char	result[MAX_DBL_BUFF];
 	t_dbl	strings;
 
 	strings.result = result;
@@ -40,7 +40,7 @@ char	*dbltoa_precision(double value, uint16_t prec)
 
 uint16_t	dbltoa_buff(double value, char *buff, uint16_t b_size)
 {
-	char		result[MAX_DBL_BUFF + 1];
+	char		result[MAX_DBL_BUFF];
 	t_dbl		strings;
 	uint16_t	result_len;
 // printf(">%f\n", value);
@@ -68,7 +68,7 @@ uint16_t	dbltoa_buff(double value, char *buff, uint16_t b_size)
 		return (b_size);
 	}
 	// puts("result");
-	ft_strlcpy(buff, result, result_len + 2);
+	ft_strlcpy(buff, result, result_len + 1);
 	// puts(buff);
 	return (result_len);
 }
@@ -84,7 +84,7 @@ uint16_t	dbltoa_buff_prec(double value, char *buff, uint16_t b_size, uint16_t pr
 	if (b_size == 1)
 		buff[0] = '\0';
 	if (b_size <= 1)
-		return (b_size);
+		return (0);
 	strings.result = result;
 	// strings.prec = UNLIMITED_PRECISION;
 	strings.prec = prec;
@@ -92,19 +92,19 @@ uint16_t	dbltoa_buff_prec(double value, char *buff, uint16_t b_size, uint16_t pr
 	// printf("\n\n%s\n", result);
 	// printf("result_len %hu\n", result_len);
 	// printf("b_size %hu\n", b_size);
-	// if (b_size < result_len)
-	// {
-
-	// 	ft_strlcpy(buff, result, b_size--);
-	// 	if (buff[b_size - 1] == '.')
-	// 	{
-	// 		buff[b_size - 1] = '\0';
-	// 		--b_size;
-	// 	}
-	// 	return (b_size);
-	// }
+	if (b_size < result_len)
+	{
+		// puts(result);
+		ft_strlcpy(buff, result, b_size--);
+		// if (buff[b_size - 1] == '.')
+		// {
+		// 	buff[b_size - 1] = '\0';
+		// 	--b_size;
+		// }
+		return (b_size);
+	}
 	// puts("result");
-	ft_strlcpy(buff, result, result_len + 2);
+	ft_strlcpy(buff, result, result_len + 1);
 	// puts(buff);
 	return (result_len);
 }
