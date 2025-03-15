@@ -6,7 +6,7 @@
 /*   By: jdobos <jdobos@student.42.fr>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/01/15 16:27:18 by rde-brui      #+#    #+#                 */
-/*   Updated: 2025/03/12 15:49:50 by rde-brui      ########   odam.nl         */
+/*   Updated: 2025/03/15 02:04:33 by rjw           ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ char		**split_set(char const *s, char *set);
 //	Conversions Functions
 int32_t		atoi32(t_cchr *nptr);
 int64_t		atoi64(t_cchr *nptr);
-
+int64_t		atoi_base(const char *nbr_str, char *base, bool *is_neg);
 uint32_t	atui32(t_cchr *nptr);
 uint64_t	atui64(t_cchr *nptr);
 

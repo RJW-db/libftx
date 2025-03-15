@@ -5,7 +5,7 @@
 /*                                                     +:+                    */
 /*   By: rjw <rjw@student.codam.nl>                   +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2025/03/12 01:37:10 by rjw           #+#    #+#                 */
+/*   Created: 2025/03/12 01:37:DECIMAL_NBR by rjw           #+#    #+#                 */
 /*   Updated: 2025/03/13 20:17:43 by rde-brui      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
@@ -44,7 +44,7 @@ static bool	subtract_values(char *s1, char *s2, t_nbr *nbr)
 	{
 		if (s1[nbr->i_s1] < s2[nbr->j_s2])
 		{
-			s1[nbr->i_s1] += 10;
+			s1[nbr->i_s1] += DECIMAL_NBR;
 			s1[nbr->i_s1 - 1] -= 1;
 		}
 		s1[nbr->i_s1] -= (s2[nbr->j_s2] - '0');

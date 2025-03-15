@@ -78,7 +78,7 @@ uint16_t	dbltoa_buff_prec(double value, char *buff, uint16_t b_size, uint16_t pr
 	char		result[MAX_DBL_BUFF + 1];
 	t_dbl		strings;
 	uint16_t	result_len;
-// printf(">%f\n", value);
+
 	if (buff == NULL)
 		return (0);
 	if (b_size == 1)

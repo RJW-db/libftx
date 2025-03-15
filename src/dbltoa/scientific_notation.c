@@ -6,7 +6,7 @@
 /*   By: rjw <rjw@student.codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/03/12 01:38:15 by rjw           #+#    #+#                 */
-/*   Updated: 2025/03/13 20:17:43 by rde-brui      ########   odam.nl         */
+/*   Updated: 2025/03/15 01:28:57 by rjw           ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,11 +41,11 @@ static int16_t	calculate_exponent(double nbr)
 	if (nbr < 0)
 		nbr = -nbr;
 	exponent = 0;
-	if (nbr >= 10)
+	if (nbr >= DECIMAL_NBR)
 	{
-		while (nbr >= 10)
+		while (nbr >= DECIMAL_NBR)
 		{
-			nbr /= 10;
+			nbr /= DECIMAL_NBR;
 			++exponent;
 		}
 	}
@@ -53,7 +53,7 @@ static int16_t	calculate_exponent(double nbr)
 	{
 		while (nbr < 1)
 		{
-			nbr *= 10;
+			nbr *= DECIMAL_NBR;
 			--exponent;
 		}
 	}

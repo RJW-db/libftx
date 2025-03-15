@@ -39,8 +39,9 @@ ARRAY			:=	2d_array.c					2d_array_utils.c				2d_shrink_array.c		\
 CNVRT			:=	str_to_number.c				str_to_number_base.c
 DBTOA			:=	dbltoa.c					fraction_conversion.c			fraction_operations.c	\
 					ft_binary_to_decimal.c		scientific_notation.c			double_to_string.c		\
-					precision.c					init_helpers.c					ft_addition.c			\
-					ft_subtraction.c			ft_multiply.c					ft_division.c
+					precision_process.c			precision_set.c					init_helpers.c			\
+					ft_addition.c				ft_subtraction.c				ft_multiply.c			\
+					ft_division.c
 DYNAR			:=	dynarr.c					dynarr_insert.c
 G_N_L			:=	get_next_line.c				get_input_buff.c
 LLIST			:=	linked_list.c				list_info.c						move_or_remove_nodes.c

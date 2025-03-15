@@ -6,7 +6,7 @@
 /*   By: rjw <rjw@student.codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/03/12 02:12:12 by rjw           #+#    #+#                 */
-/*   Updated: 2025/03/12 16:14:26 by rde-brui      ########   odam.nl         */
+/*   Updated: 2025/03/15 01:28:57 by rjw           ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,8 @@ void	ft_addition(char *s1, char *s2)
 	while (i >= 0)
 	{
 		sum = (s1[i] - '0') + (s2[i] - '0') + carry;
-		carry = sum / 10;
-		s1[i] = (sum % 10) + '0';
+		carry = sum / DECIMAL_NBR;
+		s1[i] = (sum % DECIMAL_NBR) + '0';
 		--i;
 	}
 	if (carry > 0)

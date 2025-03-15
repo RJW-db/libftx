@@ -6,7 +6,7 @@
 /*   By: rjw <rjw@student.codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/03/12 01:38:30 by rjw           #+#    #+#                 */
-/*   Updated: 2025/03/14 15:41:54 by rde-brui      ########   odam.nl         */
+/*   Updated: 2025/03/15 02:06:25 by rjw           ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,17 +17,14 @@
 # include <stddef.h>	//	size_t
 # include <stdint.h>	//	int16_t, uint16_t
 # include <stdbool.h>
+# include <libft.h>
 
 # include <stdlib.h>
 # include <stdio.h>
 
 // //	longest numbers -__DBL_DENORM_MIN__ is 1077 characters long + terminator
 # define MAX_DBL_STR_LEN 1078
-// //	__DBL_MAX__ consist of 309 characters
-// # define MAX_DBL_INTEGER 309
-// //	MAX_DBL_STR_LEN + MAX_DBL_INTEGER
-
-//	DBL_MAX (310) + DBL_DENORM_MIN (1078) + dot + terminator = 1388
+//	DBL_DENORM_MIN (1078) + DBL_MAX (310) + dot + terminator = 1388
 #define MAX_DBL_BUFF 1388
 # define UNLIMITED_PRECISION 1076
 // # define FULL_PRECISION 1078
@@ -113,6 +110,7 @@ char		*populate_denominator(char *denom_str, int16_t expo, double value);
 void		scientific_notation(char *num, char *deno, int16_t *digitexpo, double value);
 uint16_t	double_to_string(t_dbl *s, int16_t digit_exponent, bool is_neg);
 uint16_t	process_precision(char *result, uint16_t prec);
+uint16_t	set_precision(char *result, uint16_t prec, uint16_t dot_index);
 
 //	Math
 void		ft_addition(char *s1, char *s2);
@@ -123,22 +121,4 @@ void		ft_division(char *s1, char *s2);
 //	Init_helpers
 void		intialize_buff(char *buff);
 void		init_struct(char *s1, char *s2, t_nbr *num);
-
-int			ft_strncmp(const char *s1, const char *s2, size_t n);
-int64_t		atoi_base(const char *nbr_str, char *base, bool *is_neg);
-char		*ft_strdup(const char *str);
-void		*ft_memset(void *b, int c, size_t len);
-char		*charmove(char *dest, const char *src, size_t n);
-size_t		ft_strlen(const char *s);
-size_t		strlen_safe(const char *str);
-char		*ft_strchr(const char *s, int c);
-size_t		ft_strlcpy(char *dst, const char *src, size_t dstsize);
-int64_t		atoi64(const char *nptr);
-void		extract_substr(const char *s, uint32_t start, size_t ln, char *buf);
-char		*strjoin_safe(char const *s1, char const *s2);
-size_t		int64_base(int64_t n, const char *base, char *buff, size_t b_len);
-size_t		find_char_not(const char *str, const char c1);
-size_t		cpy_str(char *dst, const char *src);
-uint8_t		digit_counter(int64_t n, uint8_t base_len);
-uint64_t	abs_int64(int64_t n);
 #endif
