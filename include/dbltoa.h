@@ -6,7 +6,7 @@
 /*   By: rjw <rjw@student.codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/03/12 01:38:30 by rjw           #+#    #+#                 */
-/*   Updated: 2025/03/15 02:06:25 by rjw           ########   odam.nl         */
+/*   Updated: 2025/03/16 04:01:53 by rjw           ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@
 # define MAX_DBL_STR_LEN 1078
 //	DBL_DENORM_MIN (1078) + DBL_MAX (310) + dot + terminator = 1388
 #define MAX_DBL_BUFF 1388
-# define UNLIMITED_PRECISION 1076
+# define UNLIMITED_PRECISION 1074
 // # define FULL_PRECISION 1078
 
 # define BYTE_MASK 0xFF
@@ -52,6 +52,15 @@
 # define DBL_EXP_SUBNORMAL_BIAS 1074
 // 2047 (max exponent value in IEEE 754) - 1075 (DBL_EXP_NORMAL_BIAS)
 # define DBL_EXP_MAX 972
+
+typedef struct s_dbltoa_params
+{
+    double		value;
+    char		*buff;
+    uint16_t	buff_size;
+    uint16_t	precision;
+    bool		trim_trailing_zeros;
+}	t_dbltoa_params;
 
 /**
  * struct s_dbl - Structure to hold double conversion information
@@ -100,7 +109,7 @@ typedef union u_double_bitcast
 
 char		*dbltoa(double dbl);
 uint16_t	dbltoa_buff(double value, char *buff, uint16_t b_size);
-uint16_t	dbltoa_buff_prec(double value, char *buff, uint16_t b_size, uint16_t prec);
+uint16_t	dbltoa_buff_prec(t_dbltoa_params dbl);
 
 //	Conversions
 bool		fraction_conversion(double value, t_dbl *strings, bool *is_neg);
@@ -118,7 +127,8 @@ int16_t		ft_subtraction(char *s1, char *s2);
 void		ft_multiply(char *s1, char *s2);
 void		ft_division(char *s1, char *s2);
 
-//	Init_helpers
+//	Utils
 void		intialize_buff(char *buff);
 void		init_struct(char *s1, char *s2, t_nbr *num);
+uint16_t	trim_trailing_zeros(char *result, uint16_t res_len);
 #endif
