@@ -6,7 +6,7 @@
 /*   By: rjw <rjw@student.codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/03/12 01:35:36 by rjw           #+#    #+#                 */
-/*   Updated: 2025/03/16 02:31:09 by rjw           ########   odam.nl         */
+/*   Updated: 2025/03/17 14:34:58 by rde-brui      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,26 +115,25 @@ static uint16_t	process_number_string(char *result, bool is_neg)
 {
 	uint16_t	offset;
 	uint16_t	len;
+	bool		is_dot;
 
 	offset = 1;
-	len = ft_strlen(result) - 1;
+	len = strlen_and_dot(result, &is_dot) - 1;
 	while (len > 0 && result[len] == '0')
 		--len;
 	if (result[len] == '.' && result[0] == '0')
 		--len;
 	if (result[1] == '0' && result[2] >= '1' && result[2] <= '9')
 	{
+		is_dot = false;
 		offset = 2;
 		--len;
 	}
-	if (is_neg == false)
-		charmove(result, result + offset, len);
-	else
-	{
+	if (is_neg == true)
 		result[0] = '-';
-		if (offset == 2)
-			charmove(result + 1, result + 2, len);
-	}
+	charmove(result + is_neg, result + offset, len);
 	result[len + is_neg] = '\0';
+	if (is_dot == true)
+		return (0);
 	return (len + is_neg + (offset == 0));
 }

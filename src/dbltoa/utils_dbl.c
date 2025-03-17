@@ -6,7 +6,7 @@
 /*   By: rjw <rjw@student.codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/03/16 02:52:35 by rjw           #+#    #+#                 */
-/*   Updated: 2025/03/16 04:45:53 by rjw           ########   odam.nl         */
+/*   Updated: 2025/03/17 14:34:43 by rde-brui      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,15 +33,22 @@ void	init_struct(char *s1, char *s2, t_nbr *num)
 	num->j_s2 -= (num->j_s2 > 0);
 }
 
+size_t	strlen_and_dot(const char *str, bool *is_dot)
+{
+	const char	*tmp = str;
+
+	*is_dot = false;
+	while (*tmp != '\0')
+	{
+		if (*tmp == '.')
+			*is_dot = true;
+		++tmp;
+	}
+	return (tmp - str);
+}
+
 uint16_t	trim_trailing_zeros(char *result, uint16_t res_len)
 {
-	uint16_t	is_dot;
-
-	is_dot = 0;
-	while (result[is_dot] != '\0' && result[is_dot] != '.')
-		++is_dot;
-	if (result[is_dot] != '.')
-		return (res_len);
 	while (result[res_len - 1] == '0')
 		--res_len;
 	result[res_len] = '\0';

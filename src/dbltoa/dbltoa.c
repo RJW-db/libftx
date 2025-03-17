@@ -22,7 +22,7 @@ char	*dbltoa(double value)
 	t_dbl	strings;
 
 	strings.result = result;
-	strings.prec = UNLIMITED_PRECISION;
+	strings.prec = FULL_PRECISION;
 	// dbltoa_convert(value, &strings);
 	return (ft_strdup(result));
 }
@@ -51,7 +51,7 @@ uint16_t	dbltoa_buff(double value, char *buff, uint16_t b_size)
 	if (b_size <= 1)
 		return (b_size);
 	strings.result = result;
-	// strings.prec = UNLIMITED_PRECISION;
+	// strings.prec = FULL_PRECISION;
 	strings.prec = 4;
 	// result_len = dbltoa_convert(value, &strings);
 	// printf("\n\n%s\n", result);
@@ -90,20 +90,8 @@ uint16_t	dbltoa_buff_prec(t_dbltoa_params dbl)
 		ft_strlcpy(dbl.buff, result, dbl.buff_size);
 		return (--dbl.buff_size);
 	}
-	// printf("%zu\n%hu\n", ft_strlcpy(dbl.buff, result, result_len + 1), result_len);
 	return (ft_strlcpy(dbl.buff, result, result_len + 1));
 }
-
-// uint16_t	remove_trailing_zeros(char *result, uint16_t res_len)
-// {
-// 	while (result[res_len] == '0')
-// 		--res_len;
-// 	result[res_len + 1] = '\0';
-// 	if (result[res_len] == '.')
-// 		--res_len;
-// 	result[res_len + 1] = '\0';
-// 	return (0);
-// }
 
 static uint16_t	dbltoa_convert(double value, t_dbl *strings, bool trim)
 {
@@ -122,10 +110,10 @@ static uint16_t	dbltoa_convert(double value, t_dbl *strings, bool trim)
 		return (ft_strlen(strings->result));
 	scientific_notation(numerator, denominator, &digitexpo, value);
 	result_len = double_to_string(strings, digitexpo, is_neg);
-	// if (result_len > 0 && trim == true) // double_to_string if doesn't find a dot return 0
-	// 	(result_len);
+	if (result_len > 0 && (trim == true || strings->prec == 0))
+		(result_len);
 	result_len = process_precision(strings->result, strings->prec);
-	if (trim == true)
-		return (trim_trailing_zeros(strings->result, result_len));	//	if double_to_string works like above, remove looking for dot in trim_trailing_zeros
+	if (trim == true && strings->prec > 0 && result_len > 1)
+		return (trim_trailing_zeros(strings->result, result_len));
 	return (result_len);
 }

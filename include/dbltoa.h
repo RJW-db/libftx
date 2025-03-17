@@ -6,7 +6,7 @@
 /*   By: rjw <rjw@student.codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/03/12 01:38:30 by rjw           #+#    #+#                 */
-/*   Updated: 2025/03/16 04:01:53 by rjw           ########   odam.nl         */
+/*   Updated: 2025/03/17 14:34:54 by rde-brui      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@
 # define MAX_DBL_STR_LEN 1078
 //	DBL_DENORM_MIN (1078) + DBL_MAX (310) + dot + terminator = 1388
 #define MAX_DBL_BUFF 1388
-# define UNLIMITED_PRECISION 1074
+# define FULL_PRECISION 1074
 // # define FULL_PRECISION 1078
 
 # define BYTE_MASK 0xFF
@@ -130,5 +130,6 @@ void		ft_division(char *s1, char *s2);
 //	Utils
 void		intialize_buff(char *buff);
 void		init_struct(char *s1, char *s2, t_nbr *num);
+size_t		strlen_and_dot(const char *str, bool *is_dot);
 uint16_t	trim_trailing_zeros(char *result, uint16_t res_len);
 #endif
