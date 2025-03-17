@@ -15,14 +15,26 @@ CFLAGS			+=	-g
 # OFLAGS are optimization flags that might have been passed from the parent Makefile.
 CFLAGS			+=	$(OFLAGS)
 
-ifeq ($(MAKECMDGOALS),malloc_wrap)
-	CFLAGS	+= -D MALLOC_WRAP=true
-	CFLAGS := $(filter-out -Ofast, $(CFLAGS))
-	CFLAGS := $(filter-out -O3, $(CFLAGS))
-	ifeq ($(shell uname -s),Linux)
-		WRAP_MALLOC	:= -Wl,--wrap=malloc
-	endif
-endif
+# ENABLE_MALLOC_WRAP := 0
+# ifeq ($(MAKECMDGOALS),malloc_wrap)
+#   ENABLE_MALLOC_WRAP := 1
+# endif
+
+# ifeq ($(MAKECMDGOALS),test)
+#   ENABLE_MALLOC_WRAP := 1
+# endif
+
+# # Apply the flags if malloc wrapping is enabled
+# ifeq ($(ENABLE_MALLOC_WRAP),1)
+
+# ifeq ($(MAKECMDGOALS),malloc_wrap)
+# 	CFLAGS	+= -D MALLOC_WRAP=true
+# 	CFLAGS := $(filter-out -Ofast, $(CFLAGS))
+# 	CFLAGS := $(filter-out -O3, $(CFLAGS))
+# 	ifeq ($(shell uname -s),Linux)
+# 		WRAP_MALLOC	:= -Wl,--wrap=malloc
+# 	endif
+# endif
 
 #		Build directory for objects and dependencies
 BUILD_DIR		:=	.build/
