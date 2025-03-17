@@ -24,53 +24,28 @@ char	*dbltoa(double value)
 	strings.result = result;
 	strings.prec = FULL_PRECISION;
 	// dbltoa_convert(value, &strings);
+	// dbltoa_convert(dbl.value, &strings, dbl.trim_trailing_zeros);
 	return (ft_strdup(result));
 }
 
-char	*dbltoa_precision(double value, uint16_t prec)
+char	*dbltoa_precision(double value, uint16_t prec, bool round)
 {
 	char	result[MAX_DBL_BUFF];
 	t_dbl	strings;
 
 	strings.result = result;
 	strings.prec = prec;
-	// dbltoa_convert(value, &strings);
+	dbltoa_convert(value, &strings, round);
 	return (ft_strdup(result));
 }
 
-uint16_t	dbltoa_buff(double value, char *buff, uint16_t b_size)
+//	Standard precision of 2
+uint16_t	dbltoa_buff(double value, char *buff, uint16_t b_size, bool round)
 {
-	char		result[MAX_DBL_BUFF];
-	t_dbl		strings;
-	uint16_t	result_len;
-// printf(">%f\n", value);
-	if (buff == NULL)
-		return (0);
-	if (b_size == 1)
-		buff[0] = '\0';
-	if (b_size <= 1)
-		return (b_size);
-	strings.result = result;
-	// strings.prec = FULL_PRECISION;
-	strings.prec = 4;
-	// result_len = dbltoa_convert(value, &strings);
-	// printf("\n\n%s\n", result);
-	// printf("%hu\n", result_len);
-	if (b_size <= result_len)
-	{
+	t_dbltoa_params	dbl;
 
-		ft_strlcpy(buff, result, b_size--);
-		if (buff[b_size - 1] == '.')
-		{
-			buff[b_size - 1] = '\0';
-			--b_size;
-		}
-		return (b_size);
-	}
-	// puts("result");
-	ft_strlcpy(buff, result, result_len + 1);
-	// puts(buff);
-	return (result_len);
+	dbl = (t_dbltoa_params){value, buff, b_size, 2, round};
+	return (dbltoa_buff_prec(dbl));
 }
 
 uint16_t	dbltoa_buff_prec(t_dbltoa_params dbl)
@@ -78,6 +53,7 @@ uint16_t	dbltoa_buff_prec(t_dbltoa_params dbl)
 	char		result[MAX_DBL_BUFF];
 	t_dbl		strings;
 	uint16_t	result_len;
+
 	if (dbl.buff != NULL && dbl.buff_size >= 1)
 		dbl.buff[0] = '\0';
 	if (dbl.buff == NULL || dbl.buff_size <= 1)

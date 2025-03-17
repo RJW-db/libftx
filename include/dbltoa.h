@@ -6,7 +6,7 @@
 /*   By: rjw <rjw@student.codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/03/12 01:38:30 by rjw           #+#    #+#                 */
-/*   Updated: 2025/03/17 14:34:54 by rde-brui      ########   odam.nl         */
+/*   Updated: 2025/03/17 15:53:15 by rde-brui      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,9 @@ typedef union u_double_bitcast
 }	t_bitcast;
 
 char		*dbltoa(double dbl);
-uint16_t	dbltoa_buff(double value, char *buff, uint16_t b_size);
+char		*dbltoa_precision(double value, uint16_t prec, bool round);
+uint16_t	dbltoa_buff(double value, char *buff, uint16_t b_size, bool round);
+// uint16_t	dbltoa_buff(double value, char *buff, uint16_t b_size);
 uint16_t	dbltoa_buff_prec(t_dbltoa_params dbl);
 
 //	Conversions
