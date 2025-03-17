@@ -6,7 +6,7 @@
 /*   By: rjw <rjw@student.codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/03/12 01:38:15 by rjw           #+#    #+#                 */
-/*   Updated: 2025/03/15 01:28:57 by rjw           ########   odam.nl         */
+/*   Updated: 2025/03/17 20:14:09 by rde-brui      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,16 +15,16 @@
 //	Static Function
 static int16_t	calculate_exponent(double nbr);
 
-void	scientific_notation(char *num, char *deno, int16_t *digitexpo, double value)
+void	scientific_notation(char *num, char *den, int16_t *digitexpo, double val)
 {
 	char	digit[MAX_DBL_STR_LEN + 1];
 
-	*digitexpo = calculate_exponent(value);
+	*digitexpo = calculate_exponent(val);
 	if (*digitexpo > 0)
 	{
 		intialize_buff(digit);
 		digit[MAX_DBL_STR_LEN - *digitexpo - 1] = '1';
-		ft_multiply(deno, digit);
+		ft_multiply(den, digit);
 	}
 	else if (*digitexpo < 0)
 	{

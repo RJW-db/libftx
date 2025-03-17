@@ -6,7 +6,7 @@
 /*   By: rjw <rjw@student.codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/09/11 20:29:51 by rjw           #+#    #+#                 */
-/*   Updated: 2025/03/12 15:38:29 by rde-brui      ########   odam.nl         */
+/*   Updated: 2025/03/17 19:48:52 by rde-brui      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@
 bool	strs_ok(t_cchr *s1, t_cchr *s2)
 {
 	return (s1 != NULL && s2 != NULL);
-
 }
 
 /*

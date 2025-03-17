@@ -10,7 +10,7 @@ CFLAGS			+=	-MMD -MP
 # # Werror cannot go together with fsanitize, because fsanitize won't work correctly.
 # CFLAGS			+=	-Werror
 CFLAGS			+=	-g
-CFLAGS			+=	-fsanitize=address
+# CFLAGS			+=	-fsanitize=address
 # CFLAGS			+=	-Wunused -Wuninitialized -Wunreachable-code
 # OFLAGS are optimization flags that might have been passed from the parent Makefile.
 CFLAGS			+=	$(OFLAGS)

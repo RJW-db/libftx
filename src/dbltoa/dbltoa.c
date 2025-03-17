@@ -18,14 +18,7 @@ static uint16_t	dbltoa_convert(double value, t_dbl *strings, bool trim);
 
 char	*dbltoa(double value)
 {
-	char	result[MAX_DBL_BUFF];
-	t_dbl	strings;
-
-	strings.result = result;
-	strings.prec = FULL_PRECISION;
-	// dbltoa_convert(value, &strings);
-	// dbltoa_convert(dbl.value, &strings, dbl.trim_trailing_zeros);
-	return (ft_strdup(result));
+	return (dbltoa_precision(value, 2, false));
 }
 
 char	*dbltoa_precision(double value, uint16_t prec, bool round)
@@ -40,11 +33,11 @@ char	*dbltoa_precision(double value, uint16_t prec, bool round)
 }
 
 //	Standard precision of 2
-uint16_t	dbltoa_buff(double value, char *buff, uint16_t b_size, bool round)
+uint16_t	dbltoa_buff(double value, char *buff, uint16_t b_size)
 {
 	t_dbltoa_params	dbl;
 
-	dbl = (t_dbltoa_params){value, buff, b_size, 2, round};
+	dbl = (t_dbltoa_params){value, buff, b_size, 2, false};
 	return (dbltoa_buff_prec(dbl));
 }
 

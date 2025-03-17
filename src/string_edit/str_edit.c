@@ -6,7 +6,7 @@
 /*   By: rjw <rjw@student.codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/09/11 20:30:54 by rjw           #+#    #+#                 */
-/*   Updated: 2025/03/12 15:50:28 by rde-brui      ########   odam.nl         */
+/*   Updated: 2025/03/17 19:49:25 by rde-brui      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,8 +82,8 @@ char	*charmove(char *dest, const char *src, size_t n)
 
 void	extract_substr(const char *s, uint32_t start, size_t ln, char *buf)
 {
-	size_t i = 0;
-	size_t s_len;
+	size_t	s_len;
+	size_t	i;
 
 	if (s == NULL || buf == NULL)
 		return ;
@@ -92,6 +92,7 @@ void	extract_substr(const char *s, uint32_t start, size_t ln, char *buf)
 		ln = 0;
 	else if ((s_len - start) < ln)
 		ln = s_len - start;
+	i = 0;
 	while (i < ln && s[start + i])
 	{
 		buf[i] = s[start + i];

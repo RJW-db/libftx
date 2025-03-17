@@ -6,7 +6,7 @@
 /*   By: rjw <rjw@student.codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/09/11 20:31:39 by rjw           #+#    #+#                 */
-/*   Updated: 2025/03/15 02:04:07 by rjw           ########   odam.nl         */
+/*   Updated: 2025/03/17 20:20:43 by rde-brui      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,13 +44,14 @@ int64_t	atoi_base(const char *nbr_str, char *base, bool *is_neg)
 
 static int64_t	is_valid_base(const char c, const char *base)
 {
-	int64_t i = 0;
-	
+	int64_t	i;
+
+	i = 0;
 	while (base[i] != '\0')
 	{
 		if (base[i] == c)
 			return (i);
-			++i;
+		++i;
 	}
 	return (-1);
 }

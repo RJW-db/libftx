@@ -6,7 +6,7 @@
 /*   By: rjw <rjw@student.codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/03/12 01:38:30 by rjw           #+#    #+#                 */
-/*   Updated: 2025/03/17 15:53:15 by rde-brui      ########   odam.nl         */
+/*   Updated: 2025/03/17 20:14:13 by rde-brui      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@
 // //	longest numbers -__DBL_DENORM_MIN__ is 1077 characters long + terminator
 # define MAX_DBL_STR_LEN 1078
 //	DBL_DENORM_MIN (1078) + DBL_MAX (310) + dot + terminator = 1388
-#define MAX_DBL_BUFF 1388
+# define MAX_DBL_BUFF 1388
 # define FULL_PRECISION 1074
 // # define FULL_PRECISION 1078
 
@@ -55,11 +55,11 @@
 
 typedef struct s_dbltoa_params
 {
-    double		value;
-    char		*buff;
-    uint16_t	buff_size;
-    uint16_t	precision;
-    bool		trim_trailing_zeros;
+	double		value;
+	char		*buff;
+	uint16_t	buff_size;
+	uint16_t	precision;
+	bool		trim_trailing_zeros;
 }	t_dbltoa_params;
 
 /**
@@ -109,8 +109,7 @@ typedef union u_double_bitcast
 
 char		*dbltoa(double dbl);
 char		*dbltoa_precision(double value, uint16_t prec, bool round);
-uint16_t	dbltoa_buff(double value, char *buff, uint16_t b_size, bool round);
-// uint16_t	dbltoa_buff(double value, char *buff, uint16_t b_size);
+uint16_t	dbltoa_buff(double value, char *buff, uint16_t b_size);
 uint16_t	dbltoa_buff_prec(t_dbltoa_params dbl);
 
 //	Conversions
@@ -118,7 +117,7 @@ bool		fraction_conversion(double value, t_dbl *strings, bool *is_neg);
 bool		binary_to_decimal(const char *bin_str, char *dec_str, size_t size);
 char		*populate_numerator(char *num_str, uint64_t mant, int16_t expo);
 char		*populate_denominator(char *denom_str, int16_t expo, double value);
-void		scientific_notation(char *num, char *deno, int16_t *digitexpo, double value);
+void		scientific_notation(char *num, char *den, int16_t *digitexpo, double val);
 uint16_t	double_to_string(t_dbl *s, int16_t digit_exponent, bool is_neg);
 uint16_t	process_precision(char *result, uint16_t prec);
 uint16_t	set_precision(char *result, uint16_t prec, uint16_t dot_index);

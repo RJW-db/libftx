@@ -6,7 +6,7 @@
 /*   By: rjw <rjw@student.codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/01/25 02:01:03 by rjw           #+#    #+#                 */
-/*   Updated: 2025/02/24 18:06:56 by rde-brui      ########   odam.nl         */
+/*   Updated: 2025/03/17 19:52:17 by rde-brui      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,6 @@ int		open(const char *path, int oflag, ...);
 bool	general_handler(void *ptr, bool (*custom)(void *));
 bool	general_toggle(bool check);
 
-void	*wrap_your_func(const char *function_name);
-void	dlopen_handler(void **handle);
 void	*dlsym_handler(void *handle, const char *function_name);
 int		handle_close(void **handle);
 void	reset_static_pointers_and_errno(size_t	*malloc_attempts);
@@ -49,7 +47,7 @@ void	reset_static_pointers_and_errno(size_t	*malloc_attempts);
  * 2 flags at the end.
  * 
  * Note: The -Wl,--wrap=malloc flag tells the linker to replace calls to malloc
- * with calls to __wrap_malloc, allowing custom behavior for memory allocation.   
+ * with calls to __wrap_malloc, allowing custom behavior for memory allocation.
 */
 void	*__wrap_malloc(size_t size);
 void	*__real_malloc(size_t size);

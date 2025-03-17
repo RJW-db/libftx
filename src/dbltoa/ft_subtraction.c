@@ -3,10 +3,10 @@
 /*                                                        ::::::::            */
 /*   ft_subtraction.c                                   :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: rjw <rjw@student.codam.nl>                   +#+                     */
+/*   By: jdobos <jdobos@student.42.fr>                +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2025/03/12 01:37:DECIMAL_NBR by rjw           #+#    #+#                 */
-/*   Updated: 2025/03/13 20:17:43 by rde-brui      ########   odam.nl         */
+/*   Created: 2025/01/15 16:27:18 by rde-brui      #+#    #+#                 */
+/*   Updated: 2025/03/17 20:14:56 by rde-brui      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
