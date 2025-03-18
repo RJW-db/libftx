@@ -1,3 +1,5 @@
 [submodule "src/dbltoa"]
 	path = src/dbltoa
 	url = git@github.com:RJW-db/dbltoa_private.git
+
+#git submodule update --recursive --force

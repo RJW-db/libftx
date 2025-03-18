@@ -27,13 +27,18 @@ CFLAGS			+=	$(OFLAGS)
 # # Apply the flags if malloc wrapping is enabled
 # ifeq ($(ENABLE_MALLOC_WRAP),1)
 
-ifeq ($(MAKECMDGOALS),malloc_wrap)
-	CFLAGS	+= -D MALLOC_WRAP=true
-	CFLAGS := $(filter-out -Ofast, $(CFLAGS))
-	CFLAGS := $(filter-out -O3, $(CFLAGS))
-	ifeq ($(shell uname -s),Linux)
-		CFLAGS	+= -Wl,--wrap=malloc
-	endif
+# ifeq ($(MAKECMDGOALS),malloc_wrap)
+# 	CFLAGS	+= -D MALLOC_WRAP=true
+# 	CFLAGS := $(filter-out -Ofast, $(CFLAGS))
+# 	CFLAGS := $(filter-out -O3, $(CFLAGS))
+# 	ifeq ($(shell uname -s),Linux)
+# 		CFLAGS	+= -Wl,--wrap=malloc
+# 	endif
+# endif
+
+WRAP_CFLAGS := -D MALLOC_WRAP=true
+ifeq ($(shell uname -s),Linux)
+	WRAP_CFLAGS += -Wl,--wrap=malloc
 endif
 
 #		Base Directories
@@ -59,8 +64,6 @@ MRKUP			:=	markup.c
 MATH_			:=	math_utils.c				digit_counter.c
 MEDIT			:=	mem_edit.c
 MSRCH			:=	mem_search.c
-FWRAP			:=	dynamic_symbols.c			linux_malloc_wrapper.c			mac_malloc_wrapper.c	\
-					malloc_handlers.c			open_wrapper.c
 PRNTF			:=	printf.c					printf_process_format.c			printf_char.c			\
 					printf_count.c				printf_flags.c					printf_int.c			\
 					printf_sort_spec.c			printf_str_count.c				printf_str.c			\
@@ -75,9 +78,11 @@ SSRCH			:=	str_len.c					str_compare.c					str_null_check.c		\
 					str_search.c				str_search_2.c					find_char.c				\
 					find_char_not.c				ptr_null_check.c				skip_characters.c		\
  					str_len_comparing.c
+WRAP			:=	dynamic_symbols.c			linux_malloc_wrapper.c			mac_malloc_wrapper.c	\
+					malloc_handlers.c			open_wrapper.c
 
 #		Map prefixes to their directories
-#	Base sources
+#		Base sources
 ALLOC_SRCS		:=	$(addprefix $(SRC_DIR)alloc_functions/, $(ALLOC))
 ARRAY_SRCS		:=	$(addprefix $(SRC_DIR)arrays_nested/, $(ARRAY))
 CNVRT_SRCS		:=	$(addprefix $(SRC_DIR)conversions/, $(CNVRT))
@@ -91,12 +96,12 @@ SCRTE_SRCS		:=	$(addprefix $(SRC_DIR)string_create/, $(SCRTE))
 SEDIT_SRCS		:=	$(addprefix $(SRC_DIR)string_edit/, $(SEDIT))
 SSRCH_SRCS		:=	$(addprefix $(SRC_DIR)string_search/, $(SSRCH))
 
-#	Extra Sources
+#		Extra Sources
 DBL_SRCS		:=	$(addprefix $(SRC_DIR)dbltoa/$(SRC_DIR), $(DBTOA))
 DYN_SRCS		:=	$(addprefix $(SRC_DIR)dynamic_array/, $(DYNAR))
 LLT_SRCS		:=	$(addprefix $(SRC_DIR)linked_list/, $(LLIST))
 PRT_SRCS		:=	$(addprefix $(SRC_DIR)printf/, $(PRNTF))
-WRP_SRCS		:=	$(addprefix $(SRC_DIR)wrap_functions/, $(FWRAP))
+WRP_SRCS		:=	$(addprefix $(SRC_DIR)wrap_functions/$(SRC_DIR), $(WRAP))
 
 BASE_SRCS		:=	$(ALLOC_SRCS)	$(ARRAY_SRCS)	$(CNVRT_SRCS)	$(G_N_L_SRCS)	$(MRKUP_SRCS)		\
 					$(MATH_SRCS)	$(MEDIT_SRCS)	$(MSRCH_SRCS)	$(PTCHR_SRCS)	$(SCRTE_SRCS)		\
@@ -109,6 +114,9 @@ DYN_OBJS		:=	$(DYN_SRCS:%.c=$(BUILD_DIR)%.o) $(BASE_OBJS)
 PRT_OBJS		:=	$(PRT_SRCS:%.c=$(BUILD_DIR)%.o) $(BASE_OBJS)
 LLT_OBJS		:=	$(LLT_SRCS:%.c=$(BUILD_DIR)%.o)
 WRP_OBJS		:=	$(WRP_SRCS:%.c=$(BUILD_DIR)%.o) $(BASE_OBJS)
+
+# Pattern-specific CFLAGS for wrap files
+$(BUILD_DIR)$(SRC_DIR)wrap_functions/$(SRC_DIR)%.o: CFLAGS := $(CFLAGS) $(WRAP_CFLAGS)
 
 # All objects combined
 ALL_OBJS		:=	$(BASE_OBJS) $(DBL_OBJS) $(DYN_OBJS) $(PRT_OBJS) $(LLT_OBJS) $(WRP_OBJS)
@@ -130,17 +138,23 @@ DELETE			:=	*.out																				\
 					*.dSYM/
 
 #		Default target
-all: $(NAME)
+all: init_submodules $(NAME)
 
 #		Main target
 $(NAME): $(ALL_OBJS)
 	@ar rcs $(NAME) $(ALL_OBJS)
 	@printf "$(CREATED)" $@ $(CUR_DIR)
 
-#		Compile .c files to .o files
+	
 $(BUILD_DIR)%.o: %.c $(HEADERS)
 	@mkdir -p $(@D)
 	$(COMPILER) $(CFLAGS) -I $(INC_DIR) -c $< -o $@
+
+init_submodules:
+	@git submodule update --init --recursive
+	
+submodule_update:
+	git submodule update --remote src/dbltoa
 
 base: $(BASE_OBJS)
 	@ar rcs $(NAME) $(BASE_OBJS)
@@ -174,7 +188,7 @@ tester:
 		git clone git@github.com:RJW-db/lib_tester.git tester; \
 	fi
 
-test:	tester
+test:	all tester
 	@$(MAKE) $(PRINT_NO_DIR) -C $(TESTER_DIR) run
 
 test_valgrind:	tester
