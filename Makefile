@@ -36,13 +36,11 @@ ifeq ($(MAKECMDGOALS),malloc_wrap)
 	endif
 endif
 
-#		Build directory for objects and dependencies
-BUILD_DIR		:=	.build/
-INC_DIR			:=	include/
-TESTER_DIR		:=	tester/
-
-#		Source Directory
+#		Base Directories
 SRC_DIR			:=	src/
+INC_DIR			:=	include/
+BUILD_DIR		:=	.build/
+TESTER_DIR		:=	tester/
 
 #		Source files by category
 ALLOC			:=	calloc.c					deallocation.c					realloc.c
@@ -94,7 +92,7 @@ SEDIT_SRCS		:=	$(addprefix $(SRC_DIR)string_edit/, $(SEDIT))
 SSRCH_SRCS		:=	$(addprefix $(SRC_DIR)string_search/, $(SSRCH))
 
 #	Extra Sources
-DBL_SRCS		:=	$(addprefix $(SRC_DIR)dbltoa/, $(DBTOA))
+DBL_SRCS		:=	$(addprefix $(SRC_DIR)dbltoa/$(SRC_DIR), $(DBTOA))
 DYN_SRCS		:=	$(addprefix $(SRC_DIR)dynamic_array/, $(DYNAR))
 LLT_SRCS		:=	$(addprefix $(SRC_DIR)linked_list/, $(LLIST))
 PRT_SRCS		:=	$(addprefix $(SRC_DIR)printf/, $(PRNTF))
@@ -117,11 +115,13 @@ ALL_OBJS		:=	$(BASE_OBJS) $(DBL_OBJS) $(DYN_OBJS) $(PRT_OBJS) $(LLT_OBJS) $(WRP_
 
 #		Generate Dependency files
 DEPS			:=	$(ALL_OBJS:.o=.d)
+
 #		Header files
 HEADERS_FILES	:=	libft.h						common_defs.h					ft_printf.h				\
 					dbltoa.h					dynarr.h						is_ctype1.h				\
 					is_ctype2.h					validate_ptr.h					terminal_markup.h		\
 					wrap_functions.h
+
 HEADERS			:=	$(addprefix $(INC_DIR), $(HEADERS_FILES))
 
 #		Remove these created files
@@ -141,7 +141,6 @@ $(NAME): $(ALL_OBJS)
 $(BUILD_DIR)%.o: %.c $(HEADERS)
 	@mkdir -p $(@D)
 	$(COMPILER) $(CFLAGS) -I $(INC_DIR) -c $< -o $@
-
 
 base: $(BASE_OBJS)
 	@ar rcs $(NAME) $(BASE_OBJS)
