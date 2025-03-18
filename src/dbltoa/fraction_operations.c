@@ -6,7 +6,7 @@
 /*   By: rjw <rjw@student.codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/03/12 02:52:56 by rjw           #+#    #+#                 */
-/*   Updated: 2025/03/13 20:17:43 by rde-brui      ########   odam.nl         */
+/*   Updated: 2025/03/18 03:01:44 by rjw           ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ char	*populate_numerator(char *num_str, uint64_t mant, int16_t expo)
 
 char	*populate_denominator(char *denom_str, int16_t expo, double value)
 {
-	intialize_buff(denom_str);
 	if (expo <= 0 && value != 0)
 	{
 		denom_str[MAX_DBL_STR_LEN - 1] = '2';
@@ -67,7 +66,6 @@ static char	*pow2(char *exp_str, int64_t exponent)
 	}
 	else
 	{
-		intialize_buff(exp_str);
 		exp_str[MAX_DBL_STR_LEN - 1] = '1';
 	}
 	return (exp_str);

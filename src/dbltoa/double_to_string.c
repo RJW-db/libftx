@@ -6,7 +6,7 @@
 /*   By: rjw <rjw@student.codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/03/12 01:35:36 by rjw           #+#    #+#                 */
-/*   Updated: 2025/03/17 14:34:58 by rde-brui      ########   odam.nl         */
+/*   Updated: 2025/03/18 03:07:09 by rjw           ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,8 @@ uint16_t	double_to_string(t_dbl *s, int16_t digit_exponent, bool is_neg)
 	intialize_buff(zero);
 	while (ft_strncmp(s->s1, zero, MAX_DBL_STR_LEN) != 0 && len < MAX_DBL_STR_LEN)
 	{
-		intialize_buff(tmp);
+		
+		// intialize_buff(tmp);
 		cpy_str(tmp, s->s1);
 		ft_division(tmp, s->s2);
 		s->result[len++] = tmp[MAX_DBL_STR_LEN - 1];

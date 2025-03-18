@@ -11,22 +11,22 @@
 /* ************************************************************************** */
 
 #include <wrap_functions.h>
-// #if defined(__linux__)
-// # ifdef MALLOC_WRAP
-// #  if MALLOC_WRAP == true
+#if defined(__linux__)
+# ifdef MALLOC_WRAP
+#  if MALLOC_WRAP == true
 
-// void	*__wrap_malloc(size_t size)
-// {
-// 	if (malloc_toggle(RETRIEVE_MALLOC) == OG_MALLOC_ENABLED)
-// 	{
-// 		return (__real_malloc(size));
-// 	}
-// 	else if (malloc_handler(size, NULL, NULL) == false)
-// 	{
-// 		return (NULL);
-// 	}
-// 	return (__real_malloc(size));
-// }
-// #  endif
-// # endif
-// #endif
+void	*__wrap_malloc(size_t size)
+{
+	if (malloc_toggle(RETRIEVE_MALLOC) == OG_MALLOC_ENABLED)
+	{
+		return (__real_malloc(size));
+	}
+	else if (malloc_handler(size, NULL, NULL) == false)
+	{
+		return (NULL);
+	}
+	return (__real_malloc(size));
+}
+#  endif
+# endif
+#endif

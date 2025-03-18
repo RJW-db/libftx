@@ -6,7 +6,7 @@
 /*   By: rjw <rjw@student.codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/03/12 01:38:30 by rjw           #+#    #+#                 */
-/*   Updated: 2025/03/17 20:14:13 by rde-brui      ########   odam.nl         */
+/*   Updated: 2025/03/18 04:12:21 by rjw           ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,7 @@
 # define MAX_DBL_STR_LEN 1078
 //	DBL_DENORM_MIN (1078) + DBL_MAX (310) + dot + terminator = 1388
 # define MAX_DBL_BUFF 1388
-# define FULL_PRECISION 1074
-// # define FULL_PRECISION 1078
+# define MAX_PRECISION 1074
 
 # define BYTE_MASK 0xFF
 # define DBL_BYTES 8

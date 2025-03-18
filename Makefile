@@ -6,7 +6,7 @@ PRINT_NO_DIR	:=	--no-print-directory
 
 #		Compiler flags
 CFLAGS			+=	-MMD -MP
-# CFLAGS			+=	-Wall -Wextra
+CFLAGS			+=	-Wall -Wextra
 # # Werror cannot go together with fsanitize, because fsanitize won't work correctly.
 # CFLAGS			+=	-Werror
 CFLAGS			+=	-g
@@ -32,7 +32,7 @@ ifeq ($(MAKECMDGOALS),malloc_wrap)
 	CFLAGS := $(filter-out -Ofast, $(CFLAGS))
 	CFLAGS := $(filter-out -O3, $(CFLAGS))
 	ifeq ($(shell uname -s),Linux)
-		WRAP_MALLOC	:= -Wl,--wrap=malloc
+		CFLAGS	+= -Wl,--wrap=malloc
 	endif
 endif
 

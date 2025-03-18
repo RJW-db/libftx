@@ -6,7 +6,7 @@
 /*   By: rjw <rjw@student.codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/02/23 14:49:53 by rjw           #+#    #+#                 */
-/*   Updated: 2025/02/23 16:43:47 by rjw           ########   odam.nl         */
+/*   Updated: 2025/03/18 03:16:45 by rjw           ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 #include <stdio.h>
 
 //	Static Functions
-static ssize_t	process_input(char *buff, ssize_t rd, size_t buff_size);
-static ssize_t	empty_filedescriptor(char *buff, size_t buff_size);
+static ssize_t	process_input(char *buff, ssize_t rd, ssize_t buff_size);
+static ssize_t	empty_filedescriptor(char *buff, ssize_t buff_size);
 
 // char	*get_input(char *buff)
 // {
@@ -30,11 +30,13 @@ static ssize_t	empty_filedescriptor(char *buff, size_t buff_size);
 
 // #define FILE_CREATION 256	// (NAME_MAX || MAX_PATH) + 1
 //	only return 0 on EOF, and -1 on read() error
-ssize_t	get_user_input(char *buff, size_t buff_size, char *prompt)
+ssize_t	get_user_input(char *buff, ssize_t buff_size, char *prompt)
 {
 	ssize_t	rd;
 	ssize_t	result;
 
+	if (buff == NULL || buff_size <= 0)
+		return (-1);
 	if (prompt != NULL)
 		ft_putstr_fd(prompt, STDOUT_FILENO);
 	rd = read(STDIN_FILENO, buff, buff_size);
@@ -57,9 +59,9 @@ ssize_t	get_user_input(char *buff, size_t buff_size, char *prompt)
 	return (0);
 }
 
-static ssize_t	process_input(char *buff, ssize_t rd, size_t buff_size)
+static ssize_t	process_input(char *buff, ssize_t rd, ssize_t buff_size)
 {
-	size_t	index;
+	ssize_t	index;
 
 	if (buff[0] == '\n')
 		return (0);
@@ -78,7 +80,7 @@ static ssize_t	process_input(char *buff, ssize_t rd, size_t buff_size)
 	return (-1);
 }
 
-static ssize_t	empty_filedescriptor(char *buff, size_t buff_size)
+static ssize_t	empty_filedescriptor(char *buff, ssize_t buff_size)
 {
 	ssize_t	rd;
 
