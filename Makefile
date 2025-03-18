@@ -27,14 +27,14 @@ CFLAGS			+=	$(OFLAGS)
 # # Apply the flags if malloc wrapping is enabled
 # ifeq ($(ENABLE_MALLOC_WRAP),1)
 
-# ifeq ($(MAKECMDGOALS),malloc_wrap)
-# 	CFLAGS	+= -D MALLOC_WRAP=true
-# 	CFLAGS := $(filter-out -Ofast, $(CFLAGS))
-# 	CFLAGS := $(filter-out -O3, $(CFLAGS))
-# 	ifeq ($(shell uname -s),Linux)
-# 		WRAP_MALLOC	:= -Wl,--wrap=malloc
-# 	endif
-# endif
+ifeq ($(MAKECMDGOALS),malloc_wrap)
+	CFLAGS	+= -D MALLOC_WRAP=true
+	CFLAGS := $(filter-out -Ofast, $(CFLAGS))
+	CFLAGS := $(filter-out -O3, $(CFLAGS))
+	ifeq ($(shell uname -s),Linux)
+		WRAP_MALLOC	:= -Wl,--wrap=malloc
+	endif
+endif
 
 #		Build directory for objects and dependencies
 BUILD_DIR		:=	.build/
@@ -61,8 +61,8 @@ MRKUP			:=	markup.c
 MATH_			:=	math_utils.c				digit_counter.c
 MEDIT			:=	mem_edit.c
 MSRCH			:=	mem_search.c
-# FWRAP			:=	dynamic_symbols.c			linux_malloc_wrapper.c			mac_malloc_wrapper.c	\
-# 					malloc_handlers.c			open_wrapper.c
+FWRAP			:=	dynamic_symbols.c			linux_malloc_wrapper.c			mac_malloc_wrapper.c	\
+					malloc_handlers.c			open_wrapper.c
 PRNTF			:=	printf.c					printf_process_format.c			printf_char.c			\
 					printf_count.c				printf_flags.c					printf_int.c			\
 					printf_sort_spec.c			printf_str_count.c				printf_str.c			\

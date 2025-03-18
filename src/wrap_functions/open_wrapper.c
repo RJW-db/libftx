@@ -6,7 +6,7 @@
 /*   By: rde-brui <rde-brui@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/02/03 15:41:56 by rde-brui      #+#    #+#                 */
-/*   Updated: 2025/03/17 20:11:32 by rde-brui      ########   odam.nl         */
+/*   Updated: 2025/03/17 21:38:00 by rjw           ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 #include <errno.h>
 
 //	Static Functions
-static int	handle_general_conditions(int **real_open);
+static int	handle_general_conditions(int (**real_open)(const char *, int, ...));
+// static int	handle_general_conditions(int **real_open);;
 
 int	open(const char *path, int oflag, ...)
 {
@@ -43,11 +44,14 @@ int	open(const char *path, int oflag, ...)
 	return (real_open(path, oflag, mode));
 }
 
-static int	handle_general_conditions(int **real_open)
+// static int	handle_general_conditions(int **real_open)
+static int	handle_general_conditions(int (**real_open)(const char *, int, ...))
 {
 	if (general_toggle(true) == true)
+	{
 		if (*real_open == NULL)
 			return (-1);
+	}
 	else if (general_handler(NULL, NULL) == false)
 	{
 		*real_open = NULL;

@@ -28,7 +28,7 @@ char	*dbltoa_precision(double value, uint16_t prec, bool round)
 
 	strings.result = result;
 	strings.prec = prec;
-	dbltoa_convert(value, &strings, round);
+	(void)dbltoa_convert(value, &strings, round);
 	return (ft_strdup(result));
 }
 
@@ -80,7 +80,7 @@ static uint16_t	dbltoa_convert(double value, t_dbl *strings, bool trim)
 	scientific_notation(numerator, denominator, &digitexpo, value);
 	result_len = double_to_string(strings, digitexpo, is_neg);
 	if (result_len > 0 && (trim == true || strings->prec == 0))
-		(result_len);
+		return (result_len);
 	result_len = process_precision(strings->result, strings->prec);
 	if (trim == true && strings->prec > 0 && result_len > 1)
 		return (trim_trailing_zeros(strings->result, result_len));
