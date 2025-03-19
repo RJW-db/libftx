@@ -5,40 +5,19 @@ RM				:=	rm -rf
 PRINT_NO_DIR	:=	--no-print-directory
 
 #		Compiler flags
-CFLAGS			+=	-MMD -MP
+CFLAGS			 =	-MMD -MP
 CFLAGS			+=	-Wall -Wextra
 # # Werror cannot go together with fsanitize, because fsanitize won't work correctly.
-# CFLAGS			+=	-Werror
-CFLAGS			+=	-g
+CFLAGS			+=	-Werror
+# CFLAGS			+=	-g
 # CFLAGS			+=	-fsanitize=address
-# CFLAGS			+=	-Wunused -Wuninitialized -Wunreachable-code
+CFLAGS			+=	-Wunused -Wuninitialized -Wunreachable-code
 # OFLAGS are optimization flags that might have been passed from the parent Makefile.
 CFLAGS			+=	$(OFLAGS)
 
-# ENABLE_MALLOC_WRAP := 0
-# ifeq ($(MAKECMDGOALS),malloc_wrap)
-#   ENABLE_MALLOC_WRAP := 1
-# endif
-
-# ifeq ($(MAKECMDGOALS),test)
-#   ENABLE_MALLOC_WRAP := 1
-# endif
-
-# # Apply the flags if malloc wrapping is enabled
-# ifeq ($(ENABLE_MALLOC_WRAP),1)
-
-# ifeq ($(MAKECMDGOALS),malloc_wrap)
-# 	CFLAGS	+= -D MALLOC_WRAP=true
-# 	CFLAGS := $(filter-out -Ofast, $(CFLAGS))
-# 	CFLAGS := $(filter-out -O3, $(CFLAGS))
-# 	ifeq ($(shell uname -s),Linux)
-# 		CFLAGS	+= -Wl,--wrap=malloc
-# 	endif
-# endif
-
-WRAP_CFLAGS := -D MALLOC_WRAP=true
+WRAP_CFLAGS		:= -D MALLOC_WRAP=true
 ifeq ($(shell uname -s),Linux)
-	WRAP_CFLAGS += -Wl,--wrap=malloc
+	WRAP_CFLAGS	+= -Wl,--wrap=malloc
 endif
 
 #		Base Directories
@@ -79,7 +58,7 @@ SSRCH			:=	str_len.c					str_compare.c					str_null_check.c		\
 					find_char_not.c				ptr_null_check.c				skip_characters.c		\
  					str_len_comparing.c
 WRAP			:=	linux_malloc_wrapper.c		mac_malloc_wrapper.c			malloc_handlers.c		\
-					open_wrapper.c				wrap_utils.c
+					open_wrapper.c		wrap_utils.c
 
 #		Map prefixes to their directories
 #		Base sources
@@ -101,7 +80,7 @@ DBL_SRCS		:=	$(addprefix $(SRC_DIR)dbltoa/$(SRC_DIR), $(DBTOA))
 DYN_SRCS		:=	$(addprefix $(SRC_DIR)dynamic_array/, $(DYNAR))
 LLT_SRCS		:=	$(addprefix $(SRC_DIR)linked_list/, $(LLIST))
 PRT_SRCS		:=	$(addprefix $(SRC_DIR)printf/, $(PRNTF))
-WRP_SRCS		:=	$(addprefix $(SRC_DIR)wrap_functions/$(SRC_DIR), $(WRAP))
+WRP_SRCS		:=	$(addprefix $(SRC_DIR)wrapper/$(SRC_DIR), $(WRAP))
 
 BASE_SRCS		:=	$(ALLOC_SRCS)	$(ARRAY_SRCS)	$(CNVRT_SRCS)	$(G_N_L_SRCS)	$(MRKUP_SRCS)		\
 					$(MATH_SRCS)	$(MEDIT_SRCS)	$(MSRCH_SRCS)	$(PTCHR_SRCS)	$(SCRTE_SRCS)		\
@@ -116,7 +95,7 @@ LLT_OBJS		:=	$(LLT_SRCS:%.c=$(BUILD_DIR)%.o)
 WRP_OBJS		:=	$(WRP_SRCS:%.c=$(BUILD_DIR)%.o) $(BASE_OBJS)
 
 # Pattern-specific CFLAGS for wrap files
-$(BUILD_DIR)$(SRC_DIR)wrap_functions/$(SRC_DIR)%.o: CFLAGS := $(CFLAGS) $(WRAP_CFLAGS)
+$(BUILD_DIR)$(SRC_DIR)wrapper/$(SRC_DIR)%.o: CFLAGS := $(CFLAGS) $(WRAP_CFLAGS)
 
 # All objects combined
 ALL_OBJS		:=	$(BASE_OBJS) $(DBL_OBJS) $(DYN_OBJS) $(PRT_OBJS) $(LLT_OBJS) $(WRP_OBJS)
@@ -128,17 +107,17 @@ DEPS			:=	$(ALL_OBJS:.o=.d)
 HEADERS_FILES	:=	libft.h						common_defs.h					ft_printf.h				\
 					dbltoa.h					dynarr.h						is_ctype1.h				\
 					is_ctype2.h					validate_ptr.h					terminal_markup.h		\
-					wrap_functions.h
+					wrapper.h
 
 HEADERS			:=	$(addprefix $(INC_DIR), $(HEADERS_FILES))
 
 #		Remove these created files
 DELETE			:=	*.out																				\
-					.DS_Store																			\
+					**/.DS_Store																			\
 					*.dSYM/
 
 #		Default target
-all: init_submodules $(NAME)
+all: $(NAME)
 
 #		Main target
 $(NAME): $(ALL_OBJS)
@@ -155,6 +134,7 @@ init_submodules:
 	
 submodule_update:
 	git submodule update --remote src/dbltoa
+	git submodule update --remote src/wrapper
 
 base: $(BASE_OBJS)
 	@ar rcs $(NAME) $(BASE_OBJS)
