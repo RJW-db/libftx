@@ -188,7 +188,7 @@ tester:
 		git clone git@github.com:RJW-db/lib_tester.git tester; \
 	fi
 
-test:	all tester
+test:	tester
 	@$(MAKE) $(PRINT_NO_DIR) -C $(TESTER_DIR) run
 
 test_valgrind:	tester
