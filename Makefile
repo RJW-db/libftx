@@ -4,10 +4,19 @@ COMPILER		:=	gcc
 RM				:=	rm -rf
 PRINT_NO_DIR	:=	--no-print-directory
 
+#		Compile with every thread available
+#		Get the number of logical processors (threads)
+N_JOBS			:=	$(shell nproc)
+# 				:=	1
+#		(-j) Specify the number of jobs (commands) to run simultaneously
+MULTI_THREADED	:=	-j $(N_JOBS)
+#		MAKEFLAGS will automatically apply the specified options (e.g., parallel execution) when 'make' is invoked
+MAKEFLAGS		+=	$(MULTI_THREADED)
+
 #		Compiler flags
 CFLAGS			 =	-MMD -MP
 CFLAGS			+=	-Wall -Wextra
-# # Werror cannot go together with fsanitize, because fsanitize won't work correctly.
+#		Werror cannot go together with fsanitize, because fsanitize won't work correctly.
 CFLAGS			+=	-Werror
 # CFLAGS			+=	-g
 # CFLAGS			+=	-fsanitize=address
@@ -15,9 +24,8 @@ CFLAGS			+=	-Wunused -Wuninitialized -Wunreachable-code
 # OFLAGS are optimization flags that might have been passed from the parent Makefile.
 CFLAGS			+=	$(OFLAGS)
 
-WRAP_CFLAGS		:= -D MALLOC_WRAP=true
 ifeq ($(shell uname -s),Linux)
-	WRAP_CFLAGS	+= -Wl,--wrap=malloc
+	WRAP_CFLAGS	+=	-Wl,--wrap=malloc
 endif
 
 #		Base Directories
@@ -58,7 +66,7 @@ SSRCH			:=	str_len.c					str_compare.c					str_null_check.c		\
 					find_char_not.c				ptr_null_check.c				skip_characters.c		\
  					str_len_comparing.c
 WRAP			:=	linux_malloc_wrapper.c		mac_malloc_wrapper.c			malloc_handlers.c		\
-					open_wrapper.c		wrap_utils.c
+					open_wrapper.c				wrap_utils.c
 
 #		Map prefixes to their directories
 #		Base sources
@@ -92,13 +100,15 @@ DBL_OBJS		:=	$(DBL_SRCS:%.c=$(BUILD_DIR)%.o) $(BASE_OBJS)
 DYN_OBJS		:=	$(DYN_SRCS:%.c=$(BUILD_DIR)%.o) $(BASE_OBJS)
 PRT_OBJS		:=	$(PRT_SRCS:%.c=$(BUILD_DIR)%.o) $(BASE_OBJS)
 LLT_OBJS		:=	$(LLT_SRCS:%.c=$(BUILD_DIR)%.o)
-WRP_OBJS		:=	$(WRP_SRCS:%.c=$(BUILD_DIR)%.o) $(BASE_OBJS)
+WRP_OBJS		:=	$(WRP_SRCS:%.c=$(BUILD_DIR)%.o)
 
-# Pattern-specific CFLAGS for wrap files
-$(BUILD_DIR)$(SRC_DIR)wrapper/$(SRC_DIR)%.o: CFLAGS := $(CFLAGS) $(WRAP_CFLAGS)
+#		Pattern-specific CFLAGS for wrap files
+$(BUILD_DIR)$(SRC_DIR)wrapper/$(SRC_DIR)%.o: CFLAGS := $(CFLAGS)$(WRAP_CFLAGS)
+#		removed potential extra spaces
+CFLAGS			:=	$(strip $(CFLAGS))
 
-# All objects combined
-ALL_OBJS		:=	$(BASE_OBJS) $(DBL_OBJS) $(DYN_OBJS) $(PRT_OBJS) $(LLT_OBJS) $(WRP_OBJS)
+#		All objects combined
+ALL_OBJS		:=	$(BASE_OBJS) $(DBL_OBJS) $(DYN_OBJS) $(PRT_OBJS) $(LLT_OBJS)
 
 #		Generate Dependency files
 DEPS			:=	$(ALL_OBJS:.o=.d)
@@ -160,18 +170,15 @@ wrap: $(WRP_OBJS)
 	@ar rcs $(NAME) $(WRP_OBJS)
 	@printf "$(CREATED)" $@ $(CUR_DIR)
 
-#	For linux, -Wl,--wrap=malloc, add this where you create your program
-malloc_wrap:	all
-
-tester:
+clone_tester:
 	@if [ ! -d "$(TESTER_DIR)" ]; then \
 		git clone git@github.com:RJW-db/lib_tester.git tester; \
 	fi
 
-test:	tester
+test:	clone_tester
 	@$(MAKE) $(PRINT_NO_DIR) -C $(TESTER_DIR) run
 
-test_valgrind:	tester
+test_valgrind:	clone_tester
 	@$(MAKE) $(PRINT_NO_DIR) -C $(TESTER_DIR) valgrind
 
 clean:
@@ -202,7 +209,7 @@ print-%:
 #		Include dependencies
 -include $(DEPS)
 
-.PHONY:	all base dbltoa dynarr llist printf wrap malloc_wrap tester test clean \
+.PHONY:	all base dbltoa dynarr llist printf wrap clone_tester test clean \
 		no_print_clean fclean no_print_fclean clean_tester allclean re print-%
 
 # ----------------------------------- colors --------------------------------- #

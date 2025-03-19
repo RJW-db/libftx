@@ -24,6 +24,7 @@
 		"stdio.h": "c",
 		"locale.h": "c",
 		"__locale": "c",
-		"stdarg.h": "c"
+		"stdarg.h": "c",
+		"wrapper.h": "c"
 	}
 }
