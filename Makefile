@@ -78,8 +78,8 @@ SSRCH			:=	str_len.c					str_compare.c					str_null_check.c		\
 					str_search.c				str_search_2.c					find_char.c				\
 					find_char_not.c				ptr_null_check.c				skip_characters.c		\
  					str_len_comparing.c
-WRAP			:=	dynamic_symbols.c			linux_malloc_wrapper.c			mac_malloc_wrapper.c	\
-					malloc_handlers.c			open_wrapper.c
+WRAP			:=	linux_malloc_wrapper.c		mac_malloc_wrapper.c			malloc_handlers.c		\
+					open_wrapper.c				wrap_utils.c
 
 #		Map prefixes to their directories
 #		Base sources

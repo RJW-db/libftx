@@ -22,6 +22,8 @@
 		"stdbool.h": "c",
 		"stdlib.h": "c",
 		"stdio.h": "c",
-		"locale.h": "c"
+		"locale.h": "c",
+		"__locale": "c",
+		"stdarg.h": "c"
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: rjw <rjw@student.codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/01/26 02:10:48 by rjw           #+#    #+#                 */
-/*   Updated: 2025/03/19 02:11:10 by rjw           ########   odam.nl         */
+/*   Updated: 2025/03/19 03:12:29 by rjw           ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,6 @@
 # if defined(__MACH__)
 #  ifdef MALLOC_WRAP
 #   if MALLOC_WRAP == true
-
-/** malloc can work for linux without valgrind, with valgrind it uses the
- * original malloc, Thus __wrap_malloc is used for linux.
- */
 
 void	*malloc(size_t size)
 {

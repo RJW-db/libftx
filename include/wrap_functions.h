@@ -6,49 +6,112 @@
 /*   By: rjw <rjw@student.codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/01/25 02:01:03 by rjw           #+#    #+#                 */
-/*   Updated: 2025/03/17 19:52:17 by rde-brui      ########   odam.nl         */
+/*   Updated: 2025/03/19 03:17:50 by rjw           ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef WRAP_FUNCTIONS_H
 # define WRAP_FUNCTIONS_H
-# define _GNU_SOURCE
 
 # include <stdbool.h>
-# include <stddef.h>
-# include <dlfcn.h>
-# include <sys/mman.h>	//	MAP_FAILED	NON NULL value
-# include <stdarg.h>
-# include <fcntl.h>
+# include <stdio.h>			//	perror
+# include <dlfcn.h>			//	dlsym, dlerror
+# include <stdarg.h>		//	va_list
+# include <fcntl.h>			//	mode_t
+# include <unistd.h>
+# include <errno.h>
 
-# include <libft.h>
+# define _GNU_SOURCE		//	RTLD_NEXT
 # define OG_MALLOC_ENABLED true
 # define OG_MALLOC_DISABLED false
 # define RETRIEVE_MALLOC true
 # define SET_MALLOC false
+# define ERR_HANDLING_BUFFER 1024
 
 /**
- * Using dlsym with RTLD_NEXT will not malloc, because
- * core system functions are already loaded.
+ * @brief Wrapper for the malloc function on macOS.
+ * Using dlsym with RTLD_NEXT ensures that the real malloc function is
+ * resolved without causing recursion, as dlsym does not call malloc
+ * when resolving core system functions already loaded in memory.
  */
 
-int		open(const char *path, int oflag, ...);
-bool	general_handler(void *ptr, bool (*custom)(void *));
-bool	general_toggle(bool check);
-
+/**
+ * @brief Handles dynamic symbol resolution for wrapped functions.
+ *
+ * This function is used to intercept and manage calls to dynamically loaded
+ * symbols, allowing custom behavior or testing for specific functions.
+ */
 void	*dlsym_handler(void *handle, const char *function_name);
-int		handle_close(void **handle);
-void	reset_static_pointers_and_errno(size_t	*malloc_attempts);
 
 /**
- * For `Linux`, the same description applies as for the malloc function below.
- * To compile with the malloc wrapper, use the following command:
- * gcc -I -Wl,--wrap=malloc main.c libft.a
- * 2 flags at the end.
- * 
- * Note: The -Wl,--wrap=malloc flag tells the linker to replace calls to malloc
- * with calls to __wrap_malloc, allowing custom behavior for memory allocation.
-*/
+ * @brief Wrapper for the open system call.
+ *
+ * Intercepts calls to the open system call to provide custom behavior,
+ * such as logging, testing, or modifying parameters before delegating
+ * to the original open function.
+ *
+ * @param[in] path: The file path to open.
+ * @param[in] oflag: Flags specifying the access mode and behavior.
+ * @param[in] ...: Optional mode_t argument for file permissions (if O_CREAT is used).
+ *
+ * Return: File descriptor on success, or -1 on failure with errno set.
+ */
+int		open(const char *path, int oflag, ...);
+
+/**
+ * @brief A generic handler for managing wrapped functions.
+ *
+ * This function provides a common interface for handling various wrapped
+ * system calls or library functions. It can be customized to perform
+ * pre-processing, post-processing, or error handling for the wrapped
+ * function.
+ *
+ * @param[in] ptr Pointer to an argument that will be passed to the custom 
+ *                function for additional context or data, e.g. a struct.
+ * @param[in] custom Function pointer to a custom handler that intercepts 
+ *                   and overrides the behavior of the main function.
+ * @return: The result of the wrapped function, or an error code on failure.
+ */
+bool	general_handler(void *ptr, bool (*custom)(void *));
+
+/**
+ * @brief Toggles a boolean or state variable.
+ *
+ * This function flips the value of a given boolean or state variable
+ * between true and false (or 1 and 0). Useful for managing on/off states
+ * or enabling/disabling functionality.
+ *
+ * @param[in,out] state Pointer to the variable to be toggled.
+ */
+bool	general_toggle(bool check);
+
+/**
+ * @brief Handles and logs error messages.
+ *
+ * This function writes the provided error message to the standard error
+ * output (STDERR) in chunks, ensuring proper handling of long messages.
+ * It also appends a newline character to the message.
+ *
+ * @param[in] str The error message to be logged.
+ */
+void	wrap_error_handling(const char *str);
+
+/**
+ * @brief Wrapper for the malloc function on Linux.
+ *
+ * This function allows custom behavior for memory allocation by replacing
+ * calls to malloc with calls to __wrap_malloc during linking.
+ *
+ * @details To compile with the malloc wrapper, use the following command:
+ * gcc -I <include_path> -Wl,--wrap=malloc main.c libft.a
+ *
+ * Note: The `-Wl,--wrap=malloc` flag instructs the linker to redirect all
+ * calls to malloc to __wrap_malloc, enabling custom handling of memory
+ * allocation.
+ *
+ * @param[in] size The size of the memory block to allocate.
+ * @return A pointer to the allocated memory block, or NULL on failure.
+ */
 void	*__wrap_malloc(size_t size);
 void	*__real_malloc(size_t size);
 
@@ -109,10 +172,28 @@ void	*malloc(size_t size);
 bool	malloc_handler(size_t size, void *ptr, bool (*custom)(size_t, void *));
 
 /**
- * @param[in] check Indicates whether to retrieve or set the malloc behavior.
- * Use the defines `RETRIEVE_MALLOC` to retrieve the current malloc setting,
- * or `SET_MALLOC` to set a new behavior.
- * This allows custom malloc to either use standard malloc or custom functions.
-*/
+ * @brief Toggles or retrieves the current malloc behavior.
+ *
+ * @param[in] check Indicates the operation to perform:
+ *                  - Use `RETRIEVE_MALLOC` to retrieve the current malloc state.
+ *                  - Use `SET_MALLOC` to toggle the malloc state.
+ *
+ * @return The current state of malloc behavior after the operation.
+ *         - `true` indicates standard malloc is enabled.
+ *         - `false` indicates custom malloc is enabled.
+ */
 bool	malloc_toggle(bool check);
+bool	malloc_toggle(bool check);
+
+/**
+ * @brief Resets the malloc testing state.
+ *
+ * This function resets the number of malloc attempts to 0 and ensures
+ * that errno is cleared if a zero-sized malloc call does not fail.
+ *
+ * @param[in,out] malloc_attempts Pointer to the malloc attempts counter
+ *                                to be reset.
+ */
+void	reset_malloc_state(size_t *malloc_attempts);
+
 #endif
