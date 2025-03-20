@@ -32,6 +32,7 @@ endif
 SRC_DIR			:=	src/
 INC_DIR			:=	include/
 BUILD_DIR		:=	.build/
+WRAP_DIR		:=	src/wrapper/
 TESTER_DIR		:=	tester/
 
 #		Source files by category
@@ -88,7 +89,7 @@ DBL_SRCS		:=	$(addprefix $(SRC_DIR)dbltoa/$(SRC_DIR), $(DBTOA))
 DYN_SRCS		:=	$(addprefix $(SRC_DIR)dynamic_array/, $(DYNAR))
 LLT_SRCS		:=	$(addprefix $(SRC_DIR)linked_list/, $(LLIST))
 PRT_SRCS		:=	$(addprefix $(SRC_DIR)printf/, $(PRNTF))
-WRP_SRCS		:=	$(addprefix $(SRC_DIR)wrapper/$(SRC_DIR), $(WRAP))
+WRP_SRCS		:=	$(addprefix $(SRC_DIR)wrapper/$(BUILD_DIR), $(WRAP))
 
 BASE_SRCS		:=	$(ALLOC_SRCS)	$(ARRAY_SRCS)	$(CNVRT_SRCS)	$(G_N_L_SRCS)	$(MRKUP_SRCS)		\
 					$(MATH_SRCS)	$(MEDIT_SRCS)	$(MSRCH_SRCS)	$(PTCHR_SRCS)	$(SCRTE_SRCS)		\
@@ -100,7 +101,9 @@ DBL_OBJS		:=	$(DBL_SRCS:%.c=$(BUILD_DIR)%.o) $(BASE_OBJS)
 DYN_OBJS		:=	$(DYN_SRCS:%.c=$(BUILD_DIR)%.o) $(BASE_OBJS)
 PRT_OBJS		:=	$(PRT_SRCS:%.c=$(BUILD_DIR)%.o) $(BASE_OBJS)
 LLT_OBJS		:=	$(LLT_SRCS:%.c=$(BUILD_DIR)%.o)
-WRP_OBJS		:=	$(WRP_SRCS:%.c=$(BUILD_DIR)%.o)
+# WRP_OBJS		:=	$(WRP_SRCS:%.c=$(BUILD_DIR)%.o)
+
+WRP_OBJS		:=	$(patsubst %.c, %.o, $(addprefix $(WRAP_DIR)$(BUILD_DIR)$(SRC_DIR), $(WRAP)))
 
 #		Pattern-specific CFLAGS for wrap files
 $(BUILD_DIR)$(SRC_DIR)wrapper/$(SRC_DIR)%.o: CFLAGS := $(CFLAGS)$(WRAP_CFLAGS)
@@ -133,17 +136,16 @@ $(NAME): $(ALL_OBJS)
 	@ar rcs $(NAME) $(ALL_OBJS)
 	@printf "$(CREATED)" $@ $(CUR_DIR)
 
-	
 $(BUILD_DIR)%.o: %.c $(HEADERS)
 	@mkdir -p $(@D)
 	$(COMPILER) $(CFLAGS) -I $(INC_DIR) -c $< -o $@
 
 init_submodules:
-	@git submodule update --init --recursive
+	git submodule update --init --recursive
 	
 submodule_update:
 	git submodule update --remote src/dbltoa
-	git submodule update --remote src/wrapper
+	git submodule update --remote $(WRAP_DIR)
 
 base: $(BASE_OBJS)
 	@ar rcs $(NAME) $(BASE_OBJS)
@@ -166,22 +168,31 @@ printf: $(PRT_OBJS)
 	@printf "$(CREATED)" $@ $(CUR_DIR)
 
 wrap: $(WRP_OBJS)
-	@ar rcs $(NAME) $(WRP_OBJS)
+# @ar rcs $(NAME) $(WRP_OBJS)
+	@$(MAKE) -C $(WRAP_DIR)
 	@printf "$(CREATED)" $@ $(CUR_DIR)
+
+mwrap:
+	@$(MAKE) -C $(WRAP_DIR) malloc
+	@ar rcs $(NAME) $(WRP_OBJS)
+# $(MAKE) all
 
 clone_tester:
 	@if [ ! -d "$(TESTER_DIR)" ]; then \
 		git clone git@github.com:RJW-db/lib_tester.git tester; \
 	fi
 
-test:	clone_tester
+# git clone git@github.com:RJW-db/lib_tester.git tester;
+
+test:	clone_tester mwrap
 	@$(MAKE) $(PRINT_NO_DIR) -C $(TESTER_DIR) run
 
-test_valgrind:	clone_tester
+test_valgrind:	clone_tester mwrap
 	@$(MAKE) $(PRINT_NO_DIR) -C $(TESTER_DIR) valgrind
 
 clean:
 	@$(RM) $(BUILD_DIR) $(DELETE)
+	@$(MAKE) -C src/wrapper clean
 	@printf "$(REMOVED)" $(BUILD_DIR) $(CUR_DIR)$(BUILD_DIR)
 
 no_print_clean:
@@ -189,6 +200,7 @@ no_print_clean:
 
 fclean: clean
 	@$(RM) $(NAME)
+	@$(MAKE) -C src/wrapper fclean
 	@printf "$(REMOVED)" $(NAME) $(CUR_DIR)
 
 clean_tester:
