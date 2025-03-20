@@ -184,11 +184,11 @@ clone_tester:
 
 # git clone git@github.com:RJW-db/lib_tester.git tester;
 
-test:	clone_tester mwrap
-	@$(MAKE) $(PRINT_NO_DIR) -C $(TESTER_DIR) run
+test:	clone_tester mwrap all
+	@$(MAKE) $(PRINT_NO_DIR) -C $(TESTER_DIR) $(MULTI_THREADED) run
 
-test_valgrind:	clone_tester mwrap
-	@$(MAKE) $(PRINT_NO_DIR) -C $(TESTER_DIR) valgrind
+test_valgrind:	clone_tester mwrap all
+	@$(MAKE) $(PRINT_NO_DIR) -C $(TESTER_DIR) $(MULTI_THREADED)  valgrind
 
 clean:
 	@$(RM) $(BUILD_DIR) $(DELETE)
