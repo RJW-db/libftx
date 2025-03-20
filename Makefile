@@ -122,9 +122,8 @@ HEADERS_FILES	:=	libft.h						common_defs.h					ft_printf.h				\
 HEADERS			:=	$(addprefix $(INC_DIR), $(HEADERS_FILES))
 
 #		Remove these created files
-DELETE			:=	**.out																				\
-					**/.DS_Store																		\
-					**.dSYM/
+DELETE			:=	*.out			**/*.out			.DS_Store										\
+					**/.DS_Store	.dSYM/				**/.dSYM/
 
 #		Default target
 all: $(NAME)
