@@ -167,13 +167,12 @@ printf: $(PRT_OBJS)
 	@ar rcs $(NAME) $(PRT_OBJS)
 	@printf "$(CREATED)" $@ $(CUR_DIR)
 
-wrap: $(WRP_OBJS)
-# @ar rcs $(NAME) $(WRP_OBJS)
-	@$(MAKE) -C $(WRAP_DIR)
+wrap:
+	@$(MAKE) $(PRINT_NO_DIR) -C $(WRAP_DIR) $(MULTI_THREADED)
 	@printf "$(CREATED)" $@ $(CUR_DIR)
 
 mwrap:
-	@$(MAKE) -C $(WRAP_DIR) malloc
+	@$(MAKE) $(PRINT_NO_DIR) -C $(WRAP_DIR) $(MULTI_THREADED) malloc
 	@ar rcs $(NAME) $(WRP_OBJS)
 # $(MAKE) all
 
@@ -188,7 +187,7 @@ test:	clone_tester mwrap all
 	@$(MAKE) $(PRINT_NO_DIR) -C $(TESTER_DIR) $(MULTI_THREADED) run
 
 test_valgrind:	clone_tester mwrap all
-	@$(MAKE) $(PRINT_NO_DIR) -C $(TESTER_DIR) $(MULTI_THREADED)  valgrind
+	@$(MAKE) $(PRINT_NO_DIR) -C $(TESTER_DIR) $(MULTI_THREADED) valgrind
 
 clean:
 	@$(RM) $(BUILD_DIR) $(DELETE)
