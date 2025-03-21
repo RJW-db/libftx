@@ -25,6 +25,8 @@
 		"locale.h": "c",
 		"__locale": "c",
 		"stdarg.h": "c",
-		"wrapper.h": "c"
+		"wrapper.h": "c",
+		"random": "c",
+		"dynarr.h": "c"
 	}
 }

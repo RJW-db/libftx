@@ -27,6 +27,7 @@ SRC_DIR			:=	src/
 INC_DIR			:=	include/
 BUILD_DIR		:=	.build/
 WRAP_DIR		:=	src/wrapper/
+DYN_DIR			:=	src/dynarr/
 DBL_DIR			:=	src/dbltoa/
 TESTER_DIR		:=	tester/
 
@@ -35,12 +36,6 @@ ALLOC			:=	calloc.c					deallocation.c					realloc.c
 ARRAY			:=	2d_array.c					2d_array_utils.c				2d_shrink_array.c		\
 					splitted.c					split.c							split_set.c
 CNVRT			:=	str_to_number.c				str_to_number_base.c
-DBTOA			:=	dbltoa.c					fraction_conversion.c			fraction_operations.c	\
-					ft_binary_to_decimal.c		scientific_notation.c			double_to_string.c		\
-					precision_process.c			precision_set.c					utils_dbl.c				\
-					ft_addition.c				ft_subtraction.c				ft_multiply.c			\
-					ft_division.c
-DYNAR			:=	dynarr.c					dynarr_insert.c
 G_N_L			:=	get_next_line.c				get_input_buff.c
 LLIST			:=	linked_list.c				list_info.c						move_or_remove_nodes.c
 MRKUP			:=	markup.c
@@ -61,6 +56,13 @@ SSRCH			:=	str_len.c					str_compare.c					str_null_check.c		\
 					str_search.c				str_search_2.c					find_char.c				\
 					find_char_not.c				ptr_null_check.c				skip_characters.c		\
  					str_len_comparing.c
+
+DBTOA			:=	dbltoa.c					fraction_conversion.c			fraction_operations.c	\
+					ft_binary_to_decimal.c		scientific_notation.c			double_to_string.c		\
+					precision_process.c			precision_set.c					utils_dbl.c				\
+					ft_addition.c				ft_subtraction.c				ft_multiply.c			\
+					ft_division.c
+DYNAR			:=	dynarr.c					dynarr_insert.c					dynarr_utils.c
 WRAP			:=	linux_malloc_wrapper.c		mac_malloc_wrapper.c			malloc_handlers.c		\
 					open_wrapper.c				wrap_utils.c
 
@@ -80,7 +82,7 @@ SEDIT_SRCS		:=	$(addprefix $(SRC_DIR)string_edit/, $(SEDIT))
 SSRCH_SRCS		:=	$(addprefix $(SRC_DIR)string_search/, $(SSRCH))
 
 #		Extra Sources
-DYN_SRCS		:=	$(addprefix $(SRC_DIR)dynamic_array/, $(DYNAR))
+DYN_SRCS		:=	$(addprefix $(SRC_DIR)dynarr/, $(DYNAR))
 LLT_SRCS		:=	$(addprefix $(SRC_DIR)linked_list/, $(LLIST))
 PRT_SRCS		:=	$(addprefix $(SRC_DIR)printf/, $(PRNTF))
 
@@ -95,6 +97,7 @@ PRT_OBJS		:=	$(PRT_SRCS:%.c=$(BUILD_DIR)%.o) $(BASE_OBJS)
 LLT_OBJS		:=	$(LLT_SRCS:%.c=$(BUILD_DIR)%.o)
 DBL_OBJS		:=	$(patsubst %.c, %.o, $(addprefix $(DBL_DIR)$(BUILD_DIR)$(SRC_DIR), $(DBTOA)))
 WRP_OBJS		:=	$(patsubst %.c, %.o, $(addprefix $(WRAP_DIR)$(BUILD_DIR)$(SRC_DIR), $(WRAP)))
+DYN_OBJS		:=	$(patsubst %.c, %.o, $(addprefix $(DYN_DIR)$(BUILD_DIR)$(SRC_DIR), $(DYNAR)))
 
 #		All objects combined
 ALL_OBJS		:=	$(BASE_OBJS) $(DBL_OBJS) $(DYN_OBJS) $(PRT_OBJS) $(LLT_OBJS)
@@ -130,8 +133,9 @@ init_submodules:
 	git submodule update --init --recursive
 	
 submodule_update:
-	git submodule update --remote src/dbltoa
+	git submodule update --remote $(DBL_DIR)
 	git submodule update --remote $(WRAP_DIR)
+	git submodule update --remote $(DYN_DIR)
 #		If you made changes in submodule and restoring it.
 #	cd src/dbltoa
 #	git restore .
@@ -141,14 +145,9 @@ base: $(BASE_OBJS)
 	@ar rcs $(NAME) $(BASE_OBJS)
 	@printf "$(CREATED)" $@ $(CUR_DIR)
 
-dbltoa: base
-	@$(MAKE) $(PRINT_NO_DIR) -C $(DBL_DIR) $(MULTI_THREADED) standalone
-	@ar rcs $(NAME) $(DBL_OBJS)
-	@printf "$(CREATED)" $@ $(CUR_DIR)
-
-dynarr: $(DYN_OBJS)
-	@ar rcs $(NAME) $(DYN_OBJS)
-	@printf "$(CREATED)" $@ $(CUR_DIR)
+# dynarr: $(DYN_OBJS)
+# 	@ar rcs $(NAME) $(DYN_OBJS)
+# 	@printf "$(CREATED)" $@ $(CUR_DIR)
 
 llist: $(LLT_OBJS)
 	@ar rcs $(NAME) $(LLT_OBJS)
@@ -158,13 +157,25 @@ printf: $(PRT_OBJS)
 	@ar rcs $(NAME) $(PRT_OBJS)
 	@printf "$(CREATED)" $@ $(CUR_DIR)
 
+dbltoa: base
+	@$(MAKE) $(PRINT_NO_DIR) -C $(DBL_DIR) $(MULTI_THREADED) standalone
+	@ar rcs $(NAME) $(DBL_OBJS)
+	@printf "$(CREATED)" $@ $(CUR_DIR)
+
+dynarr:
+	@$(MAKE) $(PRINT_NO_DIR) -C $(DYN_DIR) $(MULTI_THREADED)
+	@ar rcs $(NAME) $(DYN_OBJS)
+	@printf "$(CREATED)" $@ $(CUR_DIR)
+
 wrap:
 	@$(MAKE) $(PRINT_NO_DIR) -C $(WRAP_DIR) $(MULTI_THREADED)
+	@ar rcs $(NAME) $(WRP_OBJS)
 	@printf "$(CREATED)" $@ $(CUR_DIR)
 
 mwrap:
 	@$(MAKE) $(PRINT_NO_DIR) -C $(WRAP_DIR) $(MULTI_THREADED) malloc
 	@ar rcs $(NAME) $(WRP_OBJS)
+	@printf "$(CREATED)" $@ $(CUR_DIR)
 
 clone_tester:
 	@if [ ! -d "$(TESTER_DIR)" ]; then \
@@ -180,6 +191,7 @@ test_valgrind:	base clone_tester mwrap dbltoa all
 clean:
 	@$(RM) $(BUILD_DIR) $(DELETE)
 	@$(MAKE) $(PRINT_NO_DIR) -C $(DBL_DIR) clean
+	@$(MAKE) $(PRINT_NO_DIR) -C $(DYN_DIR) clean
 	@$(MAKE) $(PRINT_NO_DIR) -C $(WRAP_DIR) clean
 	@printf "$(REMOVED)" $(BUILD_DIR) $(CUR_DIR)$(BUILD_DIR)
 
@@ -189,6 +201,7 @@ no_print_clean:
 fclean: clean
 	@$(RM) $(NAME)
 	@$(MAKE) $(PRINT_NO_DIR) -C $(DBL_DIR) fclean
+	@$(MAKE) $(PRINT_NO_DIR) -C $(DYN_DIR) fclean
 	@$(MAKE) $(PRINT_NO_DIR) -C $(WRAP_DIR) fclean
 	@printf "$(REMOVED)" $(NAME) $(CUR_DIR)
 

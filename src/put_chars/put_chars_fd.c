@@ -3,10 +3,10 @@
 /*                                                        ::::::::            */
 /*   put_chars_fd.c                                     :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: jdobos <jdobos@student.42.fr>                +#+                     */
+/*   By: rde-brui <rde-brui@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2024/09/11 20:31:50 by rjw           #+#    #+#                 */
-/*   Updated: 2025/01/28 21:08:06 by rjw           ########   odam.nl         */
+/*   Created: 2025/01/09 20:31:53 by rde-brui      #+#    #+#                 */
+/*   Updated: 2025/03/21 18:52:47 by rde-brui      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
