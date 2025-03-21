@@ -4,5 +4,6 @@
 [submodule "src/wrapper"]
 	path = src/wrapper
 	url = git@github.com:RJW-db/wrapper_private.git
-
-#git submodule update --recursive --force
+[submodule "src/dynarr"]
+	path = src/dynarr
+	url = git@github.com:RJW-db/dynar_private.git
