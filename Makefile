@@ -14,19 +14,13 @@ MULTI_THREADED	:=	-j $(N_JOBS)
 MAKEFLAGS		+=	$(MULTI_THREADED)
 
 #		Compiler flags
-CFLAGS			 =	-MMD -MP
+CFLAGS			+=	-MMD -MP
 CFLAGS			+=	-Wall -Wextra
+CFLAGS			+=	-Wunused -Wuninitialized -Wunreachable-code
 #		Werror cannot go together with fsanitize, because fsanitize won't work correctly.
 CFLAGS			+=	-Werror
-# CFLAGS			+=	-g
 # CFLAGS			+=	-fsanitize=address
-CFLAGS			+=	-Wunused -Wuninitialized -Wunreachable-code
-# OFLAGS are optimization flags that might have been passed from the parent Makefile.
-CFLAGS			+=	$(OFLAGS)
-
-ifeq ($(shell uname -s),Linux)
-	WRAP_CFLAGS	+=	-Wl,--wrap=malloc
-endif
+# CFLAGS			+=	-g
 
 #		Base Directories
 SRC_DIR			:=	src/
@@ -185,8 +179,8 @@ test_valgrind:	base clone_tester mwrap dbltoa all
 
 clean:
 	@$(RM) $(BUILD_DIR) $(DELETE)
-	@$(MAKE) -C $(DBL_DIR) clean
-	@$(MAKE) -C $(WRAP_DIR) clean
+	@$(MAKE) $(PRINT_NO_DIR) -C $(DBL_DIR) clean
+	@$(MAKE) $(PRINT_NO_DIR) -C $(WRAP_DIR) clean
 	@printf "$(REMOVED)" $(BUILD_DIR) $(CUR_DIR)$(BUILD_DIR)
 
 no_print_clean:
@@ -194,8 +188,8 @@ no_print_clean:
 
 fclean: clean
 	@$(RM) $(NAME)
-	@$(MAKE) -C $(DBL_DIR) fclean
-	@$(MAKE) -C $(WRAP_DIR) fclean
+	@$(MAKE) $(PRINT_NO_DIR) -C $(DBL_DIR) fclean
+	@$(MAKE) $(PRINT_NO_DIR) -C $(WRAP_DIR) fclean
 	@printf "$(REMOVED)" $(NAME) $(CUR_DIR)
 
 clean_tester:
