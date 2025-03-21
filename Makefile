@@ -7,7 +7,7 @@ PRINT_NO_DIR	:=	--no-print-directory
 #		Compile with every thread available
 #		Get the number of logical processors (threads)
 N_JOBS			:=	$(shell nproc)
-# 				:=	1
+N_JOBS			:=	1
 #		(-j) Specify the number of jobs (commands) to run simultaneously
 MULTI_THREADED	:=	-j $(N_JOBS)
 #		MAKEFLAGS will automatically apply the specified options (e.g., parallel execution) when 'make' is invoked
@@ -33,6 +33,7 @@ SRC_DIR			:=	src/
 INC_DIR			:=	include/
 BUILD_DIR		:=	.build/
 WRAP_DIR		:=	src/wrapper/
+DBL_DIR			:=	src/dbltoa/
 TESTER_DIR		:=	tester/
 
 #		Source files by category
@@ -85,11 +86,9 @@ SEDIT_SRCS		:=	$(addprefix $(SRC_DIR)string_edit/, $(SEDIT))
 SSRCH_SRCS		:=	$(addprefix $(SRC_DIR)string_search/, $(SSRCH))
 
 #		Extra Sources
-DBL_SRCS		:=	$(addprefix $(SRC_DIR)dbltoa/$(SRC_DIR), $(DBTOA))
 DYN_SRCS		:=	$(addprefix $(SRC_DIR)dynamic_array/, $(DYNAR))
 LLT_SRCS		:=	$(addprefix $(SRC_DIR)linked_list/, $(LLIST))
 PRT_SRCS		:=	$(addprefix $(SRC_DIR)printf/, $(PRNTF))
-WRP_SRCS		:=	$(addprefix $(SRC_DIR)wrapper/$(BUILD_DIR), $(WRAP))
 
 BASE_SRCS		:=	$(ALLOC_SRCS)	$(ARRAY_SRCS)	$(CNVRT_SRCS)	$(G_N_L_SRCS)	$(MRKUP_SRCS)		\
 					$(MATH_SRCS)	$(MEDIT_SRCS)	$(MSRCH_SRCS)	$(PTCHR_SRCS)	$(SCRTE_SRCS)		\
@@ -97,18 +96,11 @@ BASE_SRCS		:=	$(ALLOC_SRCS)	$(ARRAY_SRCS)	$(CNVRT_SRCS)	$(G_N_L_SRCS)	$(MRKUP_SR
 
 #		Generate object file names
 BASE_OBJS		:=	$(BASE_SRCS:%.c=$(BUILD_DIR)%.o)
-DBL_OBJS		:=	$(DBL_SRCS:%.c=$(BUILD_DIR)%.o) $(BASE_OBJS)
 DYN_OBJS		:=	$(DYN_SRCS:%.c=$(BUILD_DIR)%.o) $(BASE_OBJS)
 PRT_OBJS		:=	$(PRT_SRCS:%.c=$(BUILD_DIR)%.o) $(BASE_OBJS)
 LLT_OBJS		:=	$(LLT_SRCS:%.c=$(BUILD_DIR)%.o)
-# WRP_OBJS		:=	$(WRP_SRCS:%.c=$(BUILD_DIR)%.o)
-
+DBL_OBJS		:=	$(patsubst %.c, %.o, $(addprefix $(DBL_DIR)$(BUILD_DIR)$(SRC_DIR), $(DBTOA)))
 WRP_OBJS		:=	$(patsubst %.c, %.o, $(addprefix $(WRAP_DIR)$(BUILD_DIR)$(SRC_DIR), $(WRAP)))
-
-#		Pattern-specific CFLAGS for wrap files
-$(BUILD_DIR)$(SRC_DIR)wrapper/$(SRC_DIR)%.o: CFLAGS := $(CFLAGS)$(WRAP_CFLAGS)
-#		removed potential extra spaces
-CFLAGS			:=	$(strip $(CFLAGS))
 
 #		All objects combined
 ALL_OBJS		:=	$(BASE_OBJS) $(DBL_OBJS) $(DYN_OBJS) $(PRT_OBJS) $(LLT_OBJS)
@@ -146,12 +138,17 @@ init_submodules:
 submodule_update:
 	git submodule update --remote src/dbltoa
 	git submodule update --remote $(WRAP_DIR)
+#		If you made changes in submodule and restoring it.
+#	cd src/dbltoa
+#	git restore .
+#	git reset --hard
 
 base: $(BASE_OBJS)
 	@ar rcs $(NAME) $(BASE_OBJS)
 	@printf "$(CREATED)" $@ $(CUR_DIR)
 
-dbltoa: $(DBL_OBJS)
+dbltoa: base
+	@$(MAKE) $(PRINT_NO_DIR) -C $(DBL_DIR) $(MULTI_THREADED) standalone
 	@ar rcs $(NAME) $(DBL_OBJS)
 	@printf "$(CREATED)" $@ $(CUR_DIR)
 
@@ -174,24 +171,22 @@ wrap:
 mwrap:
 	@$(MAKE) $(PRINT_NO_DIR) -C $(WRAP_DIR) $(MULTI_THREADED) malloc
 	@ar rcs $(NAME) $(WRP_OBJS)
-# $(MAKE) all
 
 clone_tester:
 	@if [ ! -d "$(TESTER_DIR)" ]; then \
 		git clone git@github.com:RJW-db/lib_tester.git tester; \
 	fi
 
-# git clone git@github.com:RJW-db/lib_tester.git tester;
-
-test:	clone_tester mwrap all
+test:	base clone_tester mwrap dbltoa all
 	@$(MAKE) $(PRINT_NO_DIR) -C $(TESTER_DIR) $(MULTI_THREADED) run
 
-test_valgrind:	clone_tester mwrap all
+test_valgrind:	base clone_tester mwrap dbltoa all
 	@$(MAKE) $(PRINT_NO_DIR) -C $(TESTER_DIR) $(MULTI_THREADED) valgrind
 
 clean:
 	@$(RM) $(BUILD_DIR) $(DELETE)
-	@$(MAKE) -C src/wrapper clean
+	@$(MAKE) -C $(DBL_DIR) clean
+	@$(MAKE) -C $(WRAP_DIR) clean
 	@printf "$(REMOVED)" $(BUILD_DIR) $(CUR_DIR)$(BUILD_DIR)
 
 no_print_clean:
@@ -199,7 +194,8 @@ no_print_clean:
 
 fclean: clean
 	@$(RM) $(NAME)
-	@$(MAKE) -C src/wrapper fclean
+	@$(MAKE) -C $(DBL_DIR) fclean
+	@$(MAKE) -C $(WRAP_DIR) fclean
 	@printf "$(REMOVED)" $(NAME) $(CUR_DIR)
 
 clean_tester:
@@ -219,7 +215,7 @@ print-%:
 #		Include dependencies
 -include $(DEPS)
 
-.PHONY:	all base dbltoa dynarr llist printf wrap clone_tester test clean \
+.PHONY:	all base dbltoa dynarr llist printf wrap mwrap clone_tester test clean \
 		no_print_clean fclean no_print_fclean clean_tester allclean re print-%
 
 # ----------------------------------- colors --------------------------------- #
