@@ -182,10 +182,10 @@ clone_tester:
 		git clone git@github.com:RJW-db/lib_tester.git tester; \
 	fi
 
-test:	base clone_tester mwrap dbltoa all
+test:	base clone_tester mwrap dbltoa dynarr all
 	@$(MAKE) $(PRINT_NO_DIR) -C $(TESTER_DIR) $(MULTI_THREADED) run
 
-test_valgrind:	base clone_tester mwrap dbltoa all
+test_valgrind:	base clone_tester mwrap dbltoa dynarr all
 	@$(MAKE) $(PRINT_NO_DIR) -C $(TESTER_DIR) $(MULTI_THREADED) valgrind
 
 clean:
