@@ -132,10 +132,12 @@ $(BUILD_DIR)%.o: %.c $(HEADERS)
 init_submodules:
 	git submodule update --init --recursive
 	
-submodule_update:
+submodules_update:
 	git submodule update --remote $(DBL_DIR)
 	git submodule update --remote $(WRAP_DIR)
 	git submodule update --remote $(DYN_DIR)
+
+submodules:	init_submodules submodules_update
 #		If you made changes in submodule and restoring it.
 #	cd src/dbltoa
 #	git restore .
@@ -157,22 +159,22 @@ printf: $(PRT_OBJS)
 	@ar rcs $(NAME) $(PRT_OBJS)
 	@printf "$(CREATED)" $@ $(CUR_DIR)
 
-dbltoa: base
+dbltoa:	base submodules
 	@$(MAKE) $(PRINT_NO_DIR) -C $(DBL_DIR) $(MULTI_THREADED) standalone
 	@ar rcs $(NAME) $(DBL_OBJS)
 	@printf "$(CREATED)" $@ $(CUR_DIR)
 
-dynarr:
+dynarr:	submodules
 	@$(MAKE) $(PRINT_NO_DIR) -C $(DYN_DIR) $(MULTI_THREADED)
 	@ar rcs $(NAME) $(DYN_OBJS)
 	@printf "$(CREATED)" $@ $(CUR_DIR)
 
-wrap:
+wrap: submodules
 	@$(MAKE) $(PRINT_NO_DIR) -C $(WRAP_DIR) $(MULTI_THREADED)
 	@ar rcs $(NAME) $(WRP_OBJS)
 	@printf "$(CREATED)" $@ $(CUR_DIR)
 
-mwrap:
+mwrap: submodules
 	@$(MAKE) $(PRINT_NO_DIR) -C $(WRAP_DIR) $(MULTI_THREADED) malloc
 	@ar rcs $(NAME) $(WRP_OBJS)
 	@printf "$(CREATED)" $@ $(CUR_DIR)
@@ -182,10 +184,10 @@ clone_tester:
 		git clone git@github.com:RJW-db/lib_tester.git tester; \
 	fi
 
-test:	base clone_tester mwrap dbltoa dynarr all
+test:	base submodules clone_tester mwrap dbltoa dynarr all
 	@$(MAKE) $(PRINT_NO_DIR) -C $(TESTER_DIR) $(MULTI_THREADED) run
 
-test_valgrind:	base clone_tester mwrap dbltoa dynarr all
+test_valgrind:	base submodules clone_tester mwrap dbltoa dynarr all
 	@$(MAKE) $(PRINT_NO_DIR) -C $(TESTER_DIR) $(MULTI_THREADED) valgrind
 
 clean:
