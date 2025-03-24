@@ -6,55 +6,57 @@
 /*   By: rjw <rjw@student.codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/01/11 17:39:55 by rjw           #+#    #+#                 */
-/*   Updated: 2025/01/13 17:47:39 by rde-brui      ########   odam.nl         */
+/*   Updated: 2025/03/24 14:27:03 by rde-brui      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FT_PRINTF_H
 # define FT_PRINTF_H
-# include <stdarg.h>	// va_list
-# include <common_defs.h>
+# include <stddef.h>
+# include <stdbool.h>
+# include <stdarg.h>	//	va_list
+# include <stdint.h>	//	int32_t
 # define SPECIFIER "csdiupxX%"
 
 typedef struct p_print
 {
-	t_cchr	*fmt;
-	int8_t	spec;
-	va_list	va;
-	int32_t	mal;
-	char	*str;
-	int32_t	i;
-	int32_t	k;
-	bool	count_or_str;
+	const char	*fmt;
+	int8_t		spec;
+	va_list		va;
+	int32_t		mal;
+	char		*str;
+	int32_t		i;
+	int32_t		k;
+	bool		count_or_str;
 }	t_p;
 
 typedef struct s_flags
 {
-	char	sp;
-	bool	space;
-	bool	plus;
-	bool	dash;
-	bool	zero;
-	bool	hash;
-	int8_t	hsh;
-	int32_t	width;
-	bool	dot;
-	int32_t	prec;
-	int32_t	f_len;
-	int32_t	ap_len;
-	bool	minus;
-	char	sign;
-	int64_t	nbr;
-	char	*base;
-	int8_t	b_num;
-	char	prefix[3];
-	bool	stop;
-	va_list	count;
+	char		sp;
+	bool		space;
+	bool		plus;
+	bool		dash;
+	bool		zero;
+	bool		hash;
+	int8_t		hsh;
+	int32_t		width;
+	bool		dot;
+	int32_t		prec;
+	int32_t		f_len;
+	int32_t		ap_len;
+	bool		minus;
+	char		sign;
+	int64_t		nbr;
+	char		*base;
+	int8_t		b_num;
+	char		prefix[3];
+	bool		stop;
+	va_list		count;
 }	t_fl;
 
-int		ft_printf(t_cchr *fmt, ...);
-int		ft_dprintf(int fd, t_cchr *format, ...);
-int		ft_vprintf(t_cchr *format, va_list args);
+int		ft_printf(const char *fmt, ...);
+int		ft_dprintf(int fd, const char *format, ...);
+int		ft_vprintf(const char *format, va_list args);
 
 int32_t	parse_format_string(t_p *c);
 int32_t	parse_format(t_p *c, t_fl *f, int32_t i);
@@ -68,9 +70,9 @@ void	spec_str_two(t_p *p, t_fl *f);
 int32_t	unsigned_count(t_fl *f, uint64_t n);
 int32_t	signed_count(int32_t n);
 int32_t	signed_decimal_base(char *str, int32_t n);
-int32_t	move_str(char *dst, t_cchr *src);
-int32_t	move_num_src(char *dst, t_cchr *src, int32_t num);
-int32_t	move_num_chr(char *str, t_cchr c, int32_t n);
+int32_t	move_str(char *dst, const char *src);
+int32_t	move_num_src(char *dst, const char *src, int32_t num);
+int32_t	move_num_chr(char *str, const char c, int32_t n);
 int32_t	ft_ultoa_base(t_fl *f, uint64_t n, char *str);
 
 void	chr_bonus_count(t_p *c, t_fl *f);

@@ -26,9 +26,10 @@ CFLAGS			+=	-Werror
 SRC_DIR			:=	src/
 INC_DIR			:=	include/
 BUILD_DIR		:=	.build/
-WRAP_DIR		:=	src/wrapper/
-DYN_DIR			:=	src/dynarr/
+PRINTF_DIR		:=	src/printf/
 DBL_DIR			:=	src/dbltoa/
+DYN_DIR			:=	src/dynarr/
+WRAP_DIR		:=	src/wrapper/
 TESTER_DIR		:=	tester/
 
 #		Source files by category
@@ -82,9 +83,9 @@ SEDIT_SRCS		:=	$(addprefix $(SRC_DIR)string_edit/, $(SEDIT))
 SSRCH_SRCS		:=	$(addprefix $(SRC_DIR)string_search/, $(SSRCH))
 
 #		Extra Sources
-DYN_SRCS		:=	$(addprefix $(SRC_DIR)dynarr/, $(DYNAR))
+# DYN_SRCS		:=	$(addprefix $(SRC_DIR)dynarr/, $(DYNAR))
 LLT_SRCS		:=	$(addprefix $(SRC_DIR)linked_list/, $(LLIST))
-PRT_SRCS		:=	$(addprefix $(SRC_DIR)printf/, $(PRNTF))
+# PRT_SRCS		:=	$(addprefix $(SRC_DIR)printf/, $(PRNTF))
 
 BASE_SRCS		:=	$(ALLOC_SRCS)	$(ARRAY_SRCS)	$(CNVRT_SRCS)	$(G_N_L_SRCS)	$(MRKUP_SRCS)		\
 					$(MATH_SRCS)	$(MEDIT_SRCS)	$(MSRCH_SRCS)	$(PTCHR_SRCS)	$(SCRTE_SRCS)		\
@@ -92,15 +93,17 @@ BASE_SRCS		:=	$(ALLOC_SRCS)	$(ARRAY_SRCS)	$(CNVRT_SRCS)	$(G_N_L_SRCS)	$(MRKUP_SR
 
 #		Generate object file names
 BASE_OBJS		:=	$(BASE_SRCS:%.c=$(BUILD_DIR)%.o)
-DYN_OBJS		:=	$(DYN_SRCS:%.c=$(BUILD_DIR)%.o) $(BASE_OBJS)
-PRT_OBJS		:=	$(PRT_SRCS:%.c=$(BUILD_DIR)%.o) $(BASE_OBJS)
+# DYN_OBJS		:=	$(DYN_SRCS:%.c=$(BUILD_DIR)%.o) $(BASE_OBJS)
+# PRT_OBJS		:=	$(PRT_SRCS:%.c=$(BUILD_DIR)%.o) $(BASE_OBJS)
 LLT_OBJS		:=	$(LLT_SRCS:%.c=$(BUILD_DIR)%.o)
 DBL_OBJS		:=	$(patsubst %.c, %.o, $(addprefix $(DBL_DIR)$(BUILD_DIR)$(SRC_DIR), $(DBTOA)))
-WRP_OBJS		:=	$(patsubst %.c, %.o, $(addprefix $(WRAP_DIR)$(BUILD_DIR)$(SRC_DIR), $(WRAP)))
 DYN_OBJS		:=	$(patsubst %.c, %.o, $(addprefix $(DYN_DIR)$(BUILD_DIR)$(SRC_DIR), $(DYNAR)))
+WRP_OBJS		:=	$(patsubst %.c, %.o, $(addprefix $(WRAP_DIR)$(BUILD_DIR)$(SRC_DIR), $(WRAP)))
+PRT_OBJS		:=	$(patsubst %.c, %.o, $(addprefix $(PRINTF_DIR)$(BUILD_DIR)$(SRC_DIR), $(PRNTF)))
 
 #		All objects combined
-ALL_OBJS		:=	$(BASE_OBJS) $(DBL_OBJS) $(DYN_OBJS) $(PRT_OBJS) $(LLT_OBJS)
+ALL_OBJS		:=	$(BASE_OBJS) $(LLT_OBJS)
+# ALL_OBJS		:=	$(BASE_OBJS) $(DBL_OBJS) $(DYN_OBJS) $(PRT_OBJS) $(LLT_OBJS)
 
 #		Generate Dependency files
 DEPS			:=	$(ALL_OBJS:.o=.d)
@@ -136,6 +139,7 @@ submodules_update:
 	git submodule update --remote $(DBL_DIR)
 	git submodule update --remote $(WRAP_DIR)
 	git submodule update --remote $(DYN_DIR)
+	git submodule update --remote $(PRINTF_DIR)
 
 submodules:	init_submodules submodules_update
 #		If you made changes in submodule and restoring it.
@@ -155,7 +159,11 @@ llist: $(LLT_OBJS)
 	@ar rcs $(NAME) $(LLT_OBJS)
 	@printf "$(CREATED)" $@ $(CUR_DIR)
 
-printf: $(PRT_OBJS)
+# printf: $(PRT_OBJS)
+# 	@ar rcs $(NAME) $(PRT_OBJS)
+# 	@printf "$(CREATED)" $@ $(CUR_DIR)
+printf: submodules
+	@$(MAKE) $(PRINT_NO_DIR) -C $(PRINTF_DIR) $(MULTI_THREADED)
 	@ar rcs $(NAME) $(PRT_OBJS)
 	@printf "$(CREATED)" $@ $(CUR_DIR)
 
@@ -184,10 +192,10 @@ clone_tester:
 		git clone git@github.com:RJW-db/lib_tester.git tester; \
 	fi
 
-test:	base submodules clone_tester mwrap dbltoa dynarr all
+test:	base submodules clone_tester printf mwrap dbltoa dynarr all
 	@$(MAKE) $(PRINT_NO_DIR) -C $(TESTER_DIR) $(MULTI_THREADED) run
 
-test_valgrind:	base submodules clone_tester mwrap dbltoa dynarr all
+test_valgrind:	base submodules clone_tester printf mwrap dbltoa dynarr all
 	@$(MAKE) $(PRINT_NO_DIR) -C $(TESTER_DIR) $(MULTI_THREADED) valgrind
 
 clean:

@@ -27,6 +27,7 @@
 		"stdarg.h": "c",
 		"wrapper.h": "c",
 		"random": "c",
-		"dynarr.h": "c"
+		"dynarr.h": "c",
+		"test.h": "c"
 	}
 }
