@@ -26,9 +26,9 @@ CFLAGS			+=	-Werror
 SRC_DIR			:=	src/
 INC_DIR			:=	include/
 BUILD_DIR		:=	.build/
-PRINTF_DIR		:=	src/printf/
 DBL_DIR			:=	src/dbltoa/
 DYN_DIR			:=	src/dynarr/
+PRINTF_DIR		:=	src/printf/
 WRAP_DIR		:=	src/wrapper/
 TESTER_DIR		:=	tester/
 
@@ -43,10 +43,6 @@ MRKUP			:=	markup.c
 MATH_			:=	math_utils.c				digit_counter.c
 MEDIT			:=	mem_edit.c
 MSRCH			:=	mem_search.c
-PRNTF			:=	printf.c					printf_process_format.c			printf_char.c			\
-					printf_count.c				printf_flags.c					printf_int.c			\
-					printf_sort_spec.c			printf_str_count.c				printf_str.c			\
-					printf_unsigned.c			printf_utils.c
 PTCHR			:=	put_chars_fd.c
 SCRTE			:=	itoa.c						itoa_base.c						str_dup.c				\
 					string_create.c				strjoin.c						strjoin_set_null.c		\
@@ -64,6 +60,10 @@ DBTOA			:=	dbltoa.c					fraction_conversion.c			fraction_operations.c	\
 					ft_addition.c				ft_subtraction.c				ft_multiply.c			\
 					ft_division.c
 DYNAR			:=	dynarr.c					dynarr_insert.c					dynarr_utils.c
+PRNTF			:=	printf.c					printf_process_format.c			printf_char.c			\
+					printf_count.c				printf_flags.c					printf_int.c			\
+					printf_sort_spec.c			printf_str_count.c				printf_str.c			\
+					printf_unsigned.c			printf_utils.c
 WRAP			:=	linux_malloc_wrapper.c		mac_malloc_wrapper.c			malloc_handlers.c		\
 					open_wrapper.c				wrap_utils.c
 
@@ -83,9 +83,9 @@ SEDIT_SRCS		:=	$(addprefix $(SRC_DIR)string_edit/, $(SEDIT))
 SSRCH_SRCS		:=	$(addprefix $(SRC_DIR)string_search/, $(SSRCH))
 
 #		Extra Sources
-# DYN_SRCS		:=	$(addprefix $(SRC_DIR)dynarr/, $(DYNAR))
+DYN_SRCS		:=	$(addprefix $(SRC_DIR)dynarr/, $(DYNAR))
 LLT_SRCS		:=	$(addprefix $(SRC_DIR)linked_list/, $(LLIST))
-# PRT_SRCS		:=	$(addprefix $(SRC_DIR)printf/, $(PRNTF))
+PRT_SRCS		:=	$(addprefix $(SRC_DIR)printf/, $(PRNTF))
 
 BASE_SRCS		:=	$(ALLOC_SRCS)	$(ARRAY_SRCS)	$(CNVRT_SRCS)	$(G_N_L_SRCS)	$(MRKUP_SRCS)		\
 					$(MATH_SRCS)	$(MEDIT_SRCS)	$(MSRCH_SRCS)	$(PTCHR_SRCS)	$(SCRTE_SRCS)		\
@@ -93,17 +93,17 @@ BASE_SRCS		:=	$(ALLOC_SRCS)	$(ARRAY_SRCS)	$(CNVRT_SRCS)	$(G_N_L_SRCS)	$(MRKUP_SR
 
 #		Generate object file names
 BASE_OBJS		:=	$(BASE_SRCS:%.c=$(BUILD_DIR)%.o)
-# DYN_OBJS		:=	$(DYN_SRCS:%.c=$(BUILD_DIR)%.o) $(BASE_OBJS)
-# PRT_OBJS		:=	$(PRT_SRCS:%.c=$(BUILD_DIR)%.o) $(BASE_OBJS)
+DYN_OBJS		:=	$(DYN_SRCS:%.c=$(BUILD_DIR)%.o) $(BASE_OBJS)
 LLT_OBJS		:=	$(LLT_SRCS:%.c=$(BUILD_DIR)%.o)
 DBL_OBJS		:=	$(patsubst %.c, %.o, $(addprefix $(DBL_DIR)$(BUILD_DIR)$(SRC_DIR), $(DBTOA)))
 DYN_OBJS		:=	$(patsubst %.c, %.o, $(addprefix $(DYN_DIR)$(BUILD_DIR)$(SRC_DIR), $(DYNAR)))
-WRP_OBJS		:=	$(patsubst %.c, %.o, $(addprefix $(WRAP_DIR)$(BUILD_DIR)$(SRC_DIR), $(WRAP)))
 PRT_OBJS		:=	$(patsubst %.c, %.o, $(addprefix $(PRINTF_DIR)$(BUILD_DIR)$(SRC_DIR), $(PRNTF)))
+WRP_OBJS		:=	$(patsubst %.c, %.o, $(addprefix $(WRAP_DIR)$(BUILD_DIR)$(SRC_DIR), $(WRAP)))
+
 
 #		All objects combined
-ALL_OBJS		:=	$(BASE_OBJS) $(LLT_OBJS)
 # ALL_OBJS		:=	$(BASE_OBJS) $(DBL_OBJS) $(DYN_OBJS) $(PRT_OBJS) $(LLT_OBJS)
+ALL_OBJS		:=	$(BASE_OBJS) $(DBL_OBJS) $(DYN_OBJS) $(PRT_OBJS) $(LLT_OBJS)
 
 #		Generate Dependency files
 DEPS			:=	$(ALL_OBJS:.o=.d)
@@ -124,8 +124,8 @@ DELETE			:=	*.out			**/*.out			.DS_Store										\
 all: $(NAME)
 
 #		Main target
-$(NAME): $(ALL_OBJS)
-	@ar rcs $(NAME) $(ALL_OBJS)
+$(NAME): $(BASE_OBJS)
+	@ar rcs $(NAME) $(BASE_OBJS)
 	@printf "$(CREATED)" $@ $(CUR_DIR)
 
 $(BUILD_DIR)%.o: %.c $(HEADERS)
@@ -139,7 +139,6 @@ submodules_update:
 	git submodule update --remote $(DBL_DIR)
 	git submodule update --remote $(WRAP_DIR)
 	git submodule update --remote $(DYN_DIR)
-	git submodule update --remote $(PRINTF_DIR)
 
 submodules:	init_submodules submodules_update
 #		If you made changes in submodule and restoring it.
@@ -159,14 +158,6 @@ llist: $(LLT_OBJS)
 	@ar rcs $(NAME) $(LLT_OBJS)
 	@printf "$(CREATED)" $@ $(CUR_DIR)
 
-# printf: $(PRT_OBJS)
-# 	@ar rcs $(NAME) $(PRT_OBJS)
-# 	@printf "$(CREATED)" $@ $(CUR_DIR)
-printf: submodules
-	@$(MAKE) $(PRINT_NO_DIR) -C $(PRINTF_DIR) $(MULTI_THREADED)
-	@ar rcs $(NAME) $(PRT_OBJS)
-	@printf "$(CREATED)" $@ $(CUR_DIR)
-
 dbltoa:	base submodules
 	@$(MAKE) $(PRINT_NO_DIR) -C $(DBL_DIR) $(MULTI_THREADED) standalone
 	@ar rcs $(NAME) $(DBL_OBJS)
@@ -175,6 +166,11 @@ dbltoa:	base submodules
 dynarr:	submodules
 	@$(MAKE) $(PRINT_NO_DIR) -C $(DYN_DIR) $(MULTI_THREADED)
 	@ar rcs $(NAME) $(DYN_OBJS)
+	@printf "$(CREATED)" $@ $(CUR_DIR)
+
+printf: submodules
+	@$(MAKE) $(PRINT_NO_DIR) -C $(PRINTF_DIR) $(MULTI_THREADED)
+	@ar rcs $(NAME) $(PRT_OBJS)
 	@printf "$(CREATED)" $@ $(CUR_DIR)
 
 wrap: submodules
@@ -192,16 +188,17 @@ clone_tester:
 		git clone git@github.com:RJW-db/lib_tester.git tester; \
 	fi
 
-test:	base submodules clone_tester printf mwrap dbltoa dynarr all
+test:	base submodules clone_tester mwrap dbltoa dynarr printf all
 	@$(MAKE) $(PRINT_NO_DIR) -C $(TESTER_DIR) $(MULTI_THREADED) run
 
-test_valgrind:	base submodules clone_tester printf mwrap dbltoa dynarr all
+test_valgrind:	base submodules clone_tester mwrap dbltoa dynarr printf all
 	@$(MAKE) $(PRINT_NO_DIR) -C $(TESTER_DIR) $(MULTI_THREADED) valgrind
 
 clean:
 	@$(RM) $(BUILD_DIR) $(DELETE)
 	@$(MAKE) $(PRINT_NO_DIR) -C $(DBL_DIR) clean
 	@$(MAKE) $(PRINT_NO_DIR) -C $(DYN_DIR) clean
+	@$(MAKE) $(PRINT_NO_DIR) -C $(PRINTF_DIR) clean
 	@$(MAKE) $(PRINT_NO_DIR) -C $(WRAP_DIR) clean
 	@printf "$(REMOVED)" $(BUILD_DIR) $(CUR_DIR)$(BUILD_DIR)
 
@@ -212,6 +209,7 @@ fclean: clean
 	@$(RM) $(NAME)
 	@$(MAKE) $(PRINT_NO_DIR) -C $(DBL_DIR) fclean
 	@$(MAKE) $(PRINT_NO_DIR) -C $(DYN_DIR) fclean
+	@$(MAKE) $(PRINT_NO_DIR) -C $(PRINTF_DIR) fclean
 	@$(MAKE) $(PRINT_NO_DIR) -C $(WRAP_DIR) fclean
 	@printf "$(REMOVED)" $(NAME) $(CUR_DIR)
 
