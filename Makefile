@@ -7,7 +7,7 @@ PRINT_NO_DIR	:=	--no-print-directory
 #		Compile with every thread available
 #		Get the number of logical processors (threads)
 N_JOBS			:=	$(shell nproc)
-N_JOBS			:=	1
+# N_JOBS			:=	1
 #		(-j) Specify the number of jobs (commands) to run simultaneously
 MULTI_THREADED	:=	-j $(N_JOBS)
 #		MAKEFLAGS will automatically apply the specified options (e.g., parallel execution) when 'make' is invoked
@@ -82,27 +82,19 @@ SCRTE_SRCS		:=	$(addprefix $(SRC_DIR)string_create/, $(SCRTE))
 SEDIT_SRCS		:=	$(addprefix $(SRC_DIR)string_edit/, $(SEDIT))
 SSRCH_SRCS		:=	$(addprefix $(SRC_DIR)string_search/, $(SSRCH))
 
-#		Extra Sources
-DYN_SRCS		:=	$(addprefix $(SRC_DIR)dynarr/, $(DYNAR))
-LLT_SRCS		:=	$(addprefix $(SRC_DIR)linked_list/, $(LLIST))
-PRT_SRCS		:=	$(addprefix $(SRC_DIR)printf/, $(PRNTF))
-
 BASE_SRCS		:=	$(ALLOC_SRCS)	$(ARRAY_SRCS)	$(CNVRT_SRCS)	$(G_N_L_SRCS)	$(MRKUP_SRCS)		\
 					$(MATH_SRCS)	$(MEDIT_SRCS)	$(MSRCH_SRCS)	$(PTCHR_SRCS)	$(SCRTE_SRCS)		\
 					$(SEDIT_SRCS)	$(SSRCH_SRCS)
 
 #		Generate object file names
 BASE_OBJS		:=	$(BASE_SRCS:%.c=$(BUILD_DIR)%.o)
-DYN_OBJS		:=	$(DYN_SRCS:%.c=$(BUILD_DIR)%.o) $(BASE_OBJS)
 LLT_OBJS		:=	$(LLT_SRCS:%.c=$(BUILD_DIR)%.o)
 DBL_OBJS		:=	$(patsubst %.c, %.o, $(addprefix $(DBL_DIR)$(BUILD_DIR)$(SRC_DIR), $(DBTOA)))
 DYN_OBJS		:=	$(patsubst %.c, %.o, $(addprefix $(DYN_DIR)$(BUILD_DIR)$(SRC_DIR), $(DYNAR)))
 PRT_OBJS		:=	$(patsubst %.c, %.o, $(addprefix $(PRINTF_DIR)$(BUILD_DIR)$(SRC_DIR), $(PRNTF)))
 WRP_OBJS		:=	$(patsubst %.c, %.o, $(addprefix $(WRAP_DIR)$(BUILD_DIR)$(SRC_DIR), $(WRAP)))
 
-
 #		All objects combined
-# ALL_OBJS		:=	$(BASE_OBJS) $(DBL_OBJS) $(DYN_OBJS) $(PRT_OBJS) $(LLT_OBJS)
 ALL_OBJS		:=	$(BASE_OBJS) $(DBL_OBJS) $(DYN_OBJS) $(PRT_OBJS) $(LLT_OBJS)
 
 #		Generate Dependency files
@@ -134,11 +126,12 @@ $(BUILD_DIR)%.o: %.c $(HEADERS)
 
 init_submodules:
 	git submodule update --init --recursive
-	
+
 submodules_update:
 	git submodule update --remote $(DBL_DIR)
 	git submodule update --remote $(WRAP_DIR)
 	git submodule update --remote $(DYN_DIR)
+	git submodule update --remote $(PRINTF_DIR)
 
 submodules:	init_submodules submodules_update
 #		If you made changes in submodule and restoring it.
@@ -149,10 +142,6 @@ submodules:	init_submodules submodules_update
 base: $(BASE_OBJS)
 	@ar rcs $(NAME) $(BASE_OBJS)
 	@printf "$(CREATED)" $@ $(CUR_DIR)
-
-# dynarr: $(DYN_OBJS)
-# 	@ar rcs $(NAME) $(DYN_OBJS)
-# 	@printf "$(CREATED)" $@ $(CUR_DIR)
 
 llist: $(LLT_OBJS)
 	@ar rcs $(NAME) $(LLT_OBJS)
@@ -230,8 +219,9 @@ print-%:
 #		Include dependencies
 -include $(DEPS)
 
-.PHONY:	all base dbltoa dynarr llist printf wrap mwrap clone_tester test clean \
-		no_print_clean fclean no_print_fclean clean_tester allclean re print-%
+.PHONY: all init_submodules submodules_update submodules base llist dbltoa dynarr	\
+		printf wrap mwrap clone_tester test test_valgrind clean no_print_clean		\
+		fclean no_print_fclean clean_tester allclean re print-%
 
 # ----------------------------------- colors --------------------------------- #
 BOLD			=	\033[1m
