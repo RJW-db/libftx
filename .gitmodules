@@ -7,3 +7,6 @@
 [submodule "src/printf"]
 	path = src/printf
 	url = git@github.com:RJW-db/printf_private.git
+[submodule "src/dbltoa"]
+	path = src/dbltoa
+	url = git@github.com:RJW-db/dbltoa_private.git
