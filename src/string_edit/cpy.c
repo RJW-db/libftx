@@ -6,13 +6,30 @@
 /*   By: rjw <rjw@student.codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/09/11 20:31:00 by rjw           #+#    #+#                 */
-/*   Updated: 2025/01/08 17:44:16 by rde-brui      ########   odam.nl         */
+/*   Updated: 2025/03/29 12:17:28 by rjw           ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <libft.h>
 
 size_t	cpy_str(char *dst, t_cchr *src)
+{
+	size_t	i;
+	char	c;
+
+	i = 0;
+	c = src[i];
+	while (c != '\0')
+	{
+		dst[i] = c;
+		++i;
+		c = src[i];
+	}
+	dst[i] = '\0';
+	return (i);
+}
+
+size_t	cpy_str0(char *dst, t_cchr *src)
 {
 	size_t	i;
 	char	c;

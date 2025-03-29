@@ -6,7 +6,7 @@
 /*   By: rde-brui <rde-brui@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/01/09 20:31:53 by rde-brui      #+#    #+#                 */
-/*   Updated: 2025/03/21 18:52:14 by rde-brui      ########   odam.nl         */
+/*   Updated: 2025/03/29 12:17:14 by rjw           ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -167,6 +167,7 @@ char		*ft_strtrim(char const *s1, char const *set);
 
 //	String Edit Functions
 size_t		cpy_str(char *dst, t_cchr *src);
+size_t		cpy_str0(char *dst, t_cchr *src);
 size_t		cpy_num_char(char *dst, t_cchr c, size_t n);
 size_t		cpy_num(char *dst, t_cchr *src, size_t num);
 size_t		cpy_srcs(char *dst, t_cchr *s1, t_cchr *s2, t_cchr *s3);
