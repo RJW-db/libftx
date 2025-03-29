@@ -128,7 +128,7 @@ init_submodules:
 	git submodule update --init --recursive
 
 submodules_update:
-	git submodule update --remote $(DBL_DIR)
+	git submodule update --remote src/dbltoa
 	git submodule update --remote $(WRAP_DIR)
 	git submodule update --remote $(DYN_DIR)
 	git submodule update --remote $(PRINTF_DIR)
