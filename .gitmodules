@@ -1,6 +1,3 @@
-[submodule "src/dbltoa"]
-	path = src/dbltoa
-	url = git@github.com:RJW-db/dbltoa_private.git
 [submodule "src/wrapper"]
 	path = src/wrapper
 	url = git@github.com:RJW-db/wrapper_private.git
