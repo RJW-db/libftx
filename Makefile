@@ -124,8 +124,8 @@ $(BUILD_DIR)%.o: %.c $(HEADERS)
 	@mkdir -p $(@D)
 	$(COMPILER) $(CFLAGS) -I $(INC_DIR) -c $< -o $@
 
-# init_submodules:
-# 	git submodule update --init --recursive
+init_submodules:
+	git submodule update --init --recursive
 
 # submodules_update:
 # 	rm -f .git/modules/src/dbltoa/config.lock
