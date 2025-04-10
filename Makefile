@@ -19,10 +19,10 @@ CFLAGS			+=	-Werror
 
 #	Compiler and Flags
 COMPILER		:=	gcc
-CFLAGS			:=	-std=c++98
 CFLAGS			+=	-Wall -Wextra
 CFLAGS			+=	-Werror
-CFLAGS			+=	-Wunreachable-code -Wpedantic -Wconversion -Wshadow
+# CFLAGS			+=	-Wunreachable-code -Wpedantic -Wconversion -Wshadow
+CFLAGS			+=	-Wunreachable-code -Wshadow
 CFLAGS			+=	-MMD -MP
 CFLAGS			+=	-g
 #	Werror cannot go together with fsanitize, because fsanitize won't work correctly.
