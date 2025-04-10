@@ -124,6 +124,7 @@ $(BUILD_DIR)%.o: %.c $(HEADERS)
 	@mkdir -p $(@D)
 	$(COMPILER) $(CFLAGS) -I $(INC_DIR) -c $< -o $@
 
+.NOTPARALLEL: init_submodules submodules_update submodules
 init_submodules:
 	git submodule update --init --recursive
 
