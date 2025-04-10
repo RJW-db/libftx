@@ -1,13 +1,8 @@
 NAME			:=	lib.a
-# COMPILER		:=	cc
-COMPILER		:=	gcc
-RM				:=	rm -rf
-PRINT_NO_DIR	:=	--no-print-directory
 
 #		Compile with every thread available
 #		Get the number of logical processors (threads)
 N_JOBS			:=	$(shell nproc)
-# N_JOBS			:=	1
 #		(-j) Specify the number of jobs (commands) to run simultaneously
 MULTI_THREADED	:=	-j $(N_JOBS)
 #		MAKEFLAGS will automatically apply the specified options (e.g., parallel execution) when 'make' is invoked
@@ -21,6 +16,21 @@ CFLAGS			+=	-Wunused -Wuninitialized -Wunreachable-code
 CFLAGS			+=	-Werror
 # CFLAGS			+=	-fsanitize=address
 # CFLAGS			+=	-g
+
+#	Compiler and Flags
+COMPILER		:=	gcc
+CFLAGS			:=	-std=c++98
+CFLAGS			+=	-Wall -Wextra
+CFLAGS			+=	-Werror
+CFLAGS			+=	-Wunreachable-code -Wpedantic -Wconversion -Wshadow
+CFLAGS			+=	-MMD -MP
+CFLAGS			+=	-g
+#	Werror cannot go together with fsanitize, because fsanitize won't work correctly.
+# CFLAGS			+=	-fsanitize=address
+
+#	Utilities
+PRINT_NO_DIR	:=	--no-print-directory
+RM				:=	rm -rf
 
 #		Base Directories
 SRC_DIR			:=	src/
@@ -112,6 +122,12 @@ HEADERS			:=	$(addprefix $(INC_DIR), $(HEADERS_FILES))
 DELETE			:=	*.out			**/*.out			.DS_Store										\
 					**/.DS_Store	.dSYM/				**/.dSYM/
 
+#		Check if submodules needs an update
+check_and_update_submodule = \
+	@if [ "$$(git -C $1 rev-parse HEAD)" != "$$(git ls-tree HEAD $1 | awk '{print $$3}')" ]; then \
+		git submodule update --remote $1; \
+	fi
+
 #		Default target
 all: $(NAME)
 
@@ -125,22 +141,13 @@ $(BUILD_DIR)%.o: %.c $(HEADERS)
 	$(COMPILER) $(CFLAGS) -I $(INC_DIR) -c $< -o $@
 
 init_submodules:
-	git submodule update --init --recursive
+	@git submodule update --init --recursive
 
 submodules_update:
-	rm -f .git/modules/src/dbltoa/config.lock
-	git submodule update --remote src/dbltoa
-	git submodule update --remote $(WRAP_DIR)
-	git submodule update --remote $(DYN_DIR)
-	git submodule update --remote $(PRINTF_DIR)
-
-# submodules_update:
-# 	rm -f .git/modules/src/dbltoa/config.lock
-# 	rm -f .git/modules/src/wrapper/config.lock
-# 	rm -f .git/modules/src/dynarr/config.lock
-# 	rm -f .git/modules/src/printf/config.lock
-# 	git submodule foreach --recursive 'git switch main || git checkout -b main origin/main'
-# 	git submodule update --remote --recursive
+	$(call check_and_update_submodule,$(DBL_DIR))
+	$(call check_and_update_submodule,$(WRAP_DIR))
+	$(call check_and_update_submodule,$(DYN_DIR))
+	$(call check_and_update_submodule,$(PRINTF_DIR))
 
 submodules:	init_submodules submodules_update
 #		If you made changes in submodule and restoring it.
