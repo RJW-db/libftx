@@ -13,3 +13,5 @@
 	path = src/dbltoa
 	url = git@github.com:RJW-db/dbltoa_private.git
 	branch = main
+[submodule "sr/dynarr"]
+	branch = main
