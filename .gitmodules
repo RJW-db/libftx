@@ -1,6 +1,7 @@
 [submodule "src/wrapper"]
 	path = src/wrapper
 	url = git@github.com:RJW-db/wrapper_private.git
+	branch = main
 [submodule "src/dynarr"]
 	path = src/dynarr
 	url = git@github.com:RJW-db/dynar_private.git
