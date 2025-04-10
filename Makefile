@@ -156,7 +156,7 @@ llist: $(LLT_OBJS)
 	@ar rcs $(NAME) $(LLT_OBJS)
 	@printf "$(CREATED)" $@ $(CUR_DIR)
 
-dbltoa:	base submodules
+dbltoa:	submodules base
 	@$(MAKE) $(PRINT_NO_DIR) -C $(DBL_DIR) $(MULTI_THREADED) standalone
 	@ar rcs $(NAME) $(DBL_OBJS)
 	@printf "$(CREATED)" $@ $(CUR_DIR)
