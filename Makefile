@@ -124,24 +124,23 @@ $(BUILD_DIR)%.o: %.c $(HEADERS)
 	@mkdir -p $(@D)
 	$(COMPILER) $(CFLAGS) -I $(INC_DIR) -c $< -o $@
 
-.NOTPARALLEL: init_submodules submodules_update submodules
 init_submodules:
 	git submodule update --init --recursive
 
-# submodules_update:
-# 	rm -f .git/modules/src/dbltoa/config.lock
-# 	git submodule update --remote src/dbltoa
-# 	git submodule update --remote $(WRAP_DIR)
-# 	git submodule update --remote $(DYN_DIR)
-# 	git submodule update --remote $(PRINTF_DIR)
-
 submodules_update:
 	rm -f .git/modules/src/dbltoa/config.lock
-	rm -f .git/modules/src/wrapper/config.lock
-	rm -f .git/modules/src/dynarr/config.lock
-	rm -f .git/modules/src/printf/config.lock
-	git submodule foreach --recursive 'git switch main || git checkout -b main origin/main'
-	git submodule update --remote --recursive
+	git submodule update --remote src/dbltoa
+	git submodule update --remote $(WRAP_DIR)
+	git submodule update --remote $(DYN_DIR)
+	git submodule update --remote $(PRINTF_DIR)
+
+# submodules_update:
+# 	rm -f .git/modules/src/dbltoa/config.lock
+# 	rm -f .git/modules/src/wrapper/config.lock
+# 	rm -f .git/modules/src/dynarr/config.lock
+# 	rm -f .git/modules/src/printf/config.lock
+# 	git submodule foreach --recursive 'git switch main || git checkout -b main origin/main'
+# 	git submodule update --remote --recursive
 
 submodules:	init_submodules submodules_update
 #		If you made changes in submodule and restoring it.
@@ -233,6 +232,7 @@ print-%:
 		printf wrap mwrap clone_tester test test_valgrind clean no_print_clean		\
 		fclean no_print_fclean clean_tester allclean re print-%
 
+.NOTPARALLEL: init_submodules submodules_update submodules
 # ----------------------------------- colors --------------------------------- #
 BOLD			=	\033[1m
 GREEN			=	\033[32m
