@@ -6,13 +6,14 @@
 /*   By: rde-brui <rde-brui@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/01/09 20:31:53 by rde-brui      #+#    #+#                 */
-/*   Updated: 2025/03/29 12:17:14 by rjw           ########   odam.nl         */
+/*   Updated: 2025/04/10 17:52:13 by rde-brui      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LIBFT_H
 # define LIBFT_H
 
+#define GNL get_next_line
 /*
 	BUFFER_SIZE minimum is 1, don't go lower than that.
 	cc -D BUFFER_SIZE=42 <files>.c
@@ -104,9 +105,10 @@ int64_t		atoi_base(const char *nbr_str, char *base, bool *is_neg);
 uint32_t	atui32(t_cchr *nptr);
 uint64_t	atui64(t_cchr *nptr);
 
+
 //	Get_Next_line
-char		*gnl(int fd);
-char		*gnl_fds(int fd);
+char		*get_next_line(int fd);
+char		*get_next_line_fds(int fd);
 ssize_t		get_user_input(char *buff, ssize_t buff_size, char *prompt);
 
 //	Linked List Functions
@@ -132,6 +134,7 @@ void		ft_bzero(void *s, size_t n);
 void		*ft_memcpy(void *dest, const void *src, size_t n);
 void		*ft_memmove(void *dest, const void *src, size_t n);
 void		*ft_memset(void *s, int c, size_t n);
+bool		swap_values(void *a, void *b, size_t size);
 
 //	Memory Search Functions
 void		*ft_memchr(const void *s, int c, size_t n);

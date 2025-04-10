@@ -6,7 +6,7 @@
 /*   By: rjw <rjw@student.codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/09/11 20:32:47 by rjw           #+#    #+#                 */
-/*   Updated: 2025/03/12 15:32:13 by rde-brui      ########   odam.nl         */
+/*   Updated: 2025/04/10 17:51:33 by rde-brui      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,4 +57,33 @@ void	*ft_memset(void *b, int c, size_t len)
 	while (len--)
 		*charb++ = (t_uchr)c;
 	return (b);
+}
+
+/**
+ * @brief Swaps the values of two memory locations byte by byte.
+ * @param[in,out] a Pointer to the first value to swap (modified in place).
+ * @param[in,out] b Pointer to the second value to swap (modified in place).
+ * @param[in] size Size of the data type in bytes, e.g., sizeof(int).
+ * @return false if any pointer is NULL or size is 0, true otherwise.
+ */
+bool	swap_values(void *a, void *b, size_t size)
+{
+    unsigned char	*p1;
+    unsigned char	*p2;
+    unsigned char	tmp;
+
+    if (!a || !b || size == 0)
+        return (false);
+    p1 = (unsigned char *)a;
+    p2 = (unsigned char *)b;
+    while (size != 0)
+    {
+        tmp = *p1;
+        *p1 = *p2;
+        *p2 = tmp;
+        ++p1;
+        ++p2;
+        --size;
+    }
+    return (true);
 }

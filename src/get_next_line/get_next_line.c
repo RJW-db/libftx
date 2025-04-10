@@ -6,7 +6,7 @@
 /*   By: rjw <rjw@student.codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/09/11 20:34:29 by rjw           #+#    #+#                 */
-/*   Updated: 2025/02/23 16:33:54 by rjw           ########   odam.nl         */
+/*   Updated: 2025/04/10 17:33:19 by rde-brui      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static size_t	copy_check(char *dest, t_cchr *src, bool *nl_check);
 	- ft_strlen
 	- free_str
 */
-char	*gnl(int fd)
+char	*get_next_line(int fd)
 {
 	static char	buff[BUFFER_SIZE + 1];
 	char		*new_line;
@@ -64,7 +64,7 @@ char	*gnl(int fd)
 	- ft_strlen
 	- free_str
 */
-char	*gnl_fds(int fd)
+char	*get_next_line_fds(int fd)
 {
 	static char	buff[MAX_FD][BUFFER_SIZE + 1];
 	char		*new_line;
