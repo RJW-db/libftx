@@ -4,6 +4,7 @@
 [submodule "src/dynarr"]
 	path = src/dynarr
 	url = git@github.com:RJW-db/dynar_private.git
+	branch = main
 [submodule "src/printf"]
 	path = src/printf
 	url = git@github.com:RJW-db/printf_private.git
