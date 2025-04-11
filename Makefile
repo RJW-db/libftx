@@ -127,15 +127,25 @@ $(BUILD_DIR)%.o: %.c $(HEADERS)
 	@mkdir -p $(@D)
 	$(COMPILER) $(CFLAGS) -I $(INC_DIR) -c $< -o $@
 
-init_submodules:
-	@git submodule update --init --recursive
-
-submodules_update: init_submodules
+dbltoa_submodule:
+	@git submodule update --init $(DBL_DIR)
 	git submodule update --remote $(DBL_DIR)
-	git submodule update --remote $(WRAP_DIR)
+
+dyn_submodule:
+	@git submodule update --init $(DYN_DIR)
 	git submodule update --remote $(DYN_DIR)
+
+printf_submodule:
+	@git submodule update --init $(PRINTF_DIR)
 	git submodule update --remote $(PRINTF_DIR)
 
+wrap_submodule:
+	@git submodule update --init $(WRAP_DIR)
+	git submodule update --remote $(WRAP_DIR)
+
+all_submodules:
+    @git submodule update --init --recursive
+    @git submodule update --remote
 #		If you made changes in submodule and restoring it.
 #	cd src/dbltoa
 #	git restore .
@@ -149,27 +159,27 @@ llist: $(LLT_OBJS)
 	@ar rcs $(NAME) $(LLT_OBJS)
 	@printf "$(CREATED)" $@ $(CUR_DIR)
 
-dbltoa:	submodules base
+dbltoa:	dbltoa_submodule base
 	@$(MAKE) $(PRINT_NO_DIR) -C $(DBL_DIR) standalone
 	@ar rcs $(NAME) $(DBL_OBJS)
 	@printf "$(CREATED)" $@ $(CUR_DIR)
 
-dynarr:	submodules
+dynarr:	dyn_submodule
 	@$(MAKE) $(PRINT_NO_DIR) -C $(DYN_DIR)
 	@ar rcs $(NAME) $(DYN_OBJS)
 	@printf "$(CREATED)" $@ $(CUR_DIR)
 
-printf: submodules
+printf: printf_submodule
 	@$(MAKE) $(PRINT_NO_DIR) -C $(PRINTF_DIR)
 	@ar rcs $(NAME) $(PRT_OBJS)
 	@printf "$(CREATED)" $@ $(CUR_DIR)
 
-wrap: submodules
+wrap: wrap_submodule
 	@$(MAKE) $(PRINT_NO_DIR) -C $(WRAP_DIR)
 	@ar rcs $(NAME) $(WRP_OBJS)
 	@printf "$(CREATED)" $@ $(CUR_DIR)
 
-mwrap: submodules
+mwrap: wrap_submodule
 	@$(MAKE) $(PRINT_NO_DIR) -C $(WRAP_DIR) malloc
 	@ar rcs $(NAME) $(WRP_OBJS)
 	@printf "$(CREATED)" $@ $(CUR_DIR)
@@ -179,10 +189,10 @@ clone_tester:
 		git clone git@github.com:RJW-db/lib_tester.git tester; \
 	fi
 
-test:	base submodules clone_tester mwrap dbltoa dynarr printf all
+test:	all_submodules base clone_tester mwrap dbltoa dynarr printf all
 	@$(MAKE) $(PRINT_NO_DIR) -C $(TESTER_DIR) run
 
-test_valgrind:	base submodules clone_tester mwrap dbltoa dynarr printf all
+test_valgrind:	all_submodules base clone_tester mwrap dbltoa dynarr printf all
 	@$(MAKE) $(PRINT_NO_DIR) -C $(TESTER_DIR) valgrind
 
 clean:
