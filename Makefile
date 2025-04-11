@@ -115,19 +115,6 @@ HEADERS			:=	$(addprefix $(INC_DIR), $(HEADERS_FILES))
 DELETE			:=	*.out			**/*.out			.DS_Store										\
 					**/.DS_Store	.dSYM/				**/.dSYM/
 
-update_submodule = \
-	@if [ ! -d "$1" ]; then \
-		git submodule update --init $1; \
-	fi; \
-	CURRENT=$$(git -C $1 rev-parse HEAD); \
-	TRACKED=$$(git ls-tree HEAD $1 | awk '{print $$3}'); \
-	if [ "$$CURRENT" != "$$TRACKED" ]; then \
-		echo "Updating $1 submodule..."; \
-		git submodule update --remote $1; \
-	else \
-		echo "Submodule $1 is already up-to-date."; \
-	fi
-
 #		Default target
 all: $(NAME)
 
@@ -140,21 +127,19 @@ $(BUILD_DIR)%.o: %.c $(HEADERS)
 	@mkdir -p $(@D)
 	$(COMPILER) $(CFLAGS) -I $(INC_DIR) -c $< -o $@
 
-dbltoa_submodule:
-	$(call update_submodule, $(DBL_DIR))
-
-dyn_submodule:
-	$(call update_submodule, $(DYN_DIR))
-
-printf_submodule:
-	$(call update_submodule, $(PRINTF_DIR))
-
-wrap_submodule:
-	$(call update_submodule, $(WRAP_DIR))
-
 all_submodules:
-	@git submodule update --init --recursive
-	@git submodule update --remote
+	git submodule update --init --recursive
+	@git submodule foreach 'git checkout $$(git config -f $toplevel/.gitmodules submodule.$name.branch || echo main)'
+	@git submodule update --remote --merge
+
+submodules_update:
+	git submodule update --remote $(DBL_DIR)
+	git submodule update --remote $(DYN_DIR)
+	git submodule update --remote $(PRINTF_DIR)
+	git submodule update --remote $(WRAP_DIR)
+
+# @git submodule update --init --recursive
+# @git submodule update --remote
 #		If you made changes in submodule and restoring it.
 #	cd src/dbltoa
 #	git restore .
@@ -168,27 +153,27 @@ llist: $(LLT_OBJS)
 	@ar rcs $(NAME) $(LLT_OBJS)
 	@printf "$(CREATED)" $@ $(CUR_DIR)
 
-dbltoa:	dbltoa_submodule base
+dbltoa:	base
 	@$(MAKE) $(PRINT_NO_DIR) -C $(DBL_DIR) standalone
 	@ar rcs $(NAME) $(DBL_OBJS)
 	@printf "$(CREATED)" $@ $(CUR_DIR)
 
-dynarr:	dyn_submodule
+dynarr:
 	@$(MAKE) $(PRINT_NO_DIR) -C $(DYN_DIR)
 	@ar rcs $(NAME) $(DYN_OBJS)
 	@printf "$(CREATED)" $@ $(CUR_DIR)
 
-printf: printf_submodule
+printf:
 	@$(MAKE) $(PRINT_NO_DIR) -C $(PRINTF_DIR)
 	@ar rcs $(NAME) $(PRT_OBJS)
 	@printf "$(CREATED)" $@ $(CUR_DIR)
 
-wrap: wrap_submodule
+wrap:
 	@$(MAKE) $(PRINT_NO_DIR) -C $(WRAP_DIR)
 	@ar rcs $(NAME) $(WRP_OBJS)
 	@printf "$(CREATED)" $@ $(CUR_DIR)
 
-mwrap: wrap_submodule
+mwrap:
 	@$(MAKE) $(PRINT_NO_DIR) -C $(WRAP_DIR) malloc
 	@ar rcs $(NAME) $(WRP_OBJS)
 	@printf "$(CREATED)" $@ $(CUR_DIR)
@@ -198,10 +183,10 @@ clone_tester:
 		git clone git@github.com:RJW-db/lib_tester.git tester; \
 	fi
 
-test:	all_submodules base clone_tester mwrap dbltoa dynarr printf all
+test:	base clone_tester mwrap dbltoa dynarr printf all
 	@$(MAKE) $(PRINT_NO_DIR) -C $(TESTER_DIR) run
 
-test_valgrind:	all_submodules base clone_tester mwrap dbltoa dynarr printf all
+test_valgrind:	base clone_tester mwrap dbltoa dynarr printf all
 	@$(MAKE) $(PRINT_NO_DIR) -C $(TESTER_DIR) valgrind
 
 clean:
