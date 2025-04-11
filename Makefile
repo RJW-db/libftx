@@ -192,9 +192,9 @@ test_valgrind:	base clone_tester mwrap dbltoa dynarr printf all
 clean:
 	@$(RM) $(BUILD_DIR) $(DELETE)
 	@$(MAKE) $(PRINT_NO_DIR) -C $(DBL_DIR) clean
-	# @$(MAKE) $(PRINT_NO_DIR) -C $(DYN_DIR) clean
-	# @$(MAKE) $(PRINT_NO_DIR) -C $(PRINTF_DIR) clean
-	# @$(MAKE) $(PRINT_NO_DIR) -C $(WRAP_DIR) clean
+	@$(MAKE) $(PRINT_NO_DIR) -C $(DYN_DIR) clean
+	@$(MAKE) $(PRINT_NO_DIR) -C $(PRINTF_DIR) clean
+	@$(MAKE) $(PRINT_NO_DIR) -C $(WRAP_DIR) clean
 	@printf "$(REMOVED)" $(BUILD_DIR) $(CUR_DIR)$(BUILD_DIR)
 
 no_print_clean:
@@ -203,9 +203,9 @@ no_print_clean:
 fclean: clean
 	@$(RM) $(NAME)
 	@$(MAKE) $(PRINT_NO_DIR) -C $(DBL_DIR) fclean
-	# @$(MAKE) $(PRINT_NO_DIR) -C $(DYN_DIR) fclean
-	# @$(MAKE) $(PRINT_NO_DIR) -C $(PRINTF_DIR) fclean
-	# @$(MAKE) $(PRINT_NO_DIR) -C $(WRAP_DIR) fclean
+	@$(MAKE) $(PRINT_NO_DIR) -C $(DYN_DIR) fclean
+	@$(MAKE) $(PRINT_NO_DIR) -C $(PRINTF_DIR) fclean
+	@$(MAKE) $(PRINT_NO_DIR) -C $(WRAP_DIR) fclean
 	@printf "$(REMOVED)" $(NAME) $(CUR_DIR)
 
 clean_tester:
