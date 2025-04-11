@@ -6,7 +6,7 @@
 /*   By: rjw <rjw@student.codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/09/11 20:39:30 by rjw           #+#    #+#                 */
-/*   Updated: 2025/01/09 20:34:37 by rde-brui      ########   odam.nl         */
+/*   Updated: 2025/04/11 01:13:41 by rjw           ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,13 +29,10 @@ char	**search_rm_2d_arr(char **arr, char *rm)
 
 	if (arr == NULL || rm == NULL)
 		return (NULL);
-	i = -1;
-	while (arr[++i] != NULL)
-	{
-		if (ft_strncmp(arr[i], rm, ft_strlen(rm) + 1) == 0 \
-			&& free_str(&arr[i]) == NULL)
-			break ;
-	}
+	i = 0;
+	while (arr[i] != NULL && ft_strncmp(arr[i], rm, ft_strlen(rm) + 1) != 0)
+		++i;
+	free_str(&arr[i]);
 	if (arr[i] == NULL)
 		return (NULL);
 	arr_len = count_arr_2d(arr);

@@ -6,7 +6,7 @@
 /*   By: rjw <rjw@student.codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/09/11 20:30:04 by rjw           #+#    #+#                 */
-/*   Updated: 2025/03/12 15:47:44 by rde-brui      ########   odam.nl         */
+/*   Updated: 2025/04/11 02:03:42 by rjw           ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ size_t	ft_strlen(t_cchr *str)
 
 	while (*tmp != '\0')
 		++tmp;
-	return (tmp - str);
+	return ((size_t)(tmp - str));
 }
 
 size_t	strlen_safe(t_cchr *str)

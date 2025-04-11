@@ -6,7 +6,7 @@
 /*   By: rjw <rjw@student.codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/09/11 20:34:29 by rjw           #+#    #+#                 */
-/*   Updated: 2025/04/10 17:33:19 by rde-brui      ########   odam.nl         */
+/*   Updated: 2025/04/11 01:51:31 by rjw           ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include <stdint.h>
 
 //	Static Functions
-static char		*str_merge(t_cchr *nl, char *buf, bool *nl_check, int32_t rd);
+static char		*str_merge(t_cchr *nl, char *buf, bool *nl_check, ssize_t rd);
 static size_t	str_len_newline(t_cchr *str);
 static size_t	copy_check(char *dest, t_cchr *src, bool *nl_check);
 
@@ -33,8 +33,8 @@ char	*get_next_line(int fd)
 {
 	static char	buff[BUFFER_SIZE + 1];
 	char		*new_line;
-	int32_t		rd;
 	bool		nl_check;
+	ssize_t		rd;
 
 	if (fd < 0 || fd > MAX_FD || BUFFER_SIZE <= 0)
 		return (NULL);
@@ -68,8 +68,8 @@ char	*get_next_line_fds(int fd)
 {
 	static char	buff[MAX_FD][BUFFER_SIZE + 1];
 	char		*new_line;
-	int32_t		rd;
 	bool		nl_check;
+	ssize_t		rd;
 
 	if (fd < 0 || fd > 1024 || BUFFER_SIZE <= 0)
 		return (NULL);
@@ -91,7 +91,7 @@ char	*get_next_line_fds(int fd)
 	return (new_line);
 }
 
-static char	*str_merge(t_cchr *nl, char *buf, bool *nl_check, int32_t rd)
+static char	*str_merge(t_cchr *nl, char *buf, bool *nl_check, ssize_t rd)
 {
 	char	*ret;
 	size_t	len;

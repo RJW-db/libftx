@@ -6,7 +6,7 @@
 /*   By: rde-brui <rde-brui@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/01/09 20:31:53 by rde-brui      #+#    #+#                 */
-/*   Updated: 2025/03/21 18:52:47 by rde-brui      ########   odam.nl         */
+/*   Updated: 2025/04/11 02:01:19 by rjw           ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,9 +63,9 @@ void	ft_putendl_fd(t_cchr *s, int fd)
 */
 void	ft_putnbr_fd(int n, int fd)
 {
-	char		store[11];
-	char		*number;
-	uint32_t	negative;
+	char	store[11];
+	char	*number;
+	int		negative;
 
 	number = store + 10;
 	if (n == 0)
@@ -84,15 +84,15 @@ void	ft_putnbr_fd(int n, int fd)
 	}
 	if (n < 0)
 		*(number--) = '-';
-	if (write(fd, number, (store + 10) - number + 1) == -1)
+	if (write(fd, number, (size_t)((store + 10) - number + 1)) == -1)
 		perror("ft_putnbr_nl_fd: write");
 }
 
 void	ft_putnbr_nl_fd(int n, int fd)
 {
-	char		store[12];
-	char		*number;
-	uint32_t	negative;
+	char	store[12];
+	char	*number;
+	int		negative;
 
 	number = store + 11;
 	*(number) = '\n';
@@ -112,7 +112,7 @@ void	ft_putnbr_nl_fd(int n, int fd)
 	}
 	if (n < 0)
 		*(--number) = '-';
-	if (write(fd, number, (store + 11) - number + 1) == -1)
+	if (write(fd, number, (size_t)((store + 11) - number + 1)) == -1)
 		perror("ft_putnbr_nl_fd: write");
 }
 

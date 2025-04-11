@@ -6,22 +6,22 @@
 /*   By: rjw <rjw@student.codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/09/11 20:38:43 by rjw           #+#    #+#                 */
-/*   Updated: 2025/01/08 17:44:16 by rde-brui      ########   odam.nl         */
+/*   Updated: 2025/04/11 01:20:35 by rjw           ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <libft.h>
 
 //	Static Functions
-static void	ft_count(char const *s, char c, int *parts, int *sp_count);
-static void	ft_enter_data(char	*data_block, int ptrs_l, char const *s, char c);
+static void	ft_count(char const *s, char c, size_t *parts, size_t *sp_count);
+static void	ft_enter_data(char *data_block, size_t ptrs_l, char const *s, char c);
 
 char	**splitted(char const *s, char c)
 {
-	int		ptrs_l;
-	int		sp_count;
+	size_t		ptrs_l;
+	size_t		sp_count;
 	char	*data_block;
-	int		parts;
+	size_t		parts;
 
 	parts = 1;
 	sp_count = 0;
@@ -39,9 +39,9 @@ char	**splitted(char const *s, char c)
 	return ((char **)data_block);
 }
 
-static void	ft_count(char const *s, char c, int *parts, int *sp_count)
+static void	ft_count(char const *s, char c, size_t *parts, size_t *sp_count)
 {
-	int		i;
+	size_t		i;
 
 	i = 0;
 	while (s[i] != 0 && s[i] == c)
@@ -49,7 +49,7 @@ static void	ft_count(char const *s, char c, int *parts, int *sp_count)
 		++i;
 	}
 	*sp_count = i;
-	while (s[i] != 0)
+	while (s[i] != '\0')
 	{
 		if (s[i] == c)
 		{
@@ -67,11 +67,11 @@ static void	ft_count(char const *s, char c, int *parts, int *sp_count)
 	}
 }
 
-static void	ft_enter_data(char	*data_block, int ptrs_l, char const *s, char c)
+static void	ft_enter_data(char *data_block, size_t ptrs_l, char const *s, char c)
 {
-	int		i;
-	int		j;
-	int		skip;
+	size_t		i;
+	size_t		j;
+	size_t		skip;
 
 	i = 0;
 	j = 0;
@@ -81,7 +81,7 @@ static void	ft_enter_data(char	*data_block, int ptrs_l, char const *s, char c)
 		((char **)data_block)[j] = &data_block[ptrs_l];
 		++j;
 	}
-	while (s[i] != 0)
+	while (s[i] != '\0')
 	{
 		if (s[i] == c && s[i] == s[i + 1] && s[i + 1] != '\0')
 			++skip;

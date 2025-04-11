@@ -6,7 +6,7 @@
 /*   By: rjw <rjw@student.codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/09/11 20:30:34 by rjw           #+#    #+#                 */
-/*   Updated: 2025/01/08 17:44:16 by rde-brui      ########   odam.nl         */
+/*   Updated: 2025/04/11 02:04:15 by rjw           ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ size_t	find_set(t_cchr *str, char *set)
 		c = *tmp_str;
 	}
 	if (ft_strchr(set, c) != NULL)
-		return (tmp_str - str);
+		return ((size_t)(tmp_str - str));
 	return (0);
 }
 
@@ -47,7 +47,7 @@ size_t	find_char(t_cchr *str, t_cchr c1)
 		++tmp_str;
 	}
 	if (*tmp_str == c1)
-		return (tmp_str - str);
+		return ((size_t)(tmp_str - str));
 	return (0);
 }
 
@@ -68,7 +68,7 @@ size_t	find_char2(t_cchr *str, t_cchr c1, t_cchr c2)
 		c = *tmp_str;
 	}
 	if (c == c1 || c == c2)
-		return (tmp_str - str);
+		return ((size_t)(tmp_str - str));
 	return (0);
 }
 
@@ -89,6 +89,6 @@ size_t	find_char3(t_cchr *str, t_cchr c1, t_cchr c2, t_cchr c3)
 		c = *tmp_str;
 	}
 	if (c == c1 || c == c2 || c == c3)
-		return (tmp_str - str);
+		return ((size_t)(tmp_str - str));
 	return (0);
 }

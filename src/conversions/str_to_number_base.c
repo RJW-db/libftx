@@ -6,7 +6,7 @@
 /*   By: rjw <rjw@student.codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/09/11 20:31:39 by rjw           #+#    #+#                 */
-/*   Updated: 2025/03/17 20:20:43 by rde-brui      ########   odam.nl         */
+/*   Updated: 2025/04/11 01:50:07 by rjw           ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static int16_t	parse_string(const char *nbr_str, char *base, bool *is_neg);
 
 int64_t	atoi_base(const char *nbr_str, char *base, bool *is_neg)
 {
-	uint64_t	base_len;
+	int64_t		base_len;
 	int16_t		index;
 	int64_t		digit;
 	int64_t		nbr;
@@ -26,7 +26,7 @@ int64_t	atoi_base(const char *nbr_str, char *base, bool *is_neg)
 	index = parse_string(nbr_str, base, is_neg);
 	if (index == -1)
 		return (0);
-	base_len = ft_strlen(base);
+	base_len = (int64_t)ft_strlen(base);
 	if (base_len < 2)
 		return (0);
 	nbr = 0;

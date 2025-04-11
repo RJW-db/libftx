@@ -6,7 +6,7 @@
 /*   By: rjw <rjw@student.codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/03/01 02:29:51 by rjw           #+#    #+#                 */
-/*   Updated: 2025/03/09 03:30:56 by rjw           ########   odam.nl         */
+/*   Updated: 2025/04/11 02:03:19 by rjw           ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,12 @@
 
 char	*itoa_base(int64_t n, const char *base)
 {
-	size_t	base_len;
+	uint8_t	base_len;
 	uint8_t	len;
 	bool	sign;
 	char	*dst;
 
-	base_len = strlen_safe(base);
+	base_len = (uint8_t)strlen_safe(base);
 	if (base_len < 2)
 		return (NULL);
 	sign = (n < 0);
@@ -38,13 +38,13 @@ char	*itoa_base(int64_t n, const char *base)
 size_t	int64_base(int64_t n, const char *base, char *buff, size_t b_len)
 {
 	const bool	is_negative = (n < 0);
-	size_t		base_len;
+	uint8_t		base_len;
 	uint64_t	abs_value;
 	size_t		index;
 	uint8_t		num_digits;
 
 	abs_value = abs_int64(n);
-	base_len = strlen_safe(base);
+	base_len = (uint8_t)strlen_safe(base);
 	if ((base_len < 2 || b_len < 2) && (b_len == 0 || cpy_str(buff, "\0") == 0))
 		return (0);
 	num_digits = digit_counter(n, base_len);

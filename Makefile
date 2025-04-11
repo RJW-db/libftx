@@ -8,21 +8,12 @@ MULTI_THREADED	:=	-j $(N_JOBS)
 #		MAKEFLAGS will automatically apply the specified options (e.g., parallel execution) when 'make' is invoked
 MAKEFLAGS		+=	$(MULTI_THREADED)
 
-#		Compiler flags
-CFLAGS			+=	-MMD -MP
-CFLAGS			+=	-Wall -Wextra
-CFLAGS			+=	-Wunused -Wuninitialized -Wunreachable-code
-#		Werror cannot go together with fsanitize, because fsanitize won't work correctly.
-CFLAGS			+=	-Werror
-# CFLAGS			+=	-fsanitize=address
-# CFLAGS			+=	-g
-
 #	Compiler and Flags
 COMPILER		:=	gcc
 CFLAGS			+=	-Wall -Wextra
 CFLAGS			+=	-Werror
 # CFLAGS			+=	-Wunreachable-code -Wpedantic -Wconversion -Wshadow
-CFLAGS			+=	-Wunreachable-code -Wshadow
+CFLAGS			+=	-Wunreachable-code -Wshadow -Wconversion
 CFLAGS			+=	-MMD -MP
 CFLAGS			+=	-g
 #	Werror cannot go together with fsanitize, because fsanitize won't work correctly.

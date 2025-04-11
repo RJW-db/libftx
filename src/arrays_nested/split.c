@@ -6,7 +6,7 @@
 /*   By: rjw <rjw@student.codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/09/11 20:38:52 by rjw           #+#    #+#                 */
-/*   Updated: 2025/01/08 17:44:16 by rde-brui      ########   odam.nl         */
+/*   Updated: 2025/04/11 01:29:39 by rjw           ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 //	Static Functions
 static size_t	count_words(t_cchr *s, char c);
-static int		words(t_cchr *s, char c, char **res, int *w_index);
-static int		alloc(t_cchr *start, t_cchr *end, char **r);
+static bool		words(t_cchr *s, char c, char **res, int *w_index);
+static bool		split_alloc(t_cchr *start, t_cchr *end, char **r);
 
 /*
 	Used functions:
@@ -35,7 +35,7 @@ char	**split(char const *s, char c)
 	if (result == NULL)
 		return (NULL);
 	w_index = 0;
-	if (words(s, c, result, &w_index) == EXIT_FAILURE)
+	if (words(s, c, result, &w_index) == false)
 	{
 		i = 0;
 		while (w_index > i)
@@ -57,7 +57,7 @@ static size_t	count_words(t_cchr *s, char c)
 	{
 		if (*s != c)
 		{
-			if (!in_word)
+			if (in_word == 0)
 			{
 				count++;
 				in_word = 1;
@@ -70,7 +70,7 @@ static size_t	count_words(t_cchr *s, char c)
 	return (count);
 }
 
-static int	words(t_cchr *s, char c, char **res, int *w_index)
+static bool	words(t_cchr *s, char c, char **res, int *w_index)
 {
 	char	*start;
 
@@ -82,26 +82,26 @@ static int	words(t_cchr *s, char c, char **res, int *w_index)
 		else
 		{
 			if (start != s
-				&& alloc(start, s, &res[(*w_index)++]) == EXIT_FAILURE)
-				return (EXIT_FAILURE);
+				&& split_alloc(start, s, &res[(*w_index)++]) == false)
+				return (false);
 			start = (char *)++s;
 		}
 	}
-	if (start != s && alloc(start, s, &res[(*w_index)++]) == EXIT_FAILURE)
-		return (EXIT_FAILURE);
+	if (start != s && split_alloc(start, s, &res[(*w_index)++]) == false)
+		return (false);
 	*(res + *w_index) = NULL;
-	return (EXIT_SUCCESS);
+	return (true);
 }
 
-static int	alloc(t_cchr *start, t_cchr *end, char **r)
+static bool	split_alloc(t_cchr *start, t_cchr *end, char **r)
 {
-	int	len;
+	size_t	len;
 
-	len = end - start;
+	len = (size_t)(end - start);
 	*r = (char *)malloc((len + 1) * sizeof(char));
 	if (*r == NULL)
-		return (EXIT_FAILURE);
-	if (!ft_strlcpy(*r, start, len + 1))
-		return (EXIT_FAILURE);
-	return (EXIT_SUCCESS);
+		return (false);
+	if (ft_strlcpy(*r, start, len + 1) == 0)
+		return (false);
+	return (true);
 }

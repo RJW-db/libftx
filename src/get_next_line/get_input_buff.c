@@ -6,7 +6,7 @@
 /*   By: rjw <rjw@student.codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/02/23 14:49:53 by rjw           #+#    #+#                 */
-/*   Updated: 2025/03/18 03:16:45 by rjw           ########   odam.nl         */
+/*   Updated: 2025/04/11 01:54:37 by rjw           ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ ssize_t	get_user_input(char *buff, ssize_t buff_size, char *prompt)
 		return (-1);
 	if (prompt != NULL)
 		ft_putstr_fd(prompt, STDOUT_FILENO);
-	rd = read(STDIN_FILENO, buff, buff_size);
+	rd = read(STDIN_FILENO, buff, (size_t)buff_size);
 	if (rd > 0 && rd <= buff_size)
 	{
 		result = process_input(buff, rd, buff_size);
@@ -87,7 +87,7 @@ static ssize_t	empty_filedescriptor(char *buff, ssize_t buff_size)
 	rd = buff_size;
 	while (rd == buff_size)
 	{
-		rd = read(STDIN_FILENO, buff, buff_size);
+		rd = read(STDIN_FILENO, buff, (size_t)buff_size);
 		if (rd < buff_size || buff[rd - 1] == '\n')
 		{
 			break ;
