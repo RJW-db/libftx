@@ -115,6 +115,19 @@ HEADERS			:=	$(addprefix $(INC_DIR), $(HEADERS_FILES))
 DELETE			:=	*.out			**/*.out			.DS_Store										\
 					**/.DS_Store	.dSYM/				**/.dSYM/
 
+update_submodule = \
+	@if [ ! -d "$1" ]; then \
+		git submodule update --init $1; \
+	fi; \
+	CURRENT=$$(git -C $1 rev-parse HEAD); \
+	TRACKED=$$(git ls-tree HEAD $1 | awk '{print $$3}'); \
+	if [ "$$CURRENT" != "$$TRACKED" ]; then \
+		echo "Updating $1 submodule..."; \
+		git submodule update --remote $1; \
+	else \
+		echo "Submodule $1 is already up-to-date."; \
+	fi
+
 #		Default target
 all: $(NAME)
 
@@ -128,24 +141,20 @@ $(BUILD_DIR)%.o: %.c $(HEADERS)
 	$(COMPILER) $(CFLAGS) -I $(INC_DIR) -c $< -o $@
 
 dbltoa_submodule:
-	@git submodule update --init $(DBL_DIR)
-	git submodule update --remote $(DBL_DIR)
+	$(call update_submodule, $(DBL_DIR))
 
 dyn_submodule:
-	@git submodule update --init $(DYN_DIR)
-	git submodule update --remote $(DYN_DIR)
+	$(call update_submodule, $(DYN_DIR))
 
 printf_submodule:
-	@git submodule update --init $(PRINTF_DIR)
-	git submodule update --remote $(PRINTF_DIR)
+	$(call update_submodule, $(PRINTF_DIR))
 
 wrap_submodule:
-	@git submodule update --init $(WRAP_DIR)
-	git submodule update --remote $(WRAP_DIR)
+	$(call update_submodule, $(WRAP_DIR))
 
 all_submodules:
-    @git submodule update --init --recursive
-    @git submodule update --remote
+	@git submodule update --init --recursive
+	@git submodule update --remote
 #		If you made changes in submodule and restoring it.
 #	cd src/dbltoa
 #	git restore .
@@ -198,9 +207,9 @@ test_valgrind:	all_submodules base clone_tester mwrap dbltoa dynarr printf all
 clean:
 	@$(RM) $(BUILD_DIR) $(DELETE)
 	@$(MAKE) $(PRINT_NO_DIR) -C $(DBL_DIR) clean
-	@$(MAKE) $(PRINT_NO_DIR) -C $(DYN_DIR) clean
-	@$(MAKE) $(PRINT_NO_DIR) -C $(PRINTF_DIR) clean
-	@$(MAKE) $(PRINT_NO_DIR) -C $(WRAP_DIR) clean
+	# @$(MAKE) $(PRINT_NO_DIR) -C $(DYN_DIR) clean
+	# @$(MAKE) $(PRINT_NO_DIR) -C $(PRINTF_DIR) clean
+	# @$(MAKE) $(PRINT_NO_DIR) -C $(WRAP_DIR) clean
 	@printf "$(REMOVED)" $(BUILD_DIR) $(CUR_DIR)$(BUILD_DIR)
 
 no_print_clean:
@@ -209,9 +218,9 @@ no_print_clean:
 fclean: clean
 	@$(RM) $(NAME)
 	@$(MAKE) $(PRINT_NO_DIR) -C $(DBL_DIR) fclean
-	@$(MAKE) $(PRINT_NO_DIR) -C $(DYN_DIR) fclean
-	@$(MAKE) $(PRINT_NO_DIR) -C $(PRINTF_DIR) fclean
-	@$(MAKE) $(PRINT_NO_DIR) -C $(WRAP_DIR) fclean
+	# @$(MAKE) $(PRINT_NO_DIR) -C $(DYN_DIR) fclean
+	# @$(MAKE) $(PRINT_NO_DIR) -C $(PRINTF_DIR) fclean
+	# @$(MAKE) $(PRINT_NO_DIR) -C $(WRAP_DIR) fclean
 	@printf "$(REMOVED)" $(NAME) $(CUR_DIR)
 
 clean_tester:
