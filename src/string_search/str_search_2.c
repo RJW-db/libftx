@@ -6,7 +6,7 @@
 /*   By: rjw <rjw@student.codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/09/11 20:29:46 by rjw           #+#    #+#                 */
-/*   Updated: 2025/01/11 03:00:58 by rjw           ########   odam.nl         */
+/*   Updated: 2025/04/11 04:04:02 by rjw           ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 	true  if c is    in str
 	false if c isn't in str
 */
-bool	c_in_str(t_cint8 c, t_cchr *str)
+bool	c_in_str(int32_t c, t_cchr *str)
 {
 	while (*str != '\0')
 	{

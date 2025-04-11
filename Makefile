@@ -4,8 +4,11 @@ NAME			:=	lib.a
 #		Get the number of logical processors (threads)
 N_JOBS			:=	$(shell nproc)
 #		(-j) Specify the number of jobs (commands) to run simultaneously
-MULTI_THREADED	:=	-j $(N_JOBS)
-#		MAKEFLAGS will automatically apply the specified options (e.g., parallel execution) when 'make' is invoked
+MULTI_THREADED	:=	-j$(N_JOBS)
+#		MAKEFLAGS is a special variable that automatically applies the specified options (e.g., parallel execution)
+#		to the current `Makefile` and all `make` invocations, including sub-make processes in subfolders.
+#		By setting `-j$(N_JOBS)` here, both this `Makefile` and all sub-make processes will inherit the
+#		multithreading configuration without requiring explicit passing.
 MAKEFLAGS		+=	$(MULTI_THREADED)
 
 #	Compiler and Flags
@@ -182,27 +185,27 @@ llist: $(LLT_OBJS)
 	@printf "$(CREATED)" $@ $(CUR_DIR)
 
 dbltoa:	submodules base
-	@$(MAKE) $(PRINT_NO_DIR) -C $(DBL_DIR) $(MULTI_THREADED) standalone
+	@$(MAKE) $(PRINT_NO_DIR) -C $(DBL_DIR) standalone
 	@ar rcs $(NAME) $(DBL_OBJS)
 	@printf "$(CREATED)" $@ $(CUR_DIR)
 
 dynarr:	submodules
-	@$(MAKE) $(PRINT_NO_DIR) -C $(DYN_DIR) $(MULTI_THREADED)
+	@$(MAKE) $(PRINT_NO_DIR) -C $(DYN_DIR)
 	@ar rcs $(NAME) $(DYN_OBJS)
 	@printf "$(CREATED)" $@ $(CUR_DIR)
 
 printf: submodules
-	@$(MAKE) $(PRINT_NO_DIR) -C $(PRINTF_DIR) $(MULTI_THREADED)
+	@$(MAKE) $(PRINT_NO_DIR) -C $(PRINTF_DIR)
 	@ar rcs $(NAME) $(PRT_OBJS)
 	@printf "$(CREATED)" $@ $(CUR_DIR)
 
 wrap: submodules
-	@$(MAKE) $(PRINT_NO_DIR) -C $(WRAP_DIR) $(MULTI_THREADED)
+	@$(MAKE) $(PRINT_NO_DIR) -C $(WRAP_DIR)
 	@ar rcs $(NAME) $(WRP_OBJS)
 	@printf "$(CREATED)" $@ $(CUR_DIR)
 
 mwrap: submodules
-	@$(MAKE) $(PRINT_NO_DIR) -C $(WRAP_DIR) $(MULTI_THREADED) malloc
+	@$(MAKE) $(PRINT_NO_DIR) -C $(WRAP_DIR) malloc
 	@ar rcs $(NAME) $(WRP_OBJS)
 	@printf "$(CREATED)" $@ $(CUR_DIR)
 
@@ -212,10 +215,10 @@ clone_tester:
 	fi
 
 test:	base submodules clone_tester mwrap dbltoa dynarr printf all
-	@$(MAKE) $(PRINT_NO_DIR) -C $(TESTER_DIR) $(MULTI_THREADED) run
+	@$(MAKE) $(PRINT_NO_DIR) -C $(TESTER_DIR) run
 
 test_valgrind:	base submodules clone_tester mwrap dbltoa dynarr printf all
-	@$(MAKE) $(PRINT_NO_DIR) -C $(TESTER_DIR) $(MULTI_THREADED) valgrind
+	@$(MAKE) $(PRINT_NO_DIR) -C $(TESTER_DIR) valgrind
 
 clean:
 	@$(RM) $(BUILD_DIR) $(DELETE)

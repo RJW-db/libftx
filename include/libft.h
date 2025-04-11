@@ -6,7 +6,7 @@
 /*   By: rde-brui <rde-brui@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/01/09 20:31:53 by rde-brui      #+#    #+#                 */
-/*   Updated: 2025/04/11 01:40:52 by rjw           ########   odam.nl         */
+/*   Updated: 2025/04/11 04:04:36 by rjw           ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -224,7 +224,7 @@ bool		strs0_ok(t_cchr *s1, t_cchr *s2);
 bool		dpstr0_ok(t_cchr **s1);
 bool		dpstrs0_ok(t_cchr **s1, t_cchr **s2);
 bool		dp_ptr_ok(void **p1);
-bool		c_in_str(t_cint8 c, t_cchr *str);
+bool		c_in_str(int32_t c, t_cchr *str);
 bool		strcmp0(t_cchr *str, t_cchr *set_order);
 size_t		strlmatch(t_cchr *s1, t_cchr *s2);
 #endif

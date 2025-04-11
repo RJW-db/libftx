@@ -6,7 +6,7 @@
 /*   By: rde-brui <rde-brui@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/01/09 20:31:53 by rde-brui      #+#    #+#                 */
-/*   Updated: 2025/04/11 02:01:19 by rjw           ########   odam.nl         */
+/*   Updated: 2025/04/11 03:49:36 by rjw           ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ void	ft_putnbr_fd(int n, int fd)
 		negative = -n;
 	while (negative != 0)
 	{
-		*(number--) = '0' + (negative % 10);
+		*(number--) = (char)('0' + (negative % 10));
 		negative /= 10;
 	}
 	if (n < 0)
@@ -107,7 +107,7 @@ void	ft_putnbr_nl_fd(int n, int fd)
 		negative = -n;
 	while (negative != 0)
 	{
-		*(--number) = '0' + (negative % 10);
+		*(number--) = (char)('0' + (negative % 10));
 		negative /= 10;
 	}
 	if (n < 0)

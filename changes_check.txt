@@ -24,3 +24,5 @@ modified:	include/terminal_markup.h
 modified:	include/validate_ptr.h
 modified:	src/memory_edit/mem_edit.c
 modified:	src/memory_search/mem_search.c
+
+sudo ntpdate time.nist.gov

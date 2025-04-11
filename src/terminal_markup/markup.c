@@ -6,7 +6,7 @@
 /*   By: rde-brui <rde-brui@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/01/13 18:13:07 by rde-brui      #+#    #+#                 */
-/*   Updated: 2025/01/13 19:09:26 by rde-brui      ########   odam.nl         */
+/*   Updated: 2025/04/11 03:47:09 by rjw           ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	markup(t_cchr *str, ...)
 	va_end(style);
 }
 
-void	print_full_width(t_csize_t c)
+void	print_full_width(int32_t c)
 {
 	struct winsize	w;
 	const size_t	markup = sizeof(MARKUP) - 1;
