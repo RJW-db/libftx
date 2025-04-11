@@ -127,11 +127,12 @@ $(BUILD_DIR)%.o: %.c $(HEADERS)
 	@mkdir -p $(@D)
 	$(COMPILER) $(CFLAGS) -I $(INC_DIR) -c $< -o $@
 
-all_submodules:
+submodules:
 	git submodule update --init --recursive
 	@git submodule foreach 'git checkout $$(git config -f $toplevel/.gitmodules submodule.$name.branch || echo main)'
 	@git submodule update --remote --merge
 
+#		Run this target to update specific submodules to their latest remote state
 submodules_update:
 	git submodule update --remote $(DBL_DIR)
 	git submodule update --remote $(DYN_DIR)
