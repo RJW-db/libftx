@@ -115,39 +115,6 @@ HEADERS			:=	$(addprefix $(INC_DIR), $(HEADERS_FILES))
 DELETE			:=	*.out			**/*.out			.DS_Store										\
 					**/.DS_Store	.dSYM/				**/.dSYM/
 
-#		Check if submodules needs an update
-# check_and_update_submodule = \
-# 	@if [ "$$(git -C $1 rev-parse HEAD)" != "$$(git ls-tree HEAD $1 | awk '{print $$3}')" ]; then \
-# 		git submodule update --remote $1; \
-# 	fi
-
-# check_and_update_submodule = \
-# 	@if [ -d "$1" ]; then \
-# 		current_commit=$$(git -C $1 rev-parse HEAD); \
-# 		remote_commit=$$(git ls-remote $$(git -C $1 config --get remote.origin.url) $$(git -C $1 rev-parse --abbrev-ref HEAD) | awk '{print $$1}'); \
-# 		if [ "$$current_commit" != "$$remote_commit" ]; then \
-# 			echo "Updating submodule $1 to the latest remote commit..."; \
-# 			git submodule update --remote $1; \
-# 		else \
-# 			echo "Submodule $1 is up to date."; \
-# 		fi; \
-# 	fi
-
-check_and_update_submodule = \
-	@if [ -d "$1" ]; then \
-		cd "$1"; \
-		git fetch origin; \
-		branch=$$(git rev-parse --abbrev-ref HEAD); \
-		current=$$(git rev-parse HEAD); \
-		remote=$$(git rev-parse origin/$$branch); \
-		if [ "$$current" != "$$remote" ]; then \
-		echo "Updating $1..."; \
-		git merge --ff-only "$$remote"; \
-		else \
-		echo "$1 is up to date."; \
-		fi; \
-	fi
-
 #		Default target
 all: $(NAME)
 
@@ -163,14 +130,12 @@ $(BUILD_DIR)%.o: %.c $(HEADERS)
 init_submodules:
 	@git submodule update --init --recursive
 
-# submodules_update:
 submodules_update: init_submodules
-	$(call check_and_update_submodule,$(DBL_DIR))
-	$(call check_and_update_submodule,$(WRAP_DIR))
-	$(call check_and_update_submodule,$(DYN_DIR))
-	$(call check_and_update_submodule,$(PRINTF_DIR))
+	git submodule update --remote $(DBL_DIR)
+	git submodule update --remote $(WRAP_DIR)
+	git submodule update --remote $(DYN_DIR)
+	git submodule update --remote $(PRINTF_DIR)
 
-submodules: submodules_update
 #		If you made changes in submodule and restoring it.
 #	cd src/dbltoa
 #	git restore .
