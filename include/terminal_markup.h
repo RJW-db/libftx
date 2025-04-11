@@ -6,7 +6,7 @@
 /*   By: rde-brui <rde-brui@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/01/13 18:20:01 by rde-brui      #+#    #+#                 */
-/*   Updated: 2025/01/30 21:16:12 by rjw           ########   odam.nl         */
+/*   Updated: 2025/04/11 02:08:51 by rjw           ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,5 +70,4 @@ void	markup(t_cchr *str, ...);
  * @param[in] c Use `const uint32_t` for Unicode characters.
  */
 void	print_full_width(t_csize_t c);
-
 #endif

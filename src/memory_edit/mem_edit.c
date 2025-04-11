@@ -6,7 +6,7 @@
 /*   By: rjw <rjw@student.codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/09/11 20:32:47 by rjw           #+#    #+#                 */
-/*   Updated: 2025/04/10 17:51:33 by rde-brui      ########   odam.nl         */
+/*   Updated: 2025/04/11 02:16:00 by rjw           ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,15 +37,16 @@ void	*ft_memcpy(void *dest, const void *src, size_t n)
 
 void	*ft_memmove(void *dest, const void *src, size_t n)
 {
-	char	*tmp;
+	const char	*src_char = src;
+	char		*tmp;
 
 	tmp = dest;
-	if (src > dest)
+	if (src_char > tmp)
 		while (n--)
-			*tmp++ = *(char *)src++;
-	if (dest > src)
+			*(tmp++) = *(src_char++);
+	if ((char *)dest > src_char)
 		while (n--)
-			*((char *)dest + n) = *((char *)src + n);
+			*((char *)dest + n) = *(src_char + n);
 	return (dest);
 }
 

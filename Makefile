@@ -12,8 +12,7 @@ MAKEFLAGS		+=	$(MULTI_THREADED)
 COMPILER		:=	gcc
 CFLAGS			+=	-Wall -Wextra
 CFLAGS			+=	-Werror
-# CFLAGS			+=	-Wunreachable-code -Wpedantic -Wconversion -Wshadow
-CFLAGS			+=	-Wunreachable-code -Wshadow -Wconversion
+CFLAGS			+=	-Wunreachable-code -Wpedantic -Wconversion -Wshadow
 CFLAGS			+=	-MMD -MP
 CFLAGS			+=	-g
 #	Werror cannot go together with fsanitize, because fsanitize won't work correctly.
