@@ -1,10 +1,11 @@
-// #include <libft.h>
-#include "include/libft.h"
+#include <libft.h>
 #include <stdio.h>
 int main(void)
 {
-	char *str = gnl(0);
-	puts(str);
+	char buf[1000];
+	
+	cpy_srcs_s(buf, "bur", NULL, "yur");
+	puts(buf);
 	return (0);
 }
 // int main(void)

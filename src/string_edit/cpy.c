@@ -6,7 +6,7 @@
 /*   By: rjw <rjw@student.codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/09/11 20:31:00 by rjw           #+#    #+#                 */
-/*   Updated: 2025/03/29 12:17:28 by rjw           ########   odam.nl         */
+/*   Updated: 2025/04/11 20:09:13 by rde-brui      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ size_t	cpy_str(char *dst, t_cchr *src)
 		++i;
 		c = src[i];
 	}
-	dst[i] = '\0';
 	return (i);
 }
 
@@ -56,8 +55,7 @@ size_t	cpy_srcs(char *dst, t_cchr *s1, t_cchr *s2, t_cchr *s3)
 
 	i = cpy_str(dst, s1);
 	i += cpy_str(&dst[i], s2);
-	i += cpy_str(&dst[i], s3);
-	dst[i] = '\0';
+	i += cpy_str0(&dst[i], s3);
 	return (i);
 }
 

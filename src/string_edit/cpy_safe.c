@@ -6,7 +6,7 @@
 /*   By: rjw <rjw@student.codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/09/11 20:30:57 by rjw           #+#    #+#                 */
-/*   Updated: 2025/01/08 17:44:16 by rde-brui      ########   odam.nl         */
+/*   Updated: 2025/04/11 20:16:08 by rde-brui      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,9 @@ size_t	cpy_str_s(char *dst, t_cchr *src)
 {
 	if (strs_ok(dst, src) == false)
 		return (0);
-	return (cpy_str(dst, src));
+	return (cpy_str0(dst, src));
 }
-
+#include <stdio.h>
 /**
 	Used functions:
 	- cpy_str
@@ -35,21 +35,15 @@ size_t	cpy_srcs_s(char *dst, t_cchr *s1, t_cchr *s2, t_cchr *s3)
 {
 	size_t	i;
 
-	if (strs_ok(dst, s1) == false)
+	if (dst == NULL)
 		return (0);
-	i = cpy_str(dst, s1);
-	if (s2 == NULL)
-	{
-		dst[i] = '\0';
-		return (i);
-	}
-	i += cpy_str(&dst[i], s2);
-	if (s3 == NULL)
-	{
-		dst[i] = '\0';
-		return (i);
-	}
-	i += cpy_str(&dst[i], s3);
+	i = 0;
+	if (s1 != NULL)
+		i = cpy_str(dst, s1);
+	if (s2 != NULL)
+		i += cpy_str(dst + i, s2);
+	if (s3 != NULL)
+		i += cpy_str(dst + i, s3);
 	dst[i] = '\0';
 	return (i);
 }

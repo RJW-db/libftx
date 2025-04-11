@@ -139,9 +139,7 @@ submodules_update:
 	git submodule update --remote $(PRINTF_DIR)
 	git submodule update --remote $(WRAP_DIR)
 
-# @git submodule update --init --recursive
-# @git submodule update --remote
-#		If you made changes in submodule and restoring it.
+#		If you made changes in a submodule this is how you restore it.
 #	cd src/dbltoa
 #	git restore .
 #	git reset --hard
@@ -184,7 +182,7 @@ clone_tester:
 		git clone git@github.com:RJW-db/lib_tester.git tester; \
 	fi
 
-test:	base clone_tester mwrap dbltoa dynarr printf all
+test:	clone_tester mwrap dbltoa dynarr printf all
 	@$(MAKE) $(PRINT_NO_DIR) -C $(TESTER_DIR) run
 
 test_valgrind:	base clone_tester mwrap dbltoa dynarr printf all
@@ -226,11 +224,9 @@ print-%:
 #		Include dependencies
 -include $(DEPS)
 
-.PHONY: all init_submodules submodules_update submodules base llist dbltoa dynarr	\
+.PHONY: all submodules submodules_update base llist dbltoa dynarr	\
 		printf wrap mwrap clone_tester test test_valgrind clean no_print_clean		\
 		fclean no_print_fclean clean_tester allclean re print-%
-
-.NOTPARALLEL: init_submodules submodules_update submodules
 # ----------------------------------- colors --------------------------------- #
 BOLD			=	\033[1m
 GREEN			=	\033[32m
