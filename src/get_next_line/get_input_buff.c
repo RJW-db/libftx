@@ -6,7 +6,7 @@
 /*   By: rjw <rjw@student.codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/02/23 14:49:53 by rjw           #+#    #+#                 */
-/*   Updated: 2025/04/11 01:54:37 by rjw           ########   odam.nl         */
+/*   Updated: 2025/04/11 23:34:24 by rjw           ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ static ssize_t	process_input(char *buff, ssize_t rd, ssize_t buff_size)
 	if (buff[index] == '\n')
 	{
 		buff[index] = '\0';
-		return (index + 1);
+		return (index);
 	}
 	if (rd < buff_size)
 		buff[rd++] = '\0';
