@@ -28,6 +28,8 @@
 		"wrapper.h": "c",
 		"random": "c",
 		"dynarr.h": "c",
-		"test.h": "c"
+		"test.h": "c",
+		"is_ctype1.h": "c",
+		"is_ctype1_str.h": "c"
 	}
 }

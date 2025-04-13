@@ -1,40 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   is_ctype1.h                                        :+:    :+:            */
+/*   is_ctype1_str.h                                    :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: rjw <rjw@student.codam.nl>                   +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2025/01/11 02:58:41 by rjw           #+#    #+#                 */
-/*   Updated: 2025/04/13 16:17:51 by rjw           ########   odam.nl         */
+/*   Created: 2025/04/13 16:18:17 by rjw           #+#    #+#                 */
+/*   Updated: 2025/04/13 17:41:50 by rjw           ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef IS_CTYPE1_H
-# define IS_CTYPE1_H
+#ifndef STR_CTYPE_H
+# define STR_CTYPE_H
 # include <stdbool.h>
+# include <is_ctype1.h>
 
-static inline int	ft_isascii(int c)
+bool	str_check_all(const char *str, int (*func)(int));
+
+static inline bool	str_isdigit(const char *str)
 {
-	return (c >= 0 && c <= 127);
+    return (str_check_all(str, ft_isdigit));
 }
 
-static inline int	ft_isdigit(int c)
+static inline bool	str_isalpha(const char *str)
 {
-	return (c >= 48 && c <= 57);
+    return (str_check_all(str, ft_isalpha));
 }
 
-static inline int	ft_isalpha(int c)
+static inline bool	str_isalnum(const char *str)
 {
-	if ((c >= 65 && c <= 90) || (c >= 97 && c <= 122))
-		return (1024);
-	return (0);
+    return (str_check_all(str, ft_isalnum));
 }
 
-static inline int	ft_isalnum(int c)
-{
-	if ((c >= 65 && c <= 90) || (c >= 97 && c <= 122) || (c >= 48 && c <= 57))
-		return (8);
-	return (0);
-}
 #endif

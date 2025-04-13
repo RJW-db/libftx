@@ -50,12 +50,12 @@ PTCHR			:=	put_chars_fd.c
 SCRTE			:=	itoa.c						itoa_base.c						str_dup.c				\
 					string_create.c				strjoin.c						strjoin_set_null.c		\
 					strtrim.c
-SEDIT			:=	cpy_safe.c					cpy.c							strcpy.c				\
-					str_edit.c					swap_values.c
+SEDIT			:=	capitalizations.c			cpy_safe.c						cpy.c					\
+					strcpy.c					str_edit.c						swap_values.c
 SSRCH			:=	str_len.c					str_compare.c					str_null_check.c		\
 					str_search.c				str_search_2.c					find_char.c				\
 					find_char_not.c				ptr_null_check.c				skip_characters.c		\
- 					str_len_comparing.c
+ 					str_len_comparing.c			str_ctype.c
 
 DBTOA			:=	dbltoa.c					fraction_conversion.c			fraction_operations.c	\
 					ft_binary_to_decimal.c		scientific_notation.c			double_to_string.c		\
@@ -106,8 +106,8 @@ DEPS			:=	$(ALL_OBJS:.o=.d)
 #		Header files
 HEADERS_FILES	:=	libft.h						common_defs.h					ft_printf.h				\
 					dbltoa.h					dynarr.h						is_ctype1.h				\
-					is_ctype2.h					validate_ptr.h					terminal_markup.h		\
-					wrapper.h
+					is_ctype2.h					is_ctype1_str.h					validate_ptr.h			\
+					terminal_markup.h			wrapper.h
 
 HEADERS			:=	$(addprefix $(INC_DIR), $(HEADERS_FILES))
 
