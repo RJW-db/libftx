@@ -6,7 +6,7 @@
 /*   By: rde-brui <rde-brui@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/01/09 20:31:53 by rde-brui      #+#    #+#                 */
-/*   Updated: 2025/04/11 04:04:36 by rjw           ########   odam.nl         */
+/*   Updated: 2025/04/13 02:56:44 by rjw           ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,7 @@ uint64_t	atui64(t_cchr *nptr);
 //	Get_Next_line
 char		*get_next_line(int fd);
 char		*get_next_line_fds(int fd);
-ssize_t		get_user_input(char *buff, ssize_t buff_size, char *prompt);
+ssize_t		get_user_input(char *buff, ssize_t buff_size, char *msg, bool mute);
 
 //	Linked List Functions
 void		ft_lstadd_back(t_lst **lst, t_lst *new);

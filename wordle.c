@@ -1,10 +1,13 @@
 #include <libft.h>
 #include <stdio.h>
 
+#define RESET "\033[0m" // To reset the color back to default
+#define RED "\033[31m"
 #define GREEN "\033[32m"
 #define YELLOW "\033[33m"
 #define GREY "\033[90m"
-#define RESET "\033[0m" // To reset the color back to default
+#define MOVE_CURSOR_UP "\033[F"
+#define CLEAR_LINE "\033[2K"
 // (25 * 2) + 5 + 1
 // 5 * 5 = 25,   25 + 5 + 1
 #define PATH_WORLD_TXT "wordle.txt"
@@ -16,6 +19,51 @@ enum e_correct
 	OK
 };
 
+int	to_lower(int c)
+{
+	if (c >= 'A' && c <= 'Z')
+		c += 32;
+	return (c);
+}
+
+char	*str_decapitalize(char *str)
+{
+	size_t	i;
+
+    if (str != NULL)
+	{
+		i = 0;
+		while (str[i] != '\0')
+		{
+			str[i] = to_lower((unsigned char)str[i]);
+			++i;
+		}
+    }
+	return (str);
+}
+
+int	to_upper(int c)
+{
+	if (c >= 'a' && c <= 'z')
+		c -= 32;
+	return (c);
+}
+
+char	*str_capitalize(char *str)
+{
+	size_t	i;
+
+    if (str != NULL)
+	{
+		i = 0;
+		while (str[i] != '\0')
+		{
+			str[i] = to_upper((unsigned char)str[i]);
+			++i;
+		}
+    }
+	return (str);
+}
 
 bool	is_letter_in_word(char *target, char *guess, uint8_t guess_index)
 {
@@ -37,7 +85,6 @@ bool	is_letter_in_word(char *target, char *guess, uint8_t guess_index)
 		}
 		++i;
 	}
-	// printf("c %c\ncount_appearances_target %hu\ncount_appearances_guess %hu\n", buff_letter, count_appearances_target, count_appearances_guess);
 	if (count_appearances_guess <= count_appearances_target) {
 		return (true);
 	}
@@ -73,7 +120,10 @@ bool	does_guess_exist(char *txt, char *guess)
 		}
 		index += 6;
 	}
-	puts("Niet bestaand");
+	str_capitalize(guess);
+	ft_putstr_fd(MOVE_CURSOR_UP CLEAR_LINE "The word " RED, 1);
+	ft_putstr_fd(guess, 1);
+	ft_putstr_fd(RESET " doesn't exist\n", 1);
 	return (false);
 }
 
@@ -117,46 +167,57 @@ bool	initialize_psuedo_random(void)
 	srand((unsigned int)current_time);
 	return (true);
 }
-
-int	main(void)
+bool	guess_the_word(char *wordle_txt, char *guess)
 {
-	char		wordle_txt[WORDLE_TXT_SIZE + 1];
+	size_t	word_exist;
 
-	if (read_fd(wordle_txt) == false || initialize_psuedo_random() == false)
-		return (EXIT_FAILURE);
-
-	for (int k = 0; k < 15; ++k)
+	word_exist = 0;
+	while (true)
 	{
-		int word = rand() % 5758;
-		printf("%d\n", word);
-		write(1, wordle_txt + (word * 6), 6);
+		if (get_user_input(guess, 6, "Your answer: ", false) != 5)
+		{
+			if (ft_strcmp(guess, "exit\n") == 0)
+			{
+				ft_putstr_fd("Exiting", 1);
+				return (false);
+			}
+			ft_putstr_fd(MOVE_CURSOR_UP CLEAR_LINE, 1);
+			continue ;
+		}
+		// ft_putstr_fd("newline", 1);
+		str_decapitalize(guess);
+		if (does_guess_exist(wordle_txt, guess) == true)
+		{
+			while (word_exist-- != 0)
+				ft_putstr_fd(MOVE_CURSOR_UP CLEAR_LINE, 1);
+			break ;
+		}
+		++word_exist;
 	}
+	return (true);
+}
 
-	uint8_t buff_color[5];
-	char buff[6];
-	char *target = "hello";
-	char guess[6];
-
+bool	compare_words(char *target, char *guess, char *buff, uint8_t *buff_color)
+{
 	ft_memset(buff, '_', 6);
 	buff[5] = '\0';
 	ft_memset(buff_color, KO, 5);
-	while (true) {
-		if (get_user_input(guess, 6, "Your answer: ") != 5) {
-			if (ft_strcmp(guess, "exit\n") == 0) {
-				puts("Exiting");
-				return (0);
-			}
-			continue ;
-		}
-		if (does_guess_exist(wordle_txt, guess) == true) {
-			break ;
-		}
-	}
-	printf("%s\n", guess);
-	exit(0);
 	matches_postion(target, guess, buff, buff_color);
-	// printf("%s<\n", buff);
 
+	uint8_t guessed_word;
+	uint8_t check_color;
+	guessed_word = 0;
+	check_color = 0;
+	while (check_color < 5)
+	{
+		if (buff_color[check_color] == OK)
+		{
+			++guessed_word;
+		}
+		++check_color;
+	}
+	if (guessed_word == 5)
+		return (true);
 	for (uint8_t i = 0; i < 5 && guess[i] != '\0'; ++i) {
 		if (buff[i] == '_') {
 			buff[i] = guess[i];
@@ -167,6 +228,11 @@ int	main(void)
 		}
 
 	}
+	return (false);
+}
+
+void	print_guess_color(char *buff, uint8_t *buff_color)
+{
 	char print_string[35]; // 35 = (5 letters * 5 color chars) + 5 letters + 1 terminator + 4 RESET chars
 	uint8_t print_index = 0;
 	for (uint8_t i = 0; i < 5; ++i) {
@@ -186,10 +252,57 @@ int	main(void)
 		++print_index;
 	}
 	cpy_str0(print_string + print_index, RESET);
-	// printf("%s\n", buff);
-	printf("%s\n", print_string);
-	printf("print_string %zu\n", ft_strlen(print_string));
-	return (0);
+	ft_putstr_fd(MOVE_CURSOR_UP CLEAR_LINE, 1);
+	ft_putendl_fd(print_string, 1);
+}
+
+bool	wordle(char *wordle_txt, char *target)
+{
+	char	guess[6];
+	char	buff[6];
+	uint8_t	buff_color[5];
+
+	if (guess_the_word(wordle_txt, guess) == false)
+	{
+		ft_putstr_fd("You decided to stop playing\n", 1);
+		return (true);
+	}
+	str_capitalize(guess);
+	if (compare_words(target, guess, buff, buff_color) == true)
+	{
+		print_guess_color(buff, buff_color);
+		ft_putstr_fd("You guessed the word!\n", 1);
+		return (true);
+	}
+	print_guess_color(buff, buff_color);
+	return (false);
+}
+
+int	main(void)
+{
+	char	wordle_txt[WORDLE_TXT_SIZE + 1];
+	int		word_index;
+	char	target[6];
+	uint8_t	attempts = 6;
+
+	if (read_fd(wordle_txt) == false || initialize_psuedo_random() == false)
+		return (false);
+	word_index = rand() % 5758;
+	cpy_num(target, wordle_txt + (word_index * 6), 5);
+	str_capitalize(target);
+	ft_putstr_fd("Target: ", 1);
+	ft_putendl_fd(target, 1);
+	while (attempts != 0)
+	{
+		if (wordle(wordle_txt, target) == true)
+		{
+			return (EXIT_SUCCESS);
+		}
+		--attempts;
+	}
+	ft_putstr_fd("You've ran out of attempts!\nThe word was ", 1);
+	ft_putendl_fd(target, 1);
+	return (EXIT_SUCCESS);
 }
 
 
