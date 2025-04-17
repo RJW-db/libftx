@@ -133,11 +133,11 @@ submodules:
 	git submodule update --remote --merge
 
 #		Run this target to update specific submodules to their latest remote state
-submodules_update:
-	git submodule update --remote $(DBL_DIR)
-	git submodule update --remote $(DYN_DIR)
-	git submodule update --remote $(PRINTF_DIR)
-	git submodule update --remote $(WRAP_DIR)
+# submodules_update:
+# 	git submodule update --remote $(DBL_DIR)
+# 	git submodule update --remote $(DYN_DIR)
+# 	git submodule update --remote $(PRINTF_DIR)
+# 	git submodule update --remote $(WRAP_DIR)
 
 #		If you made changes in a submodule this is how you restore it.
 #	cd src/dbltoa
