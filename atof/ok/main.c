@@ -5,18 +5,17 @@
 #include <string.h>
 #include <libft.h>
 
+#include <ft_atof.h>
 // Define colors for output
 #define RED "\033[31m"
 #define GREEN "\033[32m"
 #define RESET "\033[0m"
 
-float rt_atof(const char *str, bool *overflow);
-
 void	atofinette(void);
 void	manual_descriptive_test(void);
 
-// cc -Wall -Wextra -Werror -Wunreachable-code -Wpedantic -Wconversion -Wshadow -I ../include main.c compare_parse_utils.c ../lib.a
-// cc -I ../include main.c compare_parse_utils.c ../lib.a
+// cc -Wall -Wextra -Werror -Wunreachable-code -Wpedantic -Wconversion -Wshadow -I . -I ../../include main.c dt_atof.c process_exponent.c process_first_part.c process_second_part.c ../../lib.a && ./a.out
+// cc -I . -I ../../include main.c dt_atof.c process_exponent.c process_first_part.c process_second_part.c ../../lib.a && ./a.out
 
 int	main(void)
 {
@@ -28,7 +27,7 @@ int	main(void)
 
 void test_case(const char *input, const char *description) {
 	bool overflow = false;
-	float result = rt_atof(input, &overflow);
+	float result = ft_atof(input, &overflow);
 	
 	printf("Test: %s\n", description);
 	printf("Input: \"%s\"\n", input);
@@ -181,7 +180,7 @@ bool test_case_auto_check(const char *input, float expected_result, bool expecte
 	};
 
 	bool overflow = false;
-	float result = rt_atof(input, &overflow);
+	float result = ft_atof(input, &overflow);
 
 	// Check if the result matches the expected result and overflow status
 	bool result_match = false;

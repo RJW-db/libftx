@@ -5,7 +5,7 @@ static bool		is_special_float(const char *str, float *result);
 static int		process_sign(const char *str, int *sign);
 static float	apply_sign_and_check(t_atof *atof, int sign);
 
-float	rt_atof(const char *str, bool *overflow)
+float	ft_atof(const char *str, bool *overflow)
 {
 	t_atof	atof;
 	float	special_val;
@@ -93,7 +93,6 @@ double	ft_fabs(double x)
 	ft_memcpy(&result, &bits, sizeof(result)); // Safely copy the bits back into a double
 	return result;
 }
-
 
 float	ft_fabsf(float x)
 {
