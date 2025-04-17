@@ -32,6 +32,7 @@
 		"is_ctype1.h": "c",
 		"is_ctype1_str.h": "c",
 		"math.h": "c",
-		"float.h": "c"
+		"float.h": "c",
+		"cctype": "c"
 	}
 }

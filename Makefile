@@ -129,8 +129,8 @@ $(BUILD_DIR)%.o: %.c $(HEADERS)
 
 submodules:
 	git submodule update --init --recursive
-	@git submodule foreach 'git checkout $$(git config -f $toplevel/.gitmodules submodule.$name.branch || echo main)'
-	@git submodule update --remote --merge
+	git submodule foreach 'git checkout $$(git config -f $toplevel/.gitmodules submodule.$name.branch || echo main)'
+	git submodule update --remote --merge
 
 #		Run this target to update specific submodules to their latest remote state
 submodules_update:
@@ -227,6 +227,8 @@ print-%:
 .PHONY: all submodules submodules_update base llist dbltoa dynarr	\
 		printf wrap mwrap clone_tester test test_valgrind clean no_print_clean		\
 		fclean no_print_fclean clean_tester allclean re print-%
+
+.NOTPARALLEL: clone_tester
 # ----------------------------------- colors --------------------------------- #
 BOLD			=	\033[1m
 GREEN			=	\033[32m

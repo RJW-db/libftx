@@ -1,18 +1,18 @@
 #include <ft_atof.h>
 
 //	Static Functions
-static bool	process_integer(t_atof *atof, const char *str, int i);
-static bool	process_fraction(t_atof *atof, const char *str, int i);
+static bool	parse_integer_part(t_atof *atof, const char *str, int16_t i);
+static bool	parse_fraction_part(t_atof *atof, const char *str, int16_t i);
 
-float	process_first_part(t_atof *atof, int sign)
+float	parse_integer_and_fraction(t_atof *atof, int8_t sign)
 {
-	if (process_integer(atof, atof->str, atof->i) == false)
+	if (parse_integer_part(atof, atof->str, atof->i) == false)
 	{
 		if (sign > 0)
 			return (FLT_MAX);
 		return (-FLT_MAX);
 	}
-	if (process_fraction(atof, atof->str, atof->i) == false)
+	if (parse_fraction_part(atof, atof->str, atof->i) == false)
 	{
 		if (sign > 0)
 			return (FLT_MAX);
@@ -22,8 +22,7 @@ float	process_first_part(t_atof *atof, int sign)
 }
 
 
-// Process integer part of the number
-static bool	process_integer(t_atof *atof, const char *str, int i)
+static bool	parse_integer_part(t_atof *atof, const char *str, int16_t i)
 {
 	float	num;
 
@@ -44,8 +43,7 @@ static bool	process_integer(t_atof *atof, const char *str, int i)
 	return (true);
 }
 
-// Process fractional part
-static bool	process_fraction(t_atof *atof, const char *str, int i)
+static bool	parse_fraction_part(t_atof *atof, const char *str, int16_t i)
 {
 	float	digit_value;
 	float	scale;

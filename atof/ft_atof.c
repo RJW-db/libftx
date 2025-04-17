@@ -2,14 +2,14 @@
 
 //	Static Functions
 static bool		is_special_float(const char *str, float *result);
-static int		process_sign(const char *str, int *sign);
-static float	apply_sign_and_check(t_atof *atof, int sign);
+static int8_t	process_sign(const char *str, int8_t *sign);
+static float	apply_sign_and_validate(t_atof *atof, int8_t sign);
 
-float	rt_atof(const char *str, bool *overflow)
+float	ft_atof(const char *str, bool *overflow)
 {
-	t_atof	atof;
 	float	special_val;
-	int		sign;
+	t_atof	atof;
+	int8_t	sign;
 
 	atof = (t_atof){str, 0.0F, 0, overflow};
 	special_val = 0.0F;
@@ -18,13 +18,13 @@ float	rt_atof(const char *str, bool *overflow)
 		return (special_val);
 	sign = 1;
 	atof.i = process_sign(atof.str, &sign);
-	atof.num = process_first_part(&atof, sign);
+	atof.num = parse_integer_and_fraction(&atof, sign);
 	if (*overflow == true)
 		return (atof.num);
-	atof.num = process_second_part(&atof, sign);
+	atof.num = parse_exponent_and_adjust(&atof, sign);
 	if (*overflow == true)
 		return (atof.num);
-	return (apply_sign_and_check(&atof, sign));
+	return (apply_sign_and_validate(&atof, sign));
 }
 
 static bool	is_special_float(const char *str, float *result)
@@ -47,10 +47,9 @@ static bool	is_special_float(const char *str, float *result)
 	return (false);
 }
 
-// Skip whitespace and process sign
-static int	process_sign(const char *str, int *sign)
+static int8_t	process_sign(const char *str, int8_t *sign)
 {
-	int	i;
+	int8_t	i;
 
 	i = 0;
 	if (str[i] == '-')
@@ -63,11 +62,11 @@ static int	process_sign(const char *str, int *sign)
 	return (i);
 }
 
-static float	apply_sign_and_check(t_atof *atof, int sign)
+static float	apply_sign_and_validate(t_atof *atof, int8_t sign)
 {
 	float	result;
 
-	result = atof->num * sign;
+	result = atof->num * (float)sign;
 	if (result != 0.0F && ft_fabsf(result) < FLT_MIN)
 	{
 		*atof->overflow = true;
@@ -93,7 +92,6 @@ double	ft_fabs(double x)
 	ft_memcpy(&result, &bits, sizeof(result)); // Safely copy the bits back into a double
 	return result;
 }
-
 
 float	ft_fabsf(float x)
 {

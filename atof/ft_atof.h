@@ -12,17 +12,17 @@
 
 typedef struct s_stod
 {
-    const char	*str;
-    float		num;
-    int			i;
-    bool		*overflow;
+	const char	*str;
+	float		num;
+	int16_t		i;
+	bool		*overflow;
 } t_atof;
 
 float	ft_atof(const char *str, bool *overflow);
 
-float	process_first_part(t_atof *atof, int sign);
-float	process_second_part(t_atof *atof, int sign);
-bool	process_exponent(t_atof *atof, const char *str, int i);
+float	parse_integer_and_fraction(t_atof *atof, int8_t sign);
+float	parse_exponent_and_adjust(t_atof *atof, int8_t sign);
+bool	parse_and_apply_exponent(t_atof *atof, const char *str, int16_t i);
 
 
 double	ft_fabs(double x);

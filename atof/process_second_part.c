@@ -1,19 +1,19 @@
 #include <ft_atof.h>
 
 //	Static Functions
-static bool		check_near_max(t_atof *atof);
-static int		extract_exp_value(const char *str);
-static int		parse_exponent(const char *str, int i);
-static float	extract_mantissa(const char *str);
+static bool		is_near_float_max(t_atof *atof);
+static int32_t	get_exponent_value(const char *str);
+static int32_t	parse_exponent(const char *str, int8_t i);
+static float	parse_mantissa(const char *str);
 
 // Near-maximum threshold (99.9999% of FLT_MAX)
 #define FLT_NEAR_MAX_THRESHOLD 0.999999F
 // Maximum mantissa value for float (slightly below the exact value for precision)
 #define FLT_MAX_MANTISSA 3.4028234F
 
-float	process_second_part(t_atof *atof, int sign)
+float	parse_exponent_and_adjust(t_atof *atof, int8_t sign)
 {
-	if (process_exponent(atof, atof->str, atof->i) == false)
+	if (parse_and_apply_exponent(atof, atof->str, atof->i) == false)
 	{
 		if (atof->num == 0.0F)
 			return (0.0F);
@@ -21,7 +21,7 @@ float	process_second_part(t_atof *atof, int sign)
 			return (FLT_MAX);
 		return (-FLT_MAX);
 	}
-	if (check_near_max(atof) == true)
+	if (is_near_float_max(atof) == true)
 	{
 		*atof->overflow = true;
 		return (FLT_MAX);
@@ -29,23 +29,23 @@ float	process_second_part(t_atof *atof, int sign)
 	return (atof->num);
 }
 
-static bool	check_near_max(t_atof *atof)
+static bool	is_near_float_max(t_atof *atof)
 {
-	int	exp_val;
+	int32_t	exp_val;
 
 	if (atof->num <= FLT_MAX * FLT_NEAR_MAX_THRESHOLD)
 		return false;
-	exp_val = extract_exp_value(atof->str);
+	exp_val = get_exponent_value(atof->str);
 	if (exp_val > 38)
 		return (true);
 	if (exp_val < 38)
 		return (false);
-	return (extract_mantissa(atof->str) > FLT_MAX_MANTISSA);
+	return (parse_mantissa(atof->str) > FLT_MAX_MANTISSA);
 }
 
-static int	extract_exp_value(const char *str)
+static int32_t	get_exponent_value(const char *str)
 {
-	int i;
+	int8_t i;
 
 	i = 0;
 	while (str[i] != '\0')
@@ -57,10 +57,10 @@ static int	extract_exp_value(const char *str)
 	return (0);
 }
 
-static int	parse_exponent(const char *str, int i)
+static int32_t	parse_exponent(const char *str, int8_t i)
 {
-	int exp_sign;
-	int exp_val;
+	int8_t exp_sign;
+	int8_t exp_val;
 
 	exp_sign = 1;
 	exp_val = 0;
@@ -85,7 +85,7 @@ static int	parse_exponent(const char *str, int i)
 	return (exp_val * exp_sign);
 }
 
-static float	extract_mantissa(const char *str)
+static float	parse_mantissa(const char *str)
 {
 	float	mantissa;
 	float	frac_scale;

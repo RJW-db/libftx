@@ -4,31 +4,58 @@
 #include <math.h>
 #include <string.h>
 #include <libft.h>
+#include <stdlib.h>
 
+#include <ft_atof.h>
 // Define colors for output
 #define RED "\033[31m"
 #define GREEN "\033[32m"
 #define RESET "\033[0m"
 
-float rt_atof(const char *str, bool *overflow);
-
 void	atofinette(void);
 void	manual_descriptive_test(void);
+void	loop_test(void);
 
-// cc -Wall -Wextra -Werror -Wunreachable-code -Wpedantic -Wconversion -Wshadow -I ../include main.c compare_parse_utils.c ../lib.a
-// cc -I ../include main.c compare_parse_utils.c ../lib.a
+/*
+cc -lm -Wall -Wextra -Werror -Wunreachable-code -Wpedantic -Wconversion -Wshadow -I . -I ../include main.c ft_atof.c process_exponent.c process_first_part.c process_second_part.c ../lib.a && ./a.out
+cc -lm -I . -I ../include main.c ft_atof.c process_exponent.c process_first_part.c process_second_part.c ../lib.a && ./a.out
+*/
 
 int	main(void)
 {
-	manual_descriptive_test();
+	// char	*str;
+	// // double	num = strtod("inf", &str);
+	// double	num = ft_atof("inf", &str);
+
+	// printf("%f\n", num);
+	// exit(0);
+	// manual_descriptive_test();
 	atofinette();
+	// loop_test();
+
+// THE PROBLEM FOR loop_test(), it should not set overflow = true;
+// static float adjust_negative_exponent(float num, int32_t exp, bool *overflow)
+// {
+// 	while (exp < 0)
+// 	{
+// 		num *= 0.1F;
+
+// 		if (num != 0.0F && ft_fabsf(num) < FLT_MIN)
+// 		{
+// 			*overflow = true;
+// 			return (0.0F);
+// 		}
+// 		++exp;
+// 	}
+// 	return (num);
+// }
 	return (0);
 }
 
 
 void test_case(const char *input, const char *description) {
 	bool overflow = false;
-	float result = rt_atof(input, &overflow);
+	float result = ft_atof(input, &overflow);
 	
 	printf("Test: %s\n", description);
 	printf("Input: \"%s\"\n", input);
@@ -45,9 +72,6 @@ void test_case(const char *input, const char *description) {
 
 void	manual_descriptive_test(void)
 {
-	printf("FLT_MAX = %e\n", FLT_MAX);
-	printf("FLT_MIN = %e\n\n", FLT_MIN);
-	
 	// Normal cases
 	test_case("0.0", "Zero");
 	test_case("123.456", "Normal positive number");
@@ -181,7 +205,7 @@ bool test_case_auto_check(const char *input, float expected_result, bool expecte
 	};
 
 	bool overflow = false;
-	float result = rt_atof(input, &overflow);
+	float result = ft_atof(input, &overflow);
 
 	// Check if the result matches the expected result and overflow status
 	bool result_match = false;
@@ -212,10 +236,6 @@ void	atofinette(void)
 {
 	// test_case_auto_check("1.1754942e-38", 1.1754942e-38f, false, 51);
 	// exit(0);
-
-
-	printf("FLT_MAX = %e\n", FLT_MAX);
-	printf("FLT_MIN = %e\n\n", FLT_MIN);
 
 	test_case_auto_check("123.456", 123.456f, false, 1);
 	test_case_auto_check("-42.5", -42.5f, false, 2);
@@ -313,4 +333,47 @@ void	atofinette(void)
 	}
 	test_case_auto_check(above_max, FLT_MAX, true, 58);
 	printf("\n");
+}
+
+void	loop_test(void)
+{
+	printf("Running loop tests...\n");
+	size_t index = 1;
+
+	// Test values near zero
+	for (double value = -1.0e-45; value <= 1.0e-45; value += 1.0e-46)
+	{
+		char input[50];
+		sprintf(input, "%.10e", value);
+		test_case_auto_check(input, (float)value, false, index++);
+	}
+
+	// Test values near FLT_MIN
+	for (double value = FLT_MIN - 1.0e-38; value <= FLT_MIN + 1.0e-38; value += 1.0e-39)
+	{
+		char input[50];
+		sprintf(input, "%.10e", value);
+		test_case_auto_check(input, (float)value, false, index++);
+	}
+
+	// Test values near FLT_MAX
+	for (double value = FLT_MAX - 1.0e+37; value <= FLT_MAX + 1.0e+37; value += 1.0e+37)
+	{
+		char input[50];
+		sprintf(input, "%.10e", value);
+		bool expected_overflow = (value > FLT_MAX);
+		test_case_auto_check(input, expected_overflow ? FLT_MAX : (float)value, expected_overflow, index++);
+	}
+
+	// // Test values with exponents
+	for (int exp = -50; exp <= 50; exp += 10)
+	{
+		char input[50];
+		sprintf(input, "1e%d", exp);
+		double expected_result = pow(10.0, exp);
+		bool expected_overflow = (expected_result > FLT_MAX || expected_result < FLT_MIN);
+		test_case_auto_check(input, expected_overflow ? (expected_result > 0 ? FLT_MAX : 0.0F) : (float)expected_result, expected_overflow, index++);
+	}
+
+	printf("\nLoop tests completed.\n");
 }
