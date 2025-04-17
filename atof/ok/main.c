@@ -4,6 +4,7 @@
 #include <math.h>
 #include <string.h>
 #include <libft.h>
+#include <stdlib.h>
 
 #include <ft_atof.h>
 // Define colors for output
@@ -15,10 +16,15 @@ void	atofinette(void);
 void	manual_descriptive_test(void);
 
 // cc -Wall -Wextra -Werror -Wunreachable-code -Wpedantic -Wconversion -Wshadow -I . -I ../../include main.c dt_atof.c process_exponent.c process_first_part.c process_second_part.c ../../lib.a && ./a.out
-// cc -I . -I ../../include main.c dt_atof.c process_exponent.c process_first_part.c process_second_part.c ../../lib.a && ./a.out
+// cc -I . -I ../../include main.c ft_atof.c process_exponent.c process_first_part.c process_second_part.c ../../lib.a && ./a.out
 
 int	main(void)
 {
+	char	*str;
+	double	num = strtod("123", &str);
+
+	printf("%f\n", num);
+	exit(0);
 	manual_descriptive_test();
 	atofinette();
 	return (0);
