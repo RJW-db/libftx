@@ -30,6 +30,8 @@
 		"dynarr.h": "c",
 		"test.h": "c",
 		"is_ctype1.h": "c",
-		"is_ctype1_str.h": "c"
+		"is_ctype1_str.h": "c",
+		"math.h": "c",
+		"float.h": "c"
 	}
 }
