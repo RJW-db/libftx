@@ -6,7 +6,7 @@
 /*   By: rde-brui <rde-brui@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/01/09 20:31:53 by rde-brui      #+#    #+#                 */
-/*   Updated: 2025/04/13 15:47:32 by rjw           ########   odam.nl         */
+/*   Updated: 2025/05/08 21:43:28 by rde-brui      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,15 +88,15 @@ void		*ft_calloc(size_t nmemb, size_t size);
 size_t		count_arr_2d(char **arr);
 char		**cpy_2d_array(char **arr);
 char		**expand_2d_array(char ***arr, size_t add_rows);
-char		**add_str_arr(char **arr, char *str);
-char		**search_rm_2d_arr(char **arr, char *rm);
-char		**find_rm_2d_arr(char ***arr, char *rm);
-char		**find_rm_all_2d_arr(char ***arr, char *rm);
+char		**add_str_arr(char **arr, const char *str);
+char		**search_rm_2d_arr(char **arr, const char *rm);
+char		**find_rm_2d_arr(char ***arr, const char *rm);
+char		**find_rm_all_2d_arr(char ***arr, const char *rm);
 void		free_2d_arr(char ***arr);
 void		print_2d_array(char **arr);
 char		**splitted(char const *s, char c);
 char		**split(char const *s, char c);
-char		**split_set(char const *s, char *set);
+char		**split_set(const char *s, const char *set);
 
 //	Conversions Functions
 int32_t		atoi32(t_cchr *nptr);
@@ -121,7 +121,7 @@ t_lst		*ft_lstnew(void *content);
 int			ft_lstsize(t_lst *lst);
 
 //	Math Functions
-int8_t		sign(int n);
+int8_t		sign_i(int n);
 int8_t		sign_d(double n);
 uint64_t	abs_int64(int64_t n);
 uint8_t		digit_counter(int64_t n, uint8_t base_len);

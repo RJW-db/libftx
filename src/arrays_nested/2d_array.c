@@ -6,7 +6,7 @@
 /*   By: rjw <rjw@student.codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/09/11 20:39:46 by rjw           #+#    #+#                 */
-/*   Updated: 2025/01/08 17:44:16 by rde-brui      ########   odam.nl         */
+/*   Updated: 2025/05/08 21:21:59 by rde-brui      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,8 +95,10 @@ void	free_2d_arr(char ***arr)
 {
 	size_t	i;
 
+	if (arr == NULL)
+		return ;
 	i = 0;
-	if (arr != NULL && *arr != NULL)
+	if (*arr != NULL)
 	{
 		while ((*arr)[i] != NULL)
 		{

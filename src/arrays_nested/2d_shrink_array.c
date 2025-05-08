@@ -6,7 +6,7 @@
 /*   By: rjw <rjw@student.codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/09/11 20:39:30 by rjw           #+#    #+#                 */
-/*   Updated: 2025/04/11 01:13:41 by rjw           ########   odam.nl         */
+/*   Updated: 2025/05/08 21:32:20 by rde-brui      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 
 //	Static Functions
 static void	transfer(char **arr, char **new_arr, size_t target, size_t arr_len);
-static void	transfer_all(char ***arr, char **new_arr, char *rm, size_t arr_len);
+static void
+transfer_all(char ***arr, char **new_arr, const char *rm, size_t arr_len);
 
 /**
 	Find and removes the that index, moves all next index back one step.
@@ -22,7 +23,7 @@ static void	transfer_all(char ***arr, char **new_arr, char *rm, size_t arr_len);
 	Use find_rm_2d_arr() or find_rm_all_2d_arr for correct malloc size,
 	don't use this function	if you gonna use expand_2d_array() as well.
 */
-char	**search_rm_2d_arr(char **arr, char *rm)
+char	**search_rm_2d_arr(char **arr, const char *rm)
 {
 	size_t	arr_len;
 	size_t	i;
@@ -52,7 +53,7 @@ char	**search_rm_2d_arr(char **arr, char *rm)
 	Counts array indexes, mallocs new array.
 	Find and removes that index, moves all next index back one step.
 */
-char	**find_rm_2d_arr(char ***arr, char *rm)
+char	**find_rm_2d_arr(char ***arr, const char *rm)
 {
 	char	**new_arr;
 	size_t	arr_len;
@@ -80,7 +81,7 @@ char	**find_rm_2d_arr(char ***arr, char *rm)
 	return (new_arr);
 }
 
-char	**find_rm_all_2d_arr(char ***arr, char *rm)
+char	**find_rm_all_2d_arr(char ***arr, const char *rm)
 {
 	char	**new_arr;
 	size_t	rm_len;
@@ -127,7 +128,8 @@ static void	transfer(char **arr, char **new_arr, size_t target, size_t arr_len)
 	}
 }
 
-static void	transfer_all(char ***arr, char **new_arr, char *rm, size_t arr_len)
+static void	
+transfer_all(char ***arr, char **new_arr, const char *rm, size_t arr_len)
 {
 	size_t	rm_len;
 	size_t	i;

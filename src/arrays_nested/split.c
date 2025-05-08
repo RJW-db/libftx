@@ -6,7 +6,7 @@
 /*   By: rjw <rjw@student.codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/09/11 20:38:52 by rjw           #+#    #+#                 */
-/*   Updated: 2025/04/11 01:29:39 by rjw           ########   odam.nl         */
+/*   Updated: 2025/05/08 21:36:14 by rde-brui      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ static size_t	count_words(t_cchr *s, char c)
 
 static bool	words(t_cchr *s, char c, char **res, int *w_index)
 {
-	char	*start;
+	const char	*start;
 
 	start = (char *)s;
 	while (*s)
@@ -84,7 +84,7 @@ static bool	words(t_cchr *s, char c, char **res, int *w_index)
 			if (start != s
 				&& split_alloc(start, s, &res[(*w_index)++]) == false)
 				return (false);
-			start = (char *)++s;
+			start = ++s;
 		}
 	}
 	if (start != s && split_alloc(start, s, &res[(*w_index)++]) == false)

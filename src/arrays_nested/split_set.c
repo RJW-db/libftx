@@ -6,15 +6,15 @@
 /*   By: rjw <rjw@student.codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/09/11 20:39:22 by rjw           #+#    #+#                 */
-/*   Updated: 2025/04/11 01:31:06 by rjw           ########   odam.nl         */
+/*   Updated: 2025/05/08 21:43:11 by rde-brui      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <libft.h>
 
 //	Static Functions
-static size_t	count_words(t_cchr *s, char *set);
-static bool		words(t_cchr *s, char *set, char **res, size_t *w_index);
+static size_t	count_words(t_cchr *s, const char *set);
+static bool		words(t_cchr *s, const char *set, char **res, size_t *w_index);
 static bool		split_alloc(t_cchr *start, t_cchr *end, char **r);
 
 /*
@@ -24,7 +24,7 @@ static bool		split_alloc(t_cchr *start, t_cchr *end, char **r);
 	- ft_strchr
 	- free
 */
-char	**split_set(char const *s, char *set)
+char	**split_set(const char *s, const char *set)
 {
 	char	**result;
 	size_t		w_index;
@@ -47,7 +47,7 @@ char	**split_set(char const *s, char *set)
 	return (result);
 }
 
-static size_t	count_words(t_cchr *s, char *set)
+static size_t	count_words(t_cchr *s, const char *set)
 {
 	size_t	count;
 	bool	in_word;
@@ -71,9 +71,9 @@ static size_t	count_words(t_cchr *s, char *set)
 	return (count);
 }
 
-static bool	words(t_cchr *s, char *set, char **res, size_t *w_index)
+static bool	words(t_cchr *s, const char *set, char **res, size_t *w_index)
 {
-	char	*start;
+	const char	*start;
 
 	start = (char *)s;
 	while (*s)
@@ -85,7 +85,7 @@ static bool	words(t_cchr *s, char *set, char **res, size_t *w_index)
 			if (start != s
 				&& split_alloc(start, s, &res[(*w_index)++]) == false)
 				return (false);
-			start = (char *)++s;
+			start = ++s;
 		}
 	}
 	if (start != s && split_alloc(start, s, &res[(*w_index)++]) == false)

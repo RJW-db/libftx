@@ -6,13 +6,13 @@
 /*   By: rjw <rjw@student.codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/03/01 01:29:17 by rjw           #+#    #+#                 */
-/*   Updated: 2025/03/17 20:21:02 by rde-brui      ########   odam.nl         */
+/*   Updated: 2025/05/08 21:09:49 by rde-brui      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <libft.h>
 
-int8_t	sign(int n)
+int8_t	sign_i(int n)
 {
 	if (n >= 0)
 		return (n > 0);

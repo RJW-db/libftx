@@ -6,7 +6,7 @@
 /*   By: rjw <rjw@student.codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/09/11 20:39:53 by rjw           #+#    #+#                 */
-/*   Updated: 2025/01/08 17:44:16 by rde-brui      ########   odam.nl         */
+/*   Updated: 2025/05/08 21:22:44 by rde-brui      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ size_t	count_arr_2d(char **arr)
  * in this scope, and if ft_strdup fails it will return NULL and thus,
  * overwriting a malloced arr(in previous func) with NULL, unable to free.
 */
-char	**add_str_arr(char **arr, char *str)
+char	**add_str_arr(char **arr, const char *str)
 {
 	char	**new_arr;
 	size_t	count;
