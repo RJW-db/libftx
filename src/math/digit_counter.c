@@ -6,7 +6,7 @@
 /*   By: rjw <rjw@student.codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/09/11 20:33:31 by rjw           #+#    #+#                 */
-/*   Updated: 2025/03/01 02:23:00 by rjw           ########   odam.nl         */
+/*   Updated: 2025/05/09 14:51:25 by rde-brui      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ uint8_t	digit_ucounter(uint64_t n, uint8_t base_len)
 {
 	uint8_t	count;
 
-	count = (n <= 0);
+	count = (n == 0);
 	while (n != 0)
 	{
 		n /= base_len;

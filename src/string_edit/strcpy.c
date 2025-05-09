@@ -6,7 +6,7 @@
 /*   By: rjw <rjw@student.codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/03/08 00:58:38 by rjw           #+#    #+#                 */
-/*   Updated: 2025/03/17 19:50:55 by rde-brui      ########   odam.nl         */
+/*   Updated: 2025/05/09 15:16:18 by rde-brui      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ char	*ft_strncpy(char *dst, const char *src, size_t n)
 /**
  * Copies *src to *dst and terminates it with '\0'.
 */
-size_t	ft_strlcpy(char *dst, t_cchr *src, size_t size)
+size_t	ft_strlcpy(char *dst, const char *src, size_t size)
 {
 	size_t	i;
 

@@ -6,16 +6,16 @@
 /*   By: rjw <rjw@student.codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/09/11 20:39:22 by rjw           #+#    #+#                 */
-/*   Updated: 2025/05/08 21:43:11 by rde-brui      ########   odam.nl         */
+/*   Updated: 2025/05/09 15:35:58 by rde-brui      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <libft.h>
 
 //	Static Functions
-static size_t	count_words(t_cchr *s, const char *set);
-static bool		words(t_cchr *s, const char *set, char **res, size_t *w_index);
-static bool		split_alloc(t_cchr *start, t_cchr *end, char **r);
+static size_t	count_words(const char *s, const char *set);
+static bool		words(const char *s, const char *set, char **res, size_t *w_index);
+static bool		split_alloc(const char *start, const char *end, char **r);
 
 /*
 	Used functions:
@@ -27,8 +27,8 @@ static bool		split_alloc(t_cchr *start, t_cchr *end, char **r);
 char	**split_set(const char *s, const char *set)
 {
 	char	**result;
-	size_t		w_index;
-	size_t		i;
+	size_t	w_index;
+	size_t	i;
 
 	if (strs_ok(s, set) == false)
 		return (NULL);
@@ -47,7 +47,7 @@ char	**split_set(const char *s, const char *set)
 	return (result);
 }
 
-static size_t	count_words(t_cchr *s, const char *set)
+static size_t	count_words(const char *s, const char *set)
 {
 	size_t	count;
 	bool	in_word;
@@ -71,7 +71,7 @@ static size_t	count_words(t_cchr *s, const char *set)
 	return (count);
 }
 
-static bool	words(t_cchr *s, const char *set, char **res, size_t *w_index)
+static bool	words(const char *s, const char *set, char **res, size_t *w_index)
 {
 	const char	*start;
 
@@ -94,7 +94,7 @@ static bool	words(t_cchr *s, const char *set, char **res, size_t *w_index)
 	return (true);
 }
 
-static bool	split_alloc(t_cchr *start, t_cchr *end, char **r)
+static bool	split_alloc(const char *start, const char *end, char **r)
 {
 	size_t	len;
 

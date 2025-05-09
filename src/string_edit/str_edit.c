@@ -6,7 +6,7 @@
 /*   By: rjw <rjw@student.codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/09/11 20:30:54 by rjw           #+#    #+#                 */
-/*   Updated: 2025/03/17 19:49:25 by rde-brui      ########   odam.nl         */
+/*   Updated: 2025/05/09 15:16:18 by rde-brui      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	ft_striteri(char *s, void (*f)(uint32_t, char*))
 	- ft_strlen
 	- ft_strlcpy
 */
-size_t	ft_strlcat(char *dst, t_cchr *src, size_t size)
+size_t	ft_strlcat(char *dst, const char *src, size_t size)
 {
 	size_t	dst_len;
 

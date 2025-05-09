@@ -6,7 +6,7 @@
 /*   By: rjw <rjw@student.codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/09/11 20:29:51 by rjw           #+#    #+#                 */
-/*   Updated: 2025/03/17 19:48:52 by rde-brui      ########   odam.nl         */
+/*   Updated: 2025/05/09 15:16:18 by rde-brui      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 	true  if exists
 	false if NULL
 */
-bool	strs_ok(t_cchr *s1, t_cchr *s2)
+bool	strs_ok(const char *s1, const char *s2)
 {
 	return (s1 != NULL && s2 != NULL);
 }

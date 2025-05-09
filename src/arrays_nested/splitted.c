@@ -6,7 +6,7 @@
 /*   By: rjw <rjw@student.codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/09/11 20:38:43 by rjw           #+#    #+#                 */
-/*   Updated: 2025/05/08 21:53:19 by rde-brui      ########   odam.nl         */
+/*   Updated: 2025/05/09 15:36:41 by rde-brui      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 
 //	Static Functions
 static void	ft_count(const char *s, char c, size_t *parts, size_t *sp_count);
-static void	ft_enter_data(char *data_block, size_t ptrs_l, const char *s, char c);
+static void
+ft_enter_data(char *data_block, size_t ptrs_l, const char *s, char c);
 
 char	**splitted(const char *s, char c)
 {
@@ -67,7 +68,8 @@ static void	ft_count(const char *s, char c, size_t *parts, size_t *sp_count)
 	}
 }
 
-static void	ft_enter_data(char *data_block, size_t ptrs_l, const char *s, char c)
+static void
+ft_enter_data(char *data_block, size_t ptrs_l, const char *s, char c)
 {
 	size_t		i;
 	size_t		j;

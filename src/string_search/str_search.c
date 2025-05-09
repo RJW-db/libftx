@@ -6,13 +6,13 @@
 /*   By: rde-brui <rde-brui@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/01/15 16:27:10 by rde-brui      #+#    #+#                 */
-/*   Updated: 2025/01/15 16:27:12 by rde-brui      ########   odam.nl         */
+/*   Updated: 2025/05/09 15:16:18 by rde-brui      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <libft.h>
 
-char	*ft_strchr(t_cchr *s, int c)
+char	*ft_strchr(const char *s, int c)
 {
 	int	i;
 
@@ -28,18 +28,18 @@ char	*ft_strchr(t_cchr *s, int c)
 	return (NULL);
 }
 
-char	*ft_strnstr(t_cchr *big, t_cchr *little, size_t len)
+char	*ft_strnstr(const char *big, const char *little, size_t len)
 {
 	size_t		i;
 
-	if (len == 0 && *little)
+	if (len == 0 && *little != '\0')
 		return (NULL);
-	if (!*little)
+	if (*little == '\0')
 		return ((char *)big);
-	while (*big && len > 0)
+	while (*big != '\0' && len > 0)
 	{
 		i = 0;
-		while (big[i] == little[i] && big[i] && little[i] && len - i)
+		while (big[i] == little[i] && big[i] != '\0' && len - i)
 			++i;
 		if (little[i] == '\0')
 			return ((char *)big);
@@ -53,7 +53,7 @@ char	*ft_strnstr(t_cchr *big, t_cchr *little, size_t len)
 	Used functions:
 	- ft_strlen
 */
-char	*ft_strrchr(t_cchr *s, int c)
+char	*ft_strrchr(const char *s, int c)
 {
 	size_t	i;
 

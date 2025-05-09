@@ -6,13 +6,13 @@
 /*   By: rjw <rjw@student.codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/09/11 20:30:24 by rjw           #+#    #+#                 */
-/*   Updated: 2025/01/08 17:44:16 by rde-brui      ########   odam.nl         */
+/*   Updated: 2025/05/09 15:16:18 by rde-brui      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <libft.h>
 
-size_t	skip_alpha(t_cchr *str)
+size_t	skip_alpha(const char *str)
 {
 	size_t	i;
 
@@ -22,7 +22,7 @@ size_t	skip_alpha(t_cchr *str)
 	return (i);
 }
 
-size_t	skip_digits(t_cchr *str)
+size_t	skip_digits(const char *str)
 {
 	size_t	i;
 
@@ -32,7 +32,7 @@ size_t	skip_digits(t_cchr *str)
 	return (i);
 }
 
-size_t	skip_signed_digits(t_cchr *str)
+size_t	skip_signed_digits(const char *str)
 {
 	size_t	i;
 
@@ -46,7 +46,7 @@ size_t	skip_signed_digits(t_cchr *str)
 	return (i);
 }
 
-size_t	skip_spaces(t_cchr *str)
+size_t	skip_spaces(const char *str)
 {
 	size_t	i;
 

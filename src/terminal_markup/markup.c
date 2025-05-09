@@ -6,13 +6,13 @@
 /*   By: rde-brui <rde-brui@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/01/13 18:13:07 by rde-brui      #+#    #+#                 */
-/*   Updated: 2025/04/11 03:47:09 by rjw           ########   odam.nl         */
+/*   Updated: 2025/05/09 15:16:18 by rde-brui      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <terminal_markup.h>
 
-void	markup(t_cchr *str, ...)
+void	markup(const char *str, ...)
 {
 	va_list	style;
 	int		num_styles;
@@ -41,21 +41,21 @@ void	markup(t_cchr *str, ...)
 void	print_full_width(int32_t c)
 {
 	struct winsize	w;
-	const size_t	markup = sizeof(MARKUP) - 1;
+	const size_t	_markup = sizeof(MARKUP) - 1;
 	const size_t	markdown = sizeof(MARKDOWN) - 1;
 	char			*chr;
 
 	ioctl(STDOUT_FILENO, TIOCGWINSZ, &w);
-	chr = (char *)malloc((w.ws_col + markup + markdown + 1));
+	chr = (char *)malloc((w.ws_col + _markup + markdown + 1));
 	if (chr == NULL)
 	{
 		perror("print_full_width: ");
 		return ;
 	}
-	memcpy(chr, MARKUP, markup);
-	memset(chr + markup, c, w.ws_col);
-	memcpy(chr + markup + w.ws_col, MARKDOWN, markdown);
-	chr[markup + w.ws_col + markdown] = '\0';
+	memcpy(chr, MARKUP, _markup);
+	memset(chr + _markup, c, w.ws_col);
+	memcpy(chr + _markup + w.ws_col, MARKDOWN, markdown);
+	chr[_markup + w.ws_col + markdown] = '\0';
 	printf("%s", chr);
 	fflush(stdout);
 	free(chr);

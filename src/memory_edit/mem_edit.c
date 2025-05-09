@@ -6,7 +6,7 @@
 /*   By: rjw <rjw@student.codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/09/11 20:32:47 by rjw           #+#    #+#                 */
-/*   Updated: 2025/04/11 02:16:00 by rjw           ########   odam.nl         */
+/*   Updated: 2025/05/09 15:52:40 by rde-brui      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,13 +23,13 @@ void	ft_bzero(void *s, size_t n)
 
 void	*ft_memcpy(void *dest, const void *src, size_t n)
 {
-	t_uchr	*tmp_dest;
-	t_cuchr	*tmp_src;
+	unsigned char	*tmp_dest;
+	const unsigned char	*tmp_src;
 
 	if (!dest && !src)
 		return (NULL);
-	tmp_dest = (t_uchr *)dest;
-	tmp_src = (t_cuchr *)src;
+	tmp_dest = (unsigned char *)dest;
+	tmp_src = (const unsigned char *)src;
 	while (n--)
 		*tmp_dest++ = *tmp_src++;
 	return (dest);
@@ -52,11 +52,11 @@ void	*ft_memmove(void *dest, const void *src, size_t n)
 
 void	*ft_memset(void *b, int c, size_t len)
 {
-	t_uchr	*charb;
+	unsigned char	*charb;
 
 	charb = b;
 	while (len--)
-		*charb++ = (t_uchr)c;
+		*charb++ = (unsigned char)c;
 	return (b);
 }
 
@@ -69,22 +69,22 @@ void	*ft_memset(void *b, int c, size_t len)
  */
 bool	swap_values(void *a, void *b, size_t size)
 {
-    unsigned char	*p1;
-    unsigned char	*p2;
-    unsigned char	tmp;
+	unsigned char	*p1;
+	unsigned char	*p2;
+	unsigned char	tmp;
 
-    if (!a || !b || size == 0)
-        return (false);
-    p1 = (unsigned char *)a;
-    p2 = (unsigned char *)b;
-    while (size != 0)
-    {
-        tmp = *p1;
-        *p1 = *p2;
-        *p2 = tmp;
-        ++p1;
-        ++p2;
-        --size;
-    }
-    return (true);
+	if (!a || !b || size == 0)
+		return (false);
+	p1 = (unsigned char *)a;
+	p2 = (unsigned char *)b;
+	while (size != 0)
+	{
+		tmp = *p1;
+		*p1 = *p2;
+		*p2 = tmp;
+		++p1;
+		++p2;
+		--size;
+	}
+	return (true);
 }

@@ -6,7 +6,7 @@
 /*   By: rjw <rjw@student.codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/09/11 20:31:21 by rjw           #+#    #+#                 */
-/*   Updated: 2025/01/08 17:44:16 by rde-brui      ########   odam.nl         */
+/*   Updated: 2025/05/09 15:16:18 by rde-brui      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,13 +41,13 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	- ft_strlen
 	- free
 */
-char	*strjoin_free_s1(char *s1, t_cchr *s2)
+char	*strjoin_free_s1(char *s1, const char *s2)
 {
 	char	*ptr;
 	char	*tmp;
 	size_t	len;
 
-	if (s2 == false)
+	if (s2 == NULL)
 		return (free(s1), NULL);
 	tmp = s1;
 	len = 0;
@@ -63,8 +63,7 @@ char	*strjoin_free_s1(char *s1, t_cchr *s2)
 	while (*s2)
 		*(ptr++) = *(s2++);
 	*ptr = '\0';
-	if (s1 != NULL)
-		free(s1);
+	free(s1);
 	return (ptr - len);
 }
 
@@ -75,13 +74,13 @@ char	*strjoin_free_s1(char *s1, t_cchr *s2)
 	- ft_strlen
 	- free
 */
-char	*strjoin_free_s2(t_cchr *s1, char *s2)
+char	*strjoin_free_s2(const char *s1, char *s2)
 {
 	char	*ptr;
 	char	*tmp;
 	size_t	len;
 
-	if (s1 == false)
+	if (s1 == NULL)
 		return (free(s2), NULL);
 	tmp = s2;
 	len = 0;
@@ -97,8 +96,7 @@ char	*strjoin_free_s2(t_cchr *s1, char *s2)
 		while (*tmp)
 			*(ptr++) = *(tmp++);
 	*ptr = '\0';
-	if (s1 != NULL)
-		free(s2);
+	free(s2);
 	return (ptr - len);
 }
 

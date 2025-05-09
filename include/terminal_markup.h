@@ -6,7 +6,7 @@
 /*   By: rde-brui <rde-brui@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/01/13 18:20:01 by rde-brui      #+#    #+#                 */
-/*   Updated: 2025/04/11 03:47:24 by rjw           ########   odam.nl         */
+/*   Updated: 2025/05/09 15:59:29 by rde-brui      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,14 @@
 # define MARKUP "\033[1;32m"
 # define MARKDOWN "\033[0m\n"
 
+# include <unistd.h>
 # include <limits.h>
 # include <stdlib.h>
 # include <string.h>
 # include <sys/ioctl.h>
 # include <stdio.h>
 # include <stdarg.h>
-# include <common_defs.h>
+# include <stdint.h>
 
 /**
  * @brief Prints a string with with markup given by user.
@@ -62,7 +63,7 @@
  * 46	Cyan
  * 47	White
 */
-void	markup(t_cchr *str, ...);
+void	markup(const char *str, ...);
 
 /**
  * @brief Prints a character with full width in terminal.

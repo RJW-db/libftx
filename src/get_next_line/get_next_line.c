@@ -6,7 +6,7 @@
 /*   By: rjw <rjw@student.codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/09/11 20:34:29 by rjw           #+#    #+#                 */
-/*   Updated: 2025/04/11 01:51:31 by rjw           ########   odam.nl         */
+/*   Updated: 2025/05/09 15:24:41 by rde-brui      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,10 @@
 #include <stdint.h>
 
 //	Static Functions
-static char		*str_merge(t_cchr *nl, char *buf, bool *nl_check, ssize_t rd);
-static size_t	str_len_newline(t_cchr *str);
-static size_t	copy_check(char *dest, t_cchr *src, bool *nl_check);
+static char
+*str_merge(const char *nl, char *buff, bool *nl_check, ssize_t rd);
+static size_t	str_len_newline(const char *str);
+static size_t	copy_check(char *dest, const char *src, bool *nl_check);
 
 /*
 	get_next_line
@@ -36,7 +37,7 @@ char	*get_next_line(int fd)
 	bool		nl_check;
 	ssize_t		rd;
 
-	if (fd < 0 || fd > MAX_FD || BUFFER_SIZE <= 0)
+	if (fd < 0 || fd >= MAX_FD || BUFFER_SIZE <= 0)
 		return (NULL);
 	new_line = NULL;
 	rd = BUFFER_SIZE;
@@ -71,7 +72,7 @@ char	*get_next_line_fds(int fd)
 	bool		nl_check;
 	ssize_t		rd;
 
-	if (fd < 0 || fd > 1024 || BUFFER_SIZE <= 0)
+	if (fd < 0 || fd >= MAX_FD || BUFFER_SIZE <= 0)
 		return (NULL);
 	new_line = NULL;
 	rd = BUFFER_SIZE;
@@ -91,31 +92,31 @@ char	*get_next_line_fds(int fd)
 	return (new_line);
 }
 
-static char	*str_merge(t_cchr *nl, char *buf, bool *nl_check, ssize_t rd)
+static char	*str_merge(const char *nl, char *buff, bool *nl_check, ssize_t rd)
 {
 	char	*ret;
 	size_t	len;
 
-	buf[rd] = '\0';
-	if (buf[0] == '\0')
+	buff[rd] = '\0';
+	if (buff[0] == '\0')
 		return ((char *)nl);
-	len = str_len_newline(nl) + str_len_newline(buf);
+	len = str_len_newline(nl) + str_len_newline(buff);
 	ret = (char *)malloc((len + 1) * sizeof(char));
 	if (ret == NULL)
 		return (free_str((char **)&nl));
 	len = copy_check(ret, nl, nl_check);
-	len = copy_check(ret + len, buf, nl_check);
-	while (*(buf + len) != '\0')
+	len = copy_check(ret + len, buff, nl_check);
+	while (*(buff + len) != '\0')
 	{
-		*buf = *(buf + len);
-		++buf;
+		*buff = *(buff + len);
+		++buff;
 	}
-	*buf = '\0';
+	*buff = '\0';
 	free((char *)nl);
 	return (ret);
 }
 
-static size_t	str_len_newline(t_cchr *str)
+static size_t	str_len_newline(const char *str)
 {
 	size_t	n;
 
@@ -129,7 +130,7 @@ static size_t	str_len_newline(t_cchr *str)
 	return (n);
 }
 
-static size_t	copy_check(char *dest, t_cchr *src, bool *nl_check)
+static size_t	copy_check(char *dest, const char *src, bool *nl_check)
 {
 	size_t	i;
 

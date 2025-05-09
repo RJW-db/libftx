@@ -6,7 +6,7 @@
 /*   By: rjw <rjw@student.codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/09/11 20:30:39 by rjw           #+#    #+#                 */
-/*   Updated: 2025/04/11 02:04:32 by rjw           ########   odam.nl         */
+/*   Updated: 2025/05/09 15:26:18 by rde-brui      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,10 @@
  * Return index of the last occurences of set.
  * Using char c vs derefencing was very slightly faster with testing.
  */
-size_t	find_set_not(t_cchr *str, char *set)
+size_t	find_set_not(const char *str, const char *set)
 {
-	char	*tmp_str;
-	char	c;
+	const char	*tmp_str;
+	char		c;
 
 	tmp_str = (char *)str;
 	c = *tmp_str;
@@ -36,9 +36,9 @@ size_t	find_set_not(t_cchr *str, char *set)
 /**
  * Return index of the last occurence of c1.
  */
-size_t	find_char_not(t_cchr *str, t_cchr c1)
+size_t	find_char_not(const char *str, char c1)
 {
-	char	*tmp_str;
+	const char	*tmp_str;
 
 	tmp_str = (char *)str;
 	while (*tmp_str != '\0' && *tmp_str == c1)
@@ -56,10 +56,10 @@ size_t	find_char_not(t_cchr *str, t_cchr c1)
  * Return index of the last occurence of c1, c2.
  * Using char c vs derefencing was quite a bit faster with testing.
  */
-size_t	find_char2_not(t_cchr *str, t_cchr c1, t_cchr c2)
+size_t	find_char2_not(const char *str, char c1, char c2)
 {
-	char	*tmp_str;
-	char	c;
+	const char	*tmp_str;
+	char		c;
 
 	tmp_str = (char *)str;
 	c = *tmp_str;
@@ -77,10 +77,10 @@ size_t	find_char2_not(t_cchr *str, t_cchr c1, t_cchr c2)
  * Return index of the last occurence of c1, c2, c3.
  * Using char c vs derefencing was quite a bit faster with testing.
  */
-size_t	find_char3_not(t_cchr *str, t_cchr c1, t_cchr c2, t_cchr c3)
+size_t	find_char3_not(const char *str, char c1, char c2, char c3)
 {
-	char	*tmp_str;
-	char	c;
+	const char	*tmp_str;
+	char		c;
 
 	tmp_str = (char *)str;
 	c = *tmp_str;

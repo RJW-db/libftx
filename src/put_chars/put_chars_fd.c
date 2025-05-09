@@ -6,7 +6,7 @@
 /*   By: rde-brui <rde-brui@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/01/09 20:31:53 by rde-brui      #+#    #+#                 */
-/*   Updated: 2025/04/11 03:49:36 by rjw           ########   odam.nl         */
+/*   Updated: 2025/05/09 15:16:18 by rde-brui      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	ft_putchar_fd(char c, int fd)
 	- write
 	- perror
 */
-void	ft_putendl_fd(t_cchr *s, int fd)
+void	ft_putendl_fd(const char *s, int fd)
 {
 	char	destination[BUFFER_SIZE];
 	size_t	i;
@@ -122,7 +122,7 @@ void	ft_putnbr_nl_fd(int n, int fd)
 	- ft_strlen
 	- perror
 */
-void	ft_putstr_fd(t_cchr *s, int fd)
+void	ft_putstr_fd(const char *s, int fd)
 {
 	if (write(fd, s, ft_strlen(s)) == -1)
 		perror("ft_putstr_fd: write");

@@ -6,13 +6,13 @@
 /*   By: rjw <rjw@student.codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/09/11 20:30:04 by rjw           #+#    #+#                 */
-/*   Updated: 2025/04/11 02:03:42 by rjw           ########   odam.nl         */
+/*   Updated: 2025/05/09 15:16:18 by rde-brui      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <libft.h>
 
-size_t	ft_strlen(t_cchr *str)
+size_t	ft_strlen(const char *str)
 {
 	const char	*tmp = str;
 
@@ -21,7 +21,7 @@ size_t	ft_strlen(t_cchr *str)
 	return ((size_t)(tmp - str));
 }
 
-size_t	strlen_safe(t_cchr *str)
+size_t	strlen_safe(const char *str)
 {
 	size_t	n;
 
@@ -33,7 +33,7 @@ size_t	strlen_safe(t_cchr *str)
 	return (n);
 }
 
-size_t	strlen_chr(t_cchr *str, t_cchr chr)
+size_t	strlen_chr(const char *str, const char chr)
 {
 	size_t	i;
 
@@ -47,7 +47,7 @@ size_t	strlen_chr(t_cchr *str, t_cchr chr)
 	return (i);
 }
 
-size_t	strlen_set(t_cchr *str, t_cchr *set)
+size_t	strlen_set(const char *str, const char *set)
 {
 	size_t	i;
 

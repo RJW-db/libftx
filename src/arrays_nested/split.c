@@ -6,16 +6,16 @@
 /*   By: rjw <rjw@student.codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/09/11 20:38:52 by rjw           #+#    #+#                 */
-/*   Updated: 2025/05/08 21:36:14 by rde-brui      ########   odam.nl         */
+/*   Updated: 2025/05/09 15:16:18 by rde-brui      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <libft.h>
 
 //	Static Functions
-static size_t	count_words(t_cchr *s, char c);
-static bool		words(t_cchr *s, char c, char **res, int *w_index);
-static bool		split_alloc(t_cchr *start, t_cchr *end, char **r);
+static size_t	count_words(const char *s, char c);
+static bool		words(const char *s, char c, char **res, int *w_index);
+static bool		split_alloc(const char *start, const char *end, char **r);
 
 /*
 	Used functions:
@@ -46,7 +46,7 @@ char	**split(char const *s, char c)
 	return (result);
 }
 
-static size_t	count_words(t_cchr *s, char c)
+static size_t	count_words(const char *s, char c)
 {
 	size_t	count;
 	size_t	in_word;
@@ -70,7 +70,7 @@ static size_t	count_words(t_cchr *s, char c)
 	return (count);
 }
 
-static bool	words(t_cchr *s, char c, char **res, int *w_index)
+static bool	words(const char *s, char c, char **res, int *w_index)
 {
 	const char	*start;
 
@@ -93,7 +93,7 @@ static bool	words(t_cchr *s, char c, char **res, int *w_index)
 	return (true);
 }
 
-static bool	split_alloc(t_cchr *start, t_cchr *end, char **r)
+static bool	split_alloc(const char *start, const char *end, char **r)
 {
 	size_t	len;
 

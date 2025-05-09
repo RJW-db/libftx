@@ -6,7 +6,7 @@
 /*   By: rjw <rjw@student.codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/09/11 20:31:39 by rjw           #+#    #+#                 */
-/*   Updated: 2025/04/11 20:00:56 by rde-brui      ########   odam.nl         */
+/*   Updated: 2025/05/09 15:16:18 by rde-brui      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 	- ft_strlen
 	- ft_strlcpy
 */
-char	*ft_strdup(t_cchr *s)
+char	*ft_strdup(const char *s)
 {
 	char	*str;
 	size_t	len;
@@ -36,7 +36,7 @@ char	*ft_strdup(t_cchr *s)
 	- ft_strlen
 	- ft_strlcpy
 */
-char	*strdup_safe(t_cchr *s)
+char	*strdup_safe(const char *s)
 {
 	if (s != NULL)
 		return (ft_strdup(s));
@@ -49,7 +49,7 @@ char	*strdup_safe(t_cchr *s)
 	- ft_strlen
 	- ft_strlcpy
 */
-char	*strdup_len(t_cchr *s, size_t size)
+char	*strdup_len(const char *s, size_t size)
 {
 	char	*str;
 	size_t	len;

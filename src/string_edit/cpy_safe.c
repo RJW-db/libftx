@@ -6,7 +6,7 @@
 /*   By: rjw <rjw@student.codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/09/11 20:30:57 by rjw           #+#    #+#                 */
-/*   Updated: 2025/04/11 20:16:08 by rde-brui      ########   odam.nl         */
+/*   Updated: 2025/05/09 15:31:33 by rde-brui      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,20 +18,20 @@
 
  * _s = safe
 */
-size_t	cpy_str_s(char *dst, t_cchr *src)
+size_t	cpy_str_s(char *dst, const char *src)
 {
 	if (strs_ok(dst, src) == false)
 		return (0);
 	return (cpy_str0(dst, src));
 }
-#include <stdio.h>
+
 /**
 	Used functions:
 	- cpy_str
 
  * _s = safe
 */
-size_t	cpy_srcs_s(char *dst, t_cchr *s1, t_cchr *s2, t_cchr *s3)
+size_t	cpy_srcs_s(char *dst, const char *s1, const char *s2, const char *s3)
 {
 	size_t	i;
 
@@ -51,7 +51,7 @@ size_t	cpy_srcs_s(char *dst, t_cchr *s1, t_cchr *s2, t_cchr *s3)
 /**
  * _s = safe
 */
-size_t	cpy_num_s(char *dst, t_cchr *src, size_t num)
+size_t	cpy_num_s(char *dst, const char *src, size_t num)
 {
 	size_t	i;
 
@@ -71,7 +71,7 @@ size_t	cpy_num_s(char *dst, t_cchr *src, size_t num)
 /**
  * _s = safe
 */
-size_t	cpy_till_char_s(char *dst, t_cchr *src, t_cchr chr)
+size_t	cpy_till_char_s(char *dst, const char *src, const char chr)
 {
 	size_t	i;
 	char	c;

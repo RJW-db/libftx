@@ -6,7 +6,7 @@
 /*   By: rjw <rjw@student.codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/09/11 20:31:25 by rjw           #+#    #+#                 */
-/*   Updated: 2025/01/11 21:34:50 by rjw           ########   odam.nl         */
+/*   Updated: 2025/05/09 15:16:18 by rde-brui      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,11 @@
 	- free_str
 	-	free
 */
-char	*strjoin_free_s1_n(char **s1, t_cchr *s2)
+char	*strjoin_free_s1_n(char **s1, const char *s2)
 {
-	char	*ptr;
-	char	*tmp;
-	size_t	len;
+	const char	*tmp;
+	char		*ptr;
+	size_t		len;
 
 	if (str0_ok(s2) == false)
 		return (free_str(s1));
@@ -57,11 +57,11 @@ char	*strjoin_free_s1_n(char **s1, t_cchr *s2)
 	- free_str
 	-	free
 */
-char	*strjoin_free_s2_n(t_cchr *s1, char **s2)
+char	*strjoin_free_s2_n(const char *s1, char **s2)
 {
-	char	*ptr;
-	char	*tmp;
-	size_t	len;
+	const char	*tmp;
+	char		*ptr;
+	size_t		len;
 
 	if (str0_ok(s1) == false)
 		return (free_str(s2));
@@ -97,11 +97,11 @@ char	*strjoin_free_s2_n(t_cchr *s1, char **s2)
 */
 char	*strjoin_free_all_n(char **s1, char **s2)
 {
-	char	*ptr;
-	char	*tmp;
-	size_t	len;
+	const char	*tmp;
+	char		*ptr;
+	size_t		len;
 
-	if (dpstrs0_ok((t_cchr **)s1, (t_cchr **)s2) == false)
+	if (dpstrs0_ok((const char **)s1, (const char **)s2) == false)
 		return (free_str(s1), free_str(s2));
 	tmp = *s1;
 	len = ft_strlen(tmp);

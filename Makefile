@@ -104,10 +104,10 @@ ALL_OBJS		:=	$(BASE_OBJS) $(DBL_OBJS) $(DYN_OBJS) $(PRT_OBJS) $(LLT_OBJS)
 DEPS			:=	$(ALL_OBJS:.o=.d)
 
 #		Header files
-HEADERS_FILES	:=	libft.h						common_defs.h					ft_printf.h				\
-					dbltoa.h					dynarr.h						is_ctype1.h				\
-					is_ctype2.h					is_ctype1_str.h					validate_ptr.h			\
-					terminal_markup.h			wrapper.h
+HEADERS_FILES	:=	libft.h						ft_printf.h						dbltoa.h				\
+					dynarr.h					is_ctype1.h						is_ctype2.h				\
+					is_ctype1_str.h				validate_ptr.h					terminal_markup.h		\
+					wrapper.h
 
 HEADERS			:=	$(addprefix $(INC_DIR), $(HEADERS_FILES))
 

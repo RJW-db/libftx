@@ -6,13 +6,13 @@
 /*   By: rjw <rjw@student.codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/09/11 20:31:00 by rjw           #+#    #+#                 */
-/*   Updated: 2025/04/11 20:09:13 by rde-brui      ########   odam.nl         */
+/*   Updated: 2025/05/09 15:16:18 by rde-brui      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <libft.h>
 
-size_t	cpy_str(char *dst, t_cchr *src)
+size_t	cpy_str(char *dst, const char *src)
 {
 	size_t	i;
 	char	c;
@@ -28,7 +28,7 @@ size_t	cpy_str(char *dst, t_cchr *src)
 	return (i);
 }
 
-size_t	cpy_str0(char *dst, t_cchr *src)
+size_t	cpy_str0(char *dst, const char *src)
 {
 	size_t	i;
 	char	c;
@@ -49,7 +49,7 @@ size_t	cpy_str0(char *dst, t_cchr *src)
 	Used functions:
 	- cpy_str
 */
-size_t	cpy_srcs(char *dst, t_cchr *s1, t_cchr *s2, t_cchr *s3)
+size_t	cpy_srcs(char *dst, const char *s1, const char *s2, const char *s3)
 {
 	size_t	i;
 
@@ -59,7 +59,7 @@ size_t	cpy_srcs(char *dst, t_cchr *s1, t_cchr *s2, t_cchr *s3)
 	return (i);
 }
 
-size_t	cpy_num(char *dst, t_cchr *src, size_t num)
+size_t	cpy_num(char *dst, const char *src, size_t num)
 {
 	size_t	i;
 	char	c;
@@ -80,7 +80,7 @@ size_t	cpy_num(char *dst, t_cchr *src, size_t num)
 /**
  * Memset but returns size_t
 */
-size_t	cpy_num_char(char *dst, t_cchr c, size_t n)
+size_t	cpy_num_char(char *dst, const char c, size_t n)
 {
 	size_t	i;
 
@@ -94,7 +94,7 @@ size_t	cpy_num_char(char *dst, t_cchr c, size_t n)
 	return (i);
 }
 
-size_t	cpy_till_char(char *dst, t_cchr *src, t_cchr chr)
+size_t	cpy_till_char(char *dst, const char *src, const char chr)
 {
 	size_t	i;
 	char	c;

@@ -6,7 +6,7 @@
 /*   By: rjw <rjw@student.codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/09/11 20:40:20 by rjw           #+#    #+#                 */
-/*   Updated: 2025/01/11 02:46:52 by rjw           ########   odam.nl         */
+/*   Updated: 2025/05/09 15:54:22 by rde-brui      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
 	don't return on the same pointer, if malloc fails the old malloced
 	pointer will be overwritten with NULL and unable to free the old.
 */
-void	*ft_realloc(void **ptr, t_csize_t new_size, t_csize_t old_size)
+void	*ft_realloc(void **ptr, size_t new_size, size_t old_size)
 {
 	void	*new;
 

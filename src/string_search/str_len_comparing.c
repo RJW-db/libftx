@@ -6,7 +6,7 @@
 /*   By: rjw <rjw@student.codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/09/11 20:30:12 by rjw           #+#    #+#                 */
-/*   Updated: 2025/01/08 17:44:16 by rde-brui      ########   odam.nl         */
+/*   Updated: 2025/05/09 15:16:18 by rde-brui      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ char	*biggest_str(char *s1, char *s2)
 	return (s2);
 }
 
-size_t	smallest_str_len(t_cchr *s1, t_cchr *s2)
+size_t	smallest_str_len(const char *s1, const char *s2)
 {
 	size_t	s1_len;
 	size_t	s2_len;
@@ -38,7 +38,7 @@ size_t	smallest_str_len(t_cchr *s1, t_cchr *s2)
 	return (s2_len);
 }
 
-size_t	biggest_str_len(t_cchr *s1, t_cchr *s2)
+size_t	biggest_str_len(const char *s1, const char *s2)
 {
 	size_t	s1_len;
 	size_t	s2_len;

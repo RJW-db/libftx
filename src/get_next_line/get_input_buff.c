@@ -6,7 +6,7 @@
 /*   By: rjw <rjw@student.codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/02/23 14:49:53 by rjw           #+#    #+#                 */
-/*   Updated: 2025/04/13 02:58:56 by rjw           ########   odam.nl         */
+/*   Updated: 2025/05/09 15:23:25 by rde-brui      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,22 +20,11 @@
 static ssize_t	process_input(char *buff, ssize_t rd, ssize_t buff_size);
 static ssize_t	empty_filedescriptor(char *buff, ssize_t buff_size, bool mute);
 
-// char	*get_input(char *buff)
-// {
-// 	ssize_t	rd;
-
-// 	rd = get_user_input(buff, FILE_CREATION, NULL);
-// 	printf("rd = %lu\n", rd);
-// 	exit(0);
-// 	return (buff);
-// }
-
 // #define FILE_CREATION 256	// (NAME_MAX || MAX_PATH) + 1
 //	only return 0 on EOF, and -1 on read() error
 ssize_t	get_user_input(char *buff, ssize_t buff_size, char *msg, bool mute)
 {
 	ssize_t	rd;
-	ssize_t	result;
 
 	if (buff == NULL || buff_size <= 0)
 		return (-1);
@@ -44,17 +33,14 @@ ssize_t	get_user_input(char *buff, ssize_t buff_size, char *msg, bool mute)
 	rd = read(STDIN_FILENO, buff, (size_t)buff_size);
 	if (rd > 0 && rd <= buff_size)
 	{
-		result = process_input(buff, rd, buff_size);
-		if (result > 0)
-			return (result);
-		if (result == -1)
-			result = empty_filedescriptor(buff, buff_size, mute);
-		if (result != -1) {
-			// ft_putstr_fd("zzzz", 1);
-			ft_putstr_fd(MOVE_CURSOR_UP CLEAR_LINE, STDOUT_FILENO);
-			return (get_user_input(buff, buff_size, msg, mute));
-		}
-		rd = result;
+		rd = process_input(buff, rd, buff_size);
+		if (rd > 0)
+			return (rd);
+		if (rd == -1)
+			rd = empty_filedescriptor(buff, buff_size, mute);
+		if (rd != -1)
+			return (ft_putstr_fd(MOVE_CURSOR_UP CLEAR_LINE, STDOUT_FILENO), \
+			get_user_input(buff, buff_size, msg, mute));
 	}
 	buff[0] = '\0';
 	if (rd == -1)
