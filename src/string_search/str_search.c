@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <libft.h>
+#include <libftx.h>
 
 char	*ft_strchr(const char *s, int c)
 {
@@ -49,10 +49,6 @@ char	*ft_strnstr(const char *big, const char *little, size_t len)
 	return (NULL);
 }
 
-/*
-	Used functions:
-	- ft_strlen
-*/
 char	*ft_strrchr(const char *s, int c)
 {
 	size_t	i;

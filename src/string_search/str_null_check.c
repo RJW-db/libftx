@@ -10,32 +10,18 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <libft.h>
+#include <libftx.h>
 
-/*
-	true  if exists
-	false if NULL
-*/
 bool	strs_ok(const char *s1, const char *s2)
 {
 	return (s1 != NULL && s2 != NULL);
 }
 
-/*
-	true  if exists
-	false if NULL
-	dp = double pointer
-*/
 bool	dpstr_ok(char **s1)
 {
 	return (s1 != NULL && *s1 != NULL);
 }
 
-/*
-	1 if exists
-	0 if NULL
-	dp = double pointer
-*/
 bool	dpstrs_ok(char **s1, char **s2)
 {
 	return (dpstr_ok(s1) == true && dpstr_ok(s2) == true);

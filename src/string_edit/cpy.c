@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <libft.h>
+#include <libftx.h>
 
 size_t	cpy_str(char *dst, const char *src)
 {
@@ -45,10 +45,6 @@ size_t	cpy_str0(char *dst, const char *src)
 	return (i);
 }
 
-/**
-	Used functions:
-	- cpy_str
-*/
 size_t	cpy_srcs(char *dst, const char *s1, const char *s2, const char *s3)
 {
 	size_t	i;

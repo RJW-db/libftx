@@ -10,14 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <libft.h>
+#include <libftx.h>
 
-/*
-	Used functions:
-	- malloc
-	- ft_strlen
-	- ft_strlcpy
-*/
 char	*ft_strtrim(char const *s1, char const *set)
 {
 	size_t	start;
@@ -27,10 +21,10 @@ char	*ft_strtrim(char const *s1, char const *set)
 	if (strs_ok(s1, set) == false)
 		return (NULL);
 	start = 0;
-	while (s1[start] && c_in_str(s1[start], set) == 1)
+	while (s1[start] && c_in_str(s1[start], set) == true)
 		++start;
 	end = ft_strlen(s1);
-	while (end > start && c_in_str(s1[end - 1], set) == 1)
+	while (end > start && c_in_str(s1[end - 1], set) == true)
 		--end;
 	ptr = (char *)malloc((end - start + 1) * sizeof(char));
 	if (ptr == NULL)

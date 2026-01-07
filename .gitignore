@@ -1,3 +1,13 @@
-tester/
-.build
-lib.a
+# Build artifacts
+.build/
+libftx.a
+
+# Submodule headers (auto-copied)
+include/ft_printf.h
+include/get_next_line.h
+include/wrapper.h
+include/dynarr.h
+include/dbltoa.h
+
+# IDE settings
+.vscode

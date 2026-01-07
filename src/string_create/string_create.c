@@ -10,13 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <libft.h>
+#include <libftx.h>
 
-/*
-	Used functions:
-	- malloc
-	- ft_strlen
-*/
 char	*ft_substr(char const *s, uint32_t start, size_t len)
 {
 	char	*ptr;

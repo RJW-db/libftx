@@ -10,14 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <libft.h>
+#include <libftx.h>
 
-/**
-	Used functions:
-	- cpy_str
-
- * _s = safe
-*/
 size_t	cpy_str_s(char *dst, const char *src)
 {
 	if (strs_ok(dst, src) == false)
@@ -25,12 +19,6 @@ size_t	cpy_str_s(char *dst, const char *src)
 	return (cpy_str0(dst, src));
 }
 
-/**
-	Used functions:
-	- cpy_str
-
- * _s = safe
-*/
 size_t	cpy_srcs_s(char *dst, const char *s1, const char *s2, const char *s3)
 {
 	size_t	i;
@@ -48,9 +36,6 @@ size_t	cpy_srcs_s(char *dst, const char *s1, const char *s2, const char *s3)
 	return (i);
 }
 
-/**
- * _s = safe
-*/
 size_t	cpy_num_s(char *dst, const char *src, size_t num)
 {
 	size_t	i;
@@ -68,9 +53,6 @@ size_t	cpy_num_s(char *dst, const char *src, size_t num)
 	return (i);
 }
 
-/**
- * _s = safe
-*/
 size_t	cpy_till_char_s(char *dst, const char *src, const char chr)
 {
 	size_t	i;

@@ -10,9 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <libft.h>
+#include <libftx.h>
 
-//	Static Functions
 static int64_t	is_valid_base(const char c, const char *base);
 static int16_t
 parse_string(const char *nbr_str, const char *base, bool *is_neg);

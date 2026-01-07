@@ -10,12 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <libft.h>
+#include <libftx.h>
 
-/*
-	Used functions:
-	- malloc
-*/
 t_lst	*ft_lstnew(void *content)
 {
 	t_lst	*ptr;
@@ -37,16 +33,6 @@ void	ft_lstiter(t_lst *lst, void (*f)(void *))
 	}
 }
 
-/*
-	Used functions:
-	- ft_lstnew
-	-	malloc
-	- ft_lstclear
-	-	ft_lstdelone
-	-	free
-	- ft_lstadd_back
-	-	ft_lstlast
-*/
 t_lst	*ft_lstmap(t_lst *lst, void *(*f)(void *), void (*del)(void *))
 {
 	t_lst	*new_lst;

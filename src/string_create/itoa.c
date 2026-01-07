@@ -10,23 +10,16 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <libft.h>
+#include <libftx.h>
 #include <stdio.h>
 #define DECIMAL_BASE "0123456789"
 
-/*
-	Used functions:
-	- ft_strdup
-	- malloc
-	- ft_strdup
-*/
 char	*ft_itoa(int n)
 {
 	uint8_t	len;
-	bool	sign;
+	const bool	sign = (n < 0);
 	char	*dst;
 
-	sign = (n < 0);
 	len = digit_counter(n, 10);
 	dst = malloc((len + TERM) * sizeof(char));
 	if (dst == NULL)
@@ -36,19 +29,12 @@ char	*ft_itoa(int n)
 	return (int_to_str(dst + sign, len - sign, n, DECIMAL_BASE));
 }
 
-/*
-	Used functions:
-	- ft_strdup
-	- malloc
-	- ft_strdup
-*/
 char	*nbr_to_str(int64_t n)
 {
-	uint8_t	len;
-	bool	sign;
-	char	*dst;
+	const bool	sign = (n < 0);
+	uint8_t		len;
+	char		*dst;
 
-	sign = (n < 0);
 	len = digit_counter(n, 10);
 	dst = malloc((len + TERM) * sizeof(char));
 	if (dst == NULL)
@@ -58,16 +44,11 @@ char	*nbr_to_str(int64_t n)
 	return (int_to_str(dst + sign, len - sign, n, DECIMAL_BASE));
 }
 
-/*
-	Used functions:
-	- cpy_str
-*/
 uint8_t	nbr_to_buff(char *dst, int64_t n)
 {
-	uint8_t	len;
-	bool	sign;
+	const bool	sign = (n < 0);
+	uint8_t		len;
 
-	sign = (n < 0);
 	len = digit_counter(n, 10);
 	if (sign == true)
 		dst[0] = '-';

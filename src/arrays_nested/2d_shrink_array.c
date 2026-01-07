@@ -10,15 +10,14 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <libft.h>
+#include <libftx.h>
 
-//	Static Functions
 static void	transfer(char **arr, char **new_arr, size_t target, size_t arr_len);
 static void
 transfer_all(char ***arr, char **new_arr, const char *rm, size_t arr_len);
 
 /**
-	Find and removes the that index, moves all next index back one step.
+	Find and removes the index, moves all next index back one step.
 	
 	Use find_rm_2d_arr() or find_rm_all_2d_arr for correct malloc size,
 	don't use this function	if you gonna use expand_2d_array() as well.

@@ -10,12 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <libft.h>
+#include <libftx.h>
 
-/*
-	Used functions:
-	- ft_lstlast
-*/
 void	ft_lstadd_back(t_lst **lst, t_lst *new)
 {
 	t_lst	*back;
@@ -38,11 +34,6 @@ void	ft_lstadd_front(t_lst **lst, t_lst *new)
 	}
 }
 
-/*
-	Used functions:
-	- ft_lstdelone
-	-	free
-*/
 void	ft_lstclear(t_lst **lst, void (*del)(void*))
 {
 	t_lst	*temp;
@@ -59,10 +50,6 @@ void	ft_lstclear(t_lst **lst, void (*del)(void*))
 	}
 }
 
-/*
-	Used functions:
-	- free
-*/
 void	ft_lstdelone(t_lst *lst, void (*del)(void*))
 {
 	if (lst && del)

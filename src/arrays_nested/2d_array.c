@@ -11,17 +11,8 @@
 /* ************************************************************************** */
 
 #include <stdlib.h>
-#include <libft.h>
+#include <libftx.h>
 
-/**
- * 	Used functions:
-	- malloc
-	- ft_strdup
-	-	ft_strlen
-	-	ft_strlcpy
-	- free_2d_arr
-	-	free
-*/
 char	**cpy_2d_array(char **arr)
 {
 	char	**new_arr;
@@ -47,11 +38,6 @@ char	**cpy_2d_array(char **arr)
 }
 
 /**
- * 	Used functions:
- 	- count_arr_2d
-	- malloc
-	- free
-
  * malloc + 1 because for the already existing NULL.
  * frees old 2D array.
  *
@@ -85,12 +71,9 @@ char	**expand_2d_array(char ***arr, size_t add_rows)
 	return (new_arr);
 }
 
-/*
-	free double array and set to NULL.
-
-	Used functions:
-	- free
-*/
+/**
+ * free double array and set to NULL.
+ */
 void	free_2d_arr(char ***arr)
 {
 	size_t	i;

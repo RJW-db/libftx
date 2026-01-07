@@ -10,19 +10,12 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <libft.h>
+#include <libftx.h>
 
-//	Static Functions
 static size_t	count_words(const char *s, char c);
 static bool		words(const char *s, char c, char **res, int *w_index);
 static bool		split_alloc(const char *start, const char *end, char **r);
 
-/*
-	Used functions:
-	- malloc
-	- ft_strlcpy
-	- free
-*/
 char	**split(char const *s, char c)
 {
 	char	**result;

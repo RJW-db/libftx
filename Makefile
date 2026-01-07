@@ -1,41 +1,62 @@
-NAME			:=	lib.a
+NAME			:=	libftx.a
 
-#		Compile with every thread available
-#		Get the number of logical processors (threads)
-N_JOBS			:=	$(shell nproc)
-#		(-j) Specify the number of jobs (commands) to run simultaneously
-MULTI_THREADED	:=	-j$(N_JOBS)
-#		MAKEFLAGS is a special variable that automatically applies the specified options (e.g., parallel execution)
-#		to the current `Makefile` and all `make` invocations, including sub-make processes in subfolders.
-#		By setting `-j$(N_JOBS)` here, both this `Makefile` and all sub-make processes will inherit the
-#		multithreading configuration without requiring explicit passing.
-MAKEFLAGS		+=	$(MULTI_THREADED)
+MAKEFLAGS		+=	-j
+COMPILER		:=	cc
 
-#	Compiler and Flags
-COMPILER		:=	gcc
-CFLAGS			+=	-Wall -Wextra
-CFLAGS			+=	-Werror
-CFLAGS			+=	-Wunreachable-code -Wpedantic -Wconversion -Wshadow
-CFLAGS			+=	-MMD -MP
-# CFLAGS			+=	-g
-#	Werror cannot go together with fsanitize, because fsanitize won't work correctly.
-# CFLAGS			+=	-fsanitize=address
+BASE_FLAGS		:=	-std=c99 -Wall -Wextra -Werror
 
-#	Utilities
+PEDANTIC		:=	-Wpedantic -pedantic-errors -Wundef -Wstrict-prototypes
+WARNINGS		:=	-Wshadow -Wconversion -Wsign-conversion			\
+					-Wformat=2 -Wuninitialized -Wunreachable-code
+
+CAST_WARNINGS	:=	-Wbad-function-cast
+ifeq ($(shell $(COMPILER) --version | grep -c "gcc"),1)
+CAST_WARNINGS += -Wcast-function-type
+endif
+
+DEPFLAGS		:=	-MMD -MP
+
+OPTIMIZATION	:=	-O2
+SECURITY		:=	-fstack-protector-strong
+ifeq ($(shell uname -s),Linux)
+SECURITY		+=	-D_FORTIFY_SOURCE=2
+FSANITIZE		:=	leak
+endif
+
+SANITIZERS		:=	-fsanitize=$(FSANITIZE),address,undefined,null,integer-divide-by-zero,signed-integer-overflow,bounds,alignment
+DEBUG_FLAGS		:=	-fno-omit-frame-pointer
+
+CFLAGS			:=	$(BASE_FLAGS) $(PEDANTIC) $(WARNINGS) $(CAST_WARNINGS) \
+					$(DEPFLAGS) $(OPTIMIZATION) $(SECURITY)
+
+ifneq ($(filter valgrind,$(MAKECMDGOALS)),)
+CFLAGS			+=	-g $(DEBUG_FLAGS)
+else ifneq ($(filter debug,$(MAKECMDGOALS)),)
+CFLAGS			+=	-g3 $(SANITIZERS) $(DEBUG_FLAGS) -fno-sanitize-recover=all
+endif
+
+ifneq ($(filter malloc,$(MAKECMDGOALS)),)
+CFLAGS			+=	-D MALLOC_WRAP=true
+endif
+
 PRINT_NO_DIR	:=	--no-print-directory
 RM				:=	rm -rf
 
-#		Base Directories
-SRC_DIR			:=	src/
-INC_DIR			:=	include/
-BUILD_DIR		:=	.build/
-DBL_DIR			:=	src/dbltoa/
-DYN_DIR			:=	src/dynarr/
-PRINTF_DIR		:=	src/printf/
-WRAP_DIR		:=	src/wrapper/
-TESTER_DIR		:=	tester/
+# Locking for parallel-safe ar/ranlib
+AR_LOCK			:=	.build/ar.lock
+AR				:=	flock $(AR_LOCK) ar rcs
+RANLIB			:=	flock $(AR_LOCK) ranlib
+BUILD			:=	@mkdir -p .build
 
-#		Source files by category
+SRC_DIR			:=	src
+INC_DIR			:=	include
+BUILD_DIR		:=	.build
+PRINTF_DIR		:=	src/printf
+GNL_DIR			:=	src/get_next_line
+WRAP_DIR		:=	src/wrapper
+DYN_DIR			:=	src/dynarr
+DBL_DIR			:=	src/dbltoa
+
 ALLOC			:=	calloc.c					deallocation.c					realloc.c
 ARRAY			:=	2d_array.c					2d_array_utils.c				2d_shrink_array.c		\
 					splitted.c					split.c							split_set.c
@@ -55,191 +76,187 @@ SEDIT			:=	capitalizations.c			cpy_safe.c						cpy.c					\
 SSRCH			:=	str_len.c					str_compare.c					str_null_check.c		\
 					str_search.c				str_search_2.c					find_char.c				\
 					find_char_not.c				ptr_null_check.c				skip_characters.c		\
- 					str_len_comparing.c			str_ctype.c
+					str_len_comparing.c			str_ctype.c
 
-DBTOA			:=	dbltoa.c					fraction_conversion.c			fraction_operations.c	\
-					ft_binary_to_decimal.c		scientific_notation.c			double_to_string.c		\
-					precision_process.c			precision_set.c					utils_dbl.c				\
-					ft_addition.c				ft_subtraction.c				ft_multiply.c			\
-					ft_division.c
-DYNAR			:=	dynarr.c					dynarr_insert.c					dynarr_utils.c
-PRNTF			:=	printf.c					printf_process_format.c			printf_char.c			\
-					printf_count.c				printf_flags.c					printf_int.c			\
-					printf_sort_spec.c			printf_str_count.c				printf_str.c			\
-					printf_unsigned.c			printf_utils.c
-WRAP			:=	linux_malloc_wrapper.c		mac_malloc_wrapper.c			malloc_handlers.c		\
-					open_wrapper.c				wrap_utils.c
+# Generate source file paths
+ALLOC_SRCS		:=	$(addprefix $(SRC_DIR)/alloc_functions/, $(ALLOC))
+ARRAY_SRCS		:=	$(addprefix $(SRC_DIR)/arrays_nested/, $(ARRAY))
+CNVRT_SRCS		:=	$(addprefix $(SRC_DIR)/conversions/, $(CNVRT))
+LLIST_SRCS		:=	$(addprefix $(SRC_DIR)/linked_list/, $(LLIST))
+MRKUP_SRCS		:=	$(addprefix $(SRC_DIR)/terminal_markup/, $(MRKUP))
+MATH_SRCS		:=	$(addprefix $(SRC_DIR)/math/, $(MATH_))
+MEDIT_SRCS		:=	$(addprefix $(SRC_DIR)/memory_edit/, $(MEDIT))
+MSRCH_SRCS		:=	$(addprefix $(SRC_DIR)/memory_search/, $(MSRCH))
+PTCHR_SRCS		:=	$(addprefix $(SRC_DIR)/put_chars/, $(PTCHR))
+SCRTE_SRCS		:=	$(addprefix $(SRC_DIR)/string_create/, $(SCRTE))
+SEDIT_SRCS		:=	$(addprefix $(SRC_DIR)/string_edit/, $(SEDIT))
+SSRCH_SRCS		:=	$(addprefix $(SRC_DIR)/string_search/, $(SSRCH))
 
-#		Map prefixes to their directories
-#		Base sources
-ALLOC_SRCS		:=	$(addprefix $(SRC_DIR)alloc_functions/, $(ALLOC))
-ARRAY_SRCS		:=	$(addprefix $(SRC_DIR)arrays_nested/, $(ARRAY))
-CNVRT_SRCS		:=	$(addprefix $(SRC_DIR)conversions/, $(CNVRT))
-G_N_L_SRCS		:=	$(addprefix $(SRC_DIR)get_next_line/, $(G_N_L))
-MRKUP_SRCS		:=	$(addprefix $(SRC_DIR)terminal_markup/, $(MRKUP))
-MATH_SRCS		:=	$(addprefix $(SRC_DIR)math/, $(MATH_))
-MEDIT_SRCS		:=	$(addprefix $(SRC_DIR)memory_edit/, $(MEDIT))
-MSRCH_SRCS		:=	$(addprefix $(SRC_DIR)memory_search/, $(MSRCH))
-PTCHR_SRCS		:=	$(addprefix $(SRC_DIR)put_chars/, $(PTCHR))
-SCRTE_SRCS		:=	$(addprefix $(SRC_DIR)string_create/, $(SCRTE))
-SEDIT_SRCS		:=	$(addprefix $(SRC_DIR)string_edit/, $(SEDIT))
-SSRCH_SRCS		:=	$(addprefix $(SRC_DIR)string_search/, $(SSRCH))
+BASE_SRCS		:=	$(ALLOC_SRCS)	$(ARRAY_SRCS)	$(CNVRT_SRCS)	$(LLIST_SRCS)	\
+					$(MRKUP_SRCS)	$(MATH_SRCS)	$(MEDIT_SRCS)	$(MSRCH_SRCS)	\
+					$(PTCHR_SRCS)	$(SCRTE_SRCS)	$(SEDIT_SRCS)	$(SSRCH_SRCS)
 
-BASE_SRCS		:=	$(ALLOC_SRCS)	$(ARRAY_SRCS)	$(CNVRT_SRCS)	$(G_N_L_SRCS)	$(MRKUP_SRCS)		\
-					$(MATH_SRCS)	$(MEDIT_SRCS)	$(MSRCH_SRCS)	$(PTCHR_SRCS)	$(SCRTE_SRCS)		\
-					$(SEDIT_SRCS)	$(SSRCH_SRCS)
+BASE_OBJS		:=	$(BASE_SRCS:%.c=$(BUILD_DIR)/%.o)
+DEPS			:=	$(BASE_OBJS:.o=.d)
 
-#		Generate object file names
-BASE_OBJS		:=	$(BASE_SRCS:%.c=$(BUILD_DIR)%.o)
-LLT_OBJS		:=	$(LLT_SRCS:%.c=$(BUILD_DIR)%.o)
-DBL_OBJS		:=	$(patsubst %.c, %.o, $(addprefix $(DBL_DIR)$(BUILD_DIR)$(SRC_DIR), $(DBTOA)))
-DYN_OBJS		:=	$(patsubst %.c, %.o, $(addprefix $(DYN_DIR)$(BUILD_DIR)$(SRC_DIR), $(DYNAR)))
-PRT_OBJS		:=	$(patsubst %.c, %.o, $(addprefix $(PRINTF_DIR)$(BUILD_DIR)$(SRC_DIR), $(PRNTF)))
-WRP_OBJS		:=	$(patsubst %.c, %.o, $(addprefix $(WRAP_DIR)$(BUILD_DIR)$(SRC_DIR), $(WRAP)))
+INCLUDES		:=	-I $(INC_DIR)				\
+					-I $(DBL_DIR)/include		\
+					-I $(DYN_DIR)/include		\
+					-I $(GNL_DIR)/include		\
+					-I $(PRINTF_DIR)/include	\
+					-I $(WRAP_DIR)/include
 
-#		All objects combined
-ALL_OBJS		:=	$(BASE_OBJS) $(DBL_OBJS) $(DYN_OBJS) $(PRT_OBJS) $(LLT_OBJS)
+# Submodule headers
+PRINTF_HEADER	:=	$(PRINTF_DIR)/include/ft_printf.h
+GNL_HEADER		:=	$(GNL_DIR)/include/get_next_line.h
+WRAP_HEADER		:=	$(WRAP_DIR)/include/wrapper.h
+DYNARR_HEADER	:=	$(DYN_DIR)/include/dynarr.h
+DBLTOA_HEADER	:=	$(DBL_DIR)/include/dbltoa.h
 
-#		Generate Dependency files
-DEPS			:=	$(ALL_OBJS:.o=.d)
+SUB_HEADERS_SRC	:=	$(PRINTF_HEADER) $(GNL_HEADER) $(WRAP_HEADER) $(DYNARR_HEADER) $(DBLTOA_HEADER)
+SUB_HEADERS_DST	:=	$(addprefix $(INC_DIR)/, $(notdir $(SUB_HEADERS_SRC)))
 
-#		Header files
-HEADERS_FILES	:=	libft.h						ft_printf.h						dbltoa.h				\
-					dynarr.h					is_ctype1.h						is_ctype2.h				\
-					is_ctype1_str.h				validate_ptr.h					terminal_markup.h		\
-					wrapper.h
-
-HEADERS			:=	$(addprefix $(INC_DIR), $(HEADERS_FILES))
-
-#		Remove these created files
-DELETE			:=	*.out			**/*.out			.DS_Store										\
-					**/.DS_Store	.dSYM/				**/.dSYM/
-
-#		Default target
-all: $(NAME)
-
-#		Main target
-$(NAME): $(BASE_OBJS)
-	@ar rcs $(NAME) $(BASE_OBJS)
-	@printf "$(CREATED)" $@ $(CUR_DIR)
-
-$(BUILD_DIR)%.o: %.c $(HEADERS)
-	@mkdir -p $(@D)
-	$(COMPILER) $(CFLAGS) -I $(INC_DIR) -c $< -o $@
-
-submodules:
-	git submodule update --init --recursive
-	git submodule foreach 'git checkout $$(git config -f $toplevel/.gitmodules submodule.$name.branch || echo main)'
-	git submodule update --remote --merge
-
-#		Run this target to update specific submodules to their latest remote state
-# submodules_update:
-# 	git submodule update --remote $(DBL_DIR)
-# 	git submodule update --remote $(DYN_DIR)
-# 	git submodule update --remote $(PRINTF_DIR)
-# 	git submodule update --remote $(WRAP_DIR)
-
-#		If you made changes in a submodule this is how you restore it.
-#	cd src/dbltoa
-#	git restore .
-#	git reset --hard
-
-base: $(BASE_OBJS)
-	@ar rcs $(NAME) $(BASE_OBJS)
-	@printf "$(CREATED)" $@ $(CUR_DIR)
-
-llist: $(LLT_OBJS)
-	@ar rcs $(NAME) $(LLT_OBJS)
-	@printf "$(CREATED)" $@ $(CUR_DIR)
-
-dbltoa:	base
-	@$(MAKE) $(PRINT_NO_DIR) -C $(DBL_DIR) standalone
-	@ar rcs $(NAME) $(DBL_OBJS)
-	@printf "$(CREATED)" $@ $(CUR_DIR)
-
-dynarr:
-	@$(MAKE) $(PRINT_NO_DIR) -C $(DYN_DIR)
-	@ar rcs $(NAME) $(DYN_OBJS)
-	@printf "$(CREATED)" $@ $(CUR_DIR)
-
-printf:
-	@$(MAKE) $(PRINT_NO_DIR) -C $(PRINTF_DIR)
-	@ar rcs $(NAME) $(PRT_OBJS)
-	@printf "$(CREATED)" $@ $(CUR_DIR)
-
-wrap:
-	@$(MAKE) $(PRINT_NO_DIR) -C $(WRAP_DIR)
-	@ar rcs $(NAME) $(WRP_OBJS)
-	@printf "$(CREATED)" $@ $(CUR_DIR)
-
-mwrap:
-	@$(MAKE) $(PRINT_NO_DIR) -C $(WRAP_DIR) malloc
-	@ar rcs $(NAME) $(WRP_OBJS)
-	@printf "$(CREATED)" $@ $(CUR_DIR)
-
-clone_tester:
-	@if [ ! -d "$(TESTER_DIR)" ]; then \
-		git clone git@github.com:RJW-db/lib_tester.git tester; \
+SUBMODULES_CMD	:=																											\
+	@if [ ! -e "$(PRINTF_DIR)/.git" ] || [ ! -e "$(GNL_DIR)/.git" ] ||														\
+		[ ! -e "$(WRAP_DIR)/.git" ] || [ ! -e "$(DYN_DIR)/.git" ] ||														\
+		[ ! -e "$(DBL_DIR)/.git" ]; then																					\
+		git submodule update --init --recursive;																			\
+		git submodule foreach 'git checkout $$(git config -f $$toplevel/.gitmodules submodule.$$name.branch || echo main)';	\
+		git submodule update --remote --merge;																				\
 	fi
 
-test:	clone_tester mwrap dbltoa dynarr printf all
-	@$(MAKE) $(PRINT_NO_DIR) -C $(TESTER_DIR) run
+DELETE			:=	*.out			**/*.out		.DS_Store	\
+					**/.DS_Store	.dSYM/			**/.dSYM/
 
-test_valgrind:	base clone_tester mwrap dbltoa dynarr printf all
-	@$(MAKE) $(PRINT_NO_DIR) -C $(TESTER_DIR) valgrind
+all: submodules $(NAME)			## Build the main library
 
-clean:
+$(NAME): $(BASE_OBJS) | submodules
+	@mkdir -p $(@D)
+	$(AR) $@ $(BASE_OBJS)
+	$(RANLIB) $@
+	@printf "$(CREATED)" $@ $(CUR_DIR)
+
+$(BUILD_DIR)/%.o: %.c | submodules
+	@mkdir -p $(@D)
+	$(COMPILER) $(CFLAGS) $(INCLUDES) -c $< -o $@
+
+help:							## List all available make targets and their descriptions
+	@awk '/^[a-zA-Z_%-]+:.*##/{printf "  %-16s %s\n", $$1, substr($$0, index($$0,"##")+3)}' $(MAKEFILE_LIST)
+
+submodules_init:				## Initialize submodules if needed
+	$(SUBMODULES_CMD)
+
+headers: | submodules_init		## Copy submodule headers if changed
+	@for hdr in $(SUB_HEADERS_SRC); do \
+		dst="$(INC_DIR)/$$(basename $$hdr)"; \
+		if [ -f "$$hdr" ] && { [ ! -f "$$dst" ] || ! cmp -s "$$hdr" "$$dst"; }; then \
+			cp "$$hdr" "$$dst"; \
+			printf "$(COPIED)" "$$dst" "$$hdr"; \
+		fi; \
+	done
+
+submodules: headers				## Ensure submodules and headers are ready before building components
+	$(BUILD)
+
+libftx:							## Build all components (meta-target)
+	@$(MAKE) $(PRINT_NO_DIR) all $(filter debug valgrind,$(MAKECMDGOALS))
+	@$(MAKE) $(PRINT_NO_DIR) printf $(filter debug valgrind,$(MAKECMDGOALS))
+	@$(MAKE) $(PRINT_NO_DIR) gnl $(filter debug valgrind,$(MAKECMDGOALS))
+	@$(MAKE) $(PRINT_NO_DIR) mwrap $(filter debug valgrind,$(MAKECMDGOALS))
+	@$(MAKE) $(PRINT_NO_DIR) dynarr $(filter debug valgrind,$(MAKECMDGOALS))
+	@$(MAKE) $(PRINT_NO_DIR) dbltoa $(filter debug valgrind,$(MAKECMDGOALS))
+
+printf: submodules				## Build printf submodule (depends on submodules)
+	@$(MAKE) $(PRINT_NO_DIR) -C $(PRINTF_DIR) $(filter debug valgrind,$(MAKECMDGOALS))
+	$(AR) $(NAME) $(PRINTF_DIR)/.build/src/*.o
+	$(RANLIB) $(NAME)
+	@printf "$(CREATED)" $@ $(CUR_DIR)
+
+gnl: submodules					## Build get_next_line submodule (depends on submodules)
+	@$(MAKE) $(PRINT_NO_DIR) -C $(GNL_DIR) $(filter debug valgrind,$(MAKECMDGOALS))
+	$(AR) $(NAME) $(GNL_DIR)/.build/src/*.o
+	$(RANLIB) $(NAME)
+	@printf "$(CREATED)" $@ $(CUR_DIR)
+
+wrap: submodules				## Build wrap submodule (depends on submodules)
+	@$(MAKE) $(PRINT_NO_DIR) -C $(WRAP_DIR) $(filter debug valgrind,$(MAKECMDGOALS))
+	$(AR) $(NAME) $(WRAP_DIR)/.build/src/*.o
+	$(RANLIB) $(NAME)
+	@printf "$(CREATED)" $@ $(CUR_DIR)
+
+mwrap: submodules				## Build malloc wrapper (depends on submodules)
+	@$(MAKE) $(PRINT_NO_DIR) -C $(WRAP_DIR) malloc $(filter debug valgrind,$(MAKECMDGOALS))
+	$(AR) $(NAME) $(WRAP_DIR)/.build/src/*.o
+	$(RANLIB) $(NAME)
+	@printf "$(CREATED)" $@ $(CUR_DIR)
+
+dynarr: submodules				## Build dynarr submodule (depends on submodules)
+	@$(MAKE) $(PRINT_NO_DIR) -C $(DYN_DIR) $(filter debug valgrind,$(MAKECMDGOALS))
+	$(AR) $(NAME) $(DYN_DIR)/.build/src/*.o
+	$(RANLIB) $(NAME)
+	@printf "$(CREATED)" $@ $(CUR_DIR)
+
+dbltoa: all						## Build dbltoa submodule (depends on all)
+	@$(MAKE) $(PRINT_NO_DIR) -C $(DBL_DIR) CLONE_LIBFTX= submodule $(filter debug valgrind,$(MAKECMDGOALS))
+	$(AR) $(NAME) $(DBL_DIR)/.build/src/*.o
+	$(RANLIB) $(NAME)
+	@printf "$(CREATED)" $@ $(CUR_DIR)
+
+clean:							## Remove build artifacts (depends on submodules)
 	@$(RM) $(BUILD_DIR) $(DELETE)
-	@$(MAKE) $(PRINT_NO_DIR) -C $(DBL_DIR) clean
-	@$(MAKE) $(PRINT_NO_DIR) -C $(DYN_DIR) clean
-	@$(MAKE) $(PRINT_NO_DIR) -C $(PRINTF_DIR) clean
-	@$(MAKE) $(PRINT_NO_DIR) -C $(WRAP_DIR) clean
-	@printf "$(REMOVED)" $(BUILD_DIR) $(CUR_DIR)$(BUILD_DIR)
+	@printf "$(REMOVED)" $(BUILD_DIR) $(CUR_DIR)$(BUILD_DIR)/
 
-no_print_clean:
-	@$(RM) $(BUILD_DIR) $(DELETE)
+cleandep:						## Clean dependencies in all submodules
+	@[ ! -e "$(GNL_DIR)/.git"    ] || $(MAKE) $(PRINT_NO_DIR) -C $(GNL_DIR) clean
+	@[ ! -e "$(PRINTF_DIR)/.git" ] || $(MAKE) $(PRINT_NO_DIR) -C $(PRINTF_DIR) clean
+	@[ ! -e "$(WRAP_DIR)/.git"   ] || $(MAKE) $(PRINT_NO_DIR) -C $(WRAP_DIR) clean
+	@[ ! -e "$(DYN_DIR)/.git"    ] || $(MAKE) $(PRINT_NO_DIR) -C $(DYN_DIR) clean
+	@[ ! -e "$(DBL_DIR)/.git"    ] || $(MAKE) $(PRINT_NO_DIR) -C $(DBL_DIR) clean
 
-fclean: clean
+fclean: clean					## Full clean including library and submodule headers (depends on clean)
 	@$(RM) $(NAME)
-	@$(MAKE) $(PRINT_NO_DIR) -C $(DBL_DIR) fclean
-	@$(MAKE) $(PRINT_NO_DIR) -C $(DYN_DIR) fclean
-	@$(MAKE) $(PRINT_NO_DIR) -C $(PRINTF_DIR) fclean
-	@$(MAKE) $(PRINT_NO_DIR) -C $(WRAP_DIR) fclean
+	@for hdr in $(SUB_HEADERS_DST); do \
+		[ -e "$$hdr" ] && $(RM) "$$hdr" && printf "$(REMOVED)" "$$hdr" "$(CUR_DIR)" || true; \
+	done
+	@[ ! -e "$(PRINTF_DIR)/.git" ] || $(MAKE) $(PRINT_NO_DIR) -C $(PRINTF_DIR) fclean
+	@[ ! -e "$(GNL_DIR)/.git"    ] || $(MAKE) $(PRINT_NO_DIR) -C $(GNL_DIR) fclean
+	@[ ! -e "$(WRAP_DIR)/.git"   ] || $(MAKE) $(PRINT_NO_DIR) -C $(WRAP_DIR) fclean
+	@[ ! -e "$(DYN_DIR)/.git"    ] || $(MAKE) $(PRINT_NO_DIR) -C $(DYN_DIR) fclean
+	@[ ! -e "$(DBL_DIR)/.git"    ] || $(MAKE) $(PRINT_NO_DIR) -C $(DBL_DIR) fclean
 	@printf "$(REMOVED)" $(NAME) $(CUR_DIR)
 
-clean_tester:
-	@$(RM) $(TESTER_DIR)
+re:								## Rebuild from scratch (depends on fclean, all)
+	$(MAKE) $(PRINT_NO_DIR) fclean
+	$(MAKE) $(PRINT_NO_DIR) all
 
-allclean: fclean clean_tester
+valgrind:						## Append to any target for Valgrind checks: make all valgrind
 
-no_print_fclean:	no_print_clean
-	@$(RM) $(NAME)
-	@printf "$(REMOVED)" $(NAME) $(CUR_DIR)
+debug:							## Append to any target for sanitizers: make all debug
 
-re: fclean all
+verify:							## Verify library contents (for debugging)
+	@ar t $(NAME) | sort
 
-print-%:
-	$(info $($*))
+print-%:						## Print value of a variable
+	@$(info $($*))
 
-#		Include dependencies
 -include $(DEPS)
 
-.PHONY: all submodules submodules_update base llist dbltoa dynarr	\
-		printf wrap mwrap clone_tester test test_valgrind clean no_print_clean		\
-		fclean no_print_fclean clean_tester allclean re print-%
+.PHONY: all help submodules_init headers submodules	\
+		libftx printf gnl wrap mwrap dynarr dbltoa	\
+		clean cleandep fclean re					\
+		valgrind debug verify print-*
 
-.NOTPARALLEL: clone_tester
-# ----------------------------------- colors --------------------------------- #
-BOLD			=	\033[1m
-GREEN			=	\033[32m
-MAGENTA			=	\033[35m
-CYAN			=	\033[36m
-RESET			=	\033[0m
+# Terminal markup
+BOLD			:=	\033[1m
+GREEN			:=	\033[32m
+MAGENTA			:=	\033[35m
+CYAN			:=	\033[36m
+RESET			:=	\033[0m
 
-R_MARK_UP		=	$(MAGENTA)$(BOLD)
-CA_MARK_UP		=	$(GREEN)$(BOLD)
+R_MARK_UP		:=	$(MAGENTA)$(BOLD)
+CA_MARK_UP		:=	$(GREEN)$(BOLD)
 
-# ----------------------------------- messages ------------------------------- #
 CUR_DIR			:=	$(dir $(abspath $(firstword $(MAKEFILE_LIST))))
 REMOVED			:=	$(R_MARK_UP)REMOVED $(CYAN)%s$(MAGENTA) (%s) $(RESET)\n
 CREATED			:=	$(CA_MARK_UP)CREATED $(CYAN)%s$(GREEN) (%s) $(RESET)\n
+COPIED			:=	$(CA_MARK_UP)COPIED $(CYAN)%s$(GREEN) (← %s) $(RESET)\n

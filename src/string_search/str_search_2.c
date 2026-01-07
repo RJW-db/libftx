@@ -10,12 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <libft.h>
+#include <libftx.h>
 
-/*
-	true  if c is    in str
-	false if c isn't in str
-*/
 bool	c_in_str(int32_t c, const char *str)
 {
 	while (*str != '\0')
@@ -27,10 +23,7 @@ bool	c_in_str(int32_t c, const char *str)
 	return (false);
 }
 
-/*
-	true  if str is    equal to set_order
-	false if str isn't equal to set_order
-*/
+
 bool	strcmp0(const char *str, const char *set_order)
 {
 	while (*str != '\0' && *set_order != '\0')
@@ -39,9 +32,9 @@ bool	strcmp0(const char *str, const char *set_order)
 	return (true);
 }
 
-/*
-	string len match, amount of characters that overlap in both strings.
-*/
+/**
+ * string len match, amount of characters that overlap in both strings.
+ */
 size_t	strlmatch(const char *s1, const char *s2)
 {
 	size_t	i;

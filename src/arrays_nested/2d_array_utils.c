@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <libft.h>
+#include <libftx.h>
 
 size_t	count_arr_2d(char **arr)
 {
@@ -25,17 +25,6 @@ size_t	count_arr_2d(char **arr)
 }
 
 /**
- * 	Used functions:
- * 	- expand_2d_array
- * 	-	count_arr_2d
-	-	malloc
-	-	free
-	- count_arr_2d
-	- ft_strdup
-	-	malloc
-	- free_2d_arr
-	- 	free
- *
  * expand array and add string pointer at the end.
  * if NULL is returned check errno for ENOMEM.
  * Expand_2d will set arr to NULL
@@ -64,10 +53,6 @@ char	**add_str_arr(char **arr, const char *str)
 	return (new_arr);
 }
 
-/*
-	Used functions:
-	- ft_putendl_fd
-*/
 void	print_2d_array(char **arr)
 {
 	size_t	i;

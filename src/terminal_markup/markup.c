@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <terminal_markup.h>
+#include "terminal_markup.h"
 
 void	markup(const char *str, ...)
 {
@@ -40,9 +40,9 @@ void	markup(const char *str, ...)
 
 void	print_full_width(int32_t c)
 {
-	struct winsize	w;
 	const size_t	_markup = sizeof(MARKUP) - 1;
 	const size_t	markdown = sizeof(MARKDOWN) - 1;
+	struct winsize	w;
 	char			*chr;
 
 	ioctl(STDOUT_FILENO, TIOCGWINSZ, &w);

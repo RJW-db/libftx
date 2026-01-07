@@ -10,15 +10,11 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <libft.h>
+#include <libftx.h>
 
-/*
-	nmemb = amount to malloc + 1 for the terminator '\0'
-	size = sizeof(char *)
-
-	Used functions:
-	- malloc
-	- ft_memset
+/**
+ * nmemb = amount to malloc + 1 for the terminator '\0'
+ * size = sizeof(char *)
 */
 void	*ft_calloc(size_t nmemb, size_t size)
 {

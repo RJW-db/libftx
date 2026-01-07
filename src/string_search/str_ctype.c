@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <is_ctype1.h>
+#include "is_ctype1.h"
 
 bool	str_check_all(const char *str, int (*func)(int))
 {

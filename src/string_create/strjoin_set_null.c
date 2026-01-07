@@ -10,19 +10,11 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <libft.h>
+#include <libftx.h>
 
-/*
-	Used functions:
-	- malloc
-	- str0_ok
-	- ft_strlen
-	- free_str
-	-	free
-*/
 char	*strjoin_free_s1_n(char **s1, const char *s2)
 {
-	const char	*tmp;
+	const char	*tmp = NULL;
 	char		*ptr;
 	size_t		len;
 
@@ -35,7 +27,6 @@ char	*strjoin_free_s1_n(char **s1, const char *s2)
 	ptr = malloc((len + 1) * sizeof(char));
 	if (ptr == NULL)
 		return (free_str(s1));
-	tmp = NULL;
 	if (s1 != NULL)
 		tmp = *s1;
 	if (tmp != NULL)
@@ -49,17 +40,9 @@ char	*strjoin_free_s1_n(char **s1, const char *s2)
 	return (ptr - len);
 }
 
-/*
-	Used functions:
-	- malloc
-	- str0_ok
-	- ft_strlen
-	- free_str
-	-	free
-*/
 char	*strjoin_free_s2_n(const char *s1, char **s2)
 {
-	const char	*tmp;
+	const char	*tmp = NULL;
 	char		*ptr;
 	size_t		len;
 
@@ -74,7 +57,6 @@ char	*strjoin_free_s2_n(const char *s1, char **s2)
 		return (free_str(s2));
 	while (*s1)
 		*(ptr++) = *(s1++);
-	tmp = NULL;
 	if (s2 != NULL)
 		tmp = *s2;
 	if (tmp != NULL)
@@ -86,15 +68,6 @@ char	*strjoin_free_s2_n(const char *s1, char **s2)
 	return (ptr - len);
 }
 
-/*
-	Used functions:
-	- malloc
-	- strs0_ok
-	-	dpstr0_ok
-	- ft_strlen
-	- free_str
-	-	free
-*/
 char	*strjoin_free_all_n(char **s1, char **s2)
 {
 	const char	*tmp;

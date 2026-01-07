@@ -10,11 +10,11 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <libft.h>
+#include <libftx.h>
 
 /*
-	int64_t has max 19 + (-) = 20 digits,	-9,223,372,036,854,775,808
-	uint64_t has max 20 digits,  18,446,744,073,709,551,615
+	int64_t has max 19 + (-) = 20 digits, -9,223,372,036,854,775,808
+	uint64_t has max 20 digits, 18,446,744,073,709,551,615
 */
 uint8_t	digit_counter(int64_t n, uint8_t base_len)
 {

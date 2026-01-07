@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <libft.h>
+#include <libftx.h>
 
 char	*ft_strncpy(char *dst, const char *src, size_t n)
 {
@@ -30,9 +30,6 @@ char	*ft_strncpy(char *dst, const char *src, size_t n)
 	return (dst);
 }
 
-/**
- * Copies *src to *dst and terminates it with '\0'.
-*/
 size_t	ft_strlcpy(char *dst, const char *src, size_t size)
 {
 	size_t	i;

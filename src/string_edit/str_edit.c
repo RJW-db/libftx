@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <libft.h>
+#include <libftx.h>
 
 void	ft_striteri(char *s, void (*f)(uint32_t, char*))
 {
@@ -26,11 +26,6 @@ void	ft_striteri(char *s, void (*f)(uint32_t, char*))
 	}
 }
 
-/*
-	Used functions:
-	- ft_strlen
-	- ft_strlcpy
-*/
 size_t	ft_strlcat(char *dst, const char *src, size_t size)
 {
 	size_t	dst_len;
@@ -41,11 +36,6 @@ size_t	ft_strlcat(char *dst, const char *src, size_t size)
 	return (dst_len + ft_strlcpy(dst + dst_len, src, size - dst_len));
 }
 
-/*
-	Used functions:
-	- malloc
-	- ft_strlen
-*/
 char	*ft_strmapi(char const *s, char (*f)(uint32_t, char))
 {
 	uint32_t	i;
@@ -64,20 +54,6 @@ char	*ft_strmapi(char const *s, char (*f)(uint32_t, char))
 	}
 	ptr[i] = '\0';
 	return (ptr);
-}
-
-char	*charmove(char *dest, const char *src, size_t n)
-{
-	char	*tmp;
-
-	tmp = dest;
-	if (src > dest)
-		while (n--)
-			*tmp++ = *src++;
-	else if (dest > src)
-		while (n--)
-			*(dest + n) = *(src + n);
-	return (dest);
 }
 
 void	extract_substr(const char *s, uint32_t start, size_t ln, char *buf)

@@ -10,13 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <libft.h>
+#include <libftx.h>
 
-/*
-	true if exists
-	false if NULL
-	dp = double pointer
-*/
 bool	dp_ptr_ok(void **p1)
 {
 	return (p1 != NULL && *p1 != NULL);

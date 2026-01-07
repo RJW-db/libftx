@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <libft.h>
+#include <libftx.h>
 
 int8_t	sign_i(int n)
 {
@@ -19,9 +19,6 @@ int8_t	sign_i(int n)
 	return (-1);
 }
 
-/**
- * check on double.
-*/
 int8_t	sign_d(double n)
 {
 	if (n >= 0)

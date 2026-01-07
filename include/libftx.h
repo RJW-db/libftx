@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   libft.h                                            :+:    :+:            */
+/*   libftx.hy                                           :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: rde-brui <rde-brui@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
@@ -10,16 +10,15 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef LIBFT_H
-# define LIBFT_H
+#ifndef LIBFTX_H
+# define LIBFTX_H
 
-# define GNL get_next_line
 /*
-	BUFFER_SIZE minimum is 1, don't go lower than that.
-	cc -D BUFFER_SIZE=42 <files>.c
+	BUFF_SIZE minimum is 1, don't go lower than that.
+	cc -D BUFF_SIZE=42 <files>.c
 */
-# ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 10240
+# ifndef BUFF_SIZE
+#  define BUFF_SIZE 10240
 # endif
 # ifndef KILOBYTE
 #  define KILOBYTE 1024
@@ -39,36 +38,17 @@
 //	'\0'
 # define TERM 1
 
-//	error handling
-# define CALLOC_ERR "ENOMEM, Cannot allocate memory ft_calloc()"
-# define GNL_ERR "ENOMEM, Cannot allocate memory get_next_line()"
-# define ITOA_ERR "ENOMEM, Cannot allocate memory ft_itoa()"
-# define LSTNEW_ERR "ENOMEM, Cannot allocate memory ft_lstnew()"
-# define SPLIT_ERR "ENOMEM, Cannot allocate memory split()"
-# define SPLIT_SET_ERR "ENOMEM, Cannot allocate memory split_set()"
-# define STRDUP_ERR "ENOMEM, Cannot allocate memory ft_strdup()"
-# define STRMAPI_ERR "ENOMEM, Cannot allocate memory ft_strmapi()"
-# define STRTRIM_ERR "ENOMEM, Cannot allocate memory ft_strtrim()"
-# define STRJOIN_ERR "ENOMEM, Cannot allocate memory strjoin()"
-# define JOIN_FREE_S1_ERR "ENOMEM, Cannot allocate memory strjoin_free_s1()"
-# define JOIN_FREE_S1_NERR "ENOMEM, Cannot allocate memory strjoin_free_s1_n()"
-# define JOIN_FREE_S2_ERR "ENOMEM, Cannot allocate memory strjoin_free_s2()"
-# define JOIN_FREE_S2_NERR "ENOMEM, Cannot allocate memory strjoin_free_s2_n()"
-# define JOIN_FREE_ALL_ERR "ENOMEM, Cannot allocate memory strjoin_free_all()"
-# define JOIN_FRE_ALL_NERR "ENOMEM, Cannot allocate memory strjoin_free_all_n()"
-# define SUBSTR_ERR "ENOMEM, Cannot allocate memory ft_substr()"
-
 # include <stdlib.h>
 # include <stdbool.h>
 # include <stdint.h>			//	int32, uint32
 # include <unistd.h>			//	ssize_t STDOUT_FILENO
-// # include <limits.h>			//	INT_MAX PATH_MAX, LLONG_MAX
 # if defined(__linux__)
 #  include <linux/limits.h>
 # endif
 
 # include <is_ctype1.h>
 # include <is_ctype2.h>
+# include <safe_write.h>
 # include <validate_ptr.h>
 
 enum	e_return
@@ -111,11 +91,6 @@ int32_t		atoi32(const char *nptr);
 int64_t		atoi64(const char *nptr);
 int64_t		atoi_base(const char *nbr_str, const char *base, bool *is_neg);
 uint64_t	atui64(const char *nptr);
-
-//	Get_Next_line
-char		*get_next_line(int fd);
-char		*get_next_line_fds(int fd);
-ssize_t		get_user_input(char *buff, ssize_t buff_size, char *msg, bool mute);
 
 //	Linked List Functions
 void		ft_lstadd_back(t_lst **lst, t_lst *new);
@@ -193,7 +168,6 @@ void		ft_striteri(char *s, void (*f)(uint32_t, char*));
 size_t		ft_strlcat(char *dst, const char *src, size_t size);
 char		*ft_strncpy(char *dst, const char *src, size_t n);
 size_t		ft_strlcpy(char *dst, const char *src, size_t size);
-char		*charmove(char *dest, const char *src, size_t n);
 void		extract_substr(const char *s, uint32_t start, size_t ln, char *buf);
 char		*ft_strmapi(char const *s, char (*f)(uint32_t, char));
 void		swap_ptr(void **s1, void **s2);

@@ -10,14 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <libft.h>
+#include <libftx.h>
 
-/*
-	Used functions:
-	- malloc
-	- ft_strlen
-	- ft_strlcpy
-*/
 char	*ft_strdup(const char *s)
 {
 	char	*str;
@@ -30,12 +24,6 @@ char	*ft_strdup(const char *s)
 	return (str);
 }
 
-/*
-	Used functions:
-	- malloc
-	- ft_strlen
-	- ft_strlcpy
-*/
 char	*strdup_safe(const char *s)
 {
 	if (s != NULL)
@@ -43,12 +31,6 @@ char	*strdup_safe(const char *s)
 	return (NULL);
 }
 
-/*
-	Used functions:
-	- malloc
-	- ft_strlen
-	- ft_strlcpy
-*/
 char	*strdup_len(const char *s, size_t size)
 {
 	char	*str;
@@ -66,14 +48,6 @@ char	*strdup_len(const char *s, size_t size)
 	return (str);
 }
 
-/*
-	Usage, if 's' is NULL or malloc fails free 's'
-
-	Used functions:
-	- malloc
-	- ft_strlen
-	- ft_strlcpy
-*/
 char	*strdup_len_free(char **s, size_t size)
 {
 	char	*str;
@@ -92,15 +66,6 @@ char	*strdup_len_free(char **s, size_t size)
 	return (str);
 }
 
-/*
-	Usage, if 's' is NULL or malloc fails don't free 's'
-
-	Used functions:
-	- malloc
-	- ft_strlen
-	- ft_strlcpy
-	- free_str
-*/
 char	*strdup_size_free(char **s, size_t size)
 {
 	char	*str;

@@ -11,17 +11,11 @@
 /* ************************************************************************** */
 
 #include <sys/param.h>
-#include <libft.h>
+#include <libftx.h>
 
-/*
-	Used functions:
-	- free_ptr
-	-	free
-	- malloc
-	- ft_memmove
-	
-	don't return on the same pointer, if malloc fails the old malloced
-	pointer will be overwritten with NULL and unable to free the old.
+/**
+ * Don't return on the same pointer, if malloc fails the old malloced
+ * pointer will be overwritten with NULL, unable to free the old ptr.
 */
 void	*ft_realloc(void **ptr, size_t new_size, size_t old_size)
 {

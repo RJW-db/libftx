@@ -10,15 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <libft.h>
+#include <libftx.h>
 
-/*
-	Used functions:
-	- malloc
-	- strs0_ok
-	-	str0_ok
-	- ft_strlen
-*/
 char	*ft_strjoin(char const *s1, char const *s2)
 {
 	char	*ptr;
@@ -34,13 +27,6 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	return (ptr);
 }
 
-/*
-	Used functions:
-	- malloc
-	- str0_ok
-	- ft_strlen
-	- free
-*/
 char	*strjoin_free_s1(char *s1, const char *s2)
 {
 	char	*ptr;
@@ -67,13 +53,6 @@ char	*strjoin_free_s1(char *s1, const char *s2)
 	return (ptr - len);
 }
 
-/*
-	Used functions:
-	- malloc
-	- str0_ok
-	- ft_strlen
-	- free
-*/
 char	*strjoin_free_s2(const char *s1, char *s2)
 {
 	char	*ptr;
@@ -100,13 +79,6 @@ char	*strjoin_free_s2(const char *s1, char *s2)
 	return (ptr - len);
 }
 
-/*
-	Used functions:
-	- malloc
-	- strs0_ok
-	-	str0_ok
-	- ft_strlen
-*/
 char	*strjoin_free_all(char *s1, char *s2)
 {
 	char	*ptr;

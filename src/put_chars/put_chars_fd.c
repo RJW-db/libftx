@@ -10,28 +10,18 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>	// perror
-#include <libft.h>
+#include <stdio.h>
+#include <libftx.h>
 
-/*
-	Used functions:
-	- write
-	- perror
-*/
 void	ft_putchar_fd(char c, int fd)
 {
 	if (write(fd, &c, 1) == -1)
 		perror("ft_putchar_fd: write");
 }
 
-/*
-	Used functions:
-	- write
-	- perror
-*/
 void	ft_putendl_fd(const char *s, int fd)
 {
-	char	destination[BUFFER_SIZE];
+	char	destination[BUFF_SIZE];
 	size_t	i;
 
 	i = 0;
@@ -39,9 +29,9 @@ void	ft_putendl_fd(const char *s, int fd)
 	{
 		destination[i] = *s;
 		++s;
-		if (i == (BUFFER_SIZE - 1))
+		if (i == (BUFF_SIZE - 1))
 		{
-			if (write(fd, destination, BUFFER_SIZE) == -1)
+			if (write(fd, destination, BUFF_SIZE) == -1)
 			{
 				perror("ft_putendl_fd: write");
 				return ;
@@ -56,11 +46,6 @@ void	ft_putendl_fd(const char *s, int fd)
 		perror("ft_putendl_fd: write");
 }
 
-/*
-	Used functions:
-	- write
-	- perror
-*/
 void	ft_putnbr_fd(int n, int fd)
 {
 	char	store[11];
@@ -116,12 +101,6 @@ void	ft_putnbr_nl_fd(int n, int fd)
 		perror("ft_putnbr_nl_fd: write");
 }
 
-/*
-	Used functions:
-	- write
-	- ft_strlen
-	- perror
-*/
 void	ft_putstr_fd(const char *s, int fd)
 {
 	if (write(fd, s, ft_strlen(s)) == -1)

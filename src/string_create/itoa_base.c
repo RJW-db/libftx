@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <libft.h>
+#include <libftx.h>
 
 char	*itoa_base(int64_t n, const char *base)
 {
@@ -33,11 +33,10 @@ char	*itoa_base(int64_t n, const char *base)
 }
 
 /**
- * index == buf_len - 1, is only for the case n = 0.
+ * index == b_len - 1, is only for the case n = 0.
  */
 size_t	int64_base(int64_t n, const char *base, char *buff, size_t b_len)
 {
-	const bool	is_negative = (n < 0);
 	uint8_t		base_len;
 	uint64_t	abs_value;
 	size_t		index;
@@ -57,7 +56,7 @@ size_t	int64_base(int64_t n, const char *base, char *buff, size_t b_len)
 		buff[--index] = base[abs_value % base_len];
 		abs_value /= base_len;
 	}
-	if (is_negative == true && index > 0)
+	if (n < 0 && index > 0)
 		buff[--index] = '-';
 	if (index > 0)
 		cpy_str0(buff, buff + index);
