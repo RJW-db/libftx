@@ -185,7 +185,7 @@ wrap: submodules				## Build wrap submodule (depends on submodules)
 	@printf "$(CREATED)" $@ $(CUR_DIR)
 
 mwrap: submodules				## Build malloc wrapper (depends on submodules)
-	@$(MAKE) $(PRINT_NO_DIR) -C $(WRAP_DIR) malloc $(filter debug valgrind,$(MAKECMDGOALS))
+	$(MAKE) $(PRINT_NO_DIR) -C $(WRAP_DIR) malloc $(firstword $(filter debug valgrind,$(MAKECMDGOALS)) all)
 	$(AR) $(NAME) $(WRAP_DIR)/.build/src/*.o
 	$(RANLIB) $(NAME)
 	@printf "$(CREATED)" $@ $(CUR_DIR)
