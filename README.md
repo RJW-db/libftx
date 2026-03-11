@@ -29,7 +29,11 @@ The library follows **42’s** conventions but includes a few practical deviatio
   - [dbltoa](https://github.com/RJW-db/dbltoa)
 
 ## Usage
-**libftx** uses parallel builds (`-j`), full 42 flags + security hardening, and auto-submodule management.  
+**libftx** uses parallel builds (`-j`), full 42 flags + security hardening, and auto-submodule management.
+
+> **Note for macOS users:**
+> By default, macOS does **not** include the `flock` utility required for safe parallel builds. To build in parallel, first install `flock` (e.g., with `brew install flock`).
+> Otherwise, run `make -j1` to disable parallelism and avoid build errors.
 
 ### Build Targets
 | Command | Arguments | Functionality |
