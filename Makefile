@@ -167,37 +167,37 @@ libftx:							## Build all components (meta-target)
 	@$(MAKE) $(PRINT_NO_DIR) dbltoa $(filter debug valgrind,$(MAKECMDGOALS))
 
 printf: submodules				## Build printf submodule (depends on submodules)
-	@$(MAKE) $(PRINT_NO_DIR) -C $(PRINTF_DIR) $(filter debug valgrind,$(MAKECMDGOALS))
+	@$(MAKE) $(PRINT_NO_DIR) -C $(PRINTF_DIR) COMPILER=$(COMPILER) $(filter debug valgrind,$(MAKECMDGOALS))
 	$(AR) $(NAME) $(PRINTF_DIR)/.build/src/*.o
 	$(RANLIB) $(NAME)
 	@printf "$(CREATED)" $@ $(CUR_DIR)
 
 gnl: submodules					## Build get_next_line submodule (depends on submodules)
-	@$(MAKE) $(PRINT_NO_DIR) -C $(GNL_DIR) $(filter debug valgrind,$(MAKECMDGOALS))
+	@$(MAKE) $(PRINT_NO_DIR) -C $(GNL_DIR) COMPILER=$(COMPILER) $(filter debug valgrind,$(MAKECMDGOALS))
 	$(AR) $(NAME) $(GNL_DIR)/.build/src/*.o
 	$(RANLIB) $(NAME)
 	@printf "$(CREATED)" $@ $(CUR_DIR)
 
 wrap: submodules				## Build wrap submodule (depends on submodules)
-	@$(MAKE) $(PRINT_NO_DIR) -C $(WRAP_DIR) $(filter debug valgrind,$(MAKECMDGOALS))
+	@$(MAKE) $(PRINT_NO_DIR) -C $(WRAP_DIR) COMPILER=$(COMPILER) $(filter debug valgrind,$(MAKECMDGOALS))
 	$(AR) $(NAME) $(WRAP_DIR)/.build/src/*.o
 	$(RANLIB) $(NAME)
 	@printf "$(CREATED)" $@ $(CUR_DIR)
 
 mwrap: submodules				## Build malloc wrapper (depends on submodules)
-	$(MAKE) $(PRINT_NO_DIR) -C $(WRAP_DIR) malloc $(firstword $(filter debug valgrind,$(MAKECMDGOALS)) all)
+	@$(MAKE) $(PRINT_NO_DIR) -C $(WRAP_DIR) COMPILER=$(COMPILER) malloc $(firstword $(filter debug valgrind,$(MAKECMDGOALS)) all)
 	$(AR) $(NAME) $(WRAP_DIR)/.build/src/*.o
 	$(RANLIB) $(NAME)
 	@printf "$(CREATED)" $@ $(CUR_DIR)
 
 dynarr: submodules				## Build dynarr submodule (depends on submodules)
-	@$(MAKE) $(PRINT_NO_DIR) -C $(DYN_DIR) $(filter debug valgrind,$(MAKECMDGOALS))
+	@$(MAKE) $(PRINT_NO_DIR) -C $(DYN_DIR) COMPILER=$(COMPILER) $(filter debug valgrind,$(MAKECMDGOALS))
 	$(AR) $(NAME) $(DYN_DIR)/.build/src/*.o
 	$(RANLIB) $(NAME)
 	@printf "$(CREATED)" $@ $(CUR_DIR)
 
 dbltoa: all						## Build dbltoa submodule (depends on all)
-	@$(MAKE) $(PRINT_NO_DIR) -C $(DBL_DIR) CLONE_LIBFTX= submodule $(filter debug valgrind,$(MAKECMDGOALS))
+	@$(MAKE) $(PRINT_NO_DIR) -C $(DBL_DIR) COMPILER=$(COMPILER) CLONE_LIBFTX= submodule $(filter debug valgrind,$(MAKECMDGOALS))
 	$(AR) $(NAME) $(DBL_DIR)/.build/src/*.o
 	$(RANLIB) $(NAME)
 	@printf "$(CREATED)" $@ $(CUR_DIR)
