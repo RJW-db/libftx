@@ -1,9 +1,8 @@
 # libftx
-**libftx** is a modular C library that extends the classic **Libft** project from the **42 / Codam** curriculum.  
-It began as a personal continuation of **libft**, gradually incorporating additional modules to support more flexible and modern C development.
+**libftx** is a *modular* C library extending the classic **Libft** project from the **42 / Codam** curriculum. Originally a *personal continuation* of **libft**, it now incorporates additional modules for *flexible, modern* C development built as a learning project to master **advanced Git workflows** (submodules), **GitHub Actions** **CI/CD**, and robust **DevOps** practices in a real-world C library.
 
-At its core, **libftx** provides the foundational functions from the original **libft** project standard library reimplementations and utility helpers.  
-On top of that, it integrates several core projects and self-developed submodules:
+At its core, **libftx** provides the *foundational functions* from the original **libft** (standard library reimplementations + utilities). On top of that, it integrates several *core projects and self-developed submodules*:
+
 
 - [**ft_printf**](https://github.com/RJW-db/printf): A reimplementation of the standard `printf()` function with extended formatting and custom output handlers.
 - [**get_next_line**](https://github.com/RJW-db/get_next_line): Line-by-line reader for file descriptors (with bonus support for multiple fds, if enabled).
