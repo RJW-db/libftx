@@ -20,10 +20,10 @@ OPTIMIZATION	:=	-O2
 SECURITY		:=	-fstack-protector-strong
 ifeq ($(shell uname -s),Linux)
 SECURITY		+=	-D_FORTIFY_SOURCE=2
-FSANITIZE		:=	leak
+FSANITIZE		:=	leak,
 endif
 
-SANITIZERS		:=	-fsanitize=$(FSANITIZE),address,undefined,null,integer-divide-by-zero,signed-integer-overflow,bounds,alignment
+SANITIZERS		:=	-fsanitize=$(FSANITIZE)address,undefined,null,integer-divide-by-zero,signed-integer-overflow,bounds,alignment
 DEBUG_FLAGS		:=	-fno-omit-frame-pointer
 
 CFLAGS			:=	$(BASE_FLAGS) $(PEDANTIC) $(WARNINGS) $(CAST_WARNINGS) \
