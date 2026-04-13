@@ -207,22 +207,22 @@ clean:							## Remove build artifacts (depends on submodules)
 	@printf "$(REMOVED)" $(BUILD_DIR) $(CUR_DIR)$(BUILD_DIR)/
 
 cleandep:						## Clean dependencies in all submodules
-	@[ ! -e "$(GNL_DIR)/.git"    ] || $(MAKE) $(PRINT_NO_DIR) -C $(GNL_DIR) clean
-	@[ ! -e "$(PRINTF_DIR)/.git" ] || $(MAKE) $(PRINT_NO_DIR) -C $(PRINTF_DIR) clean
-	@[ ! -e "$(WRAP_DIR)/.git"   ] || $(MAKE) $(PRINT_NO_DIR) -C $(WRAP_DIR) clean
-	@[ ! -e "$(DYN_DIR)/.git"    ] || $(MAKE) $(PRINT_NO_DIR) -C $(DYN_DIR) clean
-	@[ ! -e "$(DBL_DIR)/.git"    ] || $(MAKE) $(PRINT_NO_DIR) -C $(DBL_DIR) clean
+	@[ ! -e "$(GNL_DIR)/Makefile"    ] || $(MAKE) $(PRINT_NO_DIR) -C $(GNL_DIR) clean
+	@[ ! -e "$(PRINTF_DIR)/Makefile" ] || $(MAKE) $(PRINT_NO_DIR) -C $(PRINTF_DIR) clean
+	@[ ! -e "$(WRAP_DIR)/Makefile"   ] || $(MAKE) $(PRINT_NO_DIR) -C $(WRAP_DIR) clean
+	@[ ! -e "$(DYN_DIR)/Makefile"    ] || $(MAKE) $(PRINT_NO_DIR) -C $(DYN_DIR) clean
+	@[ ! -e "$(DBL_DIR)/Makefile"    ] || $(MAKE) $(PRINT_NO_DIR) -C $(DBL_DIR) clean
 
 fclean: clean					## Full clean including library and submodule headers (depends on clean)
 	@$(RM) $(NAME)
 	@for hdr in $(SUB_HEADERS_DST); do \
 		[ -e "$$hdr" ] && $(RM) "$$hdr" && printf "$(REMOVED)" "$$hdr" "$(CUR_DIR)" || true; \
 	done
-	@[ ! -e "$(PRINTF_DIR)/.git" ] || $(MAKE) $(PRINT_NO_DIR) -C $(PRINTF_DIR) fclean
-	@[ ! -e "$(GNL_DIR)/.git"    ] || $(MAKE) $(PRINT_NO_DIR) -C $(GNL_DIR) fclean
-	@[ ! -e "$(WRAP_DIR)/.git"   ] || $(MAKE) $(PRINT_NO_DIR) -C $(WRAP_DIR) fclean
-	@[ ! -e "$(DYN_DIR)/.git"    ] || $(MAKE) $(PRINT_NO_DIR) -C $(DYN_DIR) fclean
-	@[ ! -e "$(DBL_DIR)/.git"    ] || $(MAKE) $(PRINT_NO_DIR) -C $(DBL_DIR) fclean
+	@[ ! -e "$(PRINTF_DIR)/Makefile" ] || $(MAKE) $(PRINT_NO_DIR) -C $(PRINTF_DIR) fclean
+	@[ ! -e "$(GNL_DIR)/Makefile"    ] || $(MAKE) $(PRINT_NO_DIR) -C $(GNL_DIR) fclean
+	@[ ! -e "$(WRAP_DIR)/Makefile"   ] || $(MAKE) $(PRINT_NO_DIR) -C $(WRAP_DIR) fclean
+	@[ ! -e "$(DYN_DIR)/Makefile"    ] || $(MAKE) $(PRINT_NO_DIR) -C $(DYN_DIR) fclean
+	@[ ! -e "$(DBL_DIR)/Makefile"    ] || $(MAKE) $(PRINT_NO_DIR) -C $(DBL_DIR) fclean
 	@printf "$(REMOVED)" $(NAME) $(CUR_DIR)
 
 re:								## Rebuild from scratch (depends on fclean, all)
