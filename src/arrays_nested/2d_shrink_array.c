@@ -13,7 +13,7 @@
 #include <libftx.h>
 
 static void	transfer(char **arr, char **new_arr, size_t target, size_t arr_len);
-static void
+static void	\
 transfer_all(char ***arr, char **new_arr, const char *rm, size_t arr_len);
 
 /**
@@ -127,7 +127,7 @@ static void	transfer(char **arr, char **new_arr, size_t target, size_t arr_len)
 	}
 }
 
-static void	
+static void	\
 transfer_all(char ***arr, char **new_arr, const char *rm, size_t arr_len)
 {
 	size_t	rm_len;

@@ -13,13 +13,13 @@
 #include <libftx.h>
 
 static size_t	count_words(const char *s, const char *set);
-static bool		words(const char *s, const char *set, char **res, size_t *w_index);
+static bool		words(const char *s, const char *set, char **res, size_t *idx);
 static bool		split_alloc(const char *start, const char *end, char **r);
 
 char	**split_set(const char *s, const char *set)
 {
 	char	**result;
-	size_t	w_index;
+	size_t	idx;
 	size_t	i;
 
 	if (strs_ok(s, set) == false)
@@ -27,11 +27,11 @@ char	**split_set(const char *s, const char *set)
 	result = malloc((count_words(s, set) + 1) * sizeof(char *));
 	if (result == NULL)
 		return (NULL);
-	w_index = 0;
-	if (words(s, set, result, &w_index) == false)
+	idx = 0;
+	if (words(s, set, result, &idx) == false)
 	{
 		i = 0;
-		while (w_index > i)
+		while (idx > i)
 			free(result[i++]);
 		free(result);
 		return (NULL);
@@ -63,7 +63,7 @@ static size_t	count_words(const char *s, const char *set)
 	return (count);
 }
 
-static bool	words(const char *s, const char *set, char **res, size_t *w_index)
+static bool	words(const char *s, const char *set, char **res, size_t *idx)
 {
 	const char	*start;
 
@@ -75,14 +75,14 @@ static bool	words(const char *s, const char *set, char **res, size_t *w_index)
 		else
 		{
 			if (start != s
-				&& split_alloc(start, s, &res[(*w_index)++]) == false)
+				&& split_alloc(start, s, &res[(*idx)++]) == false)
 				return (false);
 			start = ++s;
 		}
 	}
-	if (start != s && split_alloc(start, s, &res[(*w_index)++]) == false)
+	if (start != s && split_alloc(start, s, &res[(*idx)++]) == false)
 		return (false);
-	*(res + *w_index) = NULL;
+	*(res + *idx) = NULL;
 	return (true);
 }
 

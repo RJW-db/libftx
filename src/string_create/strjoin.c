@@ -23,7 +23,7 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	ptr = malloc((len + 1) * sizeof(char));
 	if (ptr == NULL)
 		return (NULL);
-	cpy_srcs_s(ptr, s1, s2, NULL);
+	cpy_srcs(ptr, s1, s2, "");
 	return (ptr);
 }
 

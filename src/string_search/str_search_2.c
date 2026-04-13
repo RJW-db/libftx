@@ -23,7 +23,6 @@ bool	c_in_str(int32_t c, const char *str)
 	return (false);
 }
 
-
 bool	strcmp0(const char *str, const char *set_order)
 {
 	while (*str != '\0' && *set_order != '\0')

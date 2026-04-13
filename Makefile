@@ -71,7 +71,7 @@ PTCHR			:=	put_chars_fd.c
 SCRTE			:=	itoa.c						itoa_base.c						str_dup.c				\
 					string_create.c				strjoin.c						strjoin_set_null.c		\
 					strtrim.c
-SEDIT			:=	capitalizations.c			cpy_safe.c						cpy.c					\
+SEDIT			:=	capitalizations.c			cpy_num.c						cpy_str.c				\
 					strcpy.c					str_edit.c						swap_values.c
 SSRCH			:=	str_len.c					str_compare.c					str_null_check.c		\
 					str_search.c				str_search_2.c					find_char.c				\

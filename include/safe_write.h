@@ -18,14 +18,15 @@
 #include <errno.h>
 #include <stdio.h>
 
-# define safe_write(fd, buf, len)												\
-	do {																		\
-		ssize_t n__ = write(fd, buf, len);										\
-		if (n__ == -1) {														\
-			char *err__ = strerror(errno);										\
-			dprintf(STDERR_FILENO, "%s: %s (fd=%d, wanted=%zu, wrote=%zd)\n",   \
-				__func__, err__, fd, (size_t)(len), n__);						\
-		}																		\
+# define SAFE_WRITE(fd, buf, len)								\
+	do {														\
+		ssize_t write_ret = write(fd, buf, len);				\
+		if (write_ret == -1) {									\
+			char *err__ = strerror(errno);						\
+			dprintf(STDERR_FILENO,								\
+				"%s: %s (fd=%d, wanted=%zu, wrote=%zd)\n",		\
+				__func__, err__, fd, (size_t)(len), write_ret);	\
+		}														\
 	} while (0)
 
 #endif

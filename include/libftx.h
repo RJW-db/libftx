@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   libftx.hy                                           :+:    :+:            */
+/*   libftx.h                                           :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: rde-brui <rde-brui@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
@@ -160,9 +160,6 @@ size_t		cpy_num_char(char *dst, const char c, size_t n);
 size_t		cpy_num(char *dst, const char *src, size_t num);
 size_t		cpy_srcs(char *dst, const char *s1, const char *s2, const char *s3);
 size_t		cpy_till_char(char *dst, const char *src, const char chr);
-size_t		cpy_num_s(char *dst, const char *src, size_t num);
-size_t		cpy_srcs_s(char *dst, const char *s1, const char *s2, const char *s3);
-size_t		cpy_str_s(char *dst, const char *src);
 size_t		cpy_till_char_s(char *dst, const char *src, const char chr);
 void		ft_striteri(char *s, void (*f)(uint32_t, char*));
 size_t		ft_strlcat(char *dst, const char *src, size_t size);

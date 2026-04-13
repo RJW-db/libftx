@@ -13,7 +13,7 @@
 #include <libftx.h>
 
 static void	ft_count(const char *s, char c, size_t *parts, size_t *sp_count);
-static void
+static void	\
 ft_enter_data(char *data_block, size_t ptrs_l, const char *s, char c);
 
 char	**splitted(const char *s, char c)
@@ -67,7 +67,7 @@ static void	ft_count(const char *s, char c, size_t *parts, size_t *sp_count)
 	}
 }
 
-static void
+static void	\
 ft_enter_data(char *data_block, size_t ptrs_l, const char *s, char c)
 {
 	size_t		i;

@@ -16,9 +16,9 @@
 
 char	*ft_itoa(int n)
 {
-	uint8_t	len;
 	const bool	sign = (n < 0);
-	char	*dst;
+	uint8_t		len;
+	char		*dst;
 
 	len = digit_counter(n, 10);
 	dst = malloc((len + TERM) * sizeof(char));

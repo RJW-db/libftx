@@ -13,17 +13,16 @@
 #include <libftx.h>
 
 static int64_t	is_valid_base(const char c, const char *base);
-static int16_t
-parse_string(const char *nbr_str, const char *base, bool *is_neg);
+static int16_t	parse_str(const char *nbr_str, const char *base, bool *is_neg);
 
 int64_t	atoi_base(const char *nbr_str, const char *base, bool *is_neg)
 {
-	int64_t		base_len;
-	int16_t		index;
-	int64_t		digit;
-	int64_t		nbr;
+	int64_t	base_len;
+	int16_t	index;
+	int64_t	digit;
+	int64_t	nbr;
 
-	index = parse_string(nbr_str, base, is_neg);
+	index = parse_str(nbr_str, base, is_neg);
 	if (index == -1)
 		return (0);
 	base_len = (int64_t)ft_strlen(base);
@@ -56,8 +55,8 @@ static int64_t	is_valid_base(const char c, const char *base)
 	return (-1);
 }
 
-static int16_t
-parse_string(const char *nbr_str, const char *base, bool *is_neg)
+static int16_t	\
+parse_str(const char *nbr_str, const char *base, bool *is_neg)
 {
 	int16_t	i;
 
