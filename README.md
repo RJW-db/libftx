@@ -186,4 +186,181 @@ git add -A
 git commit -m "update submodules"
 git push
 ```
+
 </details>
+
+
+
+<details>
+<summary>Updating Nested Submodules in parent projects</summary>
+
+This section assumes you have **three separate working trees** on disk:[web:33][web:63]
+
+```sh
+1. ft_printf/                          # the ft_printf repository by itself
+2. libftx/                             # the libftx repository by itself, containing ft_printf as submodule
+3. my_shell_app/                       # your app repository, containing libftx as submodule
+```
+
+That means you are **not** doing everything from one folder tree. You update the real child repository first, then go into the parent repository that includes it, and finally into the top-level project that includes that parent.[web:41][web:63][web:70]
+
+Example layout:
+
+```sh
+~/code/ft_printf
+~/code/libftx
+└── src/ft_printf
+~/code/my_shell_app
+└── extern_library/libftx
+    └── src/ft_printf
+```
+
+The update order is always:
+
+```sh
+ft_printf repo -> libftx repo -> my_shell_app repo
+```
+
+## Why this order is required
+
+Git submodules store a **specific commit pointer** in the parent repository. So if `ft_printf` gets a new commit in its own repository, `libftx` still points to the old `ft_printf` commit until you update and commit that pointer inside the `libftx` working tree. Then `my_shell_app` still points to the old `libftx` commit until you update and commit that pointer inside the `my_shell_app` working tree.[web:9][web:12][web:53]
+
+So the process is:
+
+```sh
+1. Create or pull the new ft_printf commit in the standalone ft_printf repo.
+2. Update libftx so its src/ft_printf submodule points to that new commit.
+3. Commit that change in libftx.
+4. Update my_shell_app so its extern_library/libftx submodule points to the new libftx commit.
+5. Commit that change in my_shell_app.
+```
+
+## Step 1 — Update ft_printf in its own repository
+
+First go to the standalone `ft_printf` repository, not the copy nested inside another project.[web:33][web:63]
+
+```sh
+cd ~/code/ft_printf
+git checkout main
+git pull origin main
+```
+
+If you made changes locally in `ft_printf`, then commit and push them there first:[web:63][web:70]
+
+```sh
+git add .
+git commit -m "Improve formatting logic"
+git push origin main
+```
+
+At this point, `ft_printf` has the new commit that the other repositories must move to.[web:63][web:69]
+
+## Step 2 — Update libftx to point to the new ft_printf commit
+
+Now switch to the standalone `libftx` working tree.[web:33][web:63]
+
+```sh
+cd ~/code/libftx
+```
+
+Go into its `ft_printf` submodule and move it to the desired commit, usually the latest on `main`.[web:69][web:15]
+
+```sh
+cd src/ft_printf
+git checkout main
+git pull origin main
+```
+
+Then go back to the root of `libftx` and commit the updated submodule pointer:[web:12][web:53][web:63]
+
+```sh
+cd ../..
+git add src/ft_printf
+git commit -m "Update ft_printf submodule to latest"
+git push origin main
+```
+
+Now the `libftx` repository itself has a new commit that points to the new `ft_printf` commit.[web:9][web:53]
+
+## Step 3 — Update my_shell_app to point to the new libftx commit
+
+Now switch to the standalone `my_shell_app` working tree.[web:33][web:63]
+
+```sh
+cd ~/code/my_shell_app
+```
+
+Go into its `libftx` submodule and pull the new `libftx` commit.[web:69][web:15]
+
+```sh
+cd extern_library/libftx
+git checkout main
+git pull origin main
+```
+
+If you also want the nested `ft_printf` inside that checked-out `libftx` tree to match what `libftx` now expects, initialize/update recursively:[web:15][web:1]
+
+```sh
+git submodule update --init --recursive
+```
+
+Then go back to the root of `my_shell_app` and commit the updated `libftx` pointer:[web:12][web:53][web:63]
+
+```sh
+cd ../..
+git add extern_library/libftx
+git commit -m "Update libftx submodule to latest"
+git push origin main
+```
+
+Now `my_shell_app` points to the new `libftx` commit, and that `libftx` commit points to the new `ft_printf` commit.[web:9][web:12][web:53]
+
+## Full real-world sequence
+
+```sh
+# 1) update ft_printf itself
+cd ~/code/ft_printf
+git checkout main
+git pull origin main
+# or make changes:
+# git add .
+# git commit -m "Improve formatting logic"
+# git push origin main
+
+# 2) update libftx to use that new ft_printf commit
+cd ~/code/libftx/src/ft_printf
+git checkout main
+git pull origin main
+
+cd ../..
+git add src/ft_printf
+git commit -m "Update ft_printf submodule to latest"
+git push origin main
+
+# 3) update my_shell_app to use that new libftx commit
+cd ~/code/my_shell_app/extern_library/libftx
+git checkout main
+git pull origin main
+git submodule update --init --recursive
+
+cd ../..
+git add extern_library/libftx
+git commit -m "Update libftx submodule to latest"
+git push origin main
+```
+
+## Mental model
+
+Think of it like three linked snapshots:[web:9][web:63]
+
+```sh
+ft_printf has its own commits
+libftx stores "which ft_printf commit to use"
+my_shell_app stores "which libftx commit to use"
+```
+
+So when `ft_printf` changes, you do **not** update `my_shell_app` directly first. You must first make `libftx` point to the new `ft_printf`, and only then make `my_shell_app` point to the new `libftx`.[web:41][web:53][web:70]
+
+## Short version
+
+If you have three separate folder trees, the 
