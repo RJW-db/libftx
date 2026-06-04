@@ -145,7 +145,7 @@ Custom extensions and advanced utilities built on top of Libft.
 `to_lower, to_upper, str_decapitalize, str_capitalize, cpy_str, cpy_str0, cpy_srcs, cpy_num, cpy_num_char, cpy_till_char, cpy_till_char_s, swap_ptr`
 
 #### String Search/Compare/Length
-`find_set_not, find_char_not, find_char2_not, find_char3_not, find_set, find_char, find_char2, find_char3, dp_ptr_ok, skip_alpha, skip_digits, skip_signed_digits, skip_spaces, strncmp_safe, str_check_all, smallest_str, biggest_str, smallest_str_len, biggest_str_len, strlen_safe, strlen_chr, strlen_set, strs_ok, dpstr_ok, dpstrs_ok, c_in_str, strcmp0, strlmatch`
+`find_set_not, find_char_not, find_char2_not, find_char3_not, find_set, find_char, find_char2, find_char3, dp_ptr_ok, skip_alpha, skip_digits, skip_signed_digits, skip_spaces, strncmp_safe, str_check_all, smallest_str, biggest_str, smallest_str_len, biggest_str_len, strlen_safe, strlen_chr, strlen_set, strs_ok, dpstr_ok, dpstrs_ok, c_in_str, strlmatch`
 
 #### String to Number Conversion
 `atoi32, atoi64, atui64, atoi_base`

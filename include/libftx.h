@@ -46,10 +46,10 @@
 #  include <linux/limits.h>
 # endif
 
-# include <is_ctype1.h>
-# include <is_ctype2.h>
-# include <safe_write.h>
-# include <validate_ptr.h>
+# include "is_ctype1.h"
+# include "is_ctype2.h"
+# include "safe_write.h"
+# include "validate_ptr.h"
 
 enum	e_return
 {
@@ -208,6 +208,5 @@ bool		dpstr0_ok(const char **s1);
 bool		dpstrs0_ok(const char **s1, const char **s2);
 bool		dp_ptr_ok(void **p1);
 bool		c_in_str(int32_t c, const char *str);
-bool		strcmp0(const char *str, const char *set_order);
 size_t		strlmatch(const char *s1, const char *s2);
 #endif

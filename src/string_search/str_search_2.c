@@ -23,14 +23,6 @@ bool	c_in_str(int32_t c, const char *str)
 	return (false);
 }
 
-bool	strcmp0(const char *str, const char *set_order)
-{
-	while (*str != '\0' && *set_order != '\0')
-		if (*str++ != *set_order++)
-			return (false);
-	return (true);
-}
-
 /**
  * string len match, amount of characters that overlap in both strings.
  */
