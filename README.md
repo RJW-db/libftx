@@ -28,11 +28,7 @@ The library follows **42’s** conventions but includes a few practical deviatio
   - [dbltoa](https://github.com/RJW-db/dbltoa)
 
 ## Usage
-**libftx** uses parallel builds (`-j`), full 42 flags + security hardening, and auto-submodule management.
-
-> **Note for macOS users:**
-> By default, macOS does **not** include the `flock` utility required for safe parallel builds. To build in parallel, first install `flock` (e.g., with `brew install flock`).
-> Otherwise, run `make -j1` to disable parallelism and avoid build errors.
+**libftx** uses parallel builds (`-j`), full 42 flags + security hardening, and auto-submodule management. Concurrent archive writes are protected by a portable **POSIX mkdir lock**, ensuring safe parallel builds on both Linux and macOS without external dependencies.
 
 ### Build Targets
 | Command | Arguments | Functionality |
@@ -348,19 +344,3 @@ git add extern_library/libftx
 git commit -m "Update libftx submodule to latest"
 git push origin main
 ```
-
-## Mental model
-
-Think of it like three linked snapshots:
-
-```sh
-ft_printf has its own commits
-libftx stores "which ft_printf commit to use"
-my_shell_app stores "which libftx commit to use"
-```
-
-So when `ft_printf` changes, you do **not** update `my_shell_app` directly first. You must first make `libftx` point to the new `ft_printf`, and only then make `my_shell_app` point to the new `libftx`.
-
-## Short version
-
-If you have three separate folder trees, the 
