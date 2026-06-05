@@ -42,10 +42,31 @@ endif
 PRINT_NO_DIR	:=	--no-print-directory
 RM				:=	rm -rf
 
-# Locking for parallel-safe ar/ranlib
-AR_LOCK			:=	.build/ar.lock
-AR				:=	flock $(AR_LOCK) ar rcs
-RANLIB			:=	flock $(AR_LOCK) ranlib
+# POSIX mkdir-based lock for parallel builds for ar/ranlib
+LOCKDIR         :=  .build/.archive.lock
+AR_CMD			:=	ar rcs
+RAN_CMD			:=	ranlib
+
+AR = @sh -c '\
+	if ! mkdir $(LOCKDIR) 2>/dev/null; then \
+		printf "$(YELLOW)$(BOLD)WAITING $(CYAN)Parallel job detected, waiting for lock$(YELLOW) (%s)$(RESET)\n" "$$2"; \
+		while ! mkdir $(LOCKDIR) 2>/dev/null; do sleep 0.01; done; \
+	fi; \
+	trap "rmdir $(LOCKDIR)" EXIT INT TERM; \
+	printf "$(CA_MARK_UP)ADDING $(CYAN)%s$(GREEN) → %s (%s)$(RESET)\n" "$$2" "$$1" "$(CUR_DIR)"; \
+	archive="$$1"; label="$$2"; shift 2; \
+	$(AR_CMD) "$$archive" "$$@"; \
+' AR
+
+RANLIB = @sh -c '\
+	if ! mkdir $(LOCKDIR) 2>/dev/null; then \
+		printf "$(YELLOW)$(BOLD)WAITING $(CYAN)Parallel job detected, waiting for lock$(YELLOW) (%s)$(RESET)\n" "$$2"; \
+		while ! mkdir $(LOCKDIR) 2>/dev/null; do sleep 0.01; done; \
+	fi; \
+	trap "rmdir $(LOCKDIR)" EXIT INT TERM; \
+	$(RAN_CMD) "$$1"; \
+' RANLIB
+
 BUILD			:=	@mkdir -p .build
 
 SRC_DIR			:=	src
@@ -132,8 +153,8 @@ all: submodules $(NAME)			## Build the main library
 
 $(NAME): $(BASE_OBJS) | submodules
 	@mkdir -p $(@D)
-	$(AR) $@ $(BASE_OBJS)
-	$(RANLIB) $@
+	$(AR) $@ base $(BASE_OBJS)
+	$(RANLIB) $@ base
 	@printf "$(CREATED)" $@ $(CUR_DIR)
 
 $(BUILD_DIR)/%.o: %.c | submodules
@@ -168,38 +189,38 @@ libftx:							## Build all components (meta-target)
 
 printf: submodules				## Build printf submodule (depends on submodules)
 	@$(MAKE) $(PRINT_NO_DIR) -C $(PRINTF_DIR) COMPILER=$(COMPILER) $(filter debug valgrind,$(MAKECMDGOALS))
-	$(AR) $(NAME) $(PRINTF_DIR)/.build/src/*.o
-	$(RANLIB) $(NAME)
+	$(AR) $(NAME) $@ $(PRINTF_DIR)/.build/src/*.o
+	$(RANLIB) $(NAME) $@
 	@printf "$(CREATED)" $@ $(CUR_DIR)
 
 gnl: submodules					## Build get_next_line submodule (depends on submodules)
 	@$(MAKE) $(PRINT_NO_DIR) -C $(GNL_DIR) COMPILER=$(COMPILER) $(filter debug valgrind,$(MAKECMDGOALS))
-	$(AR) $(NAME) $(GNL_DIR)/.build/src/*.o
-	$(RANLIB) $(NAME)
+	$(AR) $(NAME) $@ $(GNL_DIR)/.build/src/*.o
+	$(RANLIB) $(NAME) $@
 	@printf "$(CREATED)" $@ $(CUR_DIR)
 
 wrap: submodules				## Build wrap submodule (depends on submodules)
 	@$(MAKE) $(PRINT_NO_DIR) -C $(WRAP_DIR) COMPILER=$(COMPILER) $(filter debug valgrind,$(MAKECMDGOALS))
-	$(AR) $(NAME) $(WRAP_DIR)/.build/src/*.o
-	$(RANLIB) $(NAME)
+	$(AR) $(NAME) $@ $(WRAP_DIR)/.build/src/*.o
+	$(RANLIB) $(NAME) $@
 	@printf "$(CREATED)" $@ $(CUR_DIR)
 
 mwrap: submodules				## Build malloc wrapper (depends on submodules)
 	@$(MAKE) $(PRINT_NO_DIR) -C $(WRAP_DIR) COMPILER=$(COMPILER) malloc $(firstword $(filter debug valgrind,$(MAKECMDGOALS)) all)
-	$(AR) $(NAME) $(WRAP_DIR)/.build/src/*.o
-	$(RANLIB) $(NAME)
+	$(AR) $(NAME) $@ $(WRAP_DIR)/.build/src/*.o
+	$(RANLIB) $(NAME) $@
 	@printf "$(CREATED)" $@ $(CUR_DIR)
 
 dynarr: submodules				## Build dynarr submodule (depends on submodules)
 	@$(MAKE) $(PRINT_NO_DIR) -C $(DYN_DIR) COMPILER=$(COMPILER) $(filter debug valgrind,$(MAKECMDGOALS))
-	$(AR) $(NAME) $(DYN_DIR)/.build/src/*.o
-	$(RANLIB) $(NAME)
+	$(AR) $(NAME) $@ $(DYN_DIR)/.build/src/*.o
+	$(RANLIB) $(NAME) $@
 	@printf "$(CREATED)" $@ $(CUR_DIR)
 
 dbltoa: all						## Build dbltoa submodule (depends on all)
 	@$(MAKE) $(PRINT_NO_DIR) -C $(DBL_DIR) COMPILER=$(COMPILER) CLONE_LIBFTX= submodule $(filter debug valgrind,$(MAKECMDGOALS))
-	$(AR) $(NAME) $(DBL_DIR)/.build/src/*.o
-	$(RANLIB) $(NAME)
+	$(AR) $(NAME) $@ $(DBL_DIR)/.build/src/*.o
+	$(RANLIB) $(NAME) $@
 	@printf "$(CREATED)" $@ $(CUR_DIR)
 
 clean:							## Remove build artifacts (depends on submodules)
@@ -249,6 +270,7 @@ print-%:						## Print value of a variable
 # Terminal markup
 BOLD			:=	\033[1m
 GREEN			:=	\033[32m
+YELLOW			:=  \033[33m
 MAGENTA			:=	\033[35m
 CYAN			:=	\033[36m
 RESET			:=	\033[0m
