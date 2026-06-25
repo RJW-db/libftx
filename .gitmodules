@@ -1,24 +1,15 @@
-[submodule "src/printf"]
-	path = src/printf
-	url = https://github.com/RJW-db/printf.git
-	branch = main
-
-[submodule "src/get_next_line"]
-	path = src/get_next_line
-	url = https://github.com/RJW-db/get_next_line.git
-	branch = main
-
-[submodule "src/wrapper"]
-	path = src/wrapper
-	url = https://github.com/RJW-db/wrapper.git
-	branch = main
-
 [submodule "src/dynarr"]
 	path = src/dynarr
-	url = https://github.com/RJW-db/dynarr.git
-	branch = main
-
+	url = https://github.com/RJW-db/dynarr
+[submodule "src/get_next_line"]
+	path = src/get_next_line
+	url = https://github.com/RJW-db/get_next_line
+[submodule "src/printf"]
+	path = src/printf
+	url = https://github.com/RJW-db/printf
+[submodule "src/wrapper"]
+	path = src/wrapper
+	url = https://github.com/RJW-db/wrapper
 [submodule "src/dbltoa"]
 	path = src/dbltoa
-	url = https://github.com/RJW-db/dbltoa.git
-	branch = main
+	url = https://github.com/RJW-db/dbltoa

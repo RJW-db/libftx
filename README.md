@@ -17,6 +17,7 @@ The library follows **42’s** conventions but includes a few practical deviatio
 
 ## Table of Contents
 - [Usage](#usage)
+  - [Build System Details](#build-system-details)
   - [Integration](#integration)
 - [Libft](#libft)
 - [Libftx Extensions](#libftx-extensions)
@@ -83,6 +84,18 @@ make dbltoa dynarr debug    # dbltoa + dynarr + sanitizers
 
 </details>
 
+### Build system details
+
+The `Makefile` supports parallel builds and consistent recursive builds across bundled submodules.
+
+- **Parallel builds**: `MAKEFLAGS += -j` enables GNU Make parallelism, and recursive `$(MAKE)` calls propagate job settings to sub-builds automatically
+- **Strict compile flags**: builds use `-std=c99 -Wall -Wextra -Werror` together with additional pedantic and warning flags for stricter C compilation
+- **Dependency generation**: `-MMD -MP` generates dependency files automatically so header changes rebuild the right objects
+- **Optimized default build**: `-O2` is used for normal builds
+- **Security hardening**: `-fstack-protector-strong` is enabled, and Linux builds also add `-D_FORTIFY_SOURCE=2`
+- **Debug profiles**: `valgrind` adds debug symbols and frame pointers, while `debug` enables sanitizers such as AddressSanitizer and UndefinedBehaviorSanitizer
+- **Compiler passthrough**: submodules are built with the same `COMPILER=$(COMPILER)` selection for consistent behavior
+- **Parallel archive safety**: archive updates are serialized with a portable POSIX `mkdir` lock so `ar`/`ranlib` steps stay safe under parallel builds
 
 ### Integration
 Build and link the static library:
