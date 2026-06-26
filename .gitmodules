@@ -1,6 +1,3 @@
-[submodule "src/dbltoa"]
-	path = src/dbltoa
-	url = https://github.com/RJW-db/dbltoa
 [submodule "src/dynarr"]
 	path = src/dynarr
 	url = https://github.com/RJW-db/dynarr
@@ -13,3 +10,6 @@
 [submodule "src/wrapper"]
 	path = src/wrapper
 	url = https://github.com/RJW-db/wrapper
+[submodule "src/dbltoa"]
+	path = src/dbltoa
+	url = https://github.com/RJW-db/dbltoa
