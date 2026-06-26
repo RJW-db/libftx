@@ -1,9 +1,9 @@
-[submodule "src/dynarr"]
-	path = src/dynarr
-	url = https://github.com/RJW-db/dynarr
 [submodule "src/dbltoa"]
 	path = src/dbltoa
 	url = https://github.com/RJW-db/dbltoa
+[submodule "src/dynarr"]
+	path = src/dynarr
+	url = https://github.com/RJW-db/dynarr
 [submodule "src/get_next_line"]
 	path = src/get_next_line
 	url = https://github.com/RJW-db/get_next_line
